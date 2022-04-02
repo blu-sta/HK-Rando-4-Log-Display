@@ -1454,21 +1454,6 @@
     "MapArea": "Kingdom's Edge",
     "TitledArea": "Colosseum"
   },
-  "Room_Colosseum_Bronze": {
-    "SceneName": "Room_Colosseum_Bronze",
-    "MapArea": "Kingdom's Edge",
-    "TitledArea": "Colosseum"
-  },
-  "Room_Colosseum_Silver": {
-    "SceneName": "Room_Colosseum_Silver",
-    "MapArea": "Kingdom's Edge",
-    "TitledArea": "Colosseum"
-  },
-  "Room_Colosseum_Gold": {
-    "SceneName": "Room_Colosseum_Gold",
-    "MapArea": "Kingdom's Edge",
-    "TitledArea": "Colosseum"
-  },
   "Room_nailmaster_03": {
     "SceneName": "Room_nailmaster_03",
     "MapArea": "Kingdom's Edge",
@@ -1571,8 +1556,8 @@
   },
   "Room_Queen": {
     "SceneName": "Room_Queen",
-    "MapArea": "Queens' Gardens",
-    "TitledArea": "Queens' Gardens"
+    "MapArea": "Queen's Gardens",
+    "TitledArea": "Queen's Gardens"
   },
   "Crossroads_46b": {
     "SceneName": "Crossroads_46b",
