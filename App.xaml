@@ -1,0 +1,9 @@
+﻿<Application x:Class="HK_Rando_4_Log_Display.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:HK_Rando_4_Log_Display"
+             Startup="OnStartup">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

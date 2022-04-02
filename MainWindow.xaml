@@ -1,0 +1,183 @@
+﻿<Window x:Class="HK_Rando_4_Log_Display.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HK_Rando_4_Log_Display"
+        mc:Ignorable="d"
+        Title="HK Rando 4 Log Display" Height="800" Width="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--Header-->
+        <TextBlock Grid.Row="0" x:Name="Header" Padding="10,0,0,0" TextWrapping="Wrap" Background="LightGray"/>
+        <!--Body-->
+        <TabControl Grid.Row="1" x:Name="Body" SelectionChanged="Body_SelectionChanged">
+            <!--Collapse each pair into Item and Transition for a block-->
+            <!--Helper-->
+            <TabItem Header="Item Helper">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="HelperLocationGrouping_Click" x:Name="HelperLocationGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="HelperLocationOrder_Click" x:Name="HelperLocationOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="HelperLocationExpand_Click" x:Name="HelperLocationExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="HelperLocationCollapse_Click" x:Name="HelperLocationCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="HelperLocationList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Transition Helper">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="HelperTransitionGrouping_Click" x:Name="HelperTransitionGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="HelperTransitionOrder_Click" x:Name="HelperTransitionOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="HelperTransitionExpand_Click" x:Name="HelperTransitionExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="HelperTransitionCollapse_Click" x:Name="HelperTransitionCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="HelperTransitionList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <!--Tracker-->
+            <TabItem Header="Item Tracker">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="TrackerItemGrouping_Click" x:Name="TrackerItemGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="TrackerItemOrder_Click" x:Name="TrackerItemOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="TrackerItemExpand_Click" x:Name="TrackerItemExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="TrackerItemCollapse_Click" x:Name="TrackerItemCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="TrackerItemList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Transition Tracker">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="TrackerTransitionGrouping_Click" x:Name="TrackerTransitionGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="TrackerTransitionOrder_Click" x:Name="TrackerTransitionOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="TrackerTransitionExpand_Click" x:Name="TrackerTransitionExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="TrackerTransitionCollapse_Click" x:Name="TrackerTransitionCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="TrackerTransitionList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <!--Spoiler-->
+            <TabItem Header="Item Spoiler">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="SpoilerItemGrouping_Click" x:Name="SpoilerItemGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="SpoilerItemOrder_Click" x:Name="SpoilerItemOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="SpoilerItemExpand_Click" x:Name="SpoilerItemExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="SpoilerItemCollapse_Click" x:Name="SpoilerItemCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="SpoilerItemList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Transition Spoiler">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Click="SpoilerTransitionGrouping_Click" x:Name="SpoilerTransitionGrouping">Grouping</Button>
+                        <Button Grid.Column="0" Grid.Row="1" Click="SpoilerTransitionOrder_Click" x:Name="SpoilerTransitionOrder">Order</Button>
+                        <Button Grid.Column="1" Grid.Row="0" Click="SpoilerTransitionExpand_Click" x:Name="SpoilerTransitionExpand">Expand All</Button>
+                        <Button Grid.Column="1" Grid.Row="1" Click="SpoilerTransitionCollapse_Click" x:Name="SpoilerTransitionCollapse">Collapse All</Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                        <ListBox x:Name="SpoilerTransitionList" />
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <!--Settings-->
+            <TabItem Header="Settings">
+                <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" >
+                    <ListBox x:Name="SettingsList" />
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <!--Footer-->
+        <TextBlock Grid.Row="2" x:Name="Footer" TextAlignment="Right" Background="LightGray"/>
+    </Grid>
+</Window>
