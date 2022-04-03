@@ -1520,7 +1520,6 @@ namespace HK_Rando_4_Log_Display
         private void TrackerTransitionCollapse_Click(object sender, RoutedEventArgs e)
             => CollapseExpanders(TrackerTransitionList);
 
-        ///
         private void SpoilerItemGrouping_Click(object sender, RoutedEventArgs e)
         {
             _settings.SelectedSpoilerItemGrouping = (_settings.SelectedSpoilerItemGrouping + 1) % _spoilerItemGroupings.Length;
@@ -1560,8 +1559,6 @@ namespace HK_Rando_4_Log_Display
 
         private void SpoilerTransitionCollapse_Click(object sender, RoutedEventArgs e)
             => CollapseExpanders(SpoilerTransitionList);
-        ///
-
 
         private void ExpandExpanders(ListBox listBox)
         {

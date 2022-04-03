@@ -26,8 +26,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public List<LocationWithTime> GetLocations();
 
-        public Dictionary<string, Dictionary<string, List<string>>> GetPreviewedLocations2();
-
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations3();
 
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedItems();
@@ -75,7 +73,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
 
             LoadReachableLocations(helperLogData);
-            LoadPreviewedLocations(helperLogData);
             LoadPreviewedLocations2(helperLogData);
             LoadReachableTransitions(helperLogData);
         }
@@ -189,63 +186,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         Dictionary<string, Dictionary<string, List<string>>> _helperLogPreviewedLocations2 = new Dictionary<string, Dictionary<string, List<string>>>();
 
-        private void LoadPreviewedLocations(List<string> helperLogData)
-        {
-            var previewedLocations = LoadSection(helperLogData, "PREVIEWED LOCATIONS");
-            if (previewedLocations == null)
-            {
-                return;
-            }
-
-            _helperLogPreviewedLocations2.Clear();
-            for (var i = 0; i < previewedLocations.Count; i++)
-            {
-                var line = previewedLocations[i];
-                if (!line.StartsWith("    "))
-                {
-                    var location = line.Trim().Replace("*", "");
-                    var locationDetails = _resourceLoader.Locations.FirstOrDefault(y => y.Name == location);
-                    var vanillaItemDetails = _resourceLoader.Items.FirstOrDefault(y => y.Name == location);
-
-                    var locationPool = GetPreviewedLocationPool(vanillaItemDetails?.Pool, location);
-                    var sceneName = locationDetails?.SceneName ?? "Unknown Scene";
-
-                    if (!_helperLogPreviewedLocations2.ContainsKey(locationPool))
-                    {
-                        _helperLogPreviewedLocations2[locationPool] = new Dictionary<string, List<string>>();
-                    }
-
-                    if (locationPool == "Root")
-                    {
-                        location = location.Replace("Whispering_Root-", "");
-                    }
-                    else if (locationPool == "Dream Boss" || locationPool == "Dream Warrior")
-                    {
-                        location = location.Replace("Boss_Essence-", "");
-                    }
-                    else if (locationPool == "Lore")
-                    {
-                        location = location.Replace("Lore_Tablet-", "");
-                    }
-
-                    var key = $"{location} ({sceneName})";
-                    _helperLogPreviewedLocations2[locationPool].Add(key, new List<string>());
-
-                    while (i + 1 < previewedLocations.Count && previewedLocations[i + 1].StartsWith("    "))
-                    {
-                        var itemLine = previewedLocations[++i].Trim().Replace("*", "");
-
-                        if (location == "Salubra")
-                        {
-                            itemLine = itemLine.Replace("Once you own", "Need").Replace(", I'll gladly sell it to you.", "");
-                        }
-
-                        _helperLogPreviewedLocations2[locationPool][key].Add(itemLine);
-                    }
-                }
-            }
-        }
-
         private string GetPreviewedLocationPool(string pool, string location)
         {
             if (string.IsNullOrWhiteSpace(pool))
@@ -286,9 +226,6 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             return newText.ToString();
         }
-
-        public Dictionary<string, Dictionary<string, List<string>>> GetPreviewedLocations2() =>
-            _helperLogPreviewedLocations2;
 
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations3() => 
             _helperLogPreviewedItemsAtLocations.GroupBy(x => x.LocationPool).ToDictionary(x => x.Key, x => x.ToList());
