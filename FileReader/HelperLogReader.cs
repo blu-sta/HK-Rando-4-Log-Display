@@ -166,7 +166,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                                 ItemName = itemName,
                                 ItemPool = AddSpacesBeforeUppercaseChars(itemPool),
                                 ItemCost = itemCost,
-                                ItemCostValue = int.TryParse(Regex.Match(itemCost, "\\d+").Value, out var cost) ? cost : 0
+                                ItemCostValue = int.TryParse(Regex.Match(itemCost, "\\d+").Value, out var cost) ? cost : 0,
+                                SecondaryCostValue = int.TryParse(Regex.Match(itemCost, "(\\d+)(\\D+)(\\d+)").Groups[3].Value, out var secondaryCost) ? secondaryCost : 0
                             });
                         }
                     }

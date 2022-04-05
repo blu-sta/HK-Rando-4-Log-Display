@@ -9,5 +9,6 @@
         public string ItemPool { get; set; }
         public string ItemCost { get; set; }
         public int ItemCostValue { get; set; }
+        public int SecondaryCostValue { get; set; }
     }
 }

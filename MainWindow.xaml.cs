@@ -52,7 +52,7 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.Enabled = true;
             UpdateTabs();
 
-            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.2 blu.sta"), DispatcherPriority.ContextIdle);
+            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.3 blu.sta"), DispatcherPriority.ContextIdle);
         }
 
         private void InitialiseSettings()
@@ -494,7 +494,8 @@ namespace HK_Rando_4_Log_Display
                 {
                     var location = locationWithItems.Key;
                     var itemsWithCosts = locationWithItems.Value
-                    .OrderBy(x => x.ItemCostValue)
+                    .OrderBy(x => x.SecondaryCostValue)
+                    .ThenBy(x => x.ItemCostValue)
                     .ThenBy(x => x.ItemName)
                     .Select(x => new KeyValuePair<string, string>(x.ItemName, x.ItemCost))
                     .ToList();
@@ -548,7 +549,8 @@ namespace HK_Rando_4_Log_Display
                 {
                     var location = locationWithItems.Key;
                     var itemsWithLocationsAndCosts = locationWithItems.Value
-                    .OrderBy(x => x.ItemCostValue)
+                    .OrderBy(x => x.SecondaryCostValue)
+                    .ThenBy(x => x.ItemCostValue)
                     .ThenBy(x => x.ItemName)
                     .Select(x => new KeyValuePair<string, string>(x.ItemName, $"{x.LocationName} {(!string.IsNullOrWhiteSpace(x.ItemCost) ? $"({x.ItemCost})" : "")}"))
                     .ToList();
