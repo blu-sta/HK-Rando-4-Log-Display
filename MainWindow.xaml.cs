@@ -500,8 +500,22 @@ namespace HK_Rando_4_Log_Display
                     .Select(x => new KeyValuePair<string, string>(x.ItemName, x.ItemCost))
                     .ToList();
 
-                    locationStacker.Children.Add(new TextBlock { Text = location });
-                    locationStacker.Children.Add(GenerateAutoStarGrid(itemsWithCosts));
+                    if (pool == "Shop")
+                    {
+                        var shopExpander = new Expander
+                        {
+                            Name = location.AsObjectName(),
+                            Header = location,
+                            Content = GenerateAutoStarGrid(itemsWithCosts),
+                            IsExpanded = ExpandedPreviewedLocationPools.Contains(location.AsObjectName())
+                        };
+                        locationStacker.Children.Add(shopExpander);
+                    }
+                    else
+                    {
+                        locationStacker.Children.Add(new TextBlock { Text = location });
+                        locationStacker.Children.Add(GenerateAutoStarGrid(itemsWithCosts));
+                    }
                 });
 
                 var locationExpander = new Expander
