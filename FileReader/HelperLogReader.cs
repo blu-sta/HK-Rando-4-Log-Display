@@ -155,8 +155,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                         foreach (var itemName in itemNames.Split(", "))
                         {
-                            var modifiedItemName = ModifyItemNameForPreview(itemName);
-                            var itemPool = _resourceLoader.PreviewItems.FirstOrDefault(y => y.Name == modifiedItemName)?.Pool ?? GetPreviewItemPool(itemName);
+                            string itemPool = GetPreviewedItemPool(itemName);
 
                             _helperLogPreviewedItemsAtLocations.Add(new PreviewedItemAtLocation
                             {
@@ -173,6 +172,24 @@ namespace HK_Rando_4_Log_Display.FileReader
                     }
                 }
             }
+        }
+
+        private string GetPreviewedItemPool(string itemName)
+        {
+            var modifiedItemName = ModifyItemNameForPreview(itemName);
+            var matchingItem = _resourceLoader.PreviewItems.FirstOrDefault(y => y.Name == modifiedItemName);
+            if (matchingItem != null)
+            {
+                return matchingItem.Pool;
+            }
+
+            var nearlyMatchingItems = _resourceLoader.PreviewItems.Where(y => y.Name.Contains(modifiedItemName));
+            if (nearlyMatchingItems.Count() == 1)
+            {
+                return nearlyMatchingItems.First().Pool;
+            }
+
+            return GetPreviewItemPool(itemName);
         }
 
         private string ModifyItemNameForPreview(string itemName) =>
