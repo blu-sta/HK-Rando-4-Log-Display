@@ -1,12 +1,16 @@
 # HK Rando 4 Log Display
-## v0.6.0.3
+## v0.6.0.4
 
 ### How to use this app
 
 This application is standalone, and does not need to be in any Hollow Knight folder \
 I leave all the files in a folder in Downloads, and then have a shortcut on the Desktop
 
-This version is compatible with Randomizer 4 v4.0.4
+This version is compatible with:
+- Randomizer 4
+- Randomizable Levers
+- Rando Plus (Mr Mushroom)
+- Transcendence (Charms)
 
 **Top bar**: Shows the rando mode and seed
 

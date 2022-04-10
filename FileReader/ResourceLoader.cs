@@ -157,9 +157,28 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             var itemsWithPools = new List<Item> {
                 new Item { Name = "Kingsoul", Pool = "Charm" },
-                
-                new Item { Name = "Mr_Mushroom_Level_Up", Pool = "MrMushroom" },
+            }
+            .Concat(GetMrMushroomItems())
+            .Concat(GetSkillUpgrades())
+            .Concat(GetLevers())
+            .Concat(GetTranscendenceCharms())
+            .ToList();
 
+            itemsWithPools.ForEach(x =>
+            {
+                if (Items.FirstOrDefault(y => y.Name == x.Name) == null)
+                {
+                    Items.Add(x);
+                }
+            });
+        }
+
+        private List<Item> GetMrMushroomItems() =>
+            new List<Item> { new Item { Name = "Mr_Mushroom_Level_Up", Pool = "MrMushroom" }, };
+
+        private List<Item> GetSkillUpgrades() =>
+            new List<Item>
+            {
                 new Item { Name = "DirectionalDash", Pool = "Skill Upgrade" },
                 new Item { Name = "ExtraAirDash", Pool = "Skill Upgrade" },
                 new Item { Name = "WallClimb", Pool = "Skill Upgrade" },
@@ -168,7 +187,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new Item { Name = "DownwardFireball", Pool = "Skill Upgrade" },
                 new Item { Name = "HorizontalDive", Pool = "Skill Upgrade" },
                 new Item { Name = "SpiralScream", Pool = "Skill Upgrade" },
+            };
 
+        private List<Item> GetLevers() =>
+            new List<Item>
+            {
                 new Item { Name = "Switch-Dirtmouth_Stag", Pool = "Lever" },
                 new Item { Name = "Switch-Outside_Ancestral_Mound", Pool = "Lever" },
                 new Item { Name = "Switch-Greenpath_Stag", Pool = "Lever" },
@@ -232,14 +255,25 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new Item { Name = "Lever-Pilgrim's_Way_Left", Pool = "Lever" },
                 new Item { Name = "Lever-Pilgrim's_Way_Right", Pool = "Lever" },
             };
-            itemsWithPools.ForEach(x =>
+
+        private List<Item> GetTranscendenceCharms() =>
+            new List<Item>
             {
-                if (Items.FirstOrDefault(y => y.Name == x.Name) == null)
-                {
-                    Items.Add(x);
-                }
-            });
-        }
+                new Item { Name = "Marissa's_Audience", Pool = "Charm" },
+                new Item { Name = "Lemm's_Strength", Pool = "Charm" },
+                new Item { Name = "Snail_Slash", Pool = "Charm" },
+                new Item { Name = "Millibelle's_Blessing", Pool = "Charm" },
+                new Item { Name = "Disinfectant_Flask", Pool = "Charm" },
+                new Item { Name = "Florist's_Blessing", Pool = "Charm" },
+                new Item { Name = "Greedsong", Pool = "Charm" },
+                new Item { Name = "Snail_Soul", Pool = "Charm" },
+                new Item { Name = "Nitro_Crystal", Pool = "Charm" },
+                new Item { Name = "Shaman_Amp", Pool = "Charm" },
+                new Item { Name = "Crystalmaster", Pool = "Charm" },
+                new Item { Name = "Bluemoth_Wings", Pool = "Charm" },
+                new Item { Name = "Chaos_Orb", Pool = "Charm" },
+                new Item { Name = "Antigravity_Amulet", Pool = "Charm" },
+            };
 
         private void SetupItemPreviews()
         {

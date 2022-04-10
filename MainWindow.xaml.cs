@@ -52,7 +52,7 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.Enabled = true;
             UpdateTabs();
 
-            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.3 blu.sta"), DispatcherPriority.ContextIdle);
+            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.4 blu.sta"), DispatcherPriority.ContextIdle);
         }
 
         private void InitialiseSettings()
