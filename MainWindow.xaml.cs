@@ -52,7 +52,7 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.Enabled = true;
             UpdateTabs();
 
-            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.4 blu.sta"), DispatcherPriority.ContextIdle);
+            Dispatcher.Invoke(new Action(() => Footer.Text = "v0.6.0.5 blu.sta"), DispatcherPriority.ContextIdle);
         }
 
         private void InitialiseSettings()
@@ -153,33 +153,22 @@ namespace HK_Rando_4_Log_Display
         private void UpdateHeader()
         {
             var headerStrings = new List<string>();
-            if (!_helperLogReader.IsFileFound || !_trackerLogReader.IsFileFound)
-            {
-                headerStrings.Add("Some randomisation files were not found");
 
-                if (!_helperLogReader.IsFileFound)
-                {
-                    headerStrings.Add("HelperLog.txt not found");
-                }
-                if (!_trackerLogReader.IsFileFound)
-                {
-                    headerStrings.Add("TrackerLog.txt not found");
-                }
-                if (!_settingsReader.IsFileFound)
-                {
-                    headerStrings.Add("settings.txt not found");
-                }
-                if (!_itemSpoilerReader.IsFileFound)
-                {
-                    headerStrings.Add("ItemSpoilerLog.json not found");
-                }
-                if (!_transitionSpoilerReader.IsFileFound)
-                {
-                    headerStrings.Add("TransitionSpoilerLog.json not found");
-                }
+            var fileStrings = new List<(bool, string)>
+            {
+                {(!_helperLogReader.IsFileFound, "HelperLog.txt not found" )},
+                {(!_trackerLogReader.IsFileFound, "TrackerLog.txt not found" )},
+                {(!_settingsReader.IsFileFound, "settings.txt not found" )},
+                {(!_itemSpoilerReader.IsFileFound, "ItemSpoilerLog.json not found" )},
+                {(!_transitionSpoilerReader.IsFileFound, "TransitionSpoilerLog.json not found" )},
+            };
+            
+            if (fileStrings.Any(x => x.Item1))
+            {
+                headerStrings.AddRange(fileStrings.Where(x => x.Item1).Select(x => x.Item2));
             }
 
-            if (_trackerLogReader.IsFileFound)
+            if (_settingsReader.IsFileFound)
             {
                 headerStrings.Add(string.Join(": ", new List<string> { _settingsReader.GetMode(), _settingsReader.GetSeed() }.Where(x => !string.IsNullOrWhiteSpace(x))));
             }
@@ -840,7 +829,7 @@ namespace HK_Rando_4_Log_Display
                         // Do nothing, the order is originally in time order
                         break;
                     default:
-                        items = items.OrderBy(x => x.Name).ToList();
+                        items = items.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
                         break;
                 }
                 var expander = new Expander
@@ -871,7 +860,7 @@ namespace HK_Rando_4_Log_Display
                     // Do nothing, the order is originally in time order
                     break;
                 default:
-                    orderedItems = orderedItems.OrderBy(x => x.Name).ToList();
+                    orderedItems = orderedItems.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
                     break;
             }
             TrackerItemList.Items.Add(GetItemsObject(orderedItems));
@@ -1180,7 +1169,7 @@ namespace HK_Rando_4_Log_Display
                         // Do nothing, the order is originally in time order
                         break;
                     default:
-                        items = items.OrderBy(x => x.Name).ToList();
+                        items = items.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
                         break;
                 }
                 var expander = new Expander
@@ -1211,7 +1200,7 @@ namespace HK_Rando_4_Log_Display
                     // Do nothing, the order is originally in time order
                     break;
                 default:
-                    orderedItems = orderedItems.OrderBy(x => x.Name).ToList();
+                    orderedItems = orderedItems.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
                     break;
             }
             SpoilerItemList.Items.Add(GetSpoilerItemsObject(orderedItems));

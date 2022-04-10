@@ -259,20 +259,20 @@ namespace HK_Rando_4_Log_Display.FileReader
         private List<Item> GetTranscendenceCharms() =>
             new List<Item>
             {
-                new Item { Name = "Marissa's_Audience", Pool = "Charm" },
-                new Item { Name = "Lemm's_Strength", Pool = "Charm" },
-                new Item { Name = "Snail_Slash", Pool = "Charm" },
-                new Item { Name = "Millibelle's_Blessing", Pool = "Charm" },
-                new Item { Name = "Disinfectant_Flask", Pool = "Charm" },
-                new Item { Name = "Florist's_Blessing", Pool = "Charm" },
-                new Item { Name = "Greedsong", Pool = "Charm" },
-                new Item { Name = "Snail_Soul", Pool = "Charm" },
-                new Item { Name = "Nitro_Crystal", Pool = "Charm" },
-                new Item { Name = "Shaman_Amp", Pool = "Charm" },
-                new Item { Name = "Crystalmaster", Pool = "Charm" },
-                new Item { Name = "Bluemoth_Wings", Pool = "Charm" },
-                new Item { Name = "Chaos_Orb", Pool = "Charm" },
-                new Item { Name = "Antigravity_Amulet", Pool = "Charm" },
+                new Item { Name = "Marissa's_Audience", Pool = "Charm - Transcendence" },
+                new Item { Name = "Lemm's_Strength", Pool = "Charm - Transcendence" },
+                new Item { Name = "Snail_Slash", Pool = "Charm - Transcendence" },
+                new Item { Name = "Millibelle's_Blessing", Pool = "Charm - Transcendence" },
+                new Item { Name = "Disinfectant_Flask", Pool = "Charm - Transcendence" },
+                new Item { Name = "Florist's_Blessing", Pool = "Charm - Transcendence" },
+                new Item { Name = "Greedsong", Pool = "Charm - Transcendence" },
+                new Item { Name = "Snail_Soul", Pool = "Charm - Transcendence" },
+                new Item { Name = "Nitro_Crystal", Pool = "Charm - Transcendence" },
+                new Item { Name = "Shaman_Amp", Pool = "Charm - Transcendence" },
+                new Item { Name = "Crystalmaster", Pool = "Charm - Transcendence" },
+                new Item { Name = "Bluemoth_Wings", Pool = "Charm - Transcendence" },
+                new Item { Name = "Chaos_Orb", Pool = "Charm - Transcendence" },
+                new Item { Name = "Antigravity_Amulet", Pool = "Charm - Transcendence" },
             };
 
         private void SetupItemPreviews()

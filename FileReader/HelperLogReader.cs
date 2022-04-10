@@ -175,17 +175,11 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
         }
 
-        private string ModifyItemNameForPreview(string itemName)
-        {
-            return Regex.Replace(itemName, @"((^A )|( \[\d\]))", "");
-        }
+        private string ModifyItemNameForPreview(string itemName) =>
+            Regex.Replace(itemName, @"((^A )|( \[\d\]))", "");
 
-        private string GetPreviewItemPool(string itemName)
-        {
-            return Regex.Replace(itemName, @"[\s\d]","");
-        }
-
-        Dictionary<string, Dictionary<string, List<string>>> _helperLogPreviewedLocations2 = new Dictionary<string, Dictionary<string, List<string>>>();
+        private string GetPreviewItemPool(string itemName) =>
+            Regex.Replace(itemName, @"[\s\d\[\]]", "");
 
         private string GetPreviewedLocationPool(string pool, string location)
         {
