@@ -1,9 +1,11 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
@@ -43,7 +45,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             var roomsContent = ReadFile(".\\Reference\\rooms.json");
             var rooms = JsonConvert.DeserializeObject<Dictionary<string, RoomImport>>(roomsContent).Values.ToList();
-            
+
             var locationsContent = ReadFile(".\\Reference\\locations.json");
             var locations = JsonConvert.DeserializeObject<Dictionary<string, LocationImport>>(locationsContent).Values.ToList();
             AddCustomLocations(locations);
@@ -58,6 +60,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private void AddCustomLocations(List<LocationImport> locationsList)
         {
             var locationsWithScenes = new List<LocationImport> {
+                // https://github.com/flibber-hk/HollowKnight.RandoPlus/blob/main/RandoPlus/Resources/MrMushroom/logic.json
                 new LocationImport { Name = "Mr_Mushroom-Fungal_Wastes", SceneName = "Fungus2_18" },
                 new LocationImport { Name = "Mr_Mushroom-Kingdom's_Edge", SceneName = "Deepnest_East_01" },
                 new LocationImport { Name = "Mr_Mushroom-Deepnest", SceneName = "Deepnest_40" },
@@ -153,6 +156,11 @@ namespace HK_Rando_4_Log_Display.FileReader
             SetupItemPreviews();
         }
 
+        private const string MrMushroomPool = "MrMushroom";
+        private const string SkillUpgradePool = "Skill Upgrade";
+        private const string LeverPool = "Lever";
+        private const string TranscendencePool = "Charm - Transcendence";
+
         private void AddCustomItems()
         {
             var itemsWithPools = new List<Item> {
@@ -174,115 +182,192 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private List<Item> GetMrMushroomItems() =>
-            new List<Item> { new Item { Name = "Mr_Mushroom_Level_Up", Pool = "MrMushroom" }, };
+            new List<Item> { new Item { Name = "Mr_Mushroom_Level_Up", Pool = MrMushroomPool }, };
 
         private List<Item> GetSkillUpgrades() =>
             new List<Item>
             {
-                new Item { Name = "DirectionalDash", Pool = "Skill Upgrade" },
-                new Item { Name = "ExtraAirDash", Pool = "Skill Upgrade" },
-                new Item { Name = "WallClimb", Pool = "Skill Upgrade" },
-                new Item { Name = "VerticalSuperdash", Pool = "Skill Upgrade" },
-                new Item { Name = "TripleJump", Pool = "Skill Upgrade" },
-                new Item { Name = "DownwardFireball", Pool = "Skill Upgrade" },
-                new Item { Name = "HorizontalDive", Pool = "Skill Upgrade" },
-                new Item { Name = "SpiralScream", Pool = "Skill Upgrade" },
+                new Item { Name = "DirectionalDash", Pool = SkillUpgradePool },
+                new Item { Name = "ExtraAirDash", Pool = SkillUpgradePool },
+                new Item { Name = "WallClimb", Pool = SkillUpgradePool },
+                new Item { Name = "VerticalSuperdash", Pool = SkillUpgradePool },
+                new Item { Name = "TripleJump", Pool = SkillUpgradePool },
+                new Item { Name = "DownwardFireball", Pool = SkillUpgradePool },
+                new Item { Name = "HorizontalDive", Pool = SkillUpgradePool },
+                new Item { Name = "SpiralScream", Pool = SkillUpgradePool },
             };
 
         private List<Item> GetLevers() =>
             new List<Item>
             {
-                new Item { Name = "Switch-Dirtmouth_Stag", Pool = "Lever" },
-                new Item { Name = "Switch-Outside_Ancestral_Mound", Pool = "Lever" },
-                new Item { Name = "Switch-Greenpath_Stag", Pool = "Lever" },
-                new Item { Name = "Switch-Lower_Resting_Grounds", Pool = "Lever" },
-                new Item { Name = "Switch-Petra_Arena", Pool = "Lever" },
-                new Item { Name = "Switch-Queen's_Gardens_Stag", Pool = "Lever" },
-                new Item { Name = "Switch-Crossroads_East", Pool = "Lever" },
-                new Item { Name = "Lever-Dung_Defender", Pool = "Lever" },
-                new Item { Name = "Lever-Waterways_Hwurmp_Arena", Pool = "Lever" },
-                new Item { Name = "Lever-Queen's_Station_Mask_Shard", Pool = "Lever" },
-                new Item { Name = "Lever-Queen's_Gardens_Ground_Block", Pool = "Lever" },
-                new Item { Name = "Lever-Below_Overgrown_Mound", Pool = "Lever" },
-                new Item { Name = "Lever-Tower_of_Love", Pool = "Lever" },
-                new Item { Name = "Lever-Resting_Grounds_Stag", Pool = "Lever" },
-                new Item { Name = "Lever-Abyss_Lighthouse", Pool = "Lever" },
-                new Item { Name = "Lever-Failed_Tramway_Right", Pool = "Lever" },
-                new Item { Name = "Lever-Failed_Tramway_Left", Pool = "Lever" },
-                new Item { Name = "Lever-Below_Spell_Twister", Pool = "Lever" },
-                new Item { Name = "Lever-Sanctum_East", Pool = "Lever" },
-                new Item { Name = "Lever-Sanctum_Soul_Warrior", Pool = "Lever" },
-                new Item { Name = "Lever-Sanctum_Bottom", Pool = "Lever" },
-                new Item { Name = "Lever-Sanctum_West_Upper", Pool = "Lever" },
-                new Item { Name = "Lever-Sanctum_West_Lower", Pool = "Lever" },
-                new Item { Name = "Lever-City_Fountain", Pool = "Lever" },
-                new Item { Name = "Lever-City_Spire_Sentry_Lower", Pool = "Lever" },
-                new Item { Name = "Lever-City_Spire_Sentry_Upper", Pool = "Lever" },
-                new Item { Name = "Lever-City_Bridge_Above_Fountain", Pool = "Lever" },
-                new Item { Name = "Lever-City_Storerooms", Pool = "Lever" },
-                new Item { Name = "Lever-City_Lemm", Pool = "Lever" },
-                new Item { Name = "Lever-City_Above_Lemm_Right", Pool = "Lever" },
-                new Item { Name = "Lever-City_Above_Lemm_Left", Pool = "Lever" },
-                new Item { Name = "Lever-City_Above_Lemm_Upper", Pool = "Lever" },
-                new Item { Name = "Lever-Shade_Soul_Exit", Pool = "Lever" },
-                new Item { Name = "Lever-Emilitia", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Top_Left", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Middle_Left", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Bottom_Left", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Middle_Right", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Bottom_Right", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Claw", Pool = "Lever" },
-                new Item { Name = "Lever-Mantis_Lords_Access", Pool = "Lever" },
-                new Item { Name = "Lever-Fungal_Wastes_Thorns_Gauntlet", Pool = "Lever" },
-                new Item { Name = "Lever-Fungal_Wastes_Below_Shrumal_Ogres", Pool = "Lever" },
-                new Item { Name = "Lever-Fungal_Wastes_Bouncy_Grub", Pool = "Lever" },
-                new Item { Name = "Lever-Dirtmouth_Elevator", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Upper", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Middle", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Lower", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Spike_Grub", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Below_Chest", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Above_Chest", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Crushers_Grub", Pool = "Lever" },
-                new Item { Name = "Lever-Crystal_Peak_Crushers_Chest", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Atrium", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Right", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Final", Pool = "Lever" },
-                new Item { Name = "Lever-Path_of_Pain", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Entrance_Orb", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Left_Orb", Pool = "Lever" },
-                new Item { Name = "Lever-Palace_Right_Orb", Pool = "Lever" },
-                new Item { Name = "Lever-Pilgrim's_Way_Left", Pool = "Lever" },
-                new Item { Name = "Lever-Pilgrim's_Way_Right", Pool = "Lever" },
+                new Item { Name = "Switch-Dirtmouth_Stag", Pool = LeverPool },
+                new Item { Name = "Switch-Outside_Ancestral_Mound", Pool = LeverPool },
+                new Item { Name = "Switch-Greenpath_Stag", Pool = LeverPool },
+                new Item { Name = "Switch-Lower_Resting_Grounds", Pool = LeverPool },
+                new Item { Name = "Switch-Petra_Arena", Pool = LeverPool },
+                new Item { Name = "Switch-Queen's_Gardens_Stag", Pool = LeverPool },
+                new Item { Name = "Switch-Crossroads_East", Pool = LeverPool },
+                new Item { Name = "Lever-Dung_Defender", Pool = LeverPool },
+                new Item { Name = "Lever-Waterways_Hwurmp_Arena", Pool = LeverPool },
+                new Item { Name = "Lever-Queen's_Station_Mask_Shard", Pool = LeverPool },
+                new Item { Name = "Lever-Queen's_Gardens_Ground_Block", Pool = LeverPool },
+                new Item { Name = "Lever-Below_Overgrown_Mound", Pool = LeverPool },
+                new Item { Name = "Lever-Tower_of_Love", Pool = LeverPool },
+                new Item { Name = "Lever-Resting_Grounds_Stag", Pool = LeverPool },
+                new Item { Name = "Lever-Abyss_Lighthouse", Pool = LeverPool },
+                new Item { Name = "Lever-Failed_Tramway_Right", Pool = LeverPool },
+                new Item { Name = "Lever-Failed_Tramway_Left", Pool = LeverPool },
+                new Item { Name = "Lever-Below_Spell_Twister", Pool = LeverPool },
+                new Item { Name = "Lever-Sanctum_East", Pool = LeverPool },
+                new Item { Name = "Lever-Sanctum_Soul_Warrior", Pool = LeverPool },
+                new Item { Name = "Lever-Sanctum_Bottom", Pool = LeverPool },
+                new Item { Name = "Lever-Sanctum_West_Upper", Pool = LeverPool },
+                new Item { Name = "Lever-Sanctum_West_Lower", Pool = LeverPool },
+                new Item { Name = "Lever-City_Fountain", Pool = LeverPool },
+                new Item { Name = "Lever-City_Spire_Sentry_Lower", Pool = LeverPool },
+                new Item { Name = "Lever-City_Spire_Sentry_Upper", Pool = LeverPool },
+                new Item { Name = "Lever-City_Bridge_Above_Fountain", Pool = LeverPool },
+                new Item { Name = "Lever-City_Storerooms", Pool = LeverPool },
+                new Item { Name = "Lever-City_Lemm", Pool = LeverPool },
+                new Item { Name = "Lever-City_Above_Lemm_Right", Pool = LeverPool },
+                new Item { Name = "Lever-City_Above_Lemm_Left", Pool = LeverPool },
+                new Item { Name = "Lever-City_Above_Lemm_Upper", Pool = LeverPool },
+                new Item { Name = "Lever-Shade_Soul_Exit", Pool = LeverPool },
+                new Item { Name = "Lever-Emilitia", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Top_Left", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Middle_Left", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Bottom_Left", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Middle_Right", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Bottom_Right", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Claw", Pool = LeverPool },
+                new Item { Name = "Lever-Mantis_Lords_Access", Pool = LeverPool },
+                new Item { Name = "Lever-Fungal_Wastes_Thorns_Gauntlet", Pool = LeverPool },
+                new Item { Name = "Lever-Fungal_Wastes_Below_Shrumal_Ogres", Pool = LeverPool },
+                new Item { Name = "Lever-Fungal_Wastes_Bouncy_Grub", Pool = LeverPool },
+                new Item { Name = "Lever-Dirtmouth_Elevator", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Upper", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Middle", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Lower", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Spike_Grub", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Below_Chest", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Above_Chest", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Crushers_Grub", Pool = LeverPool },
+                new Item { Name = "Lever-Crystal_Peak_Crushers_Chest", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Atrium", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Right", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Final", Pool = LeverPool },
+                new Item { Name = "Lever-Path_of_Pain", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Entrance_Orb", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Left_Orb", Pool = LeverPool },
+                new Item { Name = "Lever-Palace_Right_Orb", Pool = LeverPool },
+                new Item { Name = "Lever-Pilgrim's_Way_Left", Pool = LeverPool },
+                new Item { Name = "Lever-Pilgrim's_Way_Right", Pool = LeverPool },
             };
 
         private List<Item> GetTranscendenceCharms() =>
             new List<Item>
             {
-                new Item { Name = "Marissa's_Audience", Pool = "Charm - Transcendence" },
-                new Item { Name = "Lemm's_Strength", Pool = "Charm - Transcendence" },
-                new Item { Name = "Snail_Slash", Pool = "Charm - Transcendence" },
-                new Item { Name = "Millibelle's_Blessing", Pool = "Charm - Transcendence" },
-                new Item { Name = "Disinfectant_Flask", Pool = "Charm - Transcendence" },
-                new Item { Name = "Florist's_Blessing", Pool = "Charm - Transcendence" },
-                new Item { Name = "Greedsong", Pool = "Charm - Transcendence" },
-                new Item { Name = "Snail_Soul", Pool = "Charm - Transcendence" },
-                new Item { Name = "Nitro_Crystal", Pool = "Charm - Transcendence" },
-                new Item { Name = "Shaman_Amp", Pool = "Charm - Transcendence" },
-                new Item { Name = "Crystalmaster", Pool = "Charm - Transcendence" },
-                new Item { Name = "Bluemoth_Wings", Pool = "Charm - Transcendence" },
-                new Item { Name = "Chaos_Orb", Pool = "Charm - Transcendence" },
-                new Item { Name = "Antigravity_Amulet", Pool = "Charm - Transcendence" },
+                new Item { Name = "Marissa's_Audience", Pool = TranscendencePool },
+                new Item { Name = "Lemm's_Strength", Pool = TranscendencePool },
+                new Item { Name = "Snail_Slash", Pool = TranscendencePool },
+                new Item { Name = "Millibelle's_Blessing", Pool = TranscendencePool },
+                new Item { Name = "Disinfectant_Flask", Pool = TranscendencePool },
+                new Item { Name = "Florist's_Blessing", Pool = TranscendencePool },
+                new Item { Name = "Greedsong", Pool = TranscendencePool },
+                new Item { Name = "Snail_Soul", Pool = TranscendencePool },
+                new Item { Name = "Nitro_Crystal", Pool = TranscendencePool },
+                new Item { Name = "Shaman_Amp", Pool = TranscendencePool },
+                new Item { Name = "Crystalmaster", Pool = TranscendencePool },
+                new Item { Name = "Bluemoth_Wings", Pool = TranscendencePool },
+                new Item { Name = "Chaos_Orb", Pool = TranscendencePool },
+                new Item { Name = "Antigravity_Amulet", Pool = TranscendencePool },
             };
 
         private void SetupItemPreviews()
         {
-            PreviewItems = Items.Select(x => new Item 
+            PreviewItems = Items.Select(x => new Item
             {
-                Name = x.Name.Replace("-"," ").Replace("_"," "),
-                Pool = x.Pool 
+                Name = GetPreviewName(x),
+                Pool = x.Pool
             }).ToList();
         }
+
+        private string GetPreviewName(Item item) =>
+            item.Pool switch
+            {
+                LeverPool => GetLeverPreviewName(item.Name),
+                SkillUpgradePool => item.Name.AddSpacesBeforeCapitals(),
+                _ => item.Name.Replace("-", " ").Replace("_", " "),
+            };
+
+        private string GetLeverPreviewName(string leverName) =>
+            leverName switch
+            {
+                // https://github.com/flibber-hk/HollowKnight.RandomizableLevers/blob/main/RandomizableLevers/Resources/languagedata.json
+                "Switch-Dirtmouth_Stag" => "Dirtmouth Station Door",
+                "Switch-Outside_Ancestral_Mound" => "Shaman Mound Pillar",
+                "Switch-Greenpath_Stag" => "Greenpath Stag Gate",
+                "Switch-Lower_Resting_Grounds" => "Resting Grounds Floor",
+                "Switch-Petra_Arena" => "Petra Arena Gate",
+                "Switch-Queen's_Gardens_Stag" => "QG Stag Door",
+                "Switch-Crossroads_East" => "East Crossroads Gate",
+                "Lever-Dung_Defender" => "Waterways Acid Pool",
+                "Lever-Waterways_Hwurmp_Arena" => "Waterways Exit Gate",
+                "Lever-Queen's_Station_Mask_Shard" => "QS Mask Gauntlet Exit",
+                "Lever-Queen's_Gardens_Ground_Block" => "QG Ground Block",
+                "Lever-Below_Overgrown_Mound" => "Overgrown Mound Gate",
+                "Lever-Tower_of_Love" => "Tower of Love Exit",
+                "Lever-Resting_Grounds_Stag" => "RG Stag Lever",
+                "Lever-Abyss_Lighthouse" => "Abyss Lighthouse",
+                "Lever-Failed_Tramway_Right" => "Tramway Lower Gate",
+                "Lever-Failed_Tramway_Left" => "Tramway Exit Gates",
+                "Lever-Below_Spell_Twister" => "Gate Below Spell Twister",
+                "Lever-Sanctum_East" => "East Sanctum Gate",
+                "Lever-Sanctum_Soul_Warrior" => "Soul Warrior 1 Arena Gate",
+                "Lever-Sanctum_Bottom" => "Lower Sanctum Gate",
+                "Lever-Sanctum_West_Upper" => "West Sanctum Upper Gate",
+                "Lever-Sanctum_West_Lower" => "West Sanctum Lower Gate",
+                "Lever-City_Fountain" => "City Fountain Gate",
+                "Lever-City_Spire_Sentry_Lower" => "Spire Lower Gate",
+                "Lever-City_Spire_Sentry_Upper" => "Spire Upper Gate",
+                "Lever-City_Bridge_Above_Fountain" => "Spire Bridge Gate",
+                "Lever-City_Storerooms" => "City Storerooms Gate",
+                "Lever-City_Lemm" => "Gate Opposite Lemm",
+                "Lever-City_Above_Lemm_Right" => "Single Gate Above Lemm",
+                "Lever-City_Above_Lemm_Left" => "Triple Gate Above Lemm",
+                "Lever-City_Above_Lemm_Upper" => "City Gate Opposite Grub",
+                "Lever-Shade_Soul_Exit" => "Shade Soul Exit Gate",
+                "Lever-Emilitia" => "Emilitia Door",
+                "Lever-Mantis_Lords_Top_Left" => "Mantis Lords Top Left",
+                "Lever-Mantis_Lords_Middle_Left" => "Mantis Lords Middle Left",
+                "Lever-Mantis_Lords_Bottom_Left" => "Mantis Lords Bottom Left",
+                "Lever-Mantis_Lords_Middle_Right" => "Mantis Lords Middle Right",
+                "Lever-Mantis_Lords_Bottom_Right" => "Mantis Lords Bottom Right",
+                "Lever-Mantis_Claw" => "Mantis Claw Access",
+                "Lever-Mantis_Lords_Access" => "Mantis Lords Access",
+                "Lever-Fungal_Wastes_Thorns_Gauntlet" => "Fungal Thorns Gauntlet Exit",
+                "Lever-Fungal_Wastes_Below_Shrumal_Ogres" => "Gate Below Shrumal Ogres",
+                "Lever-Fungal_Wastes_Bouncy_Grub" => "Fungal Bouncy Grub Gate",
+                "Lever-Dirtmouth_Elevator" => "Dirtmouth Elevator",
+                "Lever-Crystal_Peak_Tall_Room_Upper" => "Peaks Tall Room Upper",
+                "Lever-Crystal_Peak_Tall_Room_Middle" => "Peaks Tall Room Middle",
+                "Lever-Crystal_Peak_Tall_Room_Lower" => "Peaks Tall Room Lower",
+                "Lever-Crystal_Peak_Spike_Grub" => "Peaks Spike Grub Gate",
+                "Lever-Crystal_Peak_Below_Chest" => "Peaks Gate Below Chest",
+                "Lever-Crystal_Peak_Above_Chest" => "Peaks Gate Above Chest",
+                "Lever-Crystal_Peak_Crushers_Grub" => "Peaks Upper Crushers",
+                "Lever-Crystal_Peak_Crushers_Chest" => "Peaks Lower Crushers",
+                "Lever-Palace_Atrium" => "Palace Atrium Gate",
+                "Lever-Palace_Right" => "Palace Right Gates",
+                "Lever-Palace_Final" => "Palace Final Gates",
+                "Lever-Path_of_Pain" => "Path of Pain Gate",
+                "Lever-Palace_Entrance_Orb" => "Palace Entrance Orb",
+                "Lever-Palace_Left_Orb" => "Palace Left Orb",
+                "Lever-Palace_Right_Orb" => "Palace Right Orb",
+                "Lever-Pilgrim's_Way_Left" => "Left Pilgrim's Way Bridge",
+                "Lever-Pilgrim's_Way_Right" => "Right Pilgrim's Way Bridge",
+                _ => leverName,
+            };
 
         private void LoadTransitions()
         {
@@ -295,7 +380,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             var transitionsContent = ReadFile(".\\Reference\\transitions.json");
             var transitions = JsonConvert.DeserializeObject<Dictionary<string, TransitionImport>>(transitionsContent).Values.ToList();
-            
+
             Transitions = new List<Transition>(transitions.Select(x =>
             {
                 var roomDetails = rooms.FirstOrDefault(y => y.SceneName == x.SceneName) ?? new RoomImport { SceneName = x.SceneName, MapArea = "undefined", TitledArea = "undefined" };

@@ -1,4 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -155,7 +156,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                         foreach (var itemName in itemNames.Split(", "))
                         {
-                            string itemPool = GetPreviewedItemPool(itemName);
+                            string itemPool = ConvertSplitItemsToSkills(GetPreviewedItemPool(itemName));
 
                             _helperLogPreviewedItemsAtLocations.Add(new PreviewedItemAtLocation
                             {
@@ -163,7 +164,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                                 LocationRoom = sceneName,
                                 LocationPool = locationPool,
                                 ItemName = itemName,
-                                ItemPool = AddSpacesBeforeUppercaseChars(itemPool),
+                                ItemPool = itemPool.AddSpacesBeforeCapitals(true),
                                 ItemCost = itemCost,
                                 ItemCostValue = int.TryParse(Regex.Match(itemCost, "\\d+").Value, out var cost) ? cost : 0,
                                 SecondaryCostValue = int.TryParse(Regex.Match(itemCost, "(\\d+)(\\D+)(\\d+)").Groups[3].Value, out var secondaryCost) ? secondaryCost : 0
@@ -192,52 +193,31 @@ namespace HK_Rando_4_Log_Display.FileReader
             return GetPreviewItemPool(itemName);
         }
 
+        private string ConvertSplitItemsToSkills(string pool) =>
+            pool switch
+            {
+                "SplitClaw" or "SplitCloak" or "SplitSuperdash" => "Skill",
+                _ => pool,
+            };
+
         private string ModifyItemNameForPreview(string itemName) =>
             Regex.Replace(itemName, @"((^A )|( \[\d\]))", "");
 
         private string GetPreviewItemPool(string itemName) =>
             Regex.Replace(itemName, @"[\s\d\[\]]", "");
 
-        private string GetPreviewedLocationPool(string pool, string location)
-        {
-            if (string.IsNullOrWhiteSpace(pool))
+        private string GetPreviewedLocationPool(string pool, string location) =>
+            string.IsNullOrWhiteSpace(pool)
+            ? location switch
             {
-                switch (location)
-                {
-                    case "Sly":
-                    case "Sly_(Key)":
-                    case "Iselda":
-                    case "Salubra":
-                    case "Leg_Eater":
-                    case "Grubfather":
-                    case "Seer":
-                    case "Egg_Shop":
-                        return "Shop";
-                    default:
-                        return "Other Previewed Items";
-                }
+                "Sly" or "Sly_(Key)" or "Iselda" or "Salubra" or "Leg_Eater" or "Grubfather" or "Seer" or "Egg_Shop" => "Shop",
+                _ => "Other Previewed Items",
             }
-
-            return AddSpacesBeforeUppercaseChars(pool);
-        }
-
-        private static string AddSpacesBeforeUppercaseChars(string input)
-        {
-            if (input.Length <= 1)
+            : pool switch
             {
-                return input;
-            }
-
-            var newText = new StringBuilder(input.Length * 2);
-            newText.Append(input[0]);
-            for (int i = 1; i < input.Length; i++)
-            {
-                if (char.IsUpper(input[i]) && input[i - 1] != ' ')
-                    newText.Append(' ');
-                newText.Append(input[i]);
-            }
-            return newText.ToString();
-        }
+                "SplitClaw" or "SplitCloak" or "SplitSuperdash" => "Skill",
+                _ => pool.AddSpacesBeforeCapitals(),
+            };
 
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations3() => 
             _helperLogPreviewedItemsAtLocations.GroupBy(x => x.LocationPool).ToDictionary(x => x.Key, x => x.ToList());

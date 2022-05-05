@@ -77,6 +77,4 @@ If something goes wrong while using this application, feel free to contact me on
 	- i.e. do the remembering for you without spoiling everything
 
 ### Reference material
-Google drive folder [link](https://drive.google.com/drive/folders/1wnY5HzjFuJ5oswCDmcg7Iz6M4cJHZ4MJ) \
-Source for json files [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data) \
-(json file format may update out of sync with this app, update at your own risk)
+Source for json files [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data)
