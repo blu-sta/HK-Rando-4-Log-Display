@@ -21,7 +21,7 @@
             SelectedHelperLocationOrder ??= 1;
             SelectedHelperTransitionGrouping ??= 0;
             SelectedHelperTransitionOrder ??= 1;
-            SelectedTrackerItemGrouping ??= 0;
+            SelectedTrackerItemGrouping ??= 1;
             SelectedTrackerItemOrder ??= 1;
             SelectedTrackerTransitionGrouping ??= 0;
             SelectedTrackerTransitionOrder ??= 0;

@@ -160,6 +160,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string SkillUpgradePool = "Skill Upgrade";
         private const string LeverPool = "Lever";
         private const string TranscendencePool = "Charm - Transcendence";
+        private const string EggPool = "Egg";
 
         private void AddCustomItems()
         {
@@ -170,6 +171,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             .Concat(GetSkillUpgrades())
             .Concat(GetLevers())
             .Concat(GetTranscendenceCharms())
+            .Concat(GetRainbowEggs())
             .ToList();
 
             itemsWithPools.ForEach(x =>
@@ -281,6 +283,22 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new Item { Name = "Bluemoth_Wings", Pool = TranscendencePool },
                 new Item { Name = "Chaos_Orb", Pool = TranscendencePool },
                 new Item { Name = "Antigravity_Amulet", Pool = TranscendencePool },
+            };
+
+        private List<Item> GetRainbowEggs() =>
+            new List<Item>
+            {
+                new Item { Name = "Red_Egg", Pool = EggPool },
+                new Item { Name = "Orange_Egg", Pool = EggPool },
+                new Item { Name = "Yellow_Egg", Pool = EggPool },
+                new Item { Name = "Green_Egg", Pool = EggPool },
+                new Item { Name = "Cyan_Egg", Pool = EggPool },
+                new Item { Name = "Blue_Egg", Pool = EggPool },
+                new Item { Name = "Purple_Egg", Pool = EggPool },
+                new Item { Name = "Pink_Egg", Pool = EggPool },
+                new Item { Name = "Trans_Egg", Pool = EggPool },
+                new Item { Name = "Rainbow_Egg", Pool = EggPool },
+                new Item { Name = "Arcane_Eg", Pool = EggPool },
             };
 
         private void SetupItemPreviews()
