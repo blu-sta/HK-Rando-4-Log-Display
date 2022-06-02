@@ -63,9 +63,9 @@ namespace HK_Rando_4_Log_Display.FileReader
             var items = trackerLogData.Where(x => x.StartsWith("ITEM OBTAINED")).ToList();
             items.ForEach(x =>
             {
-                var matches = Regex.Match(x, "{(.*)}.*{(.*)}");
-                var item = matches.Groups[1].Value.Replace("100_Geo-","");
-                var location = matches.Groups[2].Value;
+                var matches = Regex.Matches(x, "{(.*?)}").ToList();
+                var item = matches[0].Groups[1].Value.Replace("100_Geo-", "");
+                var location = matches[1].Groups[1].Value;
                 var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
 
                 var itemWithLocation = new ItemWithLocation(referenceItem, location);
