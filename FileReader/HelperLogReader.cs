@@ -154,13 +154,18 @@ namespace HK_Rando_4_Log_Display.FileReader
                         var itemNames = itemWithCost[0];
                         var itemCost = itemWithCost.Length > 1 ? itemWithCost[1] : "";
 
-                        foreach (var itemName in itemNames.Split(", "))
+                        foreach (var itemName in itemNames.Split(",").Select(x => x.Trim()))
                         {
+                            if (itemName == "...")
+                            {
+                                continue;
+                            }
+
                             string itemPool = ConvertSplitItemsToSkills(GetPreviewedItemPool(itemName));
 
                             _helperLogPreviewedItemsAtLocations.Add(new PreviewedItemAtLocation
                             {
-                                LocationName = location,
+                                LocationName = location.WithoutUnderscores(),
                                 LocationRoom = sceneName,
                                 LocationPool = locationPool,
                                 ItemName = itemName,
@@ -211,6 +216,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             ? location switch
             {
                 "Sly" or "Sly_(Key)" or "Iselda" or "Salubra" or "Leg_Eater" or "Grubfather" or "Seer" or "Egg_Shop" => "Shop",
+                "Nailsmith_Upgrade_1" or "Nailsmith_Upgrade_2" or "Nailsmith_Upgrade_3" or "Nailsmith_Upgrade_4" => "Nailsmith",
                 _ => "Other Previewed Items",
             }
             : pool switch

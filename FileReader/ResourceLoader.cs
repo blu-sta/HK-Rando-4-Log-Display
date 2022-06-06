@@ -132,6 +132,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new LocationImport { Name = "Lever-Palace_Right_Orb", SceneName = "White_Palace_15" },
                 new LocationImport { Name = "Lever-Pilgrim's_Way_Left", SceneName = "Fungus2_21" },
                 new LocationImport { Name = "Lever-Pilgrim's_Way_Right", SceneName = "Fungus2_21" },
+
+                new LocationImport { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith" },
+                new LocationImport { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith" },
+                new LocationImport { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith" },
+                new LocationImport { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith" },
             };
             locationsWithScenes.ForEach(x =>
             {
@@ -161,6 +166,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string LeverPool = "Lever";
         private const string TranscendencePool = "Charm - Transcendence";
         private const string EggPool = "Egg";
+        private const string SkillPool = "Skill";
 
         private void AddCustomItems()
         {
@@ -172,6 +178,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             .Concat(GetLevers())
             .Concat(GetTranscendenceCharms())
             .Concat(GetRainbowEggs())
+            .Concat(GetNailUpgrades())
             .ToList();
 
             itemsWithPools.ForEach(x =>
@@ -299,6 +306,12 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new Item { Name = "Trans_Egg", Pool = EggPool },
                 new Item { Name = "Rainbow_Egg", Pool = EggPool },
                 new Item { Name = "Arcane_Eg", Pool = EggPool },
+            };
+
+        private List<Item> GetNailUpgrades() =>
+            new List<Item>
+            {
+                new Item { Name = "Nail_Upgrade", Pool = SkillPool }
             };
 
         private void SetupItemPreviews()
