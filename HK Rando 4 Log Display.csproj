@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<Version>1.0.1.1</Version>
+	<Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,9 +36,6 @@
     </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="v0_6_1.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

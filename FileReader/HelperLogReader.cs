@@ -217,6 +217,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 "Sly" or "Sly_(Key)" or "Iselda" or "Salubra" or "Leg_Eater" or "Grubfather" or "Seer" or "Egg_Shop" => "Shop",
                 "Nailsmith_Upgrade_1" or "Nailsmith_Upgrade_2" or "Nailsmith_Upgrade_3" or "Nailsmith_Upgrade_4" => "Nailsmith",
+                "Vessel_Fragment-Basin" => "Basin Fountain",
                 _ => "Other Previewed Items",
             }
             : pool switch
