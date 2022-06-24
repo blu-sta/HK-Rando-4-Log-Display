@@ -8,6 +8,7 @@ using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -1125,26 +1126,27 @@ namespace HK_Rando_4_Log_Display
 
         private void UpdateSpoilerItemTab()
         {
+            var trackedItems = _trackerLogReader.GetItems();
             switch (_settings.SelectedSpoilerItemGrouping)
             {
                 case 1:
                     // Items by Pool
                     var itemsByPool = _itemSpoilerReader.GetItemsByPool();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByPool)), DispatcherPriority.ContextIdle);
+                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByPool, trackedItems)), DispatcherPriority.ContextIdle);
                     // Alphabetical
                     // Find order
                     break;
                 case 2:
                     // All items
                     var items = _itemSpoilerReader.GetItems();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItems(items)), DispatcherPriority.ContextIdle);
+                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItems(items, trackedItems)), DispatcherPriority.ContextIdle);
                     // Alphabetical
                     // Find order
                     break;
                 default:
                     // Curated item list
                     var itemsByCuratedPool = _itemSpoilerReader.GetCuratedItems();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByCuratedPool)), DispatcherPriority.ContextIdle);
+                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByCuratedPool, trackedItems)), DispatcherPriority.ContextIdle);
                     // Alphabetical
                     // Find order
                     break;
@@ -1155,7 +1157,7 @@ namespace HK_Rando_4_Log_Display
 
         #region ItemsByPool
 
-        private void UpdateSpoilerItemListWithItemsByPool(Dictionary<string, List<ItemWithLocation>> itemsByPool)
+        private void UpdateSpoilerItemListWithItemsByPool(Dictionary<string, List<ItemWithLocation>> itemsByPool, List<ItemWithLocation> trackedItems)
         {
             SpoilerItemList.Items.Clear();
             foreach (var pool in itemsByPool)
@@ -1176,7 +1178,7 @@ namespace HK_Rando_4_Log_Display
                 {
                     Name = poolExpanderName,
                     Header = poolName,
-                    Content = GetSpoilerItemsObject(items),
+                    Content = GetSpoilerItemsObject(items, trackedItems),
                     IsExpanded = ExpandedSpoilerPoolsWithItems.Contains(poolExpanderName)
                 };
                 expander.Expanded += (object _, RoutedEventArgs e) => ExpandedSpoilerPoolsWithItems.Add((e.Source as Expander).Name);
@@ -1190,7 +1192,7 @@ namespace HK_Rando_4_Log_Display
 
         #region Items
 
-        private void UpdateSpoilerItemListWithItems(List<ItemWithLocation> items)
+        private void UpdateSpoilerItemListWithItems(List<ItemWithLocation> items, List<ItemWithLocation> trackedItems)
         {
             SpoilerItemList.Items.Clear();
             var orderedItems = items.Select(x => x).ToList();
@@ -1203,14 +1205,21 @@ namespace HK_Rando_4_Log_Display
                     orderedItems = orderedItems.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
                     break;
             }
-            SpoilerItemList.Items.Add(GetSpoilerItemsObject(orderedItems));
+            SpoilerItemList.Items.Add(GetSpoilerItemsObject(orderedItems, trackedItems));
         }
 
         #endregion
 
-        private object GetSpoilerItemsObject(List<ItemWithLocation> items)
+        private object GetSpoilerItemsObject(List<ItemWithLocation> items, List<ItemWithLocation> trackedItems)
         {
-            var itemKvps = items.Select(x => new KeyValuePair<string, string>(x.Name.WithoutUnderscores(), $"found at {x.Location.WithoutUnderscores()}")).ToList();
+            var itemKvps = items.Select(x => 
+            {
+                var isInTrackerLog = trackedItems.Any(y => y.Name == x.Name && y.Location == x.Location);
+                return new KeyValuePair<string, string>(
+                    $"{(isInTrackerLog ? "<s>" : "")}{x.Name.WithoutUnderscores()}", 
+                    $"{(isInTrackerLog ? "<s>" : "")}found at {x.Location.WithoutUnderscores()}"
+                );
+            }).ToList();
             return GenerateAutoStarGrid(itemKvps);
         }
 
@@ -1416,11 +1425,21 @@ namespace HK_Rando_4_Log_Display
                 var rowDef = new RowDefinition();
                 objectGrid.RowDefinitions.Add(rowDef);
 
-                var leftBlock = new TextBlock { Text = $"{x.Key} \t" };
+                var leftBlock = x.Key.StartsWith("<b>")
+                    ? GetBoldTextBlock(x.Key.Substring(3))
+                    : x.Key.StartsWith("<s>")
+                    ? GetStrikethroughTextBlock(x.Key.Substring(3))
+                    : GetStandardTextBlock(x.Key);
+                
                 Grid.SetColumn(leftBlock, 0);
                 Grid.SetRow(leftBlock, i);
 
-                var rightBlock = new TextBlock { Text = x.Value };
+                var rightBlock = x.Value.StartsWith("<b>")
+                    ? GetBoldTextBlock(x.Value.Substring(3))
+                    : x.Value.StartsWith("<s>")
+                    ? GetStrikethroughTextBlock(x.Value.Substring(3))
+                    : GetStandardTextBlock(x.Value);
+                rightBlock.Margin = new Thickness(20, 0, 0, 0);
                 Grid.SetColumn(rightBlock, 1);
                 Grid.SetRow(rightBlock, i);
 
@@ -1430,6 +1449,16 @@ namespace HK_Rando_4_Log_Display
             return objectGrid;
         }
 
+        private TextBlock GetBoldTextBlock(string message)
+        {
+            var textBlock = new TextBlock { Text = "" };
+            textBlock.Inlines.Add(new Run(message) { FontWeight = FontWeights.Bold });
+            return textBlock;
+        }
+
+        private TextBlock GetStrikethroughTextBlock(string message) => new TextBlock { Text = message, TextDecorations = TextDecorations.Strikethrough };
+
+        private TextBlock GetStandardTextBlock(string message) => new TextBlock { Text = message };
 
         #region Events
 
