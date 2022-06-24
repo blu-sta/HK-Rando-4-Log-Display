@@ -1,5 +1,5 @@
 # HK Rando 4 Log Display
-## v1.0.2
+## v1.0.2.1
 
 ### How to use this app
 
