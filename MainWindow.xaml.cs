@@ -24,26 +24,30 @@ namespace HK_Rando_4_Log_Display
         private readonly IItemSpoilerReader _itemSpoilerReader;
         private readonly ITransitionSpoilerReader _transitionSpoilerReader;
         private readonly IResourceLoader _resourceLoader;
-        private Settings _settings;
+        private readonly Settings _settings;
         private string _selectedTab;
         private DateTime _referenceTime;
 
         public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISettingsReader settingsReader,
             IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader)
         {
-            _resourceLoader = resourceLoader;
             _helperLogReader = helperLogReader;
             _trackerLogReader = trackerLogReader;
             _settingsReader = settingsReader;
             _itemSpoilerReader = itemSpoilerReader;
             _transitionSpoilerReader = transitionSpoilerReader;
+            _resourceLoader = resourceLoader;
+            
+            _settings = _resourceLoader.GetAppSettings();
+            
             InitializeComponent();
             Loaded += MainWindow_Loaded;
         }
 
+        private void UpdateUX(Action action) => Dispatcher.Invoke(new Action(action), DispatcherPriority.ContextIdle);
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            InitialiseSettings();
             InitialiseButtons();
 #if DEBUG
             dataExtractor.Interval = 60000;
@@ -51,14 +55,9 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.Elapsed += UpdateTabs;
             dataExtractor.AutoReset = true;
             dataExtractor.Enabled = true;
+            
+            UpdateUX(() => Footer.Text = "v1.1.0 blu.sta");
             UpdateTabs();
-
-            Dispatcher.Invoke(new Action(() => Footer.Text = "v1.0.2.1 blu.sta"), DispatcherPriority.ContextIdle);
-        }
-
-        private void InitialiseSettings()
-        {
-            _settings = _resourceLoader.GetUserSettings();
         }
 
         private void InitialiseButtons()
@@ -174,7 +173,7 @@ namespace HK_Rando_4_Log_Display
                 headerStrings.Add(string.Join(": ", new List<string> { _settingsReader.GetMode(), _settingsReader.GetSeed() }.Where(x => !string.IsNullOrWhiteSpace(x))));
             }
 
-            Dispatcher.Invoke(new Action(() => UpdateHeaderText(string.Join("\n", headerStrings))), DispatcherPriority.ContextIdle);
+            UpdateUX(() => UpdateHeaderText(string.Join("\n", headerStrings)));
         }
 
         private void UpdateHeaderText(string headerText) => Header.Text = headerText;
@@ -225,32 +224,32 @@ namespace HK_Rando_4_Log_Display
                 case 2:
                     // Locations by Rooms by (Map) Area
                     var locationsByRoomByMapArea = _helperLogReader.GetLocationsByRoomByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocationsByRoomByArea(locationsByRoomByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocationsByRoomByArea(locationsByRoomByMapArea));
                     break;
                 case 3:
                     // Locations by Rooms by (Titled) Area
                     var locationsByRoomByTitledArea = _helperLogReader.GetLocationsByRoomByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocationsByRoomByArea(locationsByRoomByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocationsByRoomByArea(locationsByRoomByTitledArea));
                     break;
                 case 4:
                     // Locations by Rooms
                     var locationsByRoom = _helperLogReader.GetLocationsByRoom();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocationsByZone(locationsByRoom)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocationsByZone(locationsByRoom));
                     break;
                 case 5:
                     // All locations
                     var locations = _helperLogReader.GetLocations();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocations(locations)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocations(locations));
                     break;
                 case 1:
                     // Locations by (Titled) Area
                     var locationsByTitledArea = _helperLogReader.GetLocationsByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocationsByZone(locationsByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocationsByZone(locationsByTitledArea));
                     break;
                 default:
                     // Locations by (Map) Area
                     var locationsByMapArea = _helperLogReader.GetLocationsByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperLocationListWithLocationsByZone(locationsByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperLocationListWithLocationsByZone(locationsByMapArea));
                     break;
             }
         }
@@ -599,32 +598,32 @@ namespace HK_Rando_4_Log_Display
                 case 2:
                     // Transitions by Rooms by (Map) Area
                     var transitionsByRoomByMapArea = _helperLogReader.GetTransitionsByRoomByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea));
                     break;
                 case 3:
                     // Transitions by Rooms by (Titled) Area
                     var transitionsByRoomByTitledArea = _helperLogReader.GetTransitionsByRoomByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea));
                     break;
                 case 4:
                     // Transitions by Rooms
                     var transitionsByRoom = _helperLogReader.GetTransitionsByRoom();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByRoom)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByRoom));
                     break;
                 case 5:
                     // All transitions
                     var transitions = _helperLogReader.GetTransitions();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitions(transitions)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitions(transitions));
                     break;
                 case 1:
                     // Transitions by (Titled) Area
                     var transitionsByTitledArea = _helperLogReader.GetTransitionsByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByTitledArea));
                     break;
                 default:
                     // Transitions by (Map) Area
                     var transitionsByMapArea = _helperLogReader.GetTransitionsByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByMapArea));
                     break;
             }
         }
@@ -791,21 +790,21 @@ namespace HK_Rando_4_Log_Display
                 case 1:
                     // Items by Pool
                     var itemsByPool = _trackerLogReader.GetItemsByPool();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerItemListWithItemsByPool(itemsByPool)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerItemListWithItemsByPool(itemsByPool));
                     // Alphabetical
                     // Find order
                     break;
                 case 2:
                     // All items
                     var items = _trackerLogReader.GetItems();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerItemListWithItems(items)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerItemListWithItems(items));
                     // Alphabetical
                     // Find order
                     break;
                 default:
                     // Curated item list
                     var itemsByCuratedPool = _trackerLogReader.GetCuratedItems();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerItemListWithItemsByPool(itemsByCuratedPool)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerItemListWithItemsByPool(itemsByCuratedPool));
                     // Alphabetical
                     // Find order
                     break;
@@ -888,32 +887,32 @@ namespace HK_Rando_4_Log_Display
                 case 2:
                     // Transitions by Rooms by (Map) Area
                     var transitionsByRoomByMapArea = _trackerLogReader.GetTransitionsByRoomByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea));
                     break;
                 case 3:
                     // Transitions by Rooms by (Titled) Area
                     var transitionsByRoomByTitledArea = _trackerLogReader.GetTransitionsByRoomByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea));
                     break;
                 case 4:
                     // Transitions by Rooms
                     var transitionsByRoom = _trackerLogReader.GetTransitionsByRoom();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByRoom)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByRoom));
                     break;
                 case 5:
                     // All transitions
                     var transitions = _trackerLogReader.GetTransitions();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitions(transitions)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitions(transitions));
                     break;
                 case 1:
                     // Transitions by (Titled) Area
                     var transitionsByTitledArea = _trackerLogReader.GetTransitionsByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByTitledArea));
                     break;
                 default:
                     // Transitions by (Map) Area
                     var transitionsByMapArea = _trackerLogReader.GetTransitionsByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateTrackerTransitionListWithTransitionsByZone(transitionsByMapArea));
                     break;
             }
         }
@@ -1059,7 +1058,7 @@ namespace HK_Rando_4_Log_Display
         private void UpdateSettingsTab()
         {
             var settings = _settingsReader.GetSettings();
-            Dispatcher.Invoke(new Action(() => UpdateSettingsList(settings)), DispatcherPriority.ContextIdle);
+            UpdateUX(() => UpdateSettingsList(settings));
         }
 
         private void UpdateSettingsList(JObject settings)
@@ -1132,21 +1131,21 @@ namespace HK_Rando_4_Log_Display
                 case 1:
                     // Items by Pool
                     var itemsByPool = _itemSpoilerReader.GetItemsByPool();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByPool, trackedItems)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerItemListWithItemsByPool(itemsByPool, trackedItems));
                     // Alphabetical
                     // Find order
                     break;
                 case 2:
                     // All items
                     var items = _itemSpoilerReader.GetItems();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItems(items, trackedItems)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerItemListWithItems(items, trackedItems));
                     // Alphabetical
                     // Find order
                     break;
                 default:
                     // Curated item list
                     var itemsByCuratedPool = _itemSpoilerReader.GetCuratedItems();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerItemListWithItemsByPool(itemsByCuratedPool, trackedItems)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerItemListWithItemsByPool(itemsByCuratedPool, trackedItems));
                     // Alphabetical
                     // Find order
                     break;
@@ -1236,32 +1235,32 @@ namespace HK_Rando_4_Log_Display
                 case 2:
                     // Transitions by Rooms by (Map) Area
                     var transitionsByRoomByMapArea = _transitionSpoilerReader.GetTransitionsByRoomByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea));
                     break;
                 case 3:
                     // Transitions by Rooms by (Titled) Area
                     var transitionsByRoomByTitledArea = _transitionSpoilerReader.GetTransitionsByRoomByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea));
                     break;
                 case 4:
                     // Transitions by Rooms
                     var transitionsByRoom = _transitionSpoilerReader.GetTransitionsByRoom();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByRoom)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByRoom));
                     break;
                 case 5:
                     // All transitions
                     var transitions = _transitionSpoilerReader.GetTransitions();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitions(transitions)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitions(transitions));
                     break;
                 case 1:
                     // Transitions by (Titled) Area
                     var transitionsByTitledArea = _transitionSpoilerReader.GetTransitionsByTitledArea();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByTitledArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByTitledArea));
                     break;
                 default:
                     // Transitions by (Map) Area
                     var transitionsByMapArea = _transitionSpoilerReader.GetTransitionsByMapArea();
-                    Dispatcher.Invoke(new Action(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByMapArea)), DispatcherPriority.ContextIdle);
+                    UpdateUX(() => UpdateSpoilerTransitionListWithTransitionsByZone(transitionsByMapArea));
                     break;
             }
         }

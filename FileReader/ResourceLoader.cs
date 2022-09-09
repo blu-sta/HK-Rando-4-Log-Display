@@ -17,10 +17,12 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<Transition> Transitions { get; }
         public Dictionary<string, LocationWithTime> GetHelperLogLocations();
         public Dictionary<string, TransitionWithTime> GetHelperLogTransitions();
-        public Settings GetUserSettings();
+        public Settings GetAppSettings();
+        public string GetSeed();
         public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations);
         public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions);
         public void SaveUserSettings(Settings settings);
+        public void SaveSeed(string seed);
     }
 
     public class ResourceLoader : IResourceLoader
@@ -29,6 +31,16 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<Item> Items { get; private set; } = new List<Item>();
         public List<Item> PreviewItems { get; private set; } = new List<Item>();
         public List<Transition> Transitions { get; private set; } = new List<Transition>();
+
+        private const string HelperLogTransitionsFilename = "_HelperLogTransitions.json";
+        private const string HelperLogLocationsFilename = "_HelperLogLocations.json";
+        private const string AppSettingsFilename = "_AppSettings.json";
+        private const string SeedFilename = "_CurrentSeed.json";
+
+        private const string ReferenceTransitionsFilePath = @".\Reference\transitions.json";
+        private const string ReferenceLocationsFilePath = @".\Reference\locations.json";
+        private const string ReferenceRoomsFilePath = @".\Reference\rooms.json";
+        private const string ReferenceItemsFilePath = @".\Reference\items.json";
 
         public ResourceLoader()
         {
@@ -39,15 +51,14 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         private void LoadLocations()
         {
-            if (!File.Exists(".\\Reference\\locations.json") || !File.Exists(".\\Reference\\rooms.json"))
+            if (!File.Exists(ReferenceLocationsFilePath) || !File.Exists(ReferenceRoomsFilePath))
             {
                 return;
             }
-            var roomsContent = ReadFile(".\\Reference\\rooms.json");
-            var rooms = JsonConvert.DeserializeObject<Dictionary<string, RoomImport>>(roomsContent).Values.ToList();
 
-            var locationsContent = ReadFile(".\\Reference\\locations.json");
-            var locations = JsonConvert.DeserializeObject<Dictionary<string, LocationImport>>(locationsContent).Values.ToList();
+            var rooms = DeserializeFile<Dictionary<string, RoomImport>>(ReferenceRoomsFilePath).Values.ToList();
+            var locations = DeserializeFile<Dictionary<string, LocationImport>>(ReferenceLocationsFilePath).Values.ToList();
+
             AddCustomLocations(locations);
 
             Locations = new List<Location>(locations.Select(x =>
@@ -285,15 +296,14 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         private void LoadItems()
         {
-            if (!File.Exists(".\\Reference\\items.json"))
+            if (!File.Exists(ReferenceItemsFilePath))
             {
                 return;
             }
-            var content = ReadFile(".\\Reference\\items.json");
-            Items = JsonConvert.DeserializeObject<Dictionary<string, Item>>(content).Values.ToList();
+
+            Items = DeserializeFile<Dictionary<string, Item>>(ReferenceItemsFilePath).Values.ToList();
 
             AddCustomItems();
-
             SetupItemPreviews();
         }
 
@@ -827,15 +837,13 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         private void LoadTransitions()
         {
-            if (!File.Exists(".\\Reference\\transitions.json") || !File.Exists(".\\Reference\\rooms.json"))
+            if (!File.Exists(ReferenceTransitionsFilePath) || !File.Exists(ReferenceRoomsFilePath))
             {
                 return;
             }
-            var roomsContent = ReadFile(".\\Reference\\rooms.json");
-            var rooms = JsonConvert.DeserializeObject<Dictionary<string, RoomImport>>(roomsContent).Values.ToList();
 
-            var transitionsContent = ReadFile(".\\Reference\\transitions.json");
-            var transitions = JsonConvert.DeserializeObject<Dictionary<string, TransitionImport>>(transitionsContent).Values.ToList();
+            var rooms = DeserializeFile<Dictionary<string, RoomImport>>(ReferenceRoomsFilePath).Values.ToList();
+            var transitions = DeserializeFile<Dictionary<string, TransitionImport>>(ReferenceTransitionsFilePath).Values.ToList();
 
             Transitions = new List<Transition>(transitions.Select(x =>
             {
@@ -844,60 +852,70 @@ namespace HK_Rando_4_Log_Display.FileReader
             }));
         }
 
-        public Dictionary<string, LocationWithTime> GetHelperLogLocations()
-        {
-            if (!File.Exists("_HelperLogLocations.json"))
-            {
-                return new Dictionary<string, LocationWithTime>();
-            }
-            var content = ReadFile("_HelperLogLocations.json");
-            return JsonConvert.DeserializeObject<Dictionary<string, LocationWithTime>>(content);
-        }
+        public Dictionary<string, LocationWithTime> GetHelperLogLocations() =>
+            GetDictionaryDataFromFileOrDefault<LocationWithTime>(HelperLogLocationsFilename);
 
-        public Dictionary<string, TransitionWithTime> GetHelperLogTransitions()
-        {
-            if (!File.Exists("_HelperLogTransitions.json"))
-            {
-                return new Dictionary<string, TransitionWithTime>();
-            }
-            var content = ReadFile("_HelperLogTransitions.json");
-            return JsonConvert.DeserializeObject<Dictionary<string, TransitionWithTime>>(content);
-        }
+        public Dictionary<string, TransitionWithTime> GetHelperLogTransitions() =>
+            GetDictionaryDataFromFileOrDefault<TransitionWithTime>(HelperLogTransitionsFilename);
 
-        public Settings GetUserSettings()
+        public static Dictionary<string, T> GetDictionaryDataFromFileOrDefault<T>(string filename) =>
+            File.Exists(filename)
+                ? DeserializeFile<Dictionary<string, T>>(filename)
+                : new Dictionary<string, T>();
+
+        public Settings GetAppSettings()
         {
-            if (!File.Exists("_Settings.json"))
-            {
-                var defaultSettings = new Settings();
-                defaultSettings.SetDefaultValues();
-                return defaultSettings;
-            }
-            var content = ReadFile("_Settings.json");
-            var settings = JsonConvert.DeserializeObject<Settings>(content);
+            var settings = GetUserDefinedAppSettings();
             settings.SetDefaultValues();
             return settings;
         }
 
-        private static string ReadFile(string filename)
+        private Settings GetUserDefinedAppSettings()
         {
-            using var file = new StreamReader($"{AppDomain.CurrentDomain.BaseDirectory}/{filename}");
-            return file.ReadToEnd();
+            if (File.Exists(AppSettingsFilename))
+            {
+                return DeserializeFile<Settings>(AppSettingsFilename);
+            }
+
+            #region Update _Settings.json to latest filename
+            const string OldSettingsFile = "_Settings.json";
+            if (File.Exists(OldSettingsFile))
+            {
+                var settings = DeserializeFile<Settings>(OldSettingsFile);
+
+                SaveUserSettings(settings);
+                File.Delete($"{AppDomain.CurrentDomain.BaseDirectory}/{OldSettingsFile}");
+
+                return settings;
+            }
+            #endregion
+
+            return new Settings();
         }
 
-        public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations)
+        public string GetSeed() =>
+            GetDictionaryDataFromFileOrDefault<string>(SeedFilename)
+                .TryGetValue("Seed", out var value) 
+                    ? value
+                    : "";
+
+        private static T DeserializeFile<T>(string filePath)
         {
-            WriteFile("_HelperLogLocations.json", helperLogLocations);
+            using var file = new StreamReader($@"{AppDomain.CurrentDomain.BaseDirectory}\{filePath}");
+            return JsonConvert.DeserializeObject<T>(file.ReadToEnd());
         }
 
-        public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions)
-        {
-            WriteFile("_HelperLogTransitions.json", helperLogTransitions);
-        }
+        public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations) => 
+            WriteFile(HelperLogLocationsFilename, helperLogLocations);
 
-        public void SaveUserSettings(Settings settings)
-        {
-            WriteFile("_Settings.json", settings);
-        }
+        public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions) => 
+            WriteFile(HelperLogTransitionsFilename, helperLogTransitions);
+
+        public void SaveUserSettings(Settings settings) => 
+            WriteFile(AppSettingsFilename, settings);
+
+        public void SaveSeed(string seed) =>
+            WriteFile(SeedFilename, new Dictionary<string, string> { { "Seed", seed } });
 
         private static void WriteFile<T>(string filename, T data)
         {
