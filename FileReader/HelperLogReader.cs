@@ -11,8 +11,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface IHelperLogReader : ILogReader
     {
-        public void PreloadData();
-
         public void SaveState();
 
         public Dictionary<string, List<LocationWithTime>> GetLocationsByTitledArea();
@@ -47,16 +45,14 @@ namespace HK_Rando_4_Log_Display.FileReader
     public class HelperLogReader : IHelperLogReader
     {
         private readonly IResourceLoader _resourceLoader;
+        private readonly Dictionary<string, LocationWithTime> _helperLogLocations = new();
+        private readonly Dictionary<string, TransitionWithTime> _helperLogTransitions = new();
 
         public bool IsFileFound { get; private set; }
 
         public HelperLogReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
-        }
-
-        public void PreloadData()
-        {
             _helperLogLocations = _resourceLoader.GetHelperLogLocations();
             _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
         }
@@ -79,8 +75,6 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         #region Locations
-
-        private Dictionary<string, LocationWithTime> _helperLogLocations = new Dictionary<string, LocationWithTime>();
 
         private void LoadReachableLocations(List<string> helperLogData)
         {
@@ -235,8 +229,6 @@ namespace HK_Rando_4_Log_Display.FileReader
         #endregion
 
         #region Transitions
-
-        private Dictionary<string, TransitionWithTime> _helperLogTransitions = new Dictionary<string, TransitionWithTime>();
 
         private void LoadReachableTransitions(List<string> helperLogData)
         {

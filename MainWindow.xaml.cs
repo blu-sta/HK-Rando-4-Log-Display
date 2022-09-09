@@ -16,7 +16,7 @@ namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow : Window
     {
-        private object _lock = new object(); 
+        private readonly object _lock = new(); 
         private readonly Timer dataExtractor = new(5000);
         private readonly IHelperLogReader _helperLogReader;
         private readonly ITrackerLogReader _trackerLogReader;
@@ -84,11 +84,6 @@ namespace HK_Rando_4_Log_Display
         {
             lock(_lock)
             {
-                if (_firstRun)
-                {
-                    PreloadHelperLog();
-                }
-
                 LoadFiles();
                 SetReferenceTime();
 
@@ -134,11 +129,6 @@ namespace HK_Rando_4_Log_Display
 
                 UpdateHeader();
             }
-        }
-
-        private void PreloadHelperLog()
-        {
-            _helperLogReader.PreloadData();
         }
 
         private void LoadFiles()
