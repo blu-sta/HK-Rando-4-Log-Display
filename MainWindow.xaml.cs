@@ -1610,8 +1610,11 @@ namespace HK_Rando_4_Log_Display
 
         private void SaveCurrentState()
         {
-            _helperLogReader.SaveState();
-            _resourceLoader.SaveUserSettings(_settings);
+            if (_helperLogReader.IsFileFound)
+                _helperLogReader.SaveState();
+            if (_settingsReader.IsFileFound)
+                _resourceLoader.SaveSeed(_settingsReader.GetSeed());
+            _resourceLoader.SaveAppSettings(_settings);
         }
 
         #endregion

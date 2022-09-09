@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace HK_Rando_4_Log_Display.FileReader
@@ -47,14 +46,22 @@ namespace HK_Rando_4_Log_Display.FileReader
         private readonly IResourceLoader _resourceLoader;
         private readonly Dictionary<string, LocationWithTime> _helperLogLocations = new();
         private readonly Dictionary<string, TransitionWithTime> _helperLogTransitions = new();
+        private readonly List<PreviewedItemAtLocation> _helperLogPreviewedItemsAtLocations = new();
 
         public bool IsFileFound { get; private set; }
 
-        public HelperLogReader(IResourceLoader resourceLoader)
+        public HelperLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader)
         {
             _resourceLoader = resourceLoader;
-            _helperLogLocations = _resourceLoader.GetHelperLogLocations();
-            _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
+
+            if (!settingsReader.IsFileFound || 
+                (settingsReader.IsFileFound && settingsReader.GetSeed() == resourceLoader.GetSeed()))
+            {
+                _helperLogLocations = _resourceLoader.GetHelperLogLocations();
+                _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
+            }
+
+            LoadData();
         }
 
         public void LoadData()
@@ -70,7 +77,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
 
             LoadReachableLocations(helperLogData);
-            LoadPreviewedLocations2(helperLogData);
+            LoadPreviewedLocations(helperLogData);
             LoadReachableTransitions(helperLogData);
         }
 
@@ -113,9 +120,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         #region Previewed Locations
 
-        List<PreviewedItemAtLocation> _helperLogPreviewedItemsAtLocations = new List<PreviewedItemAtLocation>();
-
-        private void LoadPreviewedLocations2(List<string> helperLogData)
+        private void LoadPreviewedLocations(List<string> helperLogData)
         {
             var previewedLocations = LoadSection(helperLogData, "PREVIEWED LOCATIONS");
             if (previewedLocations == null)
@@ -192,20 +197,20 @@ namespace HK_Rando_4_Log_Display.FileReader
             return GetPreviewItemPool(itemName);
         }
 
-        private string ConvertSplitItemsToSkills(string pool) =>
+        private static string ConvertSplitItemsToSkills(string pool) =>
             pool switch
             {
                 "SplitClaw" or "SplitCloak" or "SplitSuperdash" => "Skill",
                 _ => pool,
             };
 
-        private string ModifyItemNameForPreview(string itemName) =>
+        private static string ModifyItemNameForPreview(string itemName) =>
             Regex.Replace(itemName, @"((^A )|( \[\d\]))", "");
 
-        private string GetPreviewItemPool(string itemName) =>
+        private static string GetPreviewItemPool(string itemName) =>
             Regex.Replace(itemName, @"[\s\d\[\]]", "");
 
-        private string GetPreviewedLocationPool(string pool, string location) =>
+        private static string GetPreviewedLocationPool(string pool, string location) =>
             string.IsNullOrWhiteSpace(pool)
             ? location switch
             {
@@ -245,7 +250,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .ForEach(x => _helperLogTransitions.Add(x, new TransitionWithTime(_resourceLoader.Transitions.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x)) ?? GetNewTransitionFromName(x), now, x.StartsWith("*"))));
         }
 
-        private Transition GetNewTransitionFromName(string transitionString)
+        private static Transition GetNewTransitionFromName(string transitionString)
         {
             var matches = Regex.Match(transitionString, "(.*)\\[(.*)\\]");
             var sceneName = matches.Groups[1].Value;
@@ -274,7 +279,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         #endregion
 
-        private List<string> LoadSection(List<string> helperLogData, string startLine)
+        private static List<string> LoadSection(List<string> helperLogData, string startLine)
         {
             var start = helperLogData.IndexOf(startLine);
             if (start < 0)

@@ -1,11 +1,9 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
@@ -21,7 +19,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public string GetSeed();
         public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations);
         public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions);
-        public void SaveUserSettings(Settings settings);
+        public void SaveAppSettings(Settings settings);
         public void SaveSeed(string seed);
     }
 
@@ -873,7 +871,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 var settings = DeserializeFile<Settings>(OldSettingsFile);
 
-                SaveUserSettings(settings);
+                SaveAppSettings(settings);
                 File.Delete(OldSettingsFile);
 
                 return settings;
@@ -901,7 +899,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions) => 
             WriteFile(Constants.HelperLogTransitionsFilename, helperLogTransitions);
 
-        public void SaveUserSettings(Settings settings) => 
+        public void SaveAppSettings(Settings settings) => 
             WriteFile(Constants.AppSettingsFilename, settings);
 
         public void SaveSeed(string seed) =>

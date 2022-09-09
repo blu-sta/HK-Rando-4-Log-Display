@@ -20,6 +20,11 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         public bool IsFileFound { get; private set; }
 
+        public SettingsReader()
+        {
+            LoadData();
+        }
+
         public void LoadData()
         {
             var filepath = Constants.SettingsPath;
