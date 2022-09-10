@@ -63,12 +63,19 @@ namespace HK_Rando_4_Log_Display.FileReader
                 var location = x.Location;
                 var cost = x.Costs != null ? string.Join(",", x.Costs) : null;
                 var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) 
-                    ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
+                    ?? new Item { Name = item, Pool = GetPool(location, item) };
 
                 var itemWithLocation = new ItemWithLocation(referenceItem, x.Costs == null ? location : $"{location} [{cost}]");
                 _spoilerItems.Add(itemWithLocation);
             });
         }
+
+        private static string GetPool(string location, string item) =>
+            location == "Start"
+                ? "Start"
+                : item.Contains("-")
+                    ? item.Split('-')[0]
+                    : "undefined";
 
         private class SpoilerItem
         {
