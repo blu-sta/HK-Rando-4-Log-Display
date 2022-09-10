@@ -87,9 +87,9 @@ namespace HK_Rando_4_Log_Display.FileReader
                         _resourceLoader.Locations.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x))
                             ?? new Location {
                                 Name = x.StartsWith("*") ? x.Replace("*", "") : x,
-                                MapArea = "undefined",
-                                TitledArea = "undefined",
-                                SceneName = "undefined"
+                                MapArea = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined",
+                                TitledArea = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined",
+                                SceneName = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined"
                             },
                         _referenceTime,
                         x.StartsWith("*"))));

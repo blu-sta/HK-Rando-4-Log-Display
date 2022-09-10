@@ -54,6 +54,12 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
 
             var rooms = DeserializeFile<Dictionary<string, RoomImport>>(Constants.ReferenceRoomsFilePath).Values.ToList();
+            rooms.AddRange(new[]
+            {
+                new RoomImport{ SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram"},
+                new RoomImport{ SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram"},
+            });
+
             var locations = DeserializeFile<Dictionary<string, LocationImport>>(Constants.ReferenceLocationsFilePath).Values.ToList();
 
             AddCustomLocations(locations);
