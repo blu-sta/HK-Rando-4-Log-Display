@@ -24,7 +24,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public List<LocationWithTime> GetLocations();
 
-        public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations3();
+        public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations();
 
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedItems();
 
@@ -47,6 +47,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private readonly Dictionary<string, LocationWithTime> _helperLogLocations = new();
         private readonly Dictionary<string, TransitionWithTime> _helperLogTransitions = new();
         private readonly List<PreviewedItemAtLocation> _helperLogPreviewedItemsAtLocations = new();
+        private DateTime _referenceTime;
 
         public bool IsFileFound { get; private set; }
 
@@ -54,7 +55,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             _resourceLoader = resourceLoader;
 
-            if (!settingsReader.IsFileFound || 
+            if (!settingsReader.IsFileFound ||
                 (settingsReader.IsFileFound && settingsReader.GetSeed() == resourceLoader.GetSeed()))
             {
                 _helperLogLocations = _resourceLoader.GetHelperLogLocations();
@@ -73,9 +74,9 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
 
             IsFileFound = true;
+
+            _referenceTime = DateTime.Now;
             var helperLogData = File.ReadAllLines(Constants.HelperLogPath).ToList();
-
-
             LoadReachableLocations(helperLogData);
             LoadPreviewedLocations(helperLogData);
             LoadReachableTransitions(helperLogData);
@@ -91,27 +92,42 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return;
             }
 
-            var now = DateTime.Now;
             _helperLogLocations.Keys.Except(uncheckedReachableLocations).ToList()
                 .ForEach(x => _helperLogLocations.Remove(x));
             uncheckedReachableLocations.Except(_helperLogLocations.Keys).ToList()
-                .ForEach(x => _helperLogLocations.Add(x, new LocationWithTime(_resourceLoader.Locations.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x)) ?? new Location { Name = x.StartsWith("*") ? x.Replace("*", "") : x, MapArea = "undefined", TitledArea = "undefined", SceneName = "undefined" }, now, x.StartsWith("*"))));
+                .ForEach(x => _helperLogLocations.Add(
+                    x,
+                    new LocationWithTime(
+                        _resourceLoader.Locations.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x))
+                            ?? new Location {
+                                Name = x.StartsWith("*") ? x.Replace("*", "") : x,
+                                MapArea = "undefined",
+                                TitledArea = "undefined",
+                                SceneName = "undefined"
+                            },
+                        _referenceTime,
+                        x.StartsWith("*"))));
         }
 
         public Dictionary<string, List<LocationWithTime>> GetLocationsByTitledArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+            _helperLogLocations.Values.GroupBy(x => x.TitledArea)
+                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, List<LocationWithTime>> GetLocationsByMapArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+            _helperLogLocations.Values.GroupBy(x => x.MapArea)
+                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, List<LocationWithTime>> GetLocationsByRoom() =>
-            _helperLogLocations.Values.GroupBy(x => x.SceneName).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+            _helperLogLocations.Values.GroupBy(x => x.SceneName)
+                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, Dictionary<string, List<LocationWithTime>>> GetLocationsByRoomByTitledArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+            _helperLogLocations.Values.GroupBy(x => x.TitledArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
 
         public Dictionary<string, Dictionary<string, List<LocationWithTime>>> GetLocationsByRoomByMapArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+            _helperLogLocations.Values.GroupBy(x => x.MapArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
 
         public List<LocationWithTime> GetLocations() =>
             _helperLogLocations.Values.ToList();
@@ -149,6 +165,14 @@ namespace HK_Rando_4_Log_Display.FileReader
                             itemLine = itemLine.Replace("Once you own", "Need").Replace(", I'll gladly sell it to you.", "");
                         }
 
+                        if (locationPool == "Hunter's_Notes")
+                        {
+                            var regexMatches = Regex.Match(itemLine, "Defeat (\\d+) .* to decipher the ([\\w\\s]+)");
+                            var killsRequired = regexMatches.Groups[1].Value;
+                            var itemProvided = regexMatches.Groups[2].Value;
+                            itemLine = $"{itemProvided}  -  Defeat {killsRequired}";
+                        }
+
                         var itemWithCost = itemLine.Split("  -  ");
                         var itemNames = itemWithCost[0];
                         var itemCost = itemWithCost.Length > 1 ? itemWithCost[1] : "";
@@ -184,25 +208,20 @@ namespace HK_Rando_4_Log_Display.FileReader
             var modifiedItemName = ModifyItemNameForPreview(itemName);
             var matchingItem = _resourceLoader.PreviewItems.FirstOrDefault(y => y.Name == modifiedItemName);
             if (matchingItem != null)
-            {
                 return matchingItem.Pool;
-            }
 
             var nearlyMatchingItems = _resourceLoader.PreviewItems.Where(y => y.Name.Contains(modifiedItemName));
             if (nearlyMatchingItems.Count() == 1)
-            {
                 return nearlyMatchingItems.First().Pool;
-            }
+
+            if (itemName.Contains("Journal Entry"))
+                return "Journal Entry";
 
             return GetPreviewItemPool(itemName);
         }
 
         private static string ConvertSplitItemsToSkills(string pool) =>
-            pool switch
-            {
-                "SplitClaw" or "SplitCloak" or "SplitSuperdash" => "Skill",
-                _ => pool,
-            };
+            pool.Contains("Split") ? "Skill" : pool;
 
         private static string ModifyItemNameForPreview(string itemName) =>
             Regex.Replace(itemName, @"((^A )|( \[\d\]))", "");
@@ -210,22 +229,51 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static string GetPreviewItemPool(string itemName) =>
             Regex.Replace(itemName, @"[\s\d\[\]]", "");
 
-        private static string GetPreviewedLocationPool(string pool, string location) =>
-            string.IsNullOrWhiteSpace(pool)
-            ? location switch
-            {
-                "Sly" or "Sly_(Key)" or "Iselda" or "Salubra" or "Leg_Eater" or "Grubfather" or "Seer" or "Egg_Shop" => "Shop",
-                "Nailsmith_Upgrade_1" or "Nailsmith_Upgrade_2" or "Nailsmith_Upgrade_3" or "Nailsmith_Upgrade_4" => "Nailsmith",
-                "Vessel_Fragment-Basin" => "Basin Fountain",
-                _ => "Other Previewed Items",
-            }
-            : pool switch
-            {
-                "SplitClaw" or "SplitCloak" or "SplitSuperdash" => "Skill",
-                _ => pool.AddSpacesBeforeCapitals(),
-            };
+        private readonly string[] ShopLocations = new[]
+        {
+            "Sly",
+            "Sly_(Key)",
+            "Iselda",
+            "Salubra",
+            "Leg_Eater",
+            "Grubfather",
+            "Seer",
+            "Egg_Shop"
+        };
 
-        public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations3() => 
+        private readonly string[] NailsmithLocations = new[]
+        {
+            "Nailsmith_Upgrade_1",
+            "Nailsmith_Upgrade_2",
+            "Nailsmith_Upgrade_3",
+            "Nailsmith_Upgrade_4",
+        };
+
+        private string GetPreviewedLocationPool(string pool, string location)
+        {
+            if (!string.IsNullOrWhiteSpace(pool))
+            {
+                return pool.Contains("Split") 
+                    ? "Skill"
+                    : pool.AddSpacesBeforeCapitals();
+            }
+
+            if (ShopLocations.Any(x => x == location))
+                return "Shop";
+            
+            if (NailsmithLocations.Any(x => x == location))
+                return "Nailsmith";
+
+            if ("Vessel_Fragment-Basin" == location)
+                return "Basin Fountain";
+
+            if (location.Contains("-"))
+                return location.Split('-')[0];
+
+            return "Other Previewed Items";
+        }
+
+        public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations() =>
             _helperLogPreviewedItemsAtLocations.GroupBy(x => x.LocationPool).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedItems() =>
@@ -243,11 +291,16 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return;
             }
 
-            var now = DateTime.Now;
             _helperLogTransitions.Keys.Except(uncheckedReachableTransitions).ToList()
                 .ForEach(x => _helperLogTransitions.Remove(x));
             uncheckedReachableTransitions.Except(_helperLogTransitions.Keys).ToList()
-                .ForEach(x => _helperLogTransitions.Add(x, new TransitionWithTime(_resourceLoader.Transitions.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x)) ?? GetNewTransitionFromName(x), now, x.StartsWith("*"))));
+                .ForEach(x => _helperLogTransitions.Add(
+                    x,
+                    new TransitionWithTime(
+                        _resourceLoader.Transitions.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x))
+                            ?? GetNewTransitionFromName(x),
+                        _referenceTime,
+                        x.StartsWith("*"))));
         }
 
         private static Transition GetNewTransitionFromName(string transitionString)

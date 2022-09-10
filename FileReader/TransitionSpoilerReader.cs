@@ -30,6 +30,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public TransitionSpoilerReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
+            LoadData();
         }
 
         public void LoadData()

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-
 namespace HK_Rando_4_Log_Display.Extensions
 {
     public static class Extensions

@@ -15,7 +15,16 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<Transition> Transitions { get; }
         public Dictionary<string, LocationWithTime> GetHelperLogLocations();
         public Dictionary<string, TransitionWithTime> GetHelperLogTransitions();
-        public Settings GetAppSettings();
+        public Settings GetAppSettings(
+            int helperGroupingsLength,
+            int helperOrdersLength,
+            int trackerItemGroupingsLength,
+            int trackerItemOrdersLength,
+            int trackerTransitionOrdersLength,
+            int spoilerItemGroupingsLength,
+            int spoilerItemOrdersLength,
+            int spoilerTransitionOrders
+        );
         public string GetSeed();
         public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations);
         public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions);
@@ -851,9 +860,29 @@ namespace HK_Rando_4_Log_Display.FileReader
                 ? DeserializeFile<Dictionary<string, T>>(filename)
                 : new Dictionary<string, T>();
 
-        public Settings GetAppSettings()
+        public Settings GetAppSettings(
+            int helperGroupingsLength,
+            int helperOrdersLength,
+            int trackerItemGroupingsLength,
+            int trackerItemOrdersLength,
+            int trackerTransitionOrdersLength,
+            int spoilerItemGroupingsLength,
+            int spoilerItemOrdersLength,
+            int spoilerTransitionOrders
+        )
         {
             var settings = GetUserDefinedAppSettings();
+            settings.ResetOutOfRangeValues(
+                helperGroupingsLength,
+                helperOrdersLength,
+                trackerItemGroupingsLength,
+                trackerItemOrdersLength,
+                trackerTransitionOrdersLength,
+                spoilerItemGroupingsLength,
+                spoilerItemOrdersLength,
+                spoilerTransitionOrders);
+            
+            // Reset 
             settings.SetDefaultValues();
             return settings;
         }

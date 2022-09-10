@@ -32,12 +32,15 @@ namespace HK_Rando_4_Log_Display.FileReader
     public class TrackerLogReader : ITrackerLogReader
     {
         private readonly IResourceLoader _resourceLoader;
+        private readonly List<ItemWithLocation> _trackerLogItems = new();
+        private readonly List<TransitionWithDestination> _trackerLogTransitions = new();
 
         public bool IsFileFound { get; private set; }
 
         public TrackerLogReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
+            LoadData();
         }
 
         public void LoadData()
@@ -55,8 +58,6 @@ namespace HK_Rando_4_Log_Display.FileReader
             LoadTransitions(trackerLogData);
         }
 
-        private List<ItemWithLocation> _trackerLogItems = new List<ItemWithLocation>();
-
         private void LoadItems(List<string> trackerLogData)
         {
             _trackerLogItems.Clear();
@@ -66,14 +67,13 @@ namespace HK_Rando_4_Log_Display.FileReader
                 var matches = Regex.Matches(x, "{(.*?)}").ToList();
                 var item = matches[0].Groups[1].Value.Replace("100_Geo-", "");
                 var location = matches[1].Groups[1].Value;
-                var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
+                var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) 
+                    ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
 
                 var itemWithLocation = new ItemWithLocation(referenceItem, location);
                 _trackerLogItems.Add(itemWithLocation);
             });
         }
-
-        private List<TransitionWithDestination> _trackerLogTransitions = new List<TransitionWithDestination>();
 
         private void LoadTransitions(List<string> trackerLogData)
         {
@@ -86,7 +86,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 var doorName = matches.Groups[2].Value;
                 var destinationSceneName = matches.Groups[3].Value;
                 var destinationDoorName = matches.Groups[4].Value;
-                var referenceTransition = _resourceLoader.Transitions.FirstOrDefault(y => y.SceneName == sceneName && y.DoorName == doorName) ?? new Transition { SceneName = sceneName, DoorName = doorName, MapArea = "undefined", TitledArea = "undefined" };
+                var referenceTransition = _resourceLoader.Transitions.FirstOrDefault(y => y.SceneName == sceneName && y.DoorName == doorName) 
+                    ?? new Transition { SceneName = sceneName, DoorName = doorName, MapArea = "undefined", TitledArea = "undefined" };
 
                 var transitionWithDestination = new TransitionWithDestination(referenceTransition, destinationSceneName, destinationDoorName);
                 _trackerLogTransitions.Add(transitionWithDestination);

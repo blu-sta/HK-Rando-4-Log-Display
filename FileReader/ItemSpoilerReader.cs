@@ -22,6 +22,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public ItemSpoilerReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
+            LoadData();
         }
 
         public void LoadData()
