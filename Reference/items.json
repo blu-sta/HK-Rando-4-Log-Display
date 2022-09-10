@@ -19,13 +19,13 @@
   },
   "World_Sense": {
     "Name": "World_Sense",
-    "Pool": "Dreamer",
+    "Pool": "Useless",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Dreamer": {
     "Name": "Dreamer",
-    "Pool": "Fake",
+    "Pool": "Dreamer",
     "PriceCap": 500,
     "MajorItem": true
   },
@@ -139,13 +139,13 @@
   },
   "Focus": {
     "Name": "Focus",
-    "Pool": "Focus",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Swim": {
     "Name": "Swim",
-    "Pool": "Swim",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": false
   },
@@ -475,13 +475,13 @@
   },
   "Godtuner": {
     "Name": "Godtuner",
-    "Pool": "Key",
+    "Pool": "Useless",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Collector's_Map": {
     "Name": "Collector's_Map",
-    "Pool": "Key",
+    "Pool": "Useless",
     "PriceCap": 1,
     "MajorItem": false
   },
@@ -589,37 +589,37 @@
   },
   "Geo_Chest-Junk_Pit_1": {
     "Name": "Geo_Chest-Junk_Pit_1",
-    "Pool": "JunkPitChest",
+    "Pool": "Geo",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Geo_Chest-Junk_Pit_2": {
     "Name": "Geo_Chest-Junk_Pit_2",
-    "Pool": "JunkPitChest",
+    "Pool": "Geo",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Geo_Chest-Junk_Pit_3": {
     "Name": "Geo_Chest-Junk_Pit_3",
-    "Pool": "JunkPitChest",
+    "Pool": "Geo",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Geo_Chest-Junk_Pit_5": {
     "Name": "Geo_Chest-Junk_Pit_5",
-    "Pool": "JunkPitChest",
+    "Pool": "Geo",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Lumafly_Escape": {
     "Name": "Lumafly_Escape",
-    "Pool": "JunkPitChest",
+    "Pool": "Useless",
     "PriceCap": 1,
     "MajorItem": false
   },
   "One_Geo": {
     "Name": "One_Geo",
-    "Pool": "Fake",
+    "Pool": "Useless",
     "PriceCap": 1,
     "MajorItem": false
   },
@@ -1033,37 +1033,37 @@
   },
   "Elevator_Pass": {
     "Name": "Elevator_Pass",
-    "Pool": "ElevatorPass",
+    "Pool": "Key",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Left_Mothwing_Cloak": {
     "Name": "Left_Mothwing_Cloak",
-    "Pool": "SplitCloak",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
   "Right_Mothwing_Cloak": {
     "Name": "Right_Mothwing_Cloak",
-    "Pool": "SplitCloak",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
   "Split_Shade_Cloak": {
     "Name": "Split_Shade_Cloak",
-    "Pool": "SplitCloak",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
   "Left_Mantis_Claw": {
     "Name": "Left_Mantis_Claw",
-    "Pool": "SplitClaw",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
   "Right_Mantis_Claw": {
     "Name": "Right_Mantis_Claw",
-    "Pool": "SplitClaw",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
@@ -1093,13 +1093,13 @@
   },
   "Left_Crystal_Heart": {
     "Name": "Left_Crystal_Heart",
-    "Pool": "SplitSuperdash",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
   "Right_Crystal_Heart": {
     "Name": "Right_Crystal_Heart",
-    "Pool": "SplitSuperdash",
+    "Pool": "Skill",
     "PriceCap": 500,
     "MajorItem": true
   },
@@ -1477,19 +1477,19 @@
   },
   "Lore_Tablet-Palace_Workshop": {
     "Name": "Lore_Tablet-Palace_Workshop",
-    "Pool": "PalaceLore",
+    "Pool": "Lore",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Lore_Tablet-Palace_Throne": {
     "Name": "Lore_Tablet-Palace_Throne",
-    "Pool": "PalaceLore",
+    "Pool": "Lore",
     "PriceCap": 1,
     "MajorItem": false
   },
   "Lore_Tablet-Path_of_Pain_Entrance": {
     "Name": "Lore_Tablet-Path_of_Pain_Entrance",
-    "Pool": "PalaceLore",
+    "Pool": "Lore",
     "PriceCap": 1,
     "MajorItem": false
   }

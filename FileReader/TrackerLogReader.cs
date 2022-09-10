@@ -58,12 +58,19 @@ namespace HK_Rando_4_Log_Display.FileReader
                 var item = matches[0].Groups[1].Value.Replace("100_Geo-", "");
                 var location = matches[1].Groups[1].Value;
                 var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) 
-                    ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
+                    ?? new Item { Name = item, Pool = GetPool(location, item) };
 
                 var itemWithLocation = new ItemWithLocation(referenceItem, location);
                 _trackerLogItems.Add(itemWithLocation);
             });
         }
+
+        private static string GetPool(string location, string item) =>
+            location == "Start"
+                ? "Start"
+                : item.Contains("-")
+                    ? item.Split('-')[0]
+                    : "undefined";
 
         private void LoadTransitions(List<string> trackerLogData)
         {
