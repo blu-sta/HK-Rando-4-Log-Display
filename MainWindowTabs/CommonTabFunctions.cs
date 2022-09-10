@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HK_Rando_4_Log_Display.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,11 +9,64 @@ namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
+        private static StackPanel GenerateStackPanel() => new() { Margin = GenerateStandardThickness() };
+
+        private static Thickness GenerateStandardThickness() => new(20, 0, 0, 0);
+
+        private static Expander GenerateExpanderWithStackPanel(string headerName, object contentObject, HashSet<string> expandedHashset, string headerNameExtension = null)
+        {
+            var expander = new Expander
+            {
+                Name = headerName.AsObjectName(),
+                Header = $"{headerName} {headerNameExtension}",
+                Content = contentObject,
+                IsExpanded = expandedHashset.Contains(headerName.AsObjectName())
+            };
+            expander.Expanded += (object _, RoutedEventArgs e) =>
+            {
+                expandedHashset.Add((e.Source as Expander).Name);
+            };
+            expander.Collapsed += (object _, RoutedEventArgs e) =>
+            {
+                expandedHashset.Remove((e.Source as Expander).Name);
+            };
+            return expander;
+        }
+
+        private static Expander GenerateExpanderWithStackPanel(string headerName, object contentObject, BoolWrapper expandedBoolWrapper, string headerNameExtension = null)
+        {
+            var expander = new Expander
+            {
+                Name = headerName.AsObjectName(),
+                Header = $"{headerName} {headerNameExtension}",
+                Content = contentObject,
+                IsExpanded = expandedBoolWrapper.Value
+            };
+            expander.Expanded += (object _, RoutedEventArgs e) =>
+            {
+                if (expander.Name == (e.Source as Expander).Name)
+                    expandedBoolWrapper.Value = true;
+            };
+            expander.Collapsed += (object _, RoutedEventArgs e) =>
+            {
+                if (expander.Name == (e.Source as Expander).Name)
+                    expandedBoolWrapper.Value = false;
+            };
+            return expander;
+        }
+
+        private class BoolWrapper
+        {
+            public bool Value { get; set; }
+            public BoolWrapper(bool value) { Value = value; }
+            public BoolWrapper() { }
+        }
+
         private Grid GenerateAutoStarGrid(List<KeyValuePair<string, string>> itemsForGrid)
         {
             var objectGrid = new Grid
             {
-                Margin = new Thickness(20, 0, 0, 0)
+                Margin = GenerateStandardThickness()
             };
             var colDef1 = new ColumnDefinition();
             var colDef2 = new ColumnDefinition();
@@ -40,7 +94,7 @@ namespace HK_Rando_4_Log_Display
                     : x.Value.StartsWith("<s>")
                     ? GetStrikethroughTextBlock(x.Value.Substring(3))
                     : GetStandardTextBlock(x.Value);
-                rightBlock.Margin = new Thickness(20, 0, 0, 0);
+                rightBlock.Margin = GenerateStandardThickness();
                 Grid.SetColumn(rightBlock, 1);
                 Grid.SetRow(rightBlock, i);
 

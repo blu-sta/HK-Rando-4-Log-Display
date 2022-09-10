@@ -91,8 +91,7 @@ namespace HK_Rando_4_Log_Display
             TrackerTransitionList.Items.Clear();
             foreach (var area in transitionsByRoomByArea)
             {
-                var roomStacker = new StackPanel();
-                roomStacker.Margin = new Thickness(20, 0, 0, 0);
+                var roomStacker = GenerateStackPanel();
 
                 var areaName = area.Key.WithoutUnderscores();
                 var areaExpanderName = areaName.AsObjectName();
@@ -102,7 +101,7 @@ namespace HK_Rando_4_Log_Display
                 var expander = new Expander
                 {
                     Name = areaExpanderName,
-                    Header = new TextBlock { Text = $"{areaName} [Rooms: {rooms.Count} / Transitions: {rooms.Sum(x => x.Value.Count)}]" },
+                    Header = $"{areaName} [Rooms: {rooms.Count} / Transitions: {rooms.Sum(x => x.Value.Count)}]",
                     Content = roomStacker,
                     IsExpanded = ExpandedTrackedZonesWithTransitions.Contains(areaExpanderName)
                 };
@@ -128,8 +127,7 @@ namespace HK_Rando_4_Log_Display
                     break;
             }
 
-            var transitionStacker = new StackPanel();
-            transitionStacker.Margin = new Thickness(20, 0, 0, 0);
+            var transitionStacker = GenerateStackPanel();
             transitions.ForEach(y =>
             {
                 transitionStacker.Children.Add(new TextBlock { Text = $"{y.Name.WithoutUnderscores()} --> {y.DestinationName.WithoutUnderscores()}" });
@@ -177,7 +175,7 @@ namespace HK_Rando_4_Log_Display
 
         private object GetTransitionsObject(List<TransitionWithDestination> transitions)
         {
-            var transtionStacker = new StackPanel { Margin = new Thickness(20, 0, 0, 0) };
+            var transtionStacker = GenerateStackPanel();
             transitions.ForEach(y => transtionStacker.Children.Add(new TextBlock { Text = $"{y.Name.WithoutUnderscores()} --> {y.DestinationName.WithoutUnderscores()}" }));
             return transtionStacker;
         }
@@ -200,11 +198,9 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void TrackerTransitionExpand_Click(object sender, RoutedEventArgs e)
-            => ExpandExpanders(TrackerTransitionList);
+        private void TrackerTransitionExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerTransitionList);
 
-        private void TrackerTransitionCollapse_Click(object sender, RoutedEventArgs e)
-            => CollapseExpanders(TrackerTransitionList);
+        private void TrackerTransitionCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(TrackerTransitionList);
 
         #endregion
 

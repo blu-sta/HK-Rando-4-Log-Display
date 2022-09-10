@@ -91,8 +91,7 @@ namespace HK_Rando_4_Log_Display
             HelperTransitionList.Items.Clear();
             foreach (var area in transitionsByRoomByArea)
             {
-                var roomStacker = new StackPanel();
-                roomStacker.Margin = new Thickness(20, 0, 0, 0);
+                var roomStacker = GenerateStackPanel();
 
                 var areaName = area.Key.WithoutUnderscores();
                 var areaExpanderName = areaName.AsObjectName();
@@ -102,7 +101,7 @@ namespace HK_Rando_4_Log_Display
                 var expander = new Expander
                 {
                     Name = areaExpanderName,
-                    Header = new TextBlock { Text = $"{areaName} [Rooms: {rooms.Count} / Transitions: {rooms.Sum(x => x.Value.Count)}]" },
+                    Header = $"{areaName} [Rooms: {rooms.Count} / Transitions: {rooms.Sum(x => x.Value.Count)}]",
                     Content = roomStacker,
                     IsExpanded = ExpandedZonesWithTransitions.Contains(areaExpanderName)
                 };
@@ -128,8 +127,7 @@ namespace HK_Rando_4_Log_Display
                     break;
             }
 
-            var transitionStacker = new StackPanel();
-            transitionStacker.Margin = new Thickness(20, 0, 0, 0);
+            var transitionStacker = GenerateStackPanel();
             transitions.ForEach(y =>
             {
                 switch (_settings.SelectedHelperTransitionOrder)
@@ -192,7 +190,7 @@ namespace HK_Rando_4_Log_Display
                     var transitionKvps = transitions.ToDictionary(x => $"{(x.IsOutOfLogic ? "*" : "")}{x.Name.WithoutUnderscores()}", x => GetAgeInMinutes(_referenceTime, x.TimeAdded)).ToList();
                     return GenerateAutoStarGrid(transitionKvps);
                 default:
-                    var transtionStacker = new StackPanel { Margin = new Thickness(20, 0, 0, 0) };
+                    var transtionStacker = GenerateStackPanel();
                     transitions.ForEach(y => transtionStacker.Children.Add(new TextBlock { Text = $"{(y.IsOutOfLogic ? "*" : "")}{y.Name.WithoutUnderscores()}" }));
                     return transtionStacker;
             }
@@ -216,11 +214,9 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void HelperTransitionExpand_Click(object sender, RoutedEventArgs e)
-            => ExpandExpanders(HelperTransitionList);
+        private void HelperTransitionExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(HelperTransitionList);
 
-        private void HelperTransitionCollapse_Click(object sender, RoutedEventArgs e)
-            => CollapseExpanders(HelperTransitionList);
+        private void HelperTransitionCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(HelperTransitionList);
 
         #endregion
 

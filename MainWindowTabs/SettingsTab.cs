@@ -52,17 +52,11 @@ namespace HK_Rando_4_Log_Display
                     return GenerateAutoStarGrid(internalSettings);
                 case JTokenType.Integer:
                 case JTokenType.String:
-                    var stringStacker = new StackPanel
-                    {
-                        Margin = new Thickness(20, 0, 0, 0)
-                    };
+                    var stringStacker = GenerateStackPanel();
                     stringStacker.Children.Add(new TextBlock { Text = $"{internalSettingValue.Value<string>()}" });
                     return stringStacker;
                 default:
-                    var defaultStacker = new StackPanel
-                    {
-                        Margin = new Thickness(20, 0, 0, 0)
-                    };
+                    var defaultStacker = GenerateStackPanel();
                     defaultStacker.Children.Add(new TextBlock { Text = $"Failed to read settings correctly" });
                     return defaultStacker;
             }

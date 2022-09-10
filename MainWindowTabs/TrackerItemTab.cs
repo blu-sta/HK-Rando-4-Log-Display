@@ -113,11 +113,9 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void TrackerItemExpand_Click(object sender, RoutedEventArgs e)
-            => ExpandExpanders(TrackerItemList);
+        private void TrackerItemExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerItemList);
 
-        private void TrackerItemCollapse_Click(object sender, RoutedEventArgs e)
-            => CollapseExpanders(TrackerItemList);
+        private void TrackerItemCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(TrackerItemList);
 
         #endregion
 

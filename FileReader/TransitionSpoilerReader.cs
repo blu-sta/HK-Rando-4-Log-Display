@@ -98,7 +98,6 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea() =>
             _spoilerTransitions.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
 
-        public List<TransitionWithDestination> GetTransitions() 
-            => _spoilerTransitions;
+        public List<TransitionWithDestination> GetTransitions() => _spoilerTransitions;
     }
 }

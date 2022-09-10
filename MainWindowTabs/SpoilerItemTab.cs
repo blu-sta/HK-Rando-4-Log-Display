@@ -123,11 +123,9 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void SpoilerItemExpand_Click(object sender, RoutedEventArgs e)
-            => ExpandExpanders(SpoilerItemList);
+        private void SpoilerItemExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(SpoilerItemList);
 
-        private void SpoilerItemCollapse_Click(object sender, RoutedEventArgs e)
-            => CollapseExpanders(SpoilerItemList);
+        private void SpoilerItemCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(SpoilerItemList);
 
         #endregion
     }

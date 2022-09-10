@@ -26,10 +26,10 @@ namespace HK_Rando_4_Log_Display.Utils
             var minutesString = minutes == 1 ? "1 min" : $"{minutes} mins";
 
             if (totalHours == 1)
-                return $"1 hr ${minutesString} ago";
+                return $"1 hr {minutesString} ago";
 
             if (totalHours < 24)
-                return $"{totalHours} hrs ${minutesString} ago";
+                return $"{totalHours} hrs {minutesString} ago";
 
             var totalDays = totalHours / 24;
             var hours = totalHours % 24;
@@ -37,7 +37,7 @@ namespace HK_Rando_4_Log_Display.Utils
             var hourMinutesString = $"{hours}:{minutes:00} hrs";
 
             return totalDays == 1
-                ? $"1 day ${hourMinutesString} ago"
+                ? $"1 day {hourMinutesString} ago"
                 : $"{totalDays} days {hourMinutesString} ago";
         }
     }
