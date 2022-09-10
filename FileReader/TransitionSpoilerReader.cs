@@ -11,19 +11,16 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         public List<TransitionWithDestination> GetTransitions();
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea();
-
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea();
-
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom();
-
         public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea();
-
         public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea();
     }
 
     public class TransitionSpoilerReader : ITransitionSpoilerReader
     {
         private readonly IResourceLoader _resourceLoader;
+        private readonly List<TransitionWithDestination> _spoilerTransitions = new();
 
         public bool IsFileFound { get; private set; }
 
@@ -47,8 +44,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             LoadTransitionSpoiler(transitionSpoilerData);
         }
-
-        private List<TransitionWithDestination> _spoilerTransitions = new List<TransitionWithDestination>();
 
         private void LoadTransitionSpoiler(List<string> transitionSpoilerData)
         {

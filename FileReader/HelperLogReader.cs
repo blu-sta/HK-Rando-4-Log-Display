@@ -11,33 +11,19 @@ namespace HK_Rando_4_Log_Display.FileReader
     public interface IHelperLogReader : ILogReader
     {
         public void SaveState();
-
         public Dictionary<string, List<LocationWithTime>> GetLocationsByTitledArea();
-
         public Dictionary<string, List<LocationWithTime>> GetLocationsByMapArea();
-
         public Dictionary<string, List<LocationWithTime>> GetLocationsByRoom();
-
         public Dictionary<string, Dictionary<string, List<LocationWithTime>>> GetLocationsByRoomByTitledArea();
-
         public Dictionary<string, Dictionary<string, List<LocationWithTime>>> GetLocationsByRoomByMapArea();
-
         public List<LocationWithTime> GetLocations();
-
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedLocations();
-
         public Dictionary<string, List<PreviewedItemAtLocation>> GetPreviewedItems();
-
         public Dictionary<string, List<TransitionWithTime>> GetTransitionsByTitledArea();
-
         public Dictionary<string, List<TransitionWithTime>> GetTransitionsByMapArea();
-
         public Dictionary<string, List<TransitionWithTime>> GetTransitionsByRoom();
-
         public Dictionary<string, Dictionary<string, List<TransitionWithTime>>> GetTransitionsByRoomByMapArea();
-
         public Dictionary<string, Dictionary<string, List<TransitionWithTime>>> GetTransitionsByRoomByTitledArea();
-
         public List<TransitionWithTime> GetTransitions();
     }
 

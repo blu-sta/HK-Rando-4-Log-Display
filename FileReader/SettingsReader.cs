@@ -9,15 +9,15 @@ namespace HK_Rando_4_Log_Display.FileReader
     public interface ISettingsReader : ILogReader
     {
         public string GetSeed();
-
         public string GetMode();
-
         public JObject GetSettings();
     }
 
 
     public class SettingsReader : ISettingsReader
     {
+        private JObject _settings;
+
         public bool IsFileFound { get; private set; }
 
         public SettingsReader()
@@ -39,8 +39,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             LoadSettings(settingsData);
         }
-
-        private JObject _settings;
 
         private void LoadSettings(List<string> trackerLogData)
         {
@@ -66,24 +64,19 @@ namespace HK_Rando_4_Log_Display.FileReader
         public string GetMode()
         {
             var transitionSettings = _settings?["TransitionSettings"];
+            string mode = transitionSettings?["Mode"]?.ToString();
 
-            switch (transitionSettings?["Mode"]?.ToString())
+            return mode switch
             {
-                case "None":
-                    return "Item Rando";
-                case "MapAreaRandomizer":
-                    return "Map Rando";
-                case "FullAreaRandomizer":
-                    return "Area Rando";
-                case "RoomRandomizer":
-                    return "Room Rando";
-                default:
-                    return "";
-            }
+                "None" => "Item Rando",
+                "MapAreaRandomizer" => "Map Rando",
+                "FullAreaRandomizer" => "Area Rando",
+                "RoomRandomizer" => "Room Rando",
+                _ => mode,
+            };
         }
 
-        public JObject GetSettings() => 
-            _settings;
+        public JObject GetSettings() => _settings;
 
     }
 }
