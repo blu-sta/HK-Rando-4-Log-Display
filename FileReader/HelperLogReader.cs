@@ -87,13 +87,19 @@ namespace HK_Rando_4_Log_Display.FileReader
                         _resourceLoader.Locations.FirstOrDefault(y => y.Name == (x.StartsWith("*") ? x.Replace("*", "") : x))
                             ?? new Location {
                                 Name = x.StartsWith("*") ? x.Replace("*", "") : x,
-                                MapArea = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined",
-                                TitledArea = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined",
-                                SceneName = x.Contains("-") ? $"> {x.Split('-')[0]}" : "undefined"
+                                MapArea = GetUnrecognisedLocationDefault(x),
+                                TitledArea = GetUnrecognisedLocationDefault(x),
+                                SceneName = GetUnrecognisedLocationDefault(x)
                             },
                         _referenceTime,
                         x.StartsWith("*"))));
         }
+
+        private string GetUnrecognisedLocationDefault(string x) =>
+            !x.Contains("-") ? "undefined" : RemoveInitialStar(x.Split('-')[0]);
+
+        private static string RemoveInitialStar(string x) =>
+            x.StartsWith("*") ? x.Replace("*", "") : x;
 
         public Dictionary<string, List<LocationWithTime>> GetLocationsByTitledArea() =>
             _helperLogLocations.Values.GroupBy(x => x.TitledArea)
