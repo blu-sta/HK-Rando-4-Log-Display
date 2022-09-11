@@ -96,7 +96,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private string GetUnrecognisedLocationDefault(string x) =>
-            !x.Contains("-") ? "undefined" : RemoveInitialStar(x.Split('-')[0]);
+            !x.Contains("-") ? "undefined" : $"> {RemoveInitialStar(x.Split('-')[0])}";
 
         private static string RemoveInitialStar(string x) =>
             x.StartsWith("*") ? x.Replace("*", "") : x;
