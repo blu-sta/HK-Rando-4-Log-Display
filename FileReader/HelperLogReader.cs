@@ -159,9 +159,9 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                         if (locationPool == "Hunter's_Notes")
                         {
-                            var regexMatches = Regex.Match(itemLine, "Defeat (\\d+) .* to decipher the ([\\w\\s]+)");
-                            var killsRequired = regexMatches.Groups[1].Value;
-                            var itemProvided = regexMatches.Groups[2].Value;
+                            var killCountMatches = Regex.Matches(itemLine, "Defeat (\\d+) more");
+                            var killsRequired = string.Join("/", killCountMatches.Select(x => x.Groups[1].Value).OrderBy(x => x));
+                            var itemProvided = Regex.Match(itemLine, "to decipher the (.+)\\.").Groups[1].Value;
                             itemLine = $"{itemProvided}  -  Defeat {killsRequired}";
                         }
 
@@ -171,12 +171,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                         foreach (var itemName in itemNames.Split(",").Select(x => x.Trim()))
                         {
-                            if (itemName == "...")
-                            {
-                                continue;
-                            }
-
-                            string itemPool = ConvertSplitItemsToSkills(GetPreviewedItemPool(itemName));
+                            string itemPool = itemName.Contains("...") ? "Area Blitz ..." : ConvertSplitItemsToSkills(GetPreviewedItemPool(itemName));
 
                             _helperLogPreviewedItemsAtLocations.Add(new PreviewedItemAtLocation
                             {
@@ -186,7 +181,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                                 ItemName = itemName,
                                 ItemPool = itemPool.AddSpacesBeforeCapitals(true),
                                 ItemCost = itemCost,
-                                ItemCostValue = int.TryParse(Regex.Match(itemCost, "\\d+").Value, out var cost) ? cost : 0,
+                                ItemCostValue = locationPool != "Hunter's_Notes" ? (int.TryParse(Regex.Match(itemCost, "\\d+").Value, out var cost) ? cost : 0) : 0,
                                 SecondaryCostValue = int.TryParse(Regex.Match(itemCost, "(\\d+)(\\D+)(\\d+)").Groups[3].Value, out var secondaryCost) ? secondaryCost : 0
                             });
                         }
@@ -208,6 +203,9 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             if (itemName.Contains("Journal Entry"))
                 return "Journal Entry";
+
+            if (itemName.Contains("Hunter's Notes"))
+                return "Hunter's Notes";
 
             return GetPreviewItemPool(itemName);
         }

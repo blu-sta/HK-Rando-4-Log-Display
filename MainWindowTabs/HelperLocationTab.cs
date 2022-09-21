@@ -1,8 +1,9 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
-using System;
+using HK_Rando_4_Log_Display.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -137,10 +138,10 @@ namespace HK_Rando_4_Log_Display
                     }
                 });
 
-                poolStacker.Children.Add(GenerateExpanderWithStackPanel(pool, locationStacker, ExpandedPreviewedLocationPools));
+                poolStacker.Children.Add(GenerateExpanderWithContent(pool, locationStacker, ExpandedPreviewedLocationPools));
             });
 
-            HelperLocationList.Items.Add(GenerateExpanderWithStackPanel("Previewed Locations", poolStacker, _expandPreviewedLocationSection));
+            HelperLocationList.Items.Add(GenerateExpanderWithContent("Previewed Locations", poolStacker, _expandPreviewedLocationSection));
         }
 
         private void GetPreviewedItems()
@@ -155,24 +156,19 @@ namespace HK_Rando_4_Log_Display
             previewedItems.OrderBy(x => x.Key).ToList().ForEach(poolWithLocations =>
             {
                 var pool = poolWithLocations.Key.WithoutUnderscores();
-                var locationStacker = GenerateStackPanel();
-                poolWithLocations.Value.OrderBy(x => x.LocationName).GroupBy(x => x.LocationName).ToDictionary(x => x.Key, x => x.ToList()).ToList().ForEach(locationWithItems =>
-                {
-                    var location = locationWithItems.Key;
-                    var itemsWithLocationsAndCosts = locationWithItems.Value
-                        .OrderBy(x => x.SecondaryCostValue)
-                        .ThenBy(x => x.ItemCostValue)
-                        .ThenBy(x => x.ItemName)
-                        .Select(x => new KeyValuePair<string, string>(x.ItemName, $"at {x.LocationName} {(!string.IsNullOrWhiteSpace(x.ItemCost) ? $"({x.ItemCost})" : "")}"))
+                var itemsWithLocationsAndCosts = poolWithLocations.Value
+                        .OrderBy(x =>
+                        {
+                            var startNumbers = Regex.Match(x.ItemName, "^(\\d+)").Groups[1].Value;
+                            return string.IsNullOrEmpty(startNumbers) ? x.ItemName : startNumbers;
+                        }, new SemiNumericComparer())
+                        .Select(x => new KeyValuePair<string, string>(x.ItemName, $"at {x.LocationName}{(!string.IsNullOrWhiteSpace(x.ItemCost) ? $" ({x.ItemCost})" : "")}"))
                         .ToList();
 
-                    locationStacker.Children.Add(GenerateAutoStarGrid(itemsWithLocationsAndCosts));
-                });
-
-                poolStacker.Children.Add(GenerateExpanderWithStackPanel(pool, locationStacker, ExpandedPreviewedItemPools));
+                poolStacker.Children.Add(GenerateExpanderWithContent(pool, GenerateAutoStarGrid(itemsWithLocationsAndCosts), ExpandedPreviewedItemPools));
             });
 
-            HelperLocationList.Items.Add(GenerateExpanderWithStackPanel("Previewed Items", poolStacker, _expandPreviewedItemSection));
+            HelperLocationList.Items.Add(GenerateExpanderWithContent("Previewed Items", poolStacker, _expandPreviewedItemSection));
         }
 
         private void UpdateHelperLocationListWithLocationsByZone(Dictionary<string, List<LocationWithTime>> locationsByZone)
@@ -188,7 +184,7 @@ namespace HK_Rando_4_Log_Display
                     2 => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                     _ => locations.OrderBy(x => x.Name).ToList(),
                 };
-                HelperLocationList.Items.Add(GenerateExpanderWithStackPanel(zoneName, GetLocationsObject(locations), ExpandedZonesWithLocations, $"[Locations: {locations.Count}]"));
+                HelperLocationList.Items.Add(GenerateExpanderWithContent(zoneName, GetLocationsObject(locations), ExpandedZonesWithLocations, $"[Locations: {locations.Count}]"));
             }
         }
 
@@ -204,7 +200,7 @@ namespace HK_Rando_4_Log_Display
                 var rooms = area.Value.OrderBy(x => x.Key).ToList();
                 rooms.ForEach(x => roomStacker.Children.Add(GetRoomWithLocationsExpander(x)));
 
-                HelperLocationList.Items.Add(GenerateExpanderWithStackPanel(areaName, roomStacker, ExpandedZonesWithLocations, $"[Rooms: {rooms.Count} / Locations: {rooms.Sum(x => x.Value.Count)}]"));
+                HelperLocationList.Items.Add(GenerateExpanderWithContent(areaName, roomStacker, ExpandedZonesWithLocations, $"[Rooms: {rooms.Count} / Locations: {rooms.Sum(x => x.Value.Count)}]"));
             }
         }
 
@@ -233,7 +229,7 @@ namespace HK_Rando_4_Log_Display
                         break;
                 }
             });
-            return GenerateExpanderWithStackPanel(roomName, GetLocationsObject(locations), ExpandedRoomsWithLocations, $"[Locations: {locations.Count}]");
+            return GenerateExpanderWithContent(roomName, GetLocationsObject(locations), ExpandedRoomsWithLocations, $"[Locations: {locations.Count}]");
         }
 
         private void UpdateHelperLocationListWithLocations(List<LocationWithTime> locations)

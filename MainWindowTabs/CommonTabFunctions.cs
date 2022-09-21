@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace HK_Rando_4_Log_Display
 {
@@ -13,7 +14,7 @@ namespace HK_Rando_4_Log_Display
 
         private static Thickness GenerateStandardThickness() => new(20, 0, 0, 0);
 
-        private static Expander GenerateExpanderWithStackPanel(string headerName, object contentObject, HashSet<string> expandedHashset, string headerNameExtension = null)
+        private static Expander GenerateExpanderWithContent(string headerName, object contentObject, HashSet<string> expandedHashset, string headerNameExtension = null)
         {
             var expander = new Expander
             {
@@ -33,7 +34,7 @@ namespace HK_Rando_4_Log_Display
             return expander;
         }
 
-        private static Expander GenerateExpanderWithStackPanel(string headerName, object contentObject, BoolWrapper expandedBoolWrapper, string headerNameExtension = null)
+        private static Expander GenerateExpanderWithContent(string headerName, object contentObject, BoolWrapper expandedBoolWrapper, string headerNameExtension = null)
         {
             var expander = new Expander
             {
@@ -68,10 +69,14 @@ namespace HK_Rando_4_Log_Display
             {
                 Margin = GenerateStandardThickness()
             };
-            var colDef1 = new ColumnDefinition();
-            var colDef2 = new ColumnDefinition();
-            colDef1.Width = new GridLength(1, GridUnitType.Auto);
-            colDef2.Width = new GridLength(1, GridUnitType.Star);
+            var colDef1 = new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            };
+            var colDef2 = new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            };
             objectGrid.ColumnDefinitions.Add(colDef1);
             objectGrid.ColumnDefinitions.Add(colDef2);
 
@@ -81,18 +86,18 @@ namespace HK_Rando_4_Log_Display
                 objectGrid.RowDefinitions.Add(rowDef);
 
                 var leftBlock = x.Key.StartsWith("<b>")
-                    ? GetBoldTextBlock(x.Key.Substring(3))
+                    ? GetBoldTextBlock(x.Key[3..])
                     : x.Key.StartsWith("<s>")
-                    ? GetStrikethroughTextBlock(x.Key.Substring(3))
+                    ? GetStrikethroughTextBlock(x.Key[3..])
                     : GetStandardTextBlock(x.Key);
 
                 Grid.SetColumn(leftBlock, 0);
                 Grid.SetRow(leftBlock, i);
 
                 var rightBlock = x.Value.StartsWith("<b>")
-                    ? GetBoldTextBlock(x.Value.Substring(3))
+                    ? GetBoldTextBlock(x.Value[3..])
                     : x.Value.StartsWith("<s>")
-                    ? GetStrikethroughTextBlock(x.Value.Substring(3))
+                    ? GetStrikethroughTextBlock(x.Value[3..])
                     : GetStandardTextBlock(x.Value);
                 rightBlock.Margin = GenerateStandardThickness();
                 Grid.SetColumn(rightBlock, 1);
@@ -104,15 +109,15 @@ namespace HK_Rando_4_Log_Display
             return objectGrid;
         }
 
-        private TextBlock GetBoldTextBlock(string message)
+        private static TextBlock GetBoldTextBlock(string message)
         {
             var textBlock = new TextBlock { Text = "" };
             textBlock.Inlines.Add(new Run(message) { FontWeight = FontWeights.Bold });
             return textBlock;
         }
 
-        private TextBlock GetStrikethroughTextBlock(string message) => new TextBlock { Text = message, TextDecorations = TextDecorations.Strikethrough };
+        private static TextBlock GetStrikethroughTextBlock(string message) => new() { Text = message, TextDecorations = TextDecorations.Strikethrough };
 
-        private TextBlock GetStandardTextBlock(string message) => new TextBlock { Text = message };
+        private static TextBlock GetStandardTextBlock(string message) => new() { Text = message };
     }
 }
