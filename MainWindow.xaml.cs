@@ -62,7 +62,7 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.AutoReset = true;
             dataExtractor.Enabled = true;
             
-            UpdateUX(() => Footer.Text = "v1.1.0 blu.sta");
+            UpdateUX(() => Footer.Text = "v1.1.0-beta-2 blu.sta");
             UpdateTabs();
         }
 
