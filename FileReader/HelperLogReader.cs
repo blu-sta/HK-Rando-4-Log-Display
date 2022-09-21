@@ -1,5 +1,6 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
+using HK_Rando_4_Log_Display.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -160,7 +161,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                         if (locationPool == "Hunter's_Notes")
                         {
                             var killCountMatches = Regex.Matches(itemLine, "Defeat (\\d+) more");
-                            var killsRequired = string.Join("/", killCountMatches.Select(x => x.Groups[1].Value).OrderBy(x => x));
+                            var killsRequired = string.Join("/", killCountMatches.Select(x => x.Groups[1].Value).OrderBy(x =>
+                            {
+                                var startNumbers = Regex.Match(x, "^(\\d+)").Groups[1].Value;
+                                return string.IsNullOrEmpty(startNumbers) ? x : startNumbers;
+                            }, new SemiNumericComparer()));
                             var itemProvided = Regex.Match(itemLine, "to decipher the (.+)\\.").Groups[1].Value;
                             itemLine = $"{itemProvided}  -  Defeat {killsRequired}";
                         }

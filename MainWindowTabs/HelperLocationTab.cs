@@ -116,7 +116,11 @@ namespace HK_Rando_4_Log_Display
                     var itemsWithCosts = locationWithItems.Value
                         .OrderBy(x => x.SecondaryCostValue)
                         .ThenBy(x => x.ItemCostValue)
-                        .ThenBy(x => x.ItemName)
+                        .ThenBy(x =>
+                        {
+                            var startNumbers = Regex.Match(x.ItemName, "^(\\d+)").Groups[1].Value;
+                            return string.IsNullOrEmpty(startNumbers) ? x.ItemName : startNumbers;
+                        }, new SemiNumericComparer())
                         .Select(x => new KeyValuePair<string, string>(x.ItemName, x.ItemCost))
                         .ToList();
 
