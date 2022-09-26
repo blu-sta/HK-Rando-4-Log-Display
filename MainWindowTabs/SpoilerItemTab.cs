@@ -94,7 +94,10 @@ namespace HK_Rando_4_Log_Display
         {
             var itemKvps = items.Select(x =>
             {
-                var isInTrackerLog = trackedItems.Any(y => y.Name == x.Name && y.Location == x.Location);
+                var itemLocationWithoutCost = x.Location.Split(" ")[0];
+                var isInTrackerLog = trackedItems.Any(y => y.Name == x.Name && y.Location == itemLocationWithoutCost) ||
+                // TODO: Separate this, and make spoiler report the tracked item so you can see what order you got them in
+                IsProgressiveItemMatch(x, trackedItems);
                 return new KeyValuePair<string, string>(
                     $"{(isInTrackerLog ? "<s>" : "")}{x.Name.WithoutUnderscores()}",
                     $"{(isInTrackerLog ? "<s>" : "")}found at {x.Location.WithoutUnderscores()}"
@@ -103,7 +106,39 @@ namespace HK_Rando_4_Log_Display
             return GenerateAutoStarGrid(itemKvps);
         }
 
-        private HashSet<string> ExpandedSpoilerPoolsWithItems = new HashSet<string>();
+        private static readonly string[] whiteFragments = new[] { "Queen_Fragment", "King_Fragment", "Kingsoul", "Void_Heart" };
+        private static readonly string[] greedCharms = new[] { "Fragile_Greed", "Unbreakable_Greed" };
+        private static readonly string[] heartCharms = new[] { "Fragile_Heart", "Unbreakable_Heart" };
+        private static readonly string[] strengthCharms = new[] { "Fragile_Strength", "Unbreakable_Strength" };
+        private static readonly string[] dreamNails = new[] { "Dream_Nail", "Dream_Gate", "Awoken_Dream_Nail" };
+        private static readonly string[] screams = new[] { "Howling_Wraiths", "Abyss_Shriek" };
+        private static readonly string[] quakes = new[] { "Desolate_Dive", "Descending_Dark" };
+        private static readonly string[] fireballs = new[] { "Vengeful_Spirit", "Shade_Soul" };
+        private static readonly string[] dashes = new[] { "Mothwing_Cloak", "Shade_Cloak" };
+        private static readonly string[][] progressiveItemBuckets = new[] { whiteFragments, greedCharms, heartCharms, strengthCharms, dreamNails, screams, quakes, fireballs, dashes };
+        private static readonly string[] allProgressiveItems = progressiveItemBuckets.SelectMany(x => x).ToArray();
+
+        // TODO: Also progressive: Split items
+        // TODO: If multiple levels are found at a single shop, this will say you got all of them... Fix??
+
+        private static bool IsProgressiveItemMatch(ItemWithLocation item, List<ItemWithLocation> trackedItems) =>
+            allProgressiveItems.Contains(item.Name) &&
+            progressiveItemBuckets.Any(x => IsItemTrackedAndFoundInProgressiveList(item, trackedItems, x));
+
+        private static bool IsItemTrackedAndFoundInProgressiveList(ItemWithLocation item, List<ItemWithLocation> trackedItems, string[] progressiveItemNames)
+        {
+            if (!progressiveItemNames.Contains(item.Name))
+                return false;
+
+            var trackedLocations = trackedItems.Where(x => progressiveItemNames.Contains(x.Name)).Select(x => x.Location).ToList();
+            if (!trackedLocations.Any())
+                return false;
+
+            var itemLocationWithoutCost = item.Location.Split(" ")[0];
+            return trackedLocations.Any(x => x == itemLocationWithoutCost);
+        }
+
+        private readonly HashSet<string> ExpandedSpoilerPoolsWithItems = new();
 
         #endregion
 
