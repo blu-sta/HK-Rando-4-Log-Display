@@ -287,6 +287,37 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new LocationImport { Name = "Bench-Palace_Workshop", SceneName = "White_Palace_08" },
                 new LocationImport { Name = "Bench-Throne_Approach", SceneName = "White_Palace_13" },
                 new LocationImport { Name = "Bench-Path_Midpoint", SceneName = "White_Palace_17" },
+
+                // More Doors
+                new LocationImport { Name = "MoreDoors-Bardoon's_Key-Great_Hopper-Left_of_Nailmaster_Oro", SceneName = "Deepnest_East_06" },
+                new LocationImport { Name = "MoreDoors-Broken_Key-Lesser_Mawlek-Basin_Cloth_by_Tram_Door", SceneName = "Abyss_17" },
+                new LocationImport { Name = "MoreDoors-Canyon_Key-Fungified_Husk-Fungal_Below_Cornifer", SceneName = "Fungus2_18" },
+                new LocationImport { Name = "MoreDoors-Core_Key-Mantis_Vault_Guardian", SceneName = "Fungus2_31" },
+                new LocationImport { Name = "MoreDoors-Crown_Key-Crystal_Hunter-Crystallized_Mound", SceneName = "Mines_35" },
+                new LocationImport { Name = "MoreDoors-Dark_Nest_Key-Carver_Hatcher-Next_to_Tram_Pass", SceneName = "Deepnest_26b" },
+                new LocationImport { Name = "MoreDoors-False_Key-Husk_Guard-Crossroads_Guarded_Grub", SceneName = "Crossroads_48" },
+                new LocationImport { Name = "MoreDoors-Flooded_Stag_Key-Greater_Husk_Sentry-City_Guarded_Grub", SceneName = "Ruins_House_01" },
+                new LocationImport { Name = "MoreDoors-Fountain_Key-Mistake-Soul_Master_Return", SceneName = "Ruins1_30" },
+                new LocationImport { Name = "MoreDoors-Fragile_Key-Shrumal_Ogre_1-Fungal_Charm_Notch", SceneName = "Fungus2_05" },
+                new LocationImport { Name = "MoreDoors-Fungal_Key-Shrumal_Ogre_2-Fungal_Charm_Notch", SceneName = "Fungus2_05" },
+                new LocationImport { Name = "MoreDoors-Garden_Key-Mossfly-Outside_Overgrown_Mound", SceneName = "Fungus3_44" },
+                new LocationImport { Name = "MoreDoors-Geo_Key-Primal_Aspid-Outside_Great_Hopper_Relic", SceneName = "Deepnest_East_07" },
+                new LocationImport { Name = "MoreDoors-Heart_Key-Husk_Miner-Deep_Focus_Breakable_Wall", SceneName = "Mines_05" },
+                new LocationImport { Name = "MoreDoors-Hive_Key-Hiveling-Hive_Outside_Grub", SceneName = "Hive_03" },
+                new LocationImport { Name = "MoreDoors-Isma's_Key-Pilflip-By_Isma's_Spike_Tunnel", SceneName = "Waterways_06" },
+                new LocationImport { Name = "MoreDoors-Joni's_Key-Left_Elder_Baldur-Baldur_Shell", SceneName = "Fungus1_28" },
+                new LocationImport { Name = "MoreDoors-Junk_Key-Belfly-Above_Flukemarm_Totem", SceneName = "Waterways_08" },
+                new LocationImport { Name = "MoreDoors-Lake_Key-Infected_Vengefly-Crossroads_Well", SceneName = "Crossroads_01" },
+                new LocationImport { Name = "MoreDoors-Mantis_Key-Mantis_Warrior-Above_Bretta_Bench", SceneName = "Fungus2_13" },
+                new LocationImport { Name = "MoreDoors-Moss_Key-Moss_Knight-Lake_of_Unn", SceneName = "Fungus1_26" },
+                new LocationImport { Name = "MoreDoors-Mothwing_Key-Moss_Knight-Greenpath_Life_Blood", SceneName = "Fungus1_32" },
+                new LocationImport { Name = "MoreDoors-Nest_Key-Mossy_Vagabond-Fungal_Prophet", SceneName = "Fungus3_39" },
+                new LocationImport { Name = "MoreDoors-Overgrown_Key-Gulka-MMC_Corridor", SceneName = "Fungus1_12" },
+                new LocationImport { Name = "MoreDoors-Pain_Key-Kingsmould-Palace_Entrance_Lever", SceneName = "Ruins1_05c" },
+                new LocationImport { Name = "MoreDoors-Sanctum_Key-Heavy_Sentry-Above_Lemm", SceneName = "Ruins1_05c" },
+                new LocationImport { Name = "MoreDoors-Shade_Key-Mawlurk-Broken_Vessel_Ascent", SceneName = "Abyss_20" },
+                new LocationImport { Name = "MoreDoors-Traitor's_Key-Mantis_Traitor-Love_Key", SceneName = "Fungus3_39" },
+                new LocationImport { Name = "MoreDoors-Village_Key-Stalking_Devout-Dark_Deepnest_Rancid_Egg", SceneName = "Deepnest_39" },
             };
             locationsWithScenes.ForEach(x =>
             {
@@ -317,6 +348,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string EggPool = "Egg";
         private const string SkillPool = "Skill";
         private const string BenchPool = "Bench";
+        private const string MoreDoorsPool = "Key - MoreDoors";
 
         private void AddCustomItems()
         {
@@ -332,6 +364,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             .Concat(GetRainbowEggs())
             .Concat(GetNailUpgrades())
             .Concat(GetBenches())
+            .Concat(GetMoreDoorsKeys())
             .ToList();
 
             itemsWithPools.ForEach(x =>
@@ -608,6 +641,40 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new Item { Name = "Bench-Palace_Workshop", Pool = BenchPool },
                 new Item { Name = "Bench-Throne_Approach", Pool = BenchPool },
                 new Item { Name = "Bench-Path_Midpoint", Pool = BenchPool },
+            };
+
+        private List<Item> GetMoreDoorsKeys() =>
+            new()
+            {
+                new Item { Name = "MoreDoors-Bardoon's_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Broken_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Canyon_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Core_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Crown_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Dark_Nest_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-False_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Flooded_Stag_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Fountain_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Fragile_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Fungal_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Garden_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Geo_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Heart_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Hive_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Isma's_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Joni's_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Junk_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Lake_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Mantis_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Moss_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Mothwing_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Nest_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Overgrown_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Pain_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Sanctum_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Shade_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Traitor's_Key", Pool = MoreDoorsPool },
+                new Item { Name = "MoreDoors-Village_Key", Pool = MoreDoorsPool },
             };
 
         private void SetupItemPreviews()
