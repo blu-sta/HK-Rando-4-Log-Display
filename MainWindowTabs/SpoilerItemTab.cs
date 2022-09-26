@@ -96,7 +96,6 @@ namespace HK_Rando_4_Log_Display
             {
                 var itemLocationWithoutCost = x.Location.Split(" ")[0];
                 var isInTrackerLog = trackedItems.Any(y => y.Name == x.Name && y.Location == itemLocationWithoutCost) ||
-                // TODO: Separate this, and make spoiler report the tracked item so you can see what order you got them in
                 IsProgressiveItemMatch(x, trackedItems);
                 return new KeyValuePair<string, string>(
                     $"{(isInTrackerLog ? "<s>" : "")}{x.Name.WithoutUnderscores()}",
@@ -115,10 +114,10 @@ namespace HK_Rando_4_Log_Display
         private static readonly string[] quakes = new[] { "Desolate_Dive", "Descending_Dark" };
         private static readonly string[] fireballs = new[] { "Vengeful_Spirit", "Shade_Soul" };
         private static readonly string[] dashes = new[] { "Mothwing_Cloak", "Shade_Cloak" };
-        private static readonly string[][] progressiveItemBuckets = new[] { whiteFragments, greedCharms, heartCharms, strengthCharms, dreamNails, screams, quakes, fireballs, dashes };
+        private static readonly string[] splitDashes = new[] { "Left_Mothwing_Cloak", "Right_Mothwing_Cloak", "Split_Shade_Cloak" };
+        private static readonly string[][] progressiveItemBuckets = new[] { whiteFragments, greedCharms, heartCharms, strengthCharms, dreamNails, screams, quakes, fireballs, dashes, splitDashes };
         private static readonly string[] allProgressiveItems = progressiveItemBuckets.SelectMany(x => x).ToArray();
 
-        // TODO: Also progressive: Split items
         // TODO: If multiple levels are found at a single shop, this will say you got all of them... Fix??
 
         private static bool IsProgressiveItemMatch(ItemWithLocation item, List<ItemWithLocation> trackedItems) =>
