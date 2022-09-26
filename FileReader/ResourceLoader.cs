@@ -691,6 +691,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 LeverPool => GetLeverPreviewName(item.Name),
                 BenchPool => GetBenchPreviewName(item.Name),
+                MoreDoorsPool => GetMoreDoorsPreviewName(item.Name),
                 SkillUpgradePool => item.Name.AddSpacesBeforeCapitals(),
                 _ => item.Name.Replace("-", " ").Replace("_", " "),
             };
@@ -904,6 +905,9 @@ namespace HK_Rando_4_Log_Display.FileReader
                 "Bench-Path_Midpoint" => "Path Midpoint Bench",
                 _ => benchName,
             };
+
+        private string GetMoreDoorsPreviewName(string keyName) =>
+            keyName.Replace("MoreDoors-", "").Replace("_", " ");
 
         private void LoadTransitions()
         {
