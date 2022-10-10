@@ -5,105 +5,171 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-using static HK_Rando_4_Log_Display.Utils.Utils;
+using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
-        private void UpdateSpoilerItemTab()
+        private readonly HashSet<string> ExpandedSpoilerPoolsWithItems = new();
+        private readonly HashSet<string> ExpandedSpoilerPoolsWithLocations = new();
+        private bool _showSpoilerItemObtained = true;
+
+        private void UpdateSpoilerItemsTab()
         {
-            var trackedItems = _trackerLogReader.GetItems();
-            switch (_settings.SelectedSpoilerItemGrouping)
+            UpdateUX(() =>
             {
-                case 1:
-                    // All items
-                    var items = _itemSpoilerReader.GetItems();
-                    UpdateUX(() => UpdateSpoilerItemListWithItems(items, trackedItems));
-                    // Alphabetical
-                    // Find order
-                    break;
-                default:
-                    // Items by Pool
-                    var itemsByPool = _itemSpoilerReader.GetItemsByPool();
-                    UpdateUX(() => UpdateSpoilerItemListWithItemsByPool(itemsByPool, trackedItems));
-                    // Alphabetical
-                    // Find order
-                    break;
-            }
-        }
+                SpoilerItemsList.Items.Clear();
 
-        #region Items
+                var spoilerItemGrouping = (PoolGrouping)_appSettings.SelectedSpoilerItemGrouping;
+                var spoilerItemOrdering = (SpoilerSorting)_appSettings.SelectedSpoilerItemOrder;
 
-        #region ItemsByPool
+                var trackedItems = _trackerLogReader.GetItems();
 
-        private void UpdateSpoilerItemListWithItemsByPool(Dictionary<string, List<ItemWithLocation>> itemsByPool, List<ItemWithLocation> trackedItems)
-        {
-            SpoilerItemList.Items.Clear();
-            foreach (var pool in itemsByPool)
-            {
-                var poolName = pool.Key.WithoutUnderscores();
-                var poolExpanderName = poolName.AsObjectName();
-                var items = pool.Value;
-                switch (_settings.SelectedSpoilerItemOrder)
+                switch (spoilerItemGrouping)
                 {
-                    case 1:
-                        // Do nothing, the order is originally in time order
+                    case PoolGrouping.CuratedItems:
+                        UpdateSpoilerItems(_itemSpoilerReader.GetCuratedItemsByPool(), spoilerItemOrdering, trackedItems);
                         break;
+                    case PoolGrouping.AllItems:
+                        UpdateSpoilerItems(_itemSpoilerReader.GetItemsByPool(), spoilerItemOrdering, trackedItems);
+                        break;
+                    case PoolGrouping.AllLocations:
+                        UpdateSpoilerLocations(_itemSpoilerReader.GetLocationsByPool(), spoilerItemOrdering, trackedItems);
+                        break;
+                    case PoolGrouping.None:
                     default:
-                        items = items.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
+                        UpdateSpoilerItems(_itemSpoilerReader.GetItems(), spoilerItemOrdering, trackedItems);
                         break;
                 }
-                var expander = new Expander
-                {
-                    Name = poolExpanderName,
-                    Header = poolName,
-                    Content = GetSpoilerItemsObject(items, trackedItems),
-                    IsExpanded = ExpandedSpoilerPoolsWithItems.Contains(poolExpanderName)
-                };
-                expander.Expanded += (object _, RoutedEventArgs e) => ExpandedSpoilerPoolsWithItems.Add((e.Source as Expander).Name);
-                expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedSpoilerPoolsWithItems.Remove((e.Source as Expander).Name);
-                SpoilerItemList.Items.Add(expander);
-            }
-
+            });
         }
 
-        #endregion
-
-        #region Items
-
-        private void UpdateSpoilerItemListWithItems(List<ItemWithLocation> items, List<ItemWithLocation> trackedItems)
+        private void UpdateSpoilerItems(Dictionary<string, List<SpoilerItemWithLocation>> itemsByPool, SpoilerSorting ordering, List<ItemWithLocation> trackedItems)
         {
-            SpoilerItemList.Items.Clear();
-            var orderedItems = items.Select(x => x).ToList();
-            switch (_settings.SelectedSpoilerItemOrder)
+            foreach (var pool in itemsByPool)
             {
-                case 1:
-                    // Do nothing, the order is originally in time order
-                    break;
-                default:
-                    orderedItems = orderedItems.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
-                    break;
+                SpoilerItemsList.Items.Add(GetSpoilerPoolWithItemsExpander(pool, ExpandedSpoilerPoolsWithItems, ordering, trackedItems));
             }
-            SpoilerItemList.Items.Add(GetSpoilerItemsObject(orderedItems, trackedItems));
         }
 
-        #endregion
+        private void UpdateSpoilerLocations(Dictionary<string, List<SpoilerItemWithLocation>> locationsByPool, SpoilerSorting ordering, List<ItemWithLocation> trackedItems)
+        {
+            foreach (var pool in locationsByPool)
+            {
+                SpoilerItemsList.Items.Add(GetSpoilerPoolWithLocationsExpander(pool, ExpandedSpoilerPoolsWithLocations, ordering, trackedItems));
+            }
+        }
 
-        private object GetSpoilerItemsObject(List<ItemWithLocation> items, List<ItemWithLocation> trackedItems)
+        private void UpdateSpoilerItems(List<SpoilerItemWithLocation> items, SpoilerSorting ordering, List<ItemWithLocation> trackedItems)
+        {
+            var orderedItems = ordering switch
+            {
+                SpoilerSorting.Alpha => items.OrderBy(x => x.Item.Name).ToList(),
+                SpoilerSorting.SeedDefault => items.ToList(),
+                _ => items.OrderBy(x => x.Item.Name).ToList(),
+            };
+            var itemsWithLocationGrid = GetSpoiledItemsGrid(orderedItems, trackedItems);
+            SpoilerItemsList.Items.Add(itemsWithLocationGrid);
+        }
+
+        private Expander GetSpoilerPoolWithItemsExpander(KeyValuePair<string, List<SpoilerItemWithLocation>> poolWithItems, HashSet<string> expandedHashset, SpoilerSorting ordering, List<ItemWithLocation> trackedItems)
+        {
+            var poolName = poolWithItems.Key.WithoutUnderscores();
+            var orderedItems = (PoolGrouping)_appSettings.SelectedSpoilerItemGrouping == PoolGrouping.CuratedItems
+                ? poolWithItems.Value.ToList()
+                : ordering switch
+                {
+                    SpoilerSorting.Alpha => poolWithItems.Value.OrderBy(x => x.Item.Name).ThenBy(x => x.Location.Name).ToList(),
+                    SpoilerSorting.SeedDefault => poolWithItems.Value.ToList(),
+                    _ => poolWithItems.Value.OrderBy(x => x.Item.Name).ToList(),
+                };
+            var itemsWithLocationGrid = GetSpoiledItemsGrid(orderedItems, trackedItems);
+            return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset);
+        }
+
+        private Expander GetSpoilerPoolWithLocationsExpander(KeyValuePair<string, List<SpoilerItemWithLocation>> poolWithLocations, HashSet<string> expandedHashset, SpoilerSorting ordering, List<ItemWithLocation> trackedItems)
+        {
+            var poolName = poolWithLocations.Key.WithoutUnderscores();
+            var orderedLocations = ordering switch
+            {
+                SpoilerSorting.Alpha => poolWithLocations.Value.OrderBy(x => x.Location.Name).ThenBy(x => x.Item.Name).ToList(),
+                SpoilerSorting.SeedDefault => poolWithLocations.Value.ToList(),
+                _ => poolWithLocations.Value.OrderBy(x => x.Location.Name).ToList(),
+            };
+            var itemsWithLocationGrid = GetSpoiledLocationsGrid(orderedLocations, trackedItems);
+            return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset);
+        }
+
+        private Grid GetSpoiledItemsGrid(List<SpoilerItemWithLocation> items, List<ItemWithLocation> trackedItems)
         {
             var itemKvps = items.Select(x =>
             {
-                var itemLocationWithoutCost = x.Location.Split(" ")[0];
-                var isInTrackerLog = trackedItems.Any(y => y.Name == x.Name && y.Location == itemLocationWithoutCost) ||
-                IsProgressiveItemMatch(x, trackedItems);
+                var itemName = x.Item.Name;
+                var locationName = x.Location.Name;
+                var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
                 return new KeyValuePair<string, string>(
-                    $"{(isInTrackerLog ? "<s>" : "")}{x.Name.WithoutUnderscores()}",
-                    $"{(isInTrackerLog ? "<s>" : "")}found at {x.Location.WithoutUnderscores()}"
+                    $"{(isTracked ? "<s>" : "")}{x.Item.Name.WithoutUnderscores()}",
+                    $"{(isTracked ? "<s>" : "")}found at {x.Location.Name.WithoutUnderscores()}{(!string.IsNullOrEmpty(x.Cost) ? $" [{x.Cost}]" : "")}"
                 );
             }).ToList();
             return GenerateAutoStarGrid(itemKvps);
         }
+
+        private Grid GetSpoiledLocationsGrid(List<SpoilerItemWithLocation> locations, List<ItemWithLocation> trackedItems)
+        {
+            var locationKvps = locations.Select((x,i) =>
+            {
+                var itemName = x.Item.Name;
+                var locationName = x.Location.Name;
+                var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
+                return new KeyValuePair<string, string>(
+                    $"{(isTracked ? "<s>" : "")}{x.Location.Name.WithoutUnderscores()}",
+                    $"{(isTracked ? "<s>" : "")}provided {x.Item.Name.WithoutUnderscores()}{(!string.IsNullOrEmpty(x.Cost) ? $" [{x.Cost}]" : "")}"
+                );
+            }).ToList();
+            return GenerateAutoStarGrid(locationKvps);
+        }
+
+        private static bool IsTracked(string itemName, string locationName, List<ItemWithLocation> trackedItems)
+        {
+            var trackedLocations = trackedItems.Where(x => x.Location.Name == locationName).ToList();
+            if (!trackedLocations.Any())
+                return false;
+
+            var trackedItemWithLocation = trackedLocations.FirstOrDefault(y => y.Item.Name == itemName)
+                 ?? GetProgressiveItem(itemName, trackedLocations)
+                 ?? GetHunterItem(itemName, trackedLocations);
+
+            if (trackedItemWithLocation != null)
+            {
+                trackedItems.Remove(trackedItemWithLocation);
+                return true; 
+            }
+
+            return false;
+        }
+
+        private static ItemWithLocation GetProgressiveItem(string itemName, List<ItemWithLocation> trackedLocations) =>
+            allProgressiveItems.Contains(itemName)
+                ? progressiveItemBuckets.Select(x =>
+                        x.Contains(itemName)
+                            ? trackedLocations.FirstOrDefault(y => x.Contains(y.Item.Name))
+                            : null)
+                    .FirstOrDefault(x => x != null)
+                : null;
+
+        private static ItemWithLocation GetHunterItem(string itemName, List<ItemWithLocation> trackedLocations) =>
+            itemName.StartsWith("Hunter's_Notes") || itemName.StartsWith("Journal_Entry")
+                ? trackedLocations.FirstOrDefault(y => y.Item.Name == InvertHunterItemPool(itemName))
+                : null;
+
+        private static string InvertHunterItemPool(string itemName) =>
+            itemName.StartsWith("Hunter's_Notes")
+                ? itemName.Replace("Hunter's_Notes", "Journal_Entry")
+                : itemName.StartsWith("Journal_Entry")
+                ? itemName.Replace("Journal_Entry", "Hunter's_Notes")
+                : itemName;
 
         private static readonly string[] whiteFragments = new[] { "Queen_Fragment", "King_Fragment", "Kingsoul", "Void_Heart" };
         private static readonly string[] greedCharms = new[] { "Fragile_Greed", "Unbreakable_Greed" };
@@ -115,51 +181,49 @@ namespace HK_Rando_4_Log_Display
         private static readonly string[] fireballs = new[] { "Vengeful_Spirit", "Shade_Soul" };
         private static readonly string[] dashes = new[] { "Mothwing_Cloak", "Shade_Cloak" };
         private static readonly string[] splitDashes = new[] { "Left_Mothwing_Cloak", "Right_Mothwing_Cloak", "Split_Shade_Cloak" };
-        private static readonly string[][] progressiveItemBuckets = new[] { whiteFragments, greedCharms, heartCharms, strengthCharms, dreamNails, screams, quakes, fireballs, dashes, splitDashes };
+        private static readonly string[] rancidEggs = new[] { "Rancid_Egg", "Red_Egg", "Orange_Egg", "Yellow_Egg", "Green_Egg", "Cyan_Egg", "Blue_Egg", "Purple_Egg", "Pink_Egg", "Trans_Egg", "Rainbow_Egg", "Arcane_Eg" };
+        private static readonly string[] lanternShards = new[] { "Lantern_Shard", "Final_Lantern_Shard" };
+        private static readonly string[][] progressiveItemBuckets = new[] { whiteFragments, greedCharms, heartCharms, strengthCharms, dreamNails, screams, quakes, fireballs, dashes, splitDashes, rancidEggs, lanternShards };
         private static readonly string[] allProgressiveItems = progressiveItemBuckets.SelectMany(x => x).ToArray();
 
-        // TODO: If multiple levels are found at a single shop, this will say you got all of them... Fix??
+        #region Events
 
-        private static bool IsProgressiveItemMatch(ItemWithLocation item, List<ItemWithLocation> trackedItems) =>
-            allProgressiveItems.Contains(item.Name) &&
-            progressiveItemBuckets.Any(x => IsItemTrackedAndFoundInProgressiveList(item, trackedItems, x));
-
-        private static bool IsItemTrackedAndFoundInProgressiveList(ItemWithLocation item, List<ItemWithLocation> trackedItems, string[] progressiveItemNames)
+        private void SetSpoilerItemsTabButtonContent()
         {
-            if (!progressiveItemNames.Contains(item.Name))
-                return false;
-
-            var trackedLocations = trackedItems.Where(x => progressiveItemNames.Contains(x.Name)).Select(x => x.Location).ToList();
-            if (!trackedLocations.Any())
-                return false;
-
-            var itemLocationWithoutCost = item.Location.Split(" ")[0];
-            return trackedLocations.Any(x => x == itemLocationWithoutCost);
+            Spoiler_Item_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {SpoilerItemGroupingOptions[_appSettings.SelectedSpoilerItemGrouping]}");
+            var isCuratedPool = (PoolGrouping)_appSettings.SelectedSpoilerItemGrouping == PoolGrouping.CuratedItems;
+            Spoiler_Item_SortBy_Button.Content = !isCuratedPool 
+                ? GenerateButtonTextBlock($"Sort: {SpoilerItemOrderingOptions[_appSettings.SelectedSpoilerItemOrder]}")
+                : "Sort: Curated";
+            Spoiler_Item_SortBy_Button.IsEnabled = !isCuratedPool;
+            Spoiler_Item_Obtained_Button.Content = GenerateButtonTextBlock(_showSpoilerItemObtained ? "Obtained: Show" : "Obtained: Hide");
         }
 
-        private readonly HashSet<string> ExpandedSpoilerPoolsWithItems = new();
-
-        #endregion
-
-        #region 
-
-        private void SpoilerItemGrouping_Click(object sender, RoutedEventArgs e)
+        private void Spoiler_Item_GroupBy_Click(object sender, RoutedEventArgs e)
         {
-            _settings.SelectedSpoilerItemGrouping = (_settings.SelectedSpoilerItemGrouping + 1) % _spoilerItemGroupings.Length;
-            SpoilerItemGrouping.Content = _spoilerItemGroupings[(int)_settings.SelectedSpoilerItemGrouping];
+            _appSettings.SelectedSpoilerItemGrouping = (_appSettings.SelectedSpoilerItemGrouping + 1) % SpoilerItemGroupingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void SpoilerItemOrder_Click(object sender, RoutedEventArgs e)
+        private void Spoiler_Item_SortBy_Click(object sender, RoutedEventArgs e)
         {
-            _settings.SelectedSpoilerItemOrder = (_settings.SelectedSpoilerItemOrder + 1) % _spoilerItemOrders.Length;
-            SpoilerItemOrder.Content = _spoilerItemOrders[(int)_settings.SelectedSpoilerItemOrder];
+            _appSettings.SelectedSpoilerItemOrder = (_appSettings.SelectedSpoilerItemOrder + 1) % SpoilerItemOrderingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void SpoilerItemExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(SpoilerItemList);
+        private void Spoiler_Item_Obtained_Click(object sender, RoutedEventArgs e)
+        {
+            _showSpoilerItemObtained = !_showSpoilerItemObtained;
+            Dispatcher.Invoke(() => UpdateTabs());
+        }
 
-        private void SpoilerItemCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(SpoilerItemList);
+        private void Spoiler_Item_OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            _itemSpoilerReader.OpenFile();
+        }
+
+        private void Spoiler_Item_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(SpoilerItemsList);
+        private void Spoiler_Item_Collapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(SpoilerItemsList);
 
         #endregion
     }

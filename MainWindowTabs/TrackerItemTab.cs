@@ -5,117 +5,157 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+using static HK_Rando_4_Log_Display.Constants.Constants;
+using static HK_Rando_4_Log_Display.Utils.Utils;
+
 namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
-        private void UpdateTrackerItemTab()
+        private readonly HashSet<string> ExpandedPoolsWithItems = new();
+        private readonly HashSet<string> ExpandedPoolsWithLocations = new();
+        private bool _showTrackerItemsTime = true;
+
+        private void UpdateTrackerItemsTab()
         {
-            switch (_settings.SelectedTrackerItemGrouping)
+            UpdateUX(() =>
             {
-                case 1:
-                    // All items
-                    var items = _trackerLogReader.GetItems();
-                    UpdateUX(() => UpdateTrackerItemListWithItems(items));
-                    // Alphabetical
-                    // Find order
-                    break;
-                default:
-                    // Items by Pool
-                    var itemsByPool = _trackerLogReader.GetItemsByPool();
-                    UpdateUX(() => UpdateTrackerItemListWithItemsByPool(itemsByPool));
-                    // Alphabetical
-                    // Find order
-                    break;
-            }
-        }
+                TrackerItemsList.Items.Clear();
 
-        #region Items
+                var trackerItemGrouping = (PoolGrouping)_appSettings.SelectedTrackerItemGrouping;
+                var trackerItemOrdering = (Sorting)_appSettings.SelectedTrackerItemOrder;
 
-        #region ItemsByPool
-
-        private void UpdateTrackerItemListWithItemsByPool(Dictionary<string, List<ItemWithLocation>> itemsByPool)
-        {
-            TrackerItemList.Items.Clear();
-            foreach (var pool in itemsByPool)
-            {
-                var poolName = pool.Key.WithoutUnderscores();
-                var poolExpanderName = poolName.AsObjectName();
-                var items = pool.Value;
-                switch (_settings.SelectedTrackerItemOrder)
+                switch (trackerItemGrouping)
                 {
-                    case 1:
-                        // Do nothing, the order is originally in time order
+                    case PoolGrouping.CuratedItems:
+                        UpdateTrackerItems(_trackerLogReader.GetCuratedItemsByPool(), trackerItemOrdering);
                         break;
+                    case PoolGrouping.AllItems:
+                        UpdateTrackerItems(_trackerLogReader.GetItemsByPool(), trackerItemOrdering);
+                        break;
+                    case PoolGrouping.AllLocations:
+                        UpdateTrackerLocations(_trackerLogReader.GetLocationsByPool(), trackerItemOrdering);
+                        break;
+                    case PoolGrouping.None:
                     default:
-                        items = items.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
+                        UpdateTrackerItems(_trackerLogReader.GetItems(), trackerItemOrdering);
                         break;
                 }
-                var expander = new Expander
-                {
-                    Name = poolExpanderName,
-                    Header = poolName,
-                    Content = GetItemsObject(items),
-                    IsExpanded = ExpandedPoolsWithItems.Contains(poolExpanderName)
-                };
-                expander.Expanded += (object _, RoutedEventArgs e) => ExpandedPoolsWithItems.Add((e.Source as Expander).Name);
-                expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedPoolsWithItems.Remove((e.Source as Expander).Name);
-                TrackerItemList.Items.Add(expander);
-            }
-
+            });
         }
 
-        #endregion
-
-        #region Items
-
-        private void UpdateTrackerItemListWithItems(List<ItemWithLocation> items)
+        private void UpdateTrackerItems(Dictionary<string, List<ItemWithLocation>> itemsByPool, Sorting ordering)
         {
-            TrackerItemList.Items.Clear();
-            var orderedItems = items.Select(x => x).ToList();
-            switch (_settings.SelectedTrackerItemOrder)
+            foreach (var pool in itemsByPool)
             {
-                case 1:
-                    // Do nothing, the order is originally in time order
-                    break;
-                default:
-                    orderedItems = orderedItems.OrderBy(x => x.Name).ThenBy(x => x.Location).ToList();
-                    break;
+                TrackerItemsList.Items.Add(GetPoolWithItemsExpander(pool, ExpandedPoolsWithItems, ordering));
             }
-            TrackerItemList.Items.Add(GetItemsObject(orderedItems));
         }
 
-        #endregion
-
-        private object GetItemsObject(List<ItemWithLocation> items)
+        private void UpdateTrackerLocations(Dictionary<string, List<ItemWithLocation>> locationsByPool, Sorting ordering)
         {
-            var itemKvps = items.Select(x => new KeyValuePair<string, string>(x.Name.WithoutUnderscores(), $"found at {x.Location.WithoutUnderscores()}")).ToList();
+            foreach (var pool in locationsByPool)
+            {
+                TrackerItemsList.Items.Add(GetPoolWithLocationsExpander(pool, ExpandedPoolsWithLocations, ordering));
+            }
+        }
+
+        private void UpdateTrackerItems(List<ItemWithLocation> items, Sorting ordering)
+        {
+            var orderedItems = ordering switch
+            {
+                Sorting.Alpha => items.OrderBy(x => x.Item.Name).ToList(),
+                Sorting.Time => items.OrderBy(x => x.TimeAdded).ToList(),
+                _ => items.OrderBy(x => x.Item.Name).ToList(),
+            };
+            var itemsWithLocationGrid = GetTrackedItemsGrid(orderedItems);
+            TrackerItemsList.Items.Add(itemsWithLocationGrid);
+        }
+
+        private Expander GetPoolWithItemsExpander(KeyValuePair<string, List<ItemWithLocation>> poolWithItems, HashSet<string> expandedHashset, Sorting ordering)
+        {
+            var poolName = poolWithItems.Key.WithoutUnderscores();
+            var orderedItems = (PoolGrouping)_appSettings.SelectedTrackerItemGrouping == PoolGrouping.CuratedItems
+                ? poolWithItems.Value.ToList()
+                : ordering switch
+                {
+                    Sorting.Alpha => poolWithItems.Value.OrderBy(x => x.Item.Name).ThenBy(x => x.Location.Name).ToList(),
+                    Sorting.Time => poolWithItems.Value.OrderBy(x => x.TimeAdded).ToList(),
+                    _ => poolWithItems.Value.OrderBy(x => x.Item.Name).ToList(),
+                };
+            var itemsWithLocationGrid = GetTrackedItemsGrid(orderedItems);
+            return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset, $"[Obtained: {orderedItems.Count}]");
+        }
+
+        private Expander GetPoolWithLocationsExpander(KeyValuePair<string, List<ItemWithLocation>> poolWithLocations, HashSet<string> expandedHashset, Sorting ordering)
+        {
+            var poolName = poolWithLocations.Key.WithoutUnderscores();
+            var orderedLocations = ordering switch
+            {
+                Sorting.Alpha => poolWithLocations.Value.OrderBy(x => x.Location.Name).ThenBy(x => x.Item.Name).ToList(),
+                Sorting.Time => poolWithLocations.Value.OrderBy(x => x.TimeAdded).ToList(),
+                _ => poolWithLocations.Value.OrderBy(x => x.Location.Name).ToList(),
+            };
+            var itemsWithLocationGrid = GetTrackedLocationsGrid(orderedLocations);
+            return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset, $"[Provided: {orderedLocations.Count}]");
+        }
+
+        private Grid GetTrackedItemsGrid(List<ItemWithLocation> items)
+        {
+            var itemKvps = items.Select(x =>
+                new KeyValuePair<string, string>($"{x.Item.Name.WithoutUnderscores()}",
+                $"found at {x.Location.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
+            ).ToList();
             return GenerateAutoStarGrid(itemKvps);
         }
 
-        private HashSet<string> ExpandedPoolsWithItems = new HashSet<string>();
-
-        #endregion
+        private Grid GetTrackedLocationsGrid(List<ItemWithLocation> locations)
+        {
+            var locationKvps = locations.Select(x =>
+                new KeyValuePair<string, string>($"{x.Location.Name.WithoutUnderscores()}",
+                $"provided {x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
+            ).ToList();
+            return GenerateAutoStarGrid(locationKvps);
+        }
 
         #region Events
 
-        private void TrackerItemGrouping_Click(object sender, RoutedEventArgs e)
+        private void SetTrackerItemsTabButtonContent()
         {
-            _settings.SelectedTrackerItemGrouping = (_settings.SelectedTrackerItemGrouping + 1) % _trackerItemGroupings.Length;
-            TrackerItemGrouping.Content = _trackerItemGroupings[(int)_settings.SelectedTrackerItemGrouping];
+            Tracker_Item_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {TrackerItemGroupingOptions[_appSettings.SelectedTrackerItemGrouping]}");
+            var isCuratedPool = (PoolGrouping)_appSettings.SelectedTrackerItemGrouping == PoolGrouping.CuratedItems;
+            Tracker_Item_SortBy_Button.Content = !isCuratedPool
+                ? GenerateButtonTextBlock($"Sort: {TrackerItemOrderingOptions[_appSettings.SelectedTrackerItemOrder]}") 
+                : "Sort: Curated";
+            Tracker_Item_SortBy_Button.IsEnabled = !isCuratedPool;
+            Tracker_Item_Time_Button.Content = GenerateButtonTextBlock(_showTrackerItemsTime ? "Time: Show" : "Time: Hide");
+        }
+
+        private void Tracker_Item_GroupBy_Click(object sender, RoutedEventArgs e)
+        {
+            _appSettings.SelectedTrackerItemGrouping = (_appSettings.SelectedTrackerItemGrouping + 1) % TrackerItemGroupingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void TrackerItemOrder_Click(object sender, RoutedEventArgs e)
+        private void Tracker_Item_SortBy_Click(object sender, RoutedEventArgs e)
         {
-            _settings.SelectedTrackerItemOrder = (_settings.SelectedTrackerItemOrder + 1) % _trackerItemOrders.Length;
-            TrackerItemOrder.Content = _trackerItemOrders[(int)_settings.SelectedTrackerItemOrder];
+            _appSettings.SelectedTrackerItemOrder = (_appSettings.SelectedTrackerItemOrder + 1) % TrackerItemOrderingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void TrackerItemExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerItemList);
+        private void Tracker_Item_Time_Click(object sender, RoutedEventArgs e)
+        {
+            _showTrackerItemsTime = !_showTrackerItemsTime;
+            Dispatcher.Invoke(() => UpdateTabs());
+        }
 
-        private void TrackerItemCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(TrackerItemList);
+        private void Tracker_Item_OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            _trackerLogReader.OpenFile();
+        }
+
+        private void Tracker_Item_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerItemsList);
+        private void Tracker_Item_Collapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(TrackerItemsList);
 
         #endregion
 

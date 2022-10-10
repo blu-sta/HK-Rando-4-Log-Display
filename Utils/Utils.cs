@@ -1,15 +1,32 @@
 ﻿using System;
+using System.Linq;
 
 namespace HK_Rando_4_Log_Display.Utils
 {
     public class Utils
     {
-        public static string GetAgeInMinutes(DateTime referenceTime, DateTime time)
+        public static string ConcatStrings(params string[] strings)
         {
-            if ((int)(referenceTime - time).TotalDays > 10)
+            var stringsWithoutNulls = strings.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
+            if (stringsWithoutNulls.Length == 0)
+                return string.Empty;
+
+            if (stringsWithoutNulls.Length == 1)   
+                return stringsWithoutNulls[0];
+
+            return string.Join(" ", stringsWithoutNulls);
+        }
+
+        public static string GetAgeInMinutes(DateTime referenceTime, DateTime? time)
+        {
+            if (!time.HasValue)
+                return string.Empty;
+
+            if ((int)(referenceTime - time.Value).TotalDays > 10)
                 return $"A long time ago";
 
-            var totalMinutes = (int)(referenceTime - time).TotalMinutes;
+            var totalMinutes = (int)(referenceTime - time.Value).TotalMinutes;
 
             if (totalMinutes <= 0)
                 return "*new*";

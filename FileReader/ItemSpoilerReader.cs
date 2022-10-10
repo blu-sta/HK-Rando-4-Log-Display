@@ -1,21 +1,26 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+
+using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface IItemSpoilerReader : ILogReader
     {
-        public Dictionary<string, List<ItemWithLocation>> GetItemsByPool();
-        public List<ItemWithLocation> GetItems();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItemsByPool();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetItemsByPool();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetLocationsByPool();
+        public List<SpoilerItemWithLocation> GetItems();
     }
 
     public class ItemSpoilerReader : IItemSpoilerReader
     {
         private readonly IResourceLoader _resourceLoader;
-        private readonly List<ItemWithLocation> _spoilerItems = new();
+        private readonly List<SpoilerItemWithLocation> _spoilerItems = new();
 
         public bool IsFileFound { get; private set; }
 
@@ -27,17 +32,18 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public void LoadData()
         {
-            var filepath = Constants.ItemSpoilerLogPath;
-            if (!File.Exists(filepath))
+            IsFileFound = File.Exists(ItemSpoilerLogPath);
+            if (!IsFileFound)
             {
-                IsFileFound = false;
                 return;
             }
-
-            IsFileFound = true;
-            var itemSpoilerData = File.ReadAllLines(filepath).ToList();
-
+            var itemSpoilerData = File.ReadAllLines(ItemSpoilerLogPath).ToList();
             LoadItemSpoiler(itemSpoilerData);
+        }
+
+        public void OpenFile()
+        {
+            if (File.Exists(ItemSpoilerLogPath)) Process.Start("notepad.exe", ItemSpoilerLogPath);
         }
 
         private void LoadItemSpoiler(List<string> itemSpoilerData)
@@ -59,23 +65,399 @@ namespace HK_Rando_4_Log_Display.FileReader
             var spoilerItems = JsonConvert.DeserializeObject<List<SpoilerItem>>(itemSpoilerString);
             spoilerItems.ForEach(x =>
             {
-                var item = x.Item;
-                var location = x.Location;
+                var itemName = x.Item;
+                var locationName = x.Location;
+                // TODO: Improve cost string to be displayed
                 var cost = x.Costs != null ? string.Join(",", x.Costs) : null;
-                var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) 
-                    ?? new Item { Name = item, Pool = GetPool(location, item) };
 
-                var itemWithLocation = new ItemWithLocation(referenceItem, x.Costs == null ? location : $"{location} [{cost}]");
-                _spoilerItems.Add(itemWithLocation);
+                var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                    ?? new ReferenceItem
+                    {
+                        Name = itemName,
+                        Pool = locationName == "Start"
+                                ? "Start"
+                                : itemName.Contains("-")
+                                ? $"> {itemName.Split('-')[0]}"
+                                : "> Unrecognised Items",
+                    };
+                var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName)
+                    ?? new ReferenceLocation
+                    {
+                        Name = locationName,
+                        Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
+                        MapArea = "> Unrecognised Location",
+                        TitledArea = "> Unrecognised Location",
+                        SceneName = "> Unrecognised Location"
+                    };
+
+                _spoilerItems.Add(
+                       new SpoilerItemWithLocation
+                       {
+                           Item = new Item
+                           {
+                               Name = itemDetails.Name,
+                               Pool = itemDetails.Pool,
+                           },
+                           Location = new Location
+                           {
+                               Name = locationDetails.Name,
+                               Pool = locationDetails.Pool,
+                               MapArea = locationDetails.MapArea,
+                               TitledArea = locationDetails.TitledArea,
+                               SceneName = locationDetails.SceneName,
+                           },
+                           Cost = cost
+                       });
             });
         }
 
-        private static string GetPool(string location, string item) =>
-            location == "Start"
-                ? "Start"
-                : item.Contains("-")
-                    ? item.Split('-')[0]
-                    : "undefined";
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItemsByPool() =>
+            GetCuratedItems();
+
+        #region Curated Logic
+
+        private Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItems()
+        {
+            var kvps = new[] {
+                GetTrueEndingItems(),
+                GetMovementItems(),
+                GetSpells(),
+                GetDreamnails(),
+                GetNailArts(),
+                GetPaleOre(),
+                GetSignificantCharms(),
+                GetKeys(),
+                GetStags(),
+                GetGrimmFlames(),
+                GetGeoCaches(),
+                GetEssenceCaches()
+            }.Where(x => x.Value.Count > 0);
+            return kvps.ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetTrueEndingItems()
+        {
+            var poolName = "True Ending Items";
+            var dreamers = new[] {
+                "Lurien",
+                "Monomon",
+                "Herrah"
+            };
+            var dupeDreamer = new[]
+            {
+                "Dreamer"
+            };
+            var fragments = new[] {
+                "White_Fragment",
+                "King_Fragment",
+                "Queen_Fragment",
+                "Kingsoul",
+                "Void_Heart"
+            };
+            var trackedItems = new[] {
+                GetItems(dreamers),
+                GetItems(dupeDreamer),
+                GetItems(fragments)
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetMovementItems()
+        {
+            var poolName = "Movement abilities";
+            var dashes = new[] {
+                "Mothwing_Cloak",
+                "Left_Mothwing_Cloak",
+                "Right_Mothwing_Cloak",
+                "Shade_Cloak",
+                "Split_Shade_Cloak"
+            };
+            var claws = new[]
+            {
+                "Mantis_Claw",
+                "Left_Mantis_Claw",
+                "Right_Mantis_Claw"
+            };
+            var wings = new[]
+            {
+                "Monarch_Wings"
+            };
+            var cdash = new[] {
+                "Crystal_Heart",
+                "Left_Crystal_Heart",
+                "Right_Crystal_Heart"
+            };
+            var tear = new[]
+            {
+                "Isma's_Tear"
+            };
+            var swim = new[]
+            {
+                "Swim"
+            };
+            var trackedItems = new[] {
+                GetItems(dashes),
+                GetItems(claws),
+                GetItems(wings),
+                GetItems(cdash),
+                GetItems(tear),
+                GetItems(swim),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetSpells()
+        {
+            var poolName = "Spells";
+            var fireballs = new[] {
+                "Vengeful_Spirit",
+                "Shade_Soul",
+            };
+            var quakes = new[]
+            {
+                "Desolate_Dive",
+                "Descending_Dark",
+            };
+            var screams = new[]
+            {
+                "Howling_Wraiths",
+                "Abyss_Shriek",
+            };
+            var trackedItems = new[] {
+                GetItems(fireballs),
+                GetItems(quakes),
+                GetItems(screams),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetDreamnails()
+        {
+            var poolName = "Dream Nails";
+            var dreamNails = new[] {
+                "Dream_Nail",
+                "Dream_Gate",
+                "Awoken_Dream_Nail",
+            };
+            var trackedItems = new[] {
+                GetItems(dreamNails)
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetNailArts()
+        {
+            var poolName = "Nail Arts";
+            var nailArts = new[] {
+                "Great_Slash",
+                "Cyclone_Slash",
+                "Dash_Slash",
+            };
+            var trackedItems = new[] {
+                GetItems(nailArts)
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetPaleOre()
+        {
+            var poolName = "Pale Ore";
+            var paleOre = new[] {
+                "Pale_Ore",
+            };
+            var trackedItems = new[] {
+                GetItems(paleOre)
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetSignificantCharms()
+        {
+            var poolName = "Notable Charms";
+            var spellCharms = new[] {
+                "Shaman_Stone",
+                "Spell_Twister",
+                "Soul_Catcher",
+                "Soul_Eater",
+            };
+            var dreamWielder = new[]
+            {
+                "Dream_Wielder",
+            };
+            var speedCharms = new[]
+            {
+                "Dashmaster",
+                "Sprintmaster",
+                "Sharp_Shadow",
+            };
+            var nailCharms = new[]
+            {
+                "Quick_Slash",
+                "Fragile_Strength",
+                "Unbreakable_Strength",
+                "Nailmaster's_Glory"
+            };
+            var healthCharms = new[]
+            {
+                "Fragile_Heart",
+                "Unbreakable_Heart",
+                "Lifeblood_Heart",
+                "Lifeblood_Core",
+            };
+            var grimmChild = new[]
+            {
+                "Grimmchild1",
+                "Grimmchild2"
+            };
+            var trackedItems = new[] {
+                GetItems(spellCharms).ToList(),
+                GetItems(dreamWielder),
+                GetItems(speedCharms),
+                GetItems(nailCharms),
+                GetItems(healthCharms),
+                GetItems(grimmChild),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetKeys()
+        {
+            var poolName = "Keys";
+            var keys = new[] {
+                "City_Crest",
+                "Lumafly_Lantern",
+                "Tram_Pass",
+                "Simple_Key",
+                "Shopkeeper's_Key",
+                "Elegant_Key",
+                "Love_Key",
+                "King's_Brand",
+                "Elevator_Pass",
+            };
+            var trackedItems = new[] {
+                GetItems(keys),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetStags()
+        {
+            var poolName = "Stags";
+            var stags = new[] {
+                "Dirtmouth_Stag",
+                "Crossroads_Stag",
+                "Greenpath_Stag",
+                "Queen's_Station_Stag",
+                "Queen's_Gardens_Stag",
+                "City_Storerooms_Stag",
+                "King's_Station_Stag",
+                "Resting_Grounds_Stag",
+                "Distant_Village_Stag",
+                "Hidden_Station_Stag",
+                "Stag_Nest_Stag",
+            };
+            var trackedItems = new[] {
+                GetItems(stags),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetGrimmFlames()
+        {
+            var poolName = "Grimmkin Flames";
+            var flames = new[] {
+                "Grimmkin_Flame",
+            };
+            var trackedItems = new[] {
+                GetItems(flames),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetGeoCaches()
+        {
+            var poolName = "Geo Caches";
+            var arcaneEggs = new[]
+            {
+                "Arcane_Egg",
+            };
+            var kingsIdols = new[]
+            {
+                "King's_Idol",
+            };
+            var geoChests = new[] {
+                "Geo_Chest-False_Knight",
+                "Geo_Chest-Soul_Master",
+                "Geo_Chest-Watcher_Knights",
+                "Geo_Chest-Greenpath",
+                "Geo_Chest-Mantis_Lords",
+                "Geo_Chest-Resting_Grounds",
+                "Geo_Chest-Crystal_Peak",
+                "Geo_Chest-Weavers_Den",
+            };
+            var bossGeo = new[] {
+                "Boss_Geo-Massive_Moss_Charger",
+                "Boss_Geo-Gorgeous_Husk",
+                "Boss_Geo-Sanctum_Soul_Warrior",
+                "Boss_Geo-Elegant_Soul_Warrior",
+                "Boss_Geo-Crystal_Guardian",
+                "Boss_Geo-Enraged_Guardian",
+                "Boss_Geo-Gruz_Mother",
+                "Boss_Geo-Vengefly_King",
+            };
+            var fourTwentyRock = new[]
+            {
+                "Geo_Rock-Outskirts420"
+            };
+            var trackedItems = new[] {
+                GetItems(arcaneEggs),
+                GetItems(kingsIdols),
+                GetItems(geoChests),
+                GetItems(bossGeo),
+                GetItems(fourTwentyRock),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetEssenceCaches()
+        {
+            var poolName = "Essence Caches";
+            var dreamWarriors = new[] {
+                "Boss_Essence-Elder_Hu",
+                "Boss_Essence-Xero",
+                "Boss_Essence-Gorb",
+                "Boss_Essence-Marmu",
+                "Boss_Essence-No_Eyes",
+                "Boss_Essence-Galien",
+                "Boss_Essence-Markoth",
+            };
+            var dreamBosses = new[] {
+                "Boss_Essence-Failed_Champion",
+                "Boss_Essence-Soul_Tyrant",
+                "Boss_Essence-Lost_Kin",
+                "Boss_Essence-White_Defender",
+                "Boss_Essence-Grey_Prince_Zote",
+            };
+            var trackedItems = new[] {
+                GetItems(dreamWarriors),
+                GetItems(dreamBosses),
+            }.SelectMany(x => x).ToList();
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
+        }
+
+        private List<SpoilerItemWithLocation> GetItems(string[] itemsInPool) =>
+           _spoilerItems.Where(x => itemsInPool.Contains(x.Item.Name)).ToList();
+
+        #endregion
+
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetItemsByPool() =>
+            _spoilerItems.GroupBy(x => x.Item.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetLocationsByPool() =>
+            _spoilerItems.GroupBy(x => x.Location.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public List<SpoilerItemWithLocation> GetItems() => _spoilerItems.ToList();
+
 
         private class SpoilerItem
         {
@@ -83,10 +465,5 @@ namespace HK_Rando_4_Log_Display.FileReader
             public string Location { get; set; }
             public string[] Costs { get; set; }
         }
-
-        public Dictionary<string, List<ItemWithLocation>> GetItemsByPool() =>
-            _spoilerItems.GroupBy(x => x.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
-
-        public List<ItemWithLocation> GetItems() => _spoilerItems;
     }
 }

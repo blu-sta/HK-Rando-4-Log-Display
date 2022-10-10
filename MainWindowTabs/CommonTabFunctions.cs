@@ -1,15 +1,25 @@
 ﻿using HK_Rando_4_Log_Display.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media;
+using System.Windows.Threading;
+
+using static HK_Rando_4_Log_Display.Utils.Utils;
 
 namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
+        private static TextBlock GenerateButtonTextBlock(string text) => new()
+        {
+            Text = text,
+            TextWrapping = TextWrapping.WrapWithOverflow,
+            TextAlignment = TextAlignment.Center
+        };
+
         private static StackPanel GenerateStackPanel() => new() { Margin = GenerateStandardThickness() };
 
         private static Thickness GenerateStandardThickness() => new(20, 0, 0, 0);
@@ -19,7 +29,7 @@ namespace HK_Rando_4_Log_Display
             var expander = new Expander
             {
                 Name = headerName.AsObjectName(),
-                Header = $"{headerName} {headerNameExtension}",
+                Header = ConcatStrings(headerName, headerNameExtension),
                 Content = contentObject,
                 IsExpanded = expandedHashset.Contains(headerName.AsObjectName())
             };
@@ -39,7 +49,7 @@ namespace HK_Rando_4_Log_Display
             var expander = new Expander
             {
                 Name = headerName.AsObjectName(),
-                Header = $"{headerName} {headerNameExtension}",
+                Header = ConcatStrings(headerName, headerNameExtension),
                 Content = contentObject,
                 IsExpanded = expandedBoolWrapper.Value
             };
@@ -63,7 +73,7 @@ namespace HK_Rando_4_Log_Display
             public BoolWrapper() { }
         }
 
-        private Grid GenerateAutoStarGrid(List<KeyValuePair<string, string>> itemsForGrid)
+        private static Grid GenerateAutoStarGrid(List<KeyValuePair<string, string>> itemsForGrid)
         {
             var objectGrid = new Grid
             {
@@ -119,5 +129,44 @@ namespace HK_Rando_4_Log_Display
         private static TextBlock GetStrikethroughTextBlock(string message) => new() { Text = message, TextDecorations = TextDecorations.Strikethrough };
 
         private static TextBlock GetStandardTextBlock(string message) => new() { Text = message };
+
+        #region Events
+
+        private static void ExpandExpanders(ListBox listBox) =>
+            listBox.Items.OfType<Expander>().ToList().ForEach(x =>
+            {
+                x.IsExpanded = true;
+                (x.Content as StackPanel)?.Children.OfType<Expander>().ToList()
+                            .ForEach(x => x.IsExpanded = true);
+            });
+
+        private static void CollapseExpanders(ListBox listBox) =>
+            listBox.Items.OfType<Expander>().ToList().ForEach(x =>
+            {
+                (x.Content as StackPanel)?.Children.OfType<Expander>().ToList()
+                    .ForEach(x => x.IsExpanded = false);
+                x.IsExpanded = false;
+            });
+
+        private readonly DispatcherTimer _dispatcherTimer = new() { Interval = TimeSpan.FromSeconds(5) };
+
+        private void ShowInPopup(string message)
+        {
+            MainPopup_TextBox.Text = message;
+            MainPopup.IsOpen = true;
+
+            _dispatcherTimer.Stop();
+            _dispatcherTimer.Tick -= ClosePopup;
+            _dispatcherTimer.Start();
+            _dispatcherTimer.Tick += ClosePopup;
+        }
+
+        private void ClosePopup(object __, EventArgs _)
+        {
+            MainPopup.IsOpen = false;
+            _dispatcherTimer.Stop();
+        }
+
+        #endregion
     }
 }

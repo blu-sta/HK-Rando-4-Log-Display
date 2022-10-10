@@ -2,221 +2,159 @@
 using HK_Rando_4_Log_Display.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
+using static HK_Rando_4_Log_Display.Constants.Constants;
 using static HK_Rando_4_Log_Display.Utils.Utils;
 
 namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
-        private void UpdateHelperTransitionTab()
+        private readonly HashSet<string> ExpandedRoomsWithTransitions = new();
+        private readonly HashSet<string> ExpandedZonesWithTransitions = new();
+        private bool _showHelperTransitionsTime = true;
+
+        private void UpdateHelperTransitionsTab()
         {
-            switch (_settings.SelectedHelperTransitionGrouping)
+            UpdateUX(() =>
             {
-                case 2:
-                    // Transitions by Rooms by (Map) Area
-                    var transitionsByRoomByMapArea = _helperLogReader.GetTransitionsByRoomByMapArea();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByMapArea));
-                    break;
-                case 3:
-                    // Transitions by Rooms by (Titled) Area
-                    var transitionsByRoomByTitledArea = _helperLogReader.GetTransitionsByRoomByTitledArea();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByRoomByArea(transitionsByRoomByTitledArea));
-                    break;
-                case 4:
-                    // Transitions by Rooms
-                    var transitionsByRoom = _helperLogReader.GetTransitionsByRoom();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByRoom));
-                    break;
-                case 5:
-                    // All transitions
-                    var transitions = _helperLogReader.GetTransitions();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitions(transitions));
-                    break;
-                case 1:
-                    // Transitions by (Titled) Area
-                    var transitionsByTitledArea = _helperLogReader.GetTransitionsByTitledArea();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByTitledArea));
-                    break;
-                default:
-                    // Transitions by (Map) Area
-                    var transitionsByMapArea = _helperLogReader.GetTransitionsByMapArea();
-                    UpdateUX(() => UpdateHelperTransitionListWithTransitionsByZone(transitionsByMapArea));
-                    break;
-            }
-        }
+                HelperTransitionsList.Items.Clear();
 
-        #region Transitions
+                var helperTransitionGrouping = (RoomGrouping)_appSettings.SelectedHelperTransitionGrouping;
+                var helperTransitionOrdering = (Sorting)_appSettings.SelectedHelperTransitionOrder;
 
-        #region Transitions by Area OR Room
-
-        private void UpdateHelperTransitionListWithTransitionsByZone(Dictionary<string, List<TransitionWithTime>> transitionsByZone)
-        {
-            HelperTransitionList.Items.Clear();
-            foreach (var zone in transitionsByZone)
-            {
-                var zoneName = zone.Key.WithoutUnderscores();
-                var zoneExpanderName = zoneName.AsObjectName();
-                var transitions = zone.Value;
-                switch (_settings.SelectedHelperTransitionOrder)
+                switch (helperTransitionGrouping)
                 {
-                    case 2:
-                        transitions = transitions.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList();
+                    case RoomGrouping.MapArea:
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByMapArea(), helperTransitionOrdering);
                         break;
+                    case RoomGrouping.TitleArea:
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByTitledArea(), helperTransitionOrdering);
+                        break;
+                    case RoomGrouping.RoomMapArea:
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByMapArea(), helperTransitionOrdering);
+                        break;
+                    case RoomGrouping.RoomTitleArea:
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByTitledArea(), helperTransitionOrdering);
+                        break;
+                    case RoomGrouping.Room:
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoom(), helperTransitionOrdering);
+                        break;
+                    case RoomGrouping.None:
                     default:
-                        transitions = transitions.OrderBy(x => x.Name).ToList();
+                        UpdateHelperTransitions(_helperLogReader.GetTransitions(), helperTransitionOrdering);
                         break;
-                }
-                var expander = new Expander
-                {
-                    Name = zoneExpanderName,
-                    Header = $"{zoneName} [Transitions: {transitions.Count}]",
-                    Content = GetTransitionsObject(transitions),
-                    IsExpanded = ExpandedZonesWithTransitions.Contains(zoneExpanderName)
                 };
-                expander.Expanded += (object _, RoutedEventArgs e) => ExpandedZonesWithTransitions.Add((e.Source as Expander).Name);
-                expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedZonesWithTransitions.Remove((e.Source as Expander).Name);
-                HelperTransitionList.Items.Add(expander);
+            });
+        }
+
+        private void UpdateHelperTransitions(Dictionary<string, List<Transition>> transitionsByArea, Sorting ordering)
+        {
+            foreach (var area in transitionsByArea)
+            {
+                HelperTransitionsList.Items.Add(GetZoneWithTransitionsExpander(area, ExpandedZonesWithTransitions, ordering));
             }
         }
 
-        #endregion
-
-        #region Transitions by Rooms by Area
-
-        private void UpdateHelperTransitionListWithTransitionsByRoomByArea(Dictionary<string, Dictionary<string, List<TransitionWithTime>>> transitionsByRoomByArea)
+        private void UpdateHelperTransitions(Dictionary<string, Dictionary<string, List<Transition>>> transitionsByRoomByArea, Sorting ordering)
         {
-            HelperTransitionList.Items.Clear();
             foreach (var area in transitionsByRoomByArea)
             {
                 var roomStacker = GenerateStackPanel();
-
                 var areaName = area.Key.WithoutUnderscores();
-                var areaExpanderName = areaName.AsObjectName();
-                var rooms = area.Value.OrderBy(x => x.Key).ToList();
-                rooms.ForEach(x => roomStacker.Children.Add(GetRoomWithTransitionsExpander(x)));
-
-                var expander = new Expander
+                var roomsWithTransitions = area.Value.OrderBy(x => x.Key).ToList();
+                roomsWithTransitions.ForEach(roomWithTransitions =>
                 {
-                    Name = areaExpanderName,
-                    Header = $"{areaName} [Rooms: {rooms.Count} / Transitions: {rooms.Sum(x => x.Value.Count)}]",
-                    Content = roomStacker,
-                    IsExpanded = ExpandedZonesWithTransitions.Contains(areaExpanderName)
-                };
-                expander.Expanded += (object _, RoutedEventArgs e) => ExpandedZonesWithTransitions.Add((e.Source as Expander).Name);
-                expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedZonesWithTransitions.Remove((e.Source as Expander).Name);
-                HelperTransitionList.Items.Add(expander);
+                    roomStacker.Children.Add(GetZoneWithTransitionsExpander(roomWithTransitions, ExpandedRoomsWithTransitions, ordering));
+                });
+                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedZonesWithTransitions, $"[Rooms: {roomsWithTransitions.Count} / Transitions: {roomsWithTransitions.Sum(x => x.Value.Count)}]");
+                HelperTransitionsList.Items.Add(areaExpander);
             }
         }
 
-        private Expander GetRoomWithTransitionsExpander(KeyValuePair<string, List<TransitionWithTime>> roomWithTransitions)
+        private void UpdateHelperTransitions(List<Transition> transitions, Sorting ordering)
         {
-            var roomName = roomWithTransitions.Key.WithoutUnderscores();
-            var expanderName = roomName.AsObjectName();
-            var transitions = roomWithTransitions.Value;
-
-            switch (_settings.SelectedHelperTransitionOrder)
+            var orderedTransitions = ordering switch
             {
-                case 2:
-                    transitions = transitions.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList();
-                    break;
-                default:
-                    transitions = transitions.OrderBy(x => x.Name).ToList();
-                    break;
-            }
-
-            var transitionStacker = GenerateStackPanel();
-            transitions.ForEach(y =>
-            {
-                switch (_settings.SelectedHelperTransitionOrder)
-                {
-                    case 2:
-                        transitionStacker.Children.Add(new TextBlock { Text = $"{y.Name.WithoutUnderscores()}\t{GetAgeInMinutes(_referenceTime, y.TimeAdded)}" });
-                        break;
-                    default:
-                        transitionStacker.Children.Add(new TextBlock { Text = y.Name.WithoutUnderscores() });
-                        break;
-                }
-            });
-            var expander = new Expander
-            {
-                Name = expanderName,
-                Header = $"{roomName}\t[Transitions: {transitions.Count}]",
-                Content = GetTransitionsObject(transitions),
-                IsExpanded = ExpandedRoomsWithTransitions.Contains(expanderName)
+                Sorting.Alpha => transitions.OrderBy(x => x.Name).ToList(),
+                Sorting.Time => transitions.OrderBy(x => x.TimeAdded).ToList(),
+                _ => transitions.OrderBy(x => x.Name).ToList(),
             };
-            expander.Expanded += (object _, RoutedEventArgs e) => ExpandedRoomsWithTransitions.Add((e.Source as Expander).Name);
-            expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedRoomsWithTransitions.Remove((e.Source as Expander).Name);
-            return expander;
+            var transitionsGrid = GetTransitionsGrid(orderedTransitions);
+            HelperTransitionsList.Items.Add(transitionsGrid);
         }
 
-        private HashSet<string> ExpandedRoomsWithTransitions = new HashSet<string>();
-
-        #endregion
-
-        #region Transitions without grouping
-
-        private void UpdateHelperTransitionListWithTransitions(List<TransitionWithTime> transitions)
+        private Expander GetZoneWithTransitionsExpander(KeyValuePair<string, List<Transition>> zoneWithTransitions, HashSet<string> expandedHashset, Sorting ordering)
         {
-            HelperTransitionList.Items.Clear();
-
-            var orderedTransitions = transitions.Select(x => x).ToList();
-
-            switch (_settings.SelectedHelperTransitionOrder)
+            var zoneName = zoneWithTransitions.Key.WithoutUnderscores();
+            var orderedTransitions = ordering switch
             {
-                case 2:
-                    orderedTransitions = orderedTransitions.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList();
-                    break;
-                default:
-                    orderedTransitions = orderedTransitions.OrderBy(x => x.Name).ToList();
-                    break;
-            }
-
-            HelperTransitionList.Items.Add(GetTransitionsObject(orderedTransitions));
+                Sorting.Alpha => zoneWithTransitions.Value.OrderBy(x => x.Name).ToList(),
+                Sorting.Time => zoneWithTransitions.Value.OrderBy(x => x.TimeAdded).ToList(),
+                _ => zoneWithTransitions.Value.OrderBy(x => x.Name).ToList(),
+            };
+            var transitionsGrid = GetTransitionsGrid(orderedTransitions);
+            return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset, $"[Transitions: {orderedTransitions.Count}]");
         }
 
-        #endregion
-
-        private HashSet<string> ExpandedZonesWithTransitions = new HashSet<string>();
-
-        private object GetTransitionsObject(List<TransitionWithTime> transitions)
+        private Grid GetTransitionsGrid(List<Transition> transitions)
         {
-            switch (_settings.SelectedHelperTransitionOrder)
-            {
-                case 1:
-                case 2:
-                    var transitionKvps = transitions.ToDictionary(x => $"{(x.IsOutOfLogic ? "*" : "")}{x.Name.WithoutUnderscores()}", x => GetAgeInMinutes(_referenceTime, x.TimeAdded)).ToList();
-                    return GenerateAutoStarGrid(transitionKvps);
-                default:
-                    var transtionStacker = GenerateStackPanel();
-                    transitions.ForEach(y => transtionStacker.Children.Add(new TextBlock { Text = $"{(y.IsOutOfLogic ? "*" : "")}{y.Name.WithoutUnderscores()}" }));
-                    return transtionStacker;
-            }
+            var transitionKvps = transitions.ToDictionary(
+                x => TransitionStringBuilder(x),
+                x => _showHelperTransitionsTime ? GetAgeInMinutes(_referenceTime, x.TimeAdded) : ""
+                ).ToList();
+            return GenerateAutoStarGrid(transitionKvps);
         }
 
-        #endregion
+        private static string TransitionStringBuilder(Transition x)
+        {
+            var s = new StringBuilder();
+
+            if (x.IsOutOfLogic)
+                s.Append('*');
+
+            s.Append(x.Name.WithoutUnderscores());
+
+            return s.ToString();
+        }
 
         #region Events
 
-        private void HelperTransitionGrouping_Click(object sender, RoutedEventArgs e)
+        private void SetHelperTransitionsTabButtonContent()
         {
-            _settings.SelectedHelperTransitionGrouping = (_settings.SelectedHelperTransitionGrouping + 1) % _helperGroupings.Length;
-            HelperTransitionGrouping.Content = _helperGroupings[(int)_settings.SelectedHelperTransitionGrouping];
+            Helper_Transition_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperTransitionGroupingOptions[_appSettings.SelectedHelperTransitionGrouping]}");
+            Helper_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperTransitionOrderingOptions[_appSettings.SelectedHelperTransitionOrder]}");
+            Helper_Transition_Time_Button.Content = GenerateButtonTextBlock(_showHelperTransitionsTime ? "Time: Show" : "Time: Hide");
+        }
+
+        private void Helper_Transition_GroupBy_Click(object sender, RoutedEventArgs e)
+        {
+            _appSettings.SelectedHelperTransitionGrouping = (_appSettings.SelectedHelperTransitionGrouping + 1) % HelperTransitionGroupingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void HelperTransitionOrder_Click(object sender, RoutedEventArgs e)
+        private void Helper_Transition_SortBy_Click(object sender, RoutedEventArgs e)
         {
-            _settings.SelectedHelperTransitionOrder = (_settings.SelectedHelperTransitionOrder + 1) % _helperOrders.Length;
-            HelperTransitionOrder.Content = _helperOrders[(int)_settings.SelectedHelperTransitionOrder];
+            _appSettings.SelectedHelperTransitionOrder = (_appSettings.SelectedHelperTransitionOrder + 1) % HelperTransitionOrderingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void HelperTransitionExpand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(HelperTransitionList);
+        private void Helper_Transition_Time_Click(object sender, RoutedEventArgs e)
+        {
+            _showHelperTransitionsTime = !_showHelperTransitionsTime;
+            Dispatcher.Invoke(() => UpdateTabs());
+        }
 
-        private void HelperTransitionCollapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(HelperTransitionList);
+        private void Helper_Transition_OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            _helperLogReader.OpenFile();
+        }
+
+        private void Helper_Transition_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(HelperTransitionsList);
+        private void Helper_Transition_Collapse_Click(object sender, RoutedEventArgs e) => CollapseExpanders(HelperTransitionsList);
 
         #endregion
 

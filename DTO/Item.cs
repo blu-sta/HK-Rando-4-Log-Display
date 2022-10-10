@@ -1,22 +1,11 @@
 ﻿namespace HK_Rando_4_Log_Display.DTO
 {
-    public class ItemWithLocation : Item
+    public class Item : ReferenceItem
     {
-        public string Location { get; set; }
-
-        public ItemWithLocation(Item item) : this (item, string.Empty) { }
-
-        public ItemWithLocation(Item item, string location)
-        {
-            Name = item?.Name;
-            Pool = item?.Pool;
-            Location = location;
-        }
     }
-    
-    public class Item
+
+    public class ReferenceItem : ItemImport
     {
-        public string Name { get; set; }
-        public string Pool { get; set; }
+        public string PreviewName { get; set; }
     }
 }

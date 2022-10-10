@@ -2,24 +2,23 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace HK_Rando_4_Log_Display
 {
     public partial class MainWindow
     {
-        #region Settings
+        private readonly HashSet<string> ExpandedSettings = new();
 
-        private void UpdateSettingsTab()
+        private void UpdateSeedSettingsTab()
         {
             var settings = _settingsReader.GetSettings();
-            UpdateUX(() => UpdateSettingsList(settings));
+            UpdateUX(() => UpdateSeedSettingsList(settings));
         }
 
-        private void UpdateSettingsList(JObject settings)
+        private void UpdateSeedSettingsList(JObject settings)
         {
-            SettingsList.Items.Clear();
+            SeedSettingsList.Items.Clear();
             if (settings == null)
             {
                 return;
@@ -27,23 +26,13 @@ namespace HK_Rando_4_Log_Display
             foreach (var setting in settings)
             {
                 var settingName = setting.Key.WithoutUnderscores();
-                var settingExpanderName = settingName.AsObjectName();
                 var internalSettingValue = setting.Value;
-
-                var expander = new Expander
-                {
-                    Name = settingExpanderName,
-                    Header = settingName,
-                    Content = GetSettingObject(internalSettingValue),
-                    IsExpanded = ExpandedSettings.Contains(settingExpanderName)
-                };
-                expander.Expanded += (object _, RoutedEventArgs e) => ExpandedSettings.Add((e.Source as Expander).Name);
-                expander.Collapsed += (object _, RoutedEventArgs e) => ExpandedSettings.Remove((e.Source as Expander).Name);
-                SettingsList.Items.Add(expander);
+                var expander = GenerateExpanderWithContent(settingName, GetSettingObject(internalSettingValue), ExpandedSettings);
+                SeedSettingsList.Items.Add(expander);
             }
         }
 
-        private object GetSettingObject(JToken internalSettingValue)
+        private static object GetSettingObject(JToken internalSettingValue)
         {
             switch (internalSettingValue.Type)
             {
@@ -61,9 +50,5 @@ namespace HK_Rando_4_Log_Display
                     return defaultStacker;
             }
         }
-
-        private HashSet<string> ExpandedSettings = new HashSet<string>();
-
-        #endregion
     }
 }

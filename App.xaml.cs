@@ -4,15 +4,14 @@ using NLog;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace HK_Rando_4_Log_Display
 {
     public partial class App : Application
     {
-        private ServiceProvider serviceProvider;
+        private readonly ServiceProvider serviceProvider;
 
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public App()
         {
@@ -21,7 +20,7 @@ namespace HK_Rando_4_Log_Display
             serviceProvider = services.BuildServiceProvider();
         }
 
-        private void ConfigureServices(ServiceCollection services)
+        private static void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
             services.AddTransient<IHelperLogReader, HelperLogReader>();
@@ -57,7 +56,7 @@ namespace HK_Rando_4_Log_Display
             };
         }
 
-        private void LogUnhandledException(Exception exception, string source)
+        private static void LogUnhandledException(Exception exception, string source)
         {
             string message = $"Unhandled exception ({source})";
             try

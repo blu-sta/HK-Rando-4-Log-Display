@@ -997,37 +997,37 @@
   },
   "Hunter's_Journal": {
     "Name": "Hunter's_Journal",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Journal_Entry-Void_Tendrils": {
     "Name": "Journal_Entry-Void_Tendrils",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Journal_Entry-Charged_Lumafly": {
     "Name": "Journal_Entry-Charged_Lumafly",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Journal_Entry-Goam": {
     "Name": "Journal_Entry-Goam",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Journal_Entry-Garpede": {
     "Name": "Journal_Entry-Garpede",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
   "Journal_Entry-Seal_of_Binding": {
     "Name": "Journal_Entry-Seal_of_Binding",
-    "Pool": "Journal",
+    "Pool": "Journal_Entry",
     "PriceCap": 500,
     "MajorItem": false
   },
