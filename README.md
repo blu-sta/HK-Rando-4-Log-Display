@@ -1,77 +1,163 @@
-# HK Rando 4 Log Display
-## v2.0.0
+# HK Rando 4 Log Display v2.0.0
 
-### Requirements
+## Requirements
 
 This application is standalone, and does not need to be in any Hollow Knight folder \
 I leave all the files in a folder in Downloads, and then have a shortcut on the Desktop \
 It was written for Windows and may require .NET 5 to be installed in order to work
 
-### How to use this app
+## Compatibility
 
-**Top bar**: Shows the rando mode and seed
+In addition to the default Randomiser, the following mods are also supported:
+- BenchRando
+- DarknessRandomizer
+- LostArtifacts
+- MoreDoors
+- RainbowEggs
+- RandomizableLevers
+- RandoPlus
+- ReopenCityDoor
+- SkillUpgrades
+- TheRealJournalRando
+- Transcendence
 
-**Item Helper Tab**: \
-`Group by` button toggles how locations are grouped together \
-Options include by `area`, by `room & area`, by `room`, and `no grouping` \
-`Order` button toggles the ordering of locations (areas and rooms are always alphabetised) \
-Options include `alphabetically`, by `time` \
-The time value can be displayed or hidden in the alphabetical view \
-`Previewed Locations` appears at the top if there are any previewed locations \
-Locations show under pool grouped expanders, alphabetically, with room code, item and cost (if applicable) \
-`Previewed Items` also appear at the top if `Previewed Locations` appears \
-This groups by the rewards of the previewed locations e.g. if you need to buy grubs, charms, etc \
-`Groups` are expandable and will show the number of locations in the group (as well as rooms if the appropriate grouping is selected) \
-If a group is cleared while expanded, and logic adds more locations to the group, the group will return in the expanded state \
-If a room is expanded, it will be expanded in all group options \
-`Time` for locations is saved when application is closed and will be restored next time it is opened \
-`Expand All` button expands all existing groups (cleared groups are unaffected) \
-`Collapse All` button collapses all existing groups (cleared groups are unaffected)
+Other mods may work without requiring an update, although may have limited functionality or missing information
 
-**Transition Helper Tab**: \
-All buttons function the same as those in the **Item Helper Tab**, but do not affect the other tab \
-There are no previewed transitions, otherwise simply replace location with transition for the previous explanation
+## How to use this app
 
-**Item Tracker Tab**: \
-`Group by` button toggles how items are grouped together \
-Options include by `curated groups`, by `pool`, and `no grouping` \
-`Order` button toggles the ordering of items \
-Options include `alphabetically`, by `time` \
-Unlike the helper tabs, time of collecting the items is not currently recorded or displayed \
-Pool order is fixed when curated, and alphabetised when grouped by pool \
-`Expand All` button expands all existing pools \
-`Collapse All` button collapses all existing pools
+### Top bar
+Shows the mode and seed \
+Also displays randomiser files that cannot be found
 
-**Transition Tracker Tab**: \
-`Group by` button toggles how transitions are grouped together, similar to the **Item Helper Tab** and **Transition Helper Tab** \
-`Order` button functions the same as the **Item Tracker Tab** \
-And similarly, time is not tracked, only order \
-Expanding and collapsing groups also works the same as the **Item Helper Tab** and **Transition Helper Tab**
+### Helper Tab - Locations
 
-**Item Spoiler Tab**: \
-Equivalent to the Item Tracker Tab, but with all the information for the seed
+###### Buttons
+`Group` toggles how locations are grouped together \
+Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or None \
+`Sort` toggles whether locations are ordered alphabetically or order of appearance in the logs  \
+`Expand All` and `Collapse All` can be used to expand/collapse all groups \
+`Time` will show or hide the time the location appeared in the log \
+`Open Log` will open the helper log file in notepad
 
-**Transition Spoiler Tab**: \
-Equivalent to the Transition Tracker Tab, but with all the information for the seed
+###### Sections
+`Countables`: Tracks count of items that could be required for other checks \
+e.g. Grubs, Charms, Essence, etc. \
+`Previewed Locations`: All previewed locations grouped by location pool, showing the item at the location and any costs associated \
+`Previewed Items`: All previewed items grouped by item pool, showing the location and any costs associated \
+This is effectively the same as `Previewed Locations`, but is an alternative way to check for where to find desired items like charms or spells, as opposed to what items are available at a location such as a shop or whispering root. \
+`Location Groups`: Expandable sections defined by the `Group` setting \
+Also displays the number of locations in the group \
+Locations with \* prefix are considered out of logic
 
-**Settings Tab**: \
-Displays the settings used to generate the save file \
-If `Split Group Settings` are randomised on start, the contents of this section would spoil the groups
+### Helper Tab - Transitions
 
-If something goes wrong while using this application, feel free to contact me on discord \@blu.sta#9997
+###### Buttons
 
-### To Do List
-- Add "Reverse Transition" option to allow for grouping by destination instead of source
-	- Would have been helpful in my last UURRando
-- Add alternative view for item spoiler to find what is at a specific location
-- Consider tracking reachable items (grubs, essence, etc)
-	- TrackerDataDebugHistory.txt file
-	- "New reachable vanilla placement: Grub at "
-	- Entry when collected??
-- Randomised pool tracker to link pools as items are discovered
-	- The settings in the TrackerLog spoils the pool contents
-	- This would be used so you don't need to remember what you have already discovered to be in a pool
-	- i.e. do the remembering for you without spoiling everything
+Refer to **Helper Tab - Locations**, as all buttons here have the same functionality
+
+###### Sections
+
+`Transition Groups`: Expandable sections defined by the `Group` setting \
+Also displays the number of transitions in the group \
+Transitions with \* prefix are considered out of logic.
+
+### Tracker Tab - Items
+
+###### Buttons
+`Group` toggles how items are grouped together \
+Options include Curated Item Pools, All Item Pools, All Location Pools or None \
+Curated Item Pools is loosely defined as collections of specific items that were often considered useful to recall before the days of ItemSync \
+`Sort` toggles whether items are ordered alphabetically or order of pick up; disabled when `Group` is curated  \
+`Expand All` and `Collapse All` can be used to expand/collapse all groups \
+`Time` will show or hide the time the item was obtained \
+`Open Log` will open the tracker log file in notepad
+
+###### Sections
+
+`Item Groups`: Expandable sections defined by the `Group` setting \
+Also displays the number of items obtained in the pool \
+Does not record if items were obtained out of logic \
+All Location Pools uses the location pool instead of the item pool \
+e.g. a White_Fragment bought at Sly would show under Charms for All Item Pools, Shop for All Location Pools, and True Ending Items for Curated Item Pools
+
+### Tracker Tab - Transitions
+
+###### Buttons
+`Group` toggles how transitions are grouped together \
+Options are the same as in **Helper Tab - Locations** \
+`Sort` toggles whether transitions are ordered alphabetically or order of traversal \
+`Focus` toggles whether to use the Source or Destination for grouping \
+(This is only really useful when considering Uncoupled transitions) \
+`Expand All` and `Collapse All` can be used to expand/collapse all groups \
+`Time` will show or hide the time the transition was first traversed \
+`Open Log` will open the tracker log file in notepad
+
+###### Sections
+
+`Transition Groups`: Same as `Transition Groups` in **Helper Tab - Transitions**. \
+Does not record if transitions were traversed outside of logic.
+
+### Spoiler Tab - Items
+
+###### Buttons
+
+`Group`, `Sort`, `Expand All` and `Collapse All` function the same as in **Tracker Tab - Items** \
+`Obtained` replaces `Time` to show or hide a strikethrough for each item obtained \
+`Open Log` will open the item spoiler log file in notepad
+
+###### Sections
+
+`Item Groups`: Same as `Item Groups` in **Tracker Tab - Items**
+
+### Spoiler Tab - Transitions
+
+###### Buttons
+
+`Group`, `Sort`, `Focus`, `Expand All` and `Collapse All` function the same as in **Tracker Tab - Transitions** \
+`Traversed` replaces `Time` to show or hide a strikethrough for each transition traversed \
+`Open Log` will open the transition spoiler log file in notepad
+
+###### Sections
+
+`Transition Groups`: Same as `Transition Groups` in **Tracker Tab - Transitions**
+
+### Settings Tab - Common Button bar
+
+Found at the bottom of the settings tabs \
+These buttons allow for easily managing information related to the current randomiser playthrough \
+`Copy Seed`: Copies current seed to clipboard \
+`Copy Shareable Settings`: Copies settings used to set menu selections \
+`Zip log files`: Creates and opens a timestamped zip file containing the log files for the current seed, including current state of the application, to provide for troubleshooting and bug reports
+
+### Settings Tab - Seed Settings
+
+Expanders for showing the current settings of the seed
+
+### Settings Tab - App Settings
+
+Buttons to compare and set the state of Grouping and Sorting for each tab
+Current state is highlighted
+
+### Bottom Bar
+
+Shows the current version number
+
+### Appreciation
+
+A big thank you to those who continue to report problems and make suggestions to help improve this application \
+And a special thanks to **ColetteMSLP**, who constantly tests it against the latest rando mods and helps with improving the compatibility
+
+### Reporting issues
+
+If something goes wrong while using this application, please contact `@blu.sta#9997` on Discord
 
 ### Reference material
-Source for json files [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data)
+
+Files found in the **Reference** folder can be updated manually if you do not wish to wait for a patch update \
+But please note that items already logged will not be updated immediately, and if the schema changes the import may break
+
+Base RandomizerMod files: [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data) \
+\(Note: items.json has been modified to adjust item pools to be more convenient\) \
+BenchRando files: [link](https://github.com/homothetyhk/BenchRando/tree/master/BenchRando/Resources)\
+MoreDoors files: [link](https://github.com/dplochcoder/HollowKnight.MoreDoors/tree/main/MoreDoors/Resources/Data)\
+RandomizableLevers files: [link](https://github.com/flibber-hk/HollowKnight.RandomizableLevers/tree/main/RandomizableLevers/Resources)

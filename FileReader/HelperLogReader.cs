@@ -300,6 +300,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             var uncheckedReachableTransitions = LoadSection(helperLogData, "UNCHECKED REACHABLE TRANSITIONS")?.Select(x => x.Trim()).ToList();
             if (uncheckedReachableTransitions == null)
             {
+                _helperLogTransitions.Clear();
                 return;
             }
 

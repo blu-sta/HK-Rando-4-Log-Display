@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 using static HK_Rando_4_Log_Display.Constants.Constants;
 
@@ -43,18 +45,96 @@ namespace HK_Rando_4_Log_Display
                 };
                 button.Click += AppSettingsButton_Click;
 
-                Grid.SetColumn(button, i % 3);
-                Grid.SetRow(button, i / 3);
-                buttonGrid.Children.Add(button);
+                if (options.Length == 4)
+                {
+                    Grid.SetColumn(button, i % 2);
+                    Grid.SetRow(button, i / 2);
+                    buttonGrid.Children.Add(button);
 
-                if (i / 3 == 0)
-                {
-                    buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    if (i / 2 == 0)
+                    {
+                        buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    }
+                    if (i % 2 == 0)
+                    {
+                        buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    }
                 }
-                if (i % 3 == 0)
+                else
                 {
-                    buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    Grid.SetColumn(button, i % 3);
+                    Grid.SetRow(button, i / 3);
+                    buttonGrid.Children.Add(button);
+
+                    if (i / 3 == 0)
+                    {
+                        buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    }
+                    if (i % 3 == 0)
+                    {
+                        buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                    }
                 }
+            }
+        }
+
+        private void AppSettingsButton_Click(object sender, RoutedEventArgs _)
+        {
+            var button = sender as Button;
+            var buttonText = (button?.Content as TextBlock)?.Text;
+            var parentGridName = (button?.Parent as Grid)?.Name;
+            switch (parentGridName)
+            {
+                case nameof(HelperLocationGroupOptions):
+                    _appSettings.SelectedHelperLocationGrouping = Array.FindIndex(HelperLocationGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperLocationGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationGrouping));
+                    break;
+                case nameof(HelperLocationOrderOptions):
+                    _appSettings.SelectedHelperLocationOrder = Array.FindIndex(HelperLocationOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperLocationOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOrder));
+                    break;
+                case nameof(HelperTransitionGroupOptions):
+                    _appSettings.SelectedHelperTransitionGrouping = Array.FindIndex(HelperTransitionGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionGrouping));
+                    break;
+                case nameof(HelperTransitionOrderOptions):
+                    _appSettings.SelectedHelperTransitionOrder = Array.FindIndex(HelperTransitionOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOrder));
+                    break;
+
+                case nameof(TrackerItemGroupOptions):
+                    _appSettings.SelectedTrackerItemGrouping = Array.FindIndex(TrackerItemGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(TrackerItemGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerItemGrouping));
+                    break;
+                case nameof(TrackerItemOrderOptions):
+                    _appSettings.SelectedTrackerItemOrder = Array.FindIndex(TrackerItemOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(TrackerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerItemOrder));
+                    break;
+                case nameof(TrackerTransitionGroupOptions):
+                    _appSettings.SelectedTrackerTransitionGrouping = Array.FindIndex(TrackerTransitionGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(TrackerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerTransitionGrouping));
+                    break;
+                case nameof(TrackerTransitionOrderOptions):
+                    _appSettings.SelectedTrackerTransitionOrder = Array.FindIndex(TrackerTransitionOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(TrackerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerTransitionOrder));
+                    break;
+
+                case nameof(SpoilerItemGroupOptions):
+                    _appSettings.SelectedSpoilerItemGrouping = Array.FindIndex(SpoilerItemGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerItemGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemGrouping));
+                    break;
+                case nameof(SpoilerItemOrderOptions):
+                    _appSettings.SelectedSpoilerItemOrder = Array.FindIndex(SpoilerItemOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemOrder));
+                    break;
+                case nameof(SpoilerTransitionGroupOptions):
+                    _appSettings.SelectedSpoilerTransitionGrouping = Array.FindIndex(SpoilerTransitionGroupingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionGrouping));
+                    break;
+                case nameof(SpoilerTransitionOrderOptions):
+                    _appSettings.SelectedSpoilerTransitionOrder = Array.FindIndex(SpoilerTransitionOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionOrder));
+                    break;
             }
         }
 
@@ -72,6 +152,14 @@ namespace HK_Rando_4_Log_Display
             UpdateUX(() => SetActiveButton(SpoilerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemOrder));
             UpdateUX(() => SetActiveButton(SpoilerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionGrouping));
             UpdateUX(() => SetActiveButton(SpoilerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionOrder));
+        }
+
+        private static void SetActiveButton(Button[] buttons, int activeIndex)
+        {
+            for (var i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Background = i == activeIndex ? Brushes.LightBlue : Brushes.LightGray;
+            }
         }
     }
 }
