@@ -21,7 +21,7 @@ In addition to the default Randomiser, the following mods are also supported:
 - TheRealJournalRando
 - Transcendence
 
-Other mods may work without requiring an update, although may have limited functionality or missing information
+Other mods may work without requiring an update, although might have limited functionality or missing information
 
 ## How to use this app
 

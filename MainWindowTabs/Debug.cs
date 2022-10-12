@@ -55,7 +55,32 @@ namespace HK_Rando_4_Log_Display
             };
             memoryPurgeButton.Click += MemoryPurgeButton_Click;
             wrapPanel.Children.Add(memoryPurgeButton);
+
+            var deadImportButton = new Button
+            {
+                Name = DeadImportButton,
+                Content = GenerateButtonTextBlock(DeadImportButtonContent())
+            };
+            deadImportButton.Click += DeadImportButton_Click;
+            wrapPanel.Children.Add(deadImportButton);
         }
+
+        #region TestModeButton
+
+        private const string DeadImportButton = "DeadImportButton";
+        private bool _showDeadImports = false;
+
+        private string DeadImportButtonContent() =>
+            _showDeadImports ? "Dead Imports: Show" : "Dead Imports: Hide";
+
+        private void DeadImportButton_Click(object __, RoutedEventArgs _)
+        {
+            _showDeadImports = !_showDeadImports;
+            UpdateUX(() => GetDebugInterfaceTextBlock(DeadImportButton).Text = DeadImportButtonContent());
+            Dispatcher.Invoke(() => UpdateTabs());
+        }
+
+        #endregion
 
         #region RefreshIntervalButton
 
@@ -104,7 +129,7 @@ namespace HK_Rando_4_Log_Display
                 tabCycleTimer.Interval = interval;
                 tabCycleTimer.Enabled = true;
             }
-            UpdateUX(() => GetDebugInterfaceTextBlock(CycleIntervalButtonName).Text = RefreshIntervalButtonContent());
+            UpdateUX(() => GetDebugInterfaceTextBlock(CycleIntervalButtonName).Text = CycleIntervalButtonContent());
         }
 
         #endregion

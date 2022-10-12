@@ -98,6 +98,10 @@ namespace HK_Rando_4_Log_Display
                         {
                             case "Locations":
                                 UpdateHelperLocationsTab();
+#if DEBUG
+                                if (_showDeadImports)
+                                    ShowDeadImports();
+#endif
                                 break;
                             case "Transitions":
                                 UpdateHelperTransitionsTab();

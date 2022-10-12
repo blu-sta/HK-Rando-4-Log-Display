@@ -16,6 +16,8 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<ReferenceItem> ReferenceItems { get; }
         public List<ReferenceLocation> ReferenceLocations { get; }
         public List<ReferenceTransition> ReferenceTransitions { get; }
+        public List<LocationImport> DeadLocations { get; }
+        public List<TransitionImport> DeadTransitions { get; }
         public Dictionary<string, Location> GetHelperLogLocations();
         public Dictionary<string, Transition> GetHelperLogTransitions();
         public Dictionary<string, ItemWithLocation> GetTrackerLogItems();
@@ -36,6 +38,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<ReferenceItem> ReferenceItems { get; private set; } = new();
         public List<ReferenceLocation> ReferenceLocations { get; private set; } = new();
         public List<ReferenceTransition> ReferenceTransitions { get; private set; } = new();
+
+        public List<LocationImport> DeadLocations { get; private set; } = new();
+        public List<TransitionImport> DeadTransitions { get; private set; } = new();
 
         private const string MrMushroomPool = "Mr Mushroom";
         private const string SkillUpgradePool = "Skill Upgrade";
@@ -303,6 +308,9 @@ namespace HK_Rando_4_Log_Display.FileReader
                         Pool = customLocation.Pool
                     })
                 ).ToList();
+
+            var sceneNames = roomImports.Select(x => x.SceneName).ToList();
+            DeadLocations = locationImports.Concat(customImports).Where(location => !sceneNames.Contains(location.SceneName)).ToList();
         }
 
         private static List<LocationImport> GetLocationImportsFromFile() =>
@@ -313,6 +321,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 new RoomImport { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
                 new RoomImport { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
+                new RoomImport { SceneName = "Room_Final_Boss_Atrium", MapArea = "Black Egg Temple", TitledArea = "Black Egg Temple" },
+                new RoomImport { SceneName = "GG_Atrium", MapArea = "Godhome", TitledArea = "Godhome" },
+                new RoomImport { SceneName = "GG_Atrium_Roof", MapArea = "Godhome", TitledArea = "Godhome" },
+                new RoomImport { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
             }).ToList();
 
         private readonly string[] ShopLocations = new[]
@@ -497,6 +509,9 @@ namespace HK_Rando_4_Log_Display.FileReader
                     MapArea = room.MapArea,
                     TitledArea = room.TitledArea
                 }).ToList();
+
+            var sceneNames = roomImports.Select(x => x.SceneName).ToList();
+            DeadTransitions = transitionImports.Where(transition => !sceneNames.Contains(transition.SceneName)).ToList();
         }
 
         private static List<TransitionImport> GetTransitionImportsFromFile() =>

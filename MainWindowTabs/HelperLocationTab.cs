@@ -60,6 +60,17 @@ namespace HK_Rando_4_Log_Display
             });
         }
 
+        private void ShowDeadImports()
+        {
+            UpdateUX(() =>
+            {
+                if (_resourceLoader.DeadLocations.Any())
+                    HelperLocationsList.Items.Add(GenerateExpanderWithContent("Dead Locations", GenerateAutoStarGrid(_resourceLoader.DeadLocations.Select(x => new KeyValuePair<string, string>(x.SceneName, x.Name)).ToList()), new BoolWrapper(true)));
+                if (_resourceLoader.DeadTransitions.Any())
+                    HelperLocationsList.Items.Add(GenerateExpanderWithContent("Dead Transitions", GenerateAutoStarGrid(_resourceLoader.DeadTransitions.Select(x => new KeyValuePair<string, string>(x.SceneName, x.DoorName)).ToList()), new BoolWrapper(true)));
+            });
+        }
+
         private void GetMajorCountables()
         {
             var trackedItemsByPool = _trackerLogReader.GetItemsByPool();
