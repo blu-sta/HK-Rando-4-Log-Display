@@ -44,8 +44,6 @@ namespace HK_Rando_4_Log_Display
             cycleIntervalButton.Click += CycleIntervalButton_Click;
             wrapPanel.Children.Add(cycleIntervalButton);
 
-            tabCycleTimer.Enabled = false;
-            tabCycleTimer.AutoReset = true;
             tabCycleTimer.Elapsed += CycleTabs;
 
             var memoryPurgeButton = new Button
@@ -105,7 +103,7 @@ namespace HK_Rando_4_Log_Display
         private const string CycleIntervalButtonName = "CycleIntervalButton";
         private int SelectedCycleInterval = 0;
         private readonly int[] CycleIntervalOptions = new[] { 0, 15000, 30000, 60000 };
-        private readonly Timer tabCycleTimer = new();
+        private readonly Timer tabCycleTimer = new() { Enabled = false, AutoReset = true };
 
         private string CycleIntervalButtonContent() =>
             $"Tab cycle: {(tabCycleTimer.Enabled ? tabCycleTimer.Interval : "Off")}";

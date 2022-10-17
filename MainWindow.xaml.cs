@@ -46,7 +46,7 @@ namespace HK_Rando_4_Log_Display
             Loaded += MainWindow_Loaded;
         }
 
-        private void UpdateUX(Action action) => Dispatcher.Invoke(new Action(action), DispatcherPriority.ContextIdle);
+        private void UpdateUX(Action action) => Dispatcher.BeginInvoke(new Action(action), DispatcherPriority.ContextIdle);
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
