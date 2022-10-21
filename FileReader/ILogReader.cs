@@ -4,5 +4,6 @@
     {
         public bool IsFileFound { get; }
         public void LoadData();
+        public void OpenFile();
     }
 }

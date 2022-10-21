@@ -1,907 +1,852 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+
+using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface IResourceLoader
     {
-        public List<Location> Locations { get; }
-        public List<Item> Items { get; }
-        public List<Item> PreviewItems { get; }
-        public List<Transition> Transitions { get; }
-        public Dictionary<string, LocationWithTime> GetHelperLogLocations();
-        public Dictionary<string, TransitionWithTime> GetHelperLogTransitions();
-        public Settings GetUserSettings();
-        public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations);
-        public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions);
-        public void SaveUserSettings(Settings settings);
+        public List<ReferenceItem> ReferenceItems { get; }
+        public List<ReferenceLocation> ReferenceLocations { get; }
+        public List<ReferenceTransition> ReferenceTransitions { get; }
+        public List<LocationImport> DeadLocations { get; }
+        public List<TransitionImport> DeadTransitions { get; }
+        public Dictionary<string, Location> GetHelperLogLocations();
+        public Dictionary<string, Transition> GetHelperLogTransitions();
+        public Dictionary<string, ItemWithLocation> GetTrackerLogItems();
+        public Dictionary<string, TransitionWithDestination> GetTrackerLogTransitions();
+
+        public AppSettings GetAppSettings();
+        public string GetSeed();
+        public void SaveHelperLogLocations(Dictionary<string, Location> helperLogLocations);
+        public void SaveHelperLogTransitions(Dictionary<string, Transition> helperLogTransitions);
+        public void SaveTrackerLogItems(Dictionary<string, ItemWithLocation> trackerLogItems);
+        public void SaveTrackerLogTransitions(Dictionary<string, TransitionWithDestination> trackerLogTransitions);
+        public void SaveAppSettings(AppSettings appSettings);
+        public void SaveSeed(string seed);
     }
 
     public class ResourceLoader : IResourceLoader
     {
-        public List<Location> Locations { get; private set; } = new List<Location>();
-        public List<Item> Items { get; private set; } = new List<Item>();
-        public List<Item> PreviewItems { get; private set; } = new List<Item>();
-        public List<Transition> Transitions { get; private set; } = new List<Transition>();
+        public List<ReferenceItem> ReferenceItems { get; private set; } = new();
+        public List<ReferenceLocation> ReferenceLocations { get; private set; } = new();
+        public List<ReferenceTransition> ReferenceTransitions { get; private set; } = new();
 
-        public ResourceLoader()
-        {
-            LoadLocations();
-            LoadItems();
-            LoadTransitions();
-        }
+        public List<LocationImport> DeadLocations { get; private set; } = new();
+        public List<TransitionImport> DeadTransitions { get; private set; } = new();
 
-        private void LoadLocations()
-        {
-            if (!File.Exists(".\\Reference\\locations.json") || !File.Exists(".\\Reference\\rooms.json"))
-            {
-                return;
-            }
-            var roomsContent = ReadFile(".\\Reference\\rooms.json");
-            var rooms = JsonConvert.DeserializeObject<Dictionary<string, RoomImport>>(roomsContent).Values.ToList();
-
-            var locationsContent = ReadFile(".\\Reference\\locations.json");
-            var locations = JsonConvert.DeserializeObject<Dictionary<string, LocationImport>>(locationsContent).Values.ToList();
-            AddCustomLocations(locations);
-
-            Locations = new List<Location>(locations.Select(x =>
-            {
-                var roomDetails = rooms.FirstOrDefault(y => y.SceneName == x.SceneName) ?? new RoomImport { SceneName = x.SceneName, MapArea = "undefined", TitledArea = "undefined" };
-                return new Location { Name = x.Name, SceneName = x.SceneName, TitledArea = roomDetails.TitledArea, MapArea = roomDetails.MapArea };
-            }));
-        }
-
-        private void AddCustomLocations(List<LocationImport> locationsList)
-        {
-            var locationsWithScenes = new List<LocationImport> {
-                // https://github.com/flibber-hk/HollowKnight.RandoPlus/blob/main/RandoPlus/Resources/MrMushroom/logic.json
-                new LocationImport { Name = "Mr_Mushroom-Fungal_Wastes", SceneName = "Fungus2_18" },
-                new LocationImport { Name = "Mr_Mushroom-Kingdom's_Edge", SceneName = "Deepnest_East_01" },
-                new LocationImport { Name = "Mr_Mushroom-Deepnest", SceneName = "Deepnest_40" },
-                new LocationImport { Name = "Mr_Mushroom-Howling_Cliffs", SceneName = "Room_nailmaster" },
-                new LocationImport { Name = "Mr_Mushroom-Ancient_Basin", SceneName = "Abyss_21" },
-                new LocationImport { Name = "Mr_Mushroom-Fog_Canyon", SceneName = "Fungus3_44" },
-                new LocationImport { Name = "Mr_Mushroom-King's_Pass", SceneName = "Tutorial_01" },
-
-                // https://github.com/flibber-hk/HollowKnight.RandomizableLevers/blob/main/RandomizableLevers/Resources/leverlocations.json
-                new LocationImport { Name = "Switch-Dirtmouth_Stag", SceneName = "Room_Town_Stag_Station" },
-                new LocationImport { Name = "Switch-Outside_Ancestral_Mound", SceneName = "Crossroads_06" },
-                new LocationImport { Name = "Switch-Greenpath_Stag", SceneName = "Fungus1_22" },
-                new LocationImport { Name = "Switch-Lower_Resting_Grounds", SceneName = "RestingGrounds_06" },
-                new LocationImport { Name = "Switch-Petra_Arena", SceneName = "Fungus3_05" },
-                new LocationImport { Name = "Switch-Queen's_Gardens_Stag", SceneName = "Fungus3_40" },
-                new LocationImport { Name = "Switch-Crossroads_East", SceneName = "Crossroads_03" },
-                new LocationImport { Name = "Lever-Dung_Defender", SceneName = "Waterways_05" },
-                new LocationImport { Name = "Lever-Waterways_Hwurmp_Arena", SceneName = "Waterways_09" },
-                new LocationImport { Name = "Lever-Queen's_Station_Mask_Shard", SceneName = "Fungus2_01" },
-                new LocationImport { Name = "Lever-Queen's_Gardens_Ground_Block", SceneName = "Fungus3_04" },
-                new LocationImport { Name = "Lever-Below_Overgrown_Mound", SceneName = "Fungus3_44" },
-                new LocationImport { Name = "Lever-Tower_of_Love", SceneName = "Ruins2_11_b" },
-                new LocationImport { Name = "Lever-Resting_Grounds_Stag", SceneName = "RestingGrounds_09" },
-                new LocationImport { Name = "Lever-Abyss_Lighthouse", SceneName = "Abyss_Lighthouse_room" },
-                new LocationImport { Name = "Lever-Failed_Tramway_Right", SceneName = "Deepnest_26" },
-                new LocationImport { Name = "Lever-Failed_Tramway_Left", SceneName = "Deepnest_26b" },
-                new LocationImport { Name = "Lever-Below_Spell_Twister", SceneName = "Ruins1_30" },
-                new LocationImport { Name = "Lever-Sanctum_East", SceneName = "Ruins1_25" },
-                new LocationImport { Name = "Lever-Sanctum_Soul_Warrior", SceneName = "Ruins1_23" },
-                new LocationImport { Name = "Lever-Sanctum_Bottom", SceneName = "Ruins1_23" },
-                new LocationImport { Name = "Lever-Sanctum_West_Upper", SceneName = "Ruins1_32" },
-                new LocationImport { Name = "Lever-Sanctum_West_Lower", SceneName = "Ruins1_32" },
-                new LocationImport { Name = "Lever-City_Fountain", SceneName = "Ruins1_27" },
-                new LocationImport { Name = "Lever-City_Spire_Sentry_Lower", SceneName = "Ruins2_01" },
-                new LocationImport { Name = "Lever-City_Spire_Sentry_Upper", SceneName = "Ruins2_01" },
-                new LocationImport { Name = "Lever-City_Bridge_Above_Fountain", SceneName = "Ruins1_18" },
-                new LocationImport { Name = "Lever-City_Storerooms", SceneName = "Ruins1_17" },
-                new LocationImport { Name = "Lever-City_Lemm", SceneName = "Ruins1_05b" },
-                new LocationImport { Name = "Lever-City_Above_Lemm_Right", SceneName = "Ruins1_05c" },
-                new LocationImport { Name = "Lever-City_Above_Lemm_Left", SceneName = "Ruins1_05c" },
-                new LocationImport { Name = "Lever-City_Above_Lemm_Upper", SceneName = "Ruins1_05" },
-                new LocationImport { Name = "Lever-Shade_Soul_Exit", SceneName = "Ruins1_31b" },
-                new LocationImport { Name = "Lever-Emilitia", SceneName = "Ruins_House_03" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Top_Left", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Middle_Left", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Bottom_Left", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Middle_Right", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Bottom_Right", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Lever-Mantis_Claw", SceneName = "Fungus2_14" },
-                new LocationImport { Name = "Lever-Mantis_Lords_Access", SceneName = "Fungus2_14" },
-                new LocationImport { Name = "Lever-Fungal_Wastes_Thorns_Gauntlet", SceneName = "Fungus2_04" },
-                new LocationImport { Name = "Lever-Fungal_Wastes_Below_Shrumal_Ogres", SceneName = "Fungus2_04" },
-                new LocationImport { Name = "Lever-Fungal_Wastes_Bouncy_Grub", SceneName = "Fungus2_18" },
-                new LocationImport { Name = "Lever-Dirtmouth_Elevator", SceneName = "Town" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Tall_Room_Upper", SceneName = "Mines_20" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Tall_Room_Middle", SceneName = "Mines_20" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Tall_Room_Lower", SceneName = "Mines_20" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Spike_Grub", SceneName = "Mines_03" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Below_Chest", SceneName = "Mines_04" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Above_Chest", SceneName = "Mines_37" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Crushers_Grub", SceneName = "Mines_19" },
-                new LocationImport { Name = "Lever-Crystal_Peak_Crushers_Chest", SceneName = "Mines_37" },
-                new LocationImport { Name = "Lever-Palace_Atrium", SceneName = "White_Palace_03_hub" },
-                new LocationImport { Name = "Lever-Palace_Right", SceneName = "White_Palace_15" },
-                new LocationImport { Name = "Lever-Palace_Final", SceneName = "White_Palace_12" },
-                new LocationImport { Name = "Lever-Path_of_Pain", SceneName = "White_Palace_17" },
-                new LocationImport { Name = "Lever-Palace_Entrance_Orb", SceneName = "White_Palace_02" },
-                new LocationImport { Name = "Lever-Palace_Left_Orb", SceneName = "White_Palace_14" },
-                new LocationImport { Name = "Lever-Palace_Right_Orb", SceneName = "White_Palace_15" },
-                new LocationImport { Name = "Lever-Pilgrim's_Way_Left", SceneName = "Fungus2_21" },
-                new LocationImport { Name = "Lever-Pilgrim's_Way_Right", SceneName = "Fungus2_21" },
-
-                new LocationImport { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith" },
-                new LocationImport { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith" },
-                new LocationImport { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith" },
-                new LocationImport { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith" },
-
-                // https://github.com/homothetyhk/BenchRando/blob/master/BenchRando/Resources/benches.json
-                new LocationImport { Name = "Bench-Dirtmouth", SceneName = "Town" },
-                new LocationImport { Name = "Bench-Mato" , SceneName = "Room_nailmaster" },
-                new LocationImport { Name = "Bench-Crossroads_Hot_Springs", SceneName = "Crossroads_30" },
-                new LocationImport { Name = "Bench-Crossroads_Stag", SceneName = "Crossroads_47" },
-                new LocationImport { Name = "Bench-Salubra", SceneName = "Crossroads_04" },
-                new LocationImport { Name = "Bench-Ancestral_Mound", SceneName = "Crossroads_ShamanTemple" },
-                new LocationImport { Name = "Bench-Black_Egg_Temple", SceneName = "Room_Final_Boss_Atrium" },
-                new LocationImport { Name = "Bench-Waterfall", SceneName = "Fungus1_01b" },
-                new LocationImport { Name = "Bench-Stone_Sanctuary", SceneName = "Fungus1_37" },
-                new LocationImport { Name = "Bench-Greenpath_Toll", SceneName = "Fungus1_31" },
-                new LocationImport { Name = "Bench-Greenpath_Stag", SceneName = "Fungus1_16_alt" },
-                new LocationImport { Name = "Bench-Lake_of_Unn", SceneName = "Room_Slug_Shrine" },
-                new LocationImport { Name = "Bench-Sheo", SceneName = "Fungus1_15" },
-                new LocationImport { Name = "Bench-Archives", SceneName = "Fungus3_archive" },
-                new LocationImport { Name = "Bench-Queen's_Station", SceneName = "Fungus2_02" },
-                new LocationImport { Name = "Bench-Leg_Eater", SceneName = "Fungus2_26" },
-                new LocationImport { Name = "Bench-Bretta", SceneName = "Fungus2_13" },
-                new LocationImport { Name = "Bench-Mantis_Village", SceneName = "Fungus2_31" },
-                new LocationImport { Name = "Bench-Quirrel", SceneName = "Ruins1_02" },
-                new LocationImport { Name = "Bench-City_Toll", SceneName = "Ruins1_31" },
-                new LocationImport { Name = "Bench-City_Storerooms", SceneName = "Ruins1_29" },
-                new LocationImport { Name = "Bench-Watcher's_Spire", SceneName = "Ruins1_18" },
-                new LocationImport { Name = "Bench-King's_Station", SceneName = "Ruins2_08" },
-                new LocationImport { Name = "Bench-Pleasure_House", SceneName = "Ruins_Bathhouse" },
-                new LocationImport { Name = "Bench-Waterways", SceneName = "Waterways_02" },
-                new LocationImport { Name = "Bench-Godhome_Atrium", SceneName = "GG_Atrium" },
-                new LocationImport { Name = "Bench-Godhome_Roof", SceneName = "GG_Atrium_Roof" },
-                new LocationImport { Name = "Bench-Hall_of_Gods", SceneName = "GG_Workshop" },
-                new LocationImport { Name = "Bench-Deepnest_Hot_Springs", SceneName = "Deepnest_30" },
-                new LocationImport { Name = "Bench-Failed_Tramway", SceneName = "Deepnest_14" },
-                new LocationImport { Name = "Bench-Beast's_Den", SceneName = "Deepnest_Spider_Town" },
-                new LocationImport { Name = "Bench-Basin_Toll", SceneName = "Abyss_18" },
-                new LocationImport { Name = "Bench-Hidden_Station", SceneName = "Abyss_22" },
-                new LocationImport { Name = "Bench-Oro", SceneName = "Deepnest_East_06" },
-                new LocationImport { Name = "Bench-Camp", SceneName = "Deepnest_East_13" },
-                new LocationImport { Name = "Bench-Colosseum", SceneName = "Room_Colosseum_02" },
-                new LocationImport { Name = "Bench-Hive", SceneName = "Hive_01" },
-                new LocationImport { Name = "Bench-Peak_Dark_Room", SceneName = "Mines_29" },
-                new LocationImport { Name = "Bench-Crystal_Guardian", SceneName = "Mines_18" },
-                new LocationImport { Name = "Bench-Grounds_Stag", SceneName = "RestingGrounds_09" },
-                new LocationImport { Name = "Bench-Grey_Mourner", SceneName = "RestingGrounds_12" },
-                new LocationImport { Name = "Bench-Gardens_Cornifer", SceneName = "Fungus1_24" },
-                new LocationImport { Name = "Bench-Gardens_Toll", SceneName = "Fungus3_50" },
-                new LocationImport { Name = "Bench-Gardens_Stag", SceneName = "Fungus3_40" },
-                new LocationImport { Name = "Bench-Palace_Entrance", SceneName = "White_Palace_01" },
-                new LocationImport { Name = "Bench-Palace_Atrium", SceneName = "White_Palace_03_hub" },
-                new LocationImport { Name = "Bench-Palace_Balcony", SceneName = "White_Palace_06" },
-                new LocationImport { Name = "Bench-Upper_Tram", SceneName = "Room_Tram_RG" },
-                new LocationImport { Name = "Bench-Lower_Tram", SceneName = "Room_Tram" },
-                new LocationImport { Name = "Bench-Stag_Nest", SceneName = "Cliffs_03" },
-                new LocationImport { Name = "Bench-Cliffs_Overhang", SceneName = "Cliffs_01" },
-                new LocationImport { Name = "Bench-Joni's_Repose", SceneName = "Cliffs_05" },
-                new LocationImport { Name = "Bench-Nightmare_Lantern", SceneName = "Cliffs_06" },
-                new LocationImport { Name = "Bench-Blasted_Plains", SceneName = "Cliffs_01" },
-                new LocationImport { Name = "Bench-Baldur_Cavern", SceneName = "Fungus1_28" },
-                new LocationImport { Name = "Bench-Crossroads_Center", SceneName = "Crossroads_40" },
-                new LocationImport { Name = "Bench-Myla", SceneName = "Crossroads_45" },
-                new LocationImport { Name = "Bench-Grubfather", SceneName = "Crossroads_38" },
-                new LocationImport { Name = "Bench-Crossroads_Elevator", SceneName = "Crossroads_43" },
-                new LocationImport { Name = "Bench-Fungal_Road", SceneName = "Crossroads_18" },
-                new LocationImport { Name = "Bench-Pilgrim's_Start", SceneName = "Crossroads_11_alt" },
-                new LocationImport { Name = "Bench-Canyon_Depths", SceneName = "Fungus3_26" },
-                new LocationImport { Name = "Bench-Canyon's_End", SceneName = "Fungus3_03" },
-                new LocationImport { Name = "Bench-Overgrown_Atrium", SceneName = "Fungus3_44" },
-                new LocationImport { Name = "Bench-Overgrown_Mound", SceneName = "Room_Fungus_Shaman" },
-                new LocationImport { Name = "Bench-Millibelle", SceneName = "Fungus3_35" },
-                new LocationImport { Name = "Bench-Fungal_Core", SceneName = "Fungus2_29" },
-                new LocationImport { Name = "Bench-Fungal_Tower", SceneName = "Fungus2_06" },
-                new LocationImport { Name = "Bench-Cloth's_Ambush", SceneName = "Fungus2_09" },
-                new LocationImport { Name = "Bench-Pilgrim's_End", SceneName = "Fungus2_10" },
-                new LocationImport { Name = "Bench-Mantis_Hub", SceneName = "Fungus2_15" },
-                new LocationImport { Name = "Bench-Prophet's_Gate", SceneName = "Deepnest_01" },
-                new LocationImport { Name = "Bench-City_Entrance", SceneName = "Ruins1_01" },
-                new LocationImport { Name = "Bench-Inner_Sanctum", SceneName = "Ruins1_30" },
-                new LocationImport { Name = "Bench-Outer_Sanctum", SceneName = "Ruins1_23" },
-                new LocationImport { Name = "Bench-City_Fountain", SceneName = "Ruins1_27" },
-                new LocationImport { Name = "Bench-Nailsmith", SceneName = "Ruins1_04" },
-                new LocationImport { Name = "Bench-Flooded_Stag", SceneName = "Ruins2_07" },
-                new LocationImport { Name = "Bench-Zote's_Skyway", SceneName = "Ruins1_06" },
-                new LocationImport { Name = "Bench-Watcher's_Skyway", SceneName = "Ruins1_18" },
-                new LocationImport { Name = "Bench-Tower_of_Love", SceneName = "Ruins2_11_b" },
-                new LocationImport { Name = "Bench-Hive_Hideaway", SceneName = "Hive_03_c" },
-                new LocationImport { Name = "Bench-Pure_Altar", SceneName = "Deepnest_East_14b" },
-                new LocationImport { Name = "Bench-Lurker's_Overlook", SceneName = "GG_Lurker" },
-                new LocationImport { Name = "Bench-Edge_Summit", SceneName = "Deepnest_East_07" },
-                new LocationImport { Name = "Bench-Bardoon", SceneName = "Deepnest_East_04" },
-                new LocationImport { Name = "Bench-Bardoon's_Tail", SceneName = "Deepnest_East_04" },
-                new LocationImport { Name = "Bench-West_Lake_Shore", SceneName = "Crossroads_50" },
-                new LocationImport { Name = "Bench-East_Lake_Shore", SceneName = "Crossroads_50" },
-                new LocationImport { Name = "Bench-Spirits'_Glade", SceneName = "RestingGrounds_08" },
-                new LocationImport { Name = "Bench-Crypts", SceneName = "RestingGrounds_10" },
-                new LocationImport { Name = "Bench-Nosk's_Lair", SceneName = "Deepnest_32" },
-                new LocationImport { Name = "Bench-Weaver's_Den", SceneName = "Deepnest_45_v02" },
-                new LocationImport { Name = "Bench-Distant_Reservoir", SceneName = "Deepnest_10" },
-                new LocationImport { Name = "Bench-Deepnest_Gate", SceneName = "Fungus2_25" },
-                new LocationImport { Name = "Bench-Distant_Stag", SceneName = "Deepnest_09" },
-                new LocationImport { Name = "Bench-Deepnest_Maze", SceneName = "Deepnest_30" },
-                new LocationImport { Name = "Bench-Abyss_Workshop", SceneName = "Abyss_09" },
-                new LocationImport { Name = "Bench-Far_Basin", SceneName = "Abyss_19" },
-                new LocationImport { Name = "Bench-Basin_Hub", SceneName = "Abyss_04" },
-                new LocationImport { Name = "Bench-Palace_Grounds", SceneName = "Abyss_05" },
-                new LocationImport { Name = "Bench-Traitor's_Grave", SceneName = "Fungus3_49" },
-                new LocationImport { Name = "Bench-Fort_Loodle", SceneName = "Fungus1_23" },
-                new LocationImport { Name = "Bench-Far_Gardens", SceneName = "Fungus3_22" },
-                new LocationImport { Name = "Bench-Dark_Gardens", SceneName = "Deepnest_43" },
-                new LocationImport { Name = "Bench-Gardens_Atrium", SceneName = "Fungus3_04" },
-                new LocationImport { Name = "Bench-Peak_Entrance", SceneName = "Mines_01" },
-                new LocationImport { Name = "Bench-Crown_Ascent", SceneName = "Mines_34" },
-                new LocationImport { Name = "Bench-Crystallized_Mound", SceneName = "Mines_35" },
-                new LocationImport { Name = "Bench-Crusher_Refuge", SceneName = "Mines_19" },
-                new LocationImport { Name = "Bench-Western_Peak", SceneName = "Mines_30" },
-                new LocationImport { Name = "Bench-Quirrel_Peak", SceneName = "Mines_13" },
-                new LocationImport { Name = "Bench-Peak_Ravine", SceneName = "Mines_28" },
-                new LocationImport { Name = "Bench-Unn's_Chamber", SceneName = "Fungus1_Slug" },
-                new LocationImport { Name = "Bench-Gulka_Gulley", SceneName = "Fungus1_12" },
-                new LocationImport { Name = "Bench-Hunter's_Hideout", SceneName = "Fungus1_08" },
-                new LocationImport { Name = "Bench-Duranda's_Trial", SceneName = "Fungus1_09" },
-                new LocationImport { Name = "Bench-Greenpath_Entrance", SceneName = "Fungus1_01" },
-                new LocationImport { Name = "Bench-Defender's_Repose", SceneName = "Waterways_15" },
-                new LocationImport { Name = "Bench-Hermit's_Approach", SceneName = "Room_GG_Shortcut" },
-                new LocationImport { Name = "Bench-Waterways_Entrance", SceneName = "Waterways_01" },
-                new LocationImport { Name = "Bench-Isma's_Grove", SceneName = "Waterways_13" },
-                new LocationImport { Name = "Bench-Acid_Sluice_East", SceneName = "Waterways_07" },
-                new LocationImport { Name = "Bench-Acid_Sluice_West", SceneName = "Waterways_06" },
-                new LocationImport { Name = "Bench-Fort_Flukefey", SceneName = "Waterways_08" },
-                new LocationImport { Name = "Bench-Destroyed_Tram", SceneName = "Deepnest_26b" },
-                new LocationImport { Name = "Bench-Kingsmould_Duelist", SceneName = "White_Palace_02" },
-                new LocationImport { Name = "Bench-Palace_West", SceneName = "White_Palace_14" },
-                new LocationImport { Name = "Bench-Sawblade_Choir", SceneName = "White_Palace_04" },
-                new LocationImport { Name = "Bench-Palace_East", SceneName = "White_Palace_16" },
-                new LocationImport { Name = "Bench-Thorny_Respite", SceneName = "White_Palace_05" },
-                new LocationImport { Name = "Bench-Palace_Workshop", SceneName = "White_Palace_08" },
-                new LocationImport { Name = "Bench-Throne_Approach", SceneName = "White_Palace_13" },
-                new LocationImport { Name = "Bench-Path_Midpoint", SceneName = "White_Palace_17" },
-            };
-            locationsWithScenes.ForEach(x =>
-            {
-                if (locationsList.FirstOrDefault(y => y.Name == x.Name) == null)
-                {
-                    locationsList.Add(x);
-                }
-            });
-        }
-
-        private void LoadItems()
-        {
-            if (!File.Exists(".\\Reference\\items.json"))
-            {
-                return;
-            }
-            var content = ReadFile(".\\Reference\\items.json");
-            Items = JsonConvert.DeserializeObject<Dictionary<string, Item>>(content).Values.ToList();
-
-            AddCustomItems();
-
-            SetupItemPreviews();
-        }
-
-        private const string MrMushroomPool = "MrMushroom";
+        private const string MrMushroomPool = "Mr Mushroom";
         private const string SkillUpgradePool = "Skill Upgrade";
         private const string LeverPool = "Lever";
         private const string TranscendencePool = "Charm - Transcendence";
         private const string EggPool = "Egg";
         private const string SkillPool = "Skill";
         private const string BenchPool = "Bench";
+        private const string MoreDoorsPool = "Key - MoreDoors";
+        private const string LostArtifactPool = "Lost Artifact";
+        private const string LoreMasterPool = "Lore - Lore Master";
 
-        private void AddCustomItems()
+        public ResourceLoader()
         {
-            var itemsWithPools = new List<Item> {
-                new Item { Name = "Kingsoul", Pool = "Charm" },
-                new Item { Name = "Grimmchild", Pool = "Charm" },
-            }
-            .Concat(GetMrMushroomItems())
-            .Concat(GetSkillUpgrades())
-            .Concat(GetFungalCityGateKey())
-            .Concat(GetLevers())
-            .Concat(GetTranscendenceCharms())
-            .Concat(GetRainbowEggs())
-            .Concat(GetNailUpgrades())
-            .Concat(GetBenches())
-            .ToList();
-
-            itemsWithPools.ForEach(x =>
-            {
-                if (Items.FirstOrDefault(y => y.Name == x.Name) == null)
-                {
-                    Items.Add(x);
-                }
-            });
+            LoadReferenceItems();
+            LoadReferenceLocations();
+            LoadReferenceTransitions();
         }
 
-        private List<Item> GetMrMushroomItems() =>
-            new List<Item> { new Item { Name = "Mr_Mushroom_Level_Up", Pool = MrMushroomPool }, };
-
-        private List<Item> GetSkillUpgrades() =>
-            new List<Item>
-            {
-                new Item { Name = "DirectionalDash", Pool = SkillUpgradePool },
-                new Item { Name = "ExtraAirDash", Pool = SkillUpgradePool },
-                new Item { Name = "WallClimb", Pool = SkillUpgradePool },
-                new Item { Name = "VerticalSuperdash", Pool = SkillUpgradePool },
-                new Item { Name = "TripleJump", Pool = SkillUpgradePool },
-                new Item { Name = "DownwardFireball", Pool = SkillUpgradePool },
-                new Item { Name = "HorizontalDive", Pool = SkillUpgradePool },
-                new Item { Name = "SpiralScream", Pool = SkillUpgradePool },
-                new Item { Name = "WingsGlide", Pool = SkillUpgradePool },
-            };
-
-        private List<Item> GetFungalCityGateKey() =>
-            new List<Item> { new Item { Name = "Fungal_City_Gate_Key", Pool = "Key" }, };
-
-        private List<Item> GetLevers() =>
-            new List<Item>
-            {
-                new Item { Name = "Switch-Dirtmouth_Stag", Pool = LeverPool },
-                new Item { Name = "Switch-Outside_Ancestral_Mound", Pool = LeverPool },
-                new Item { Name = "Switch-Greenpath_Stag", Pool = LeverPool },
-                new Item { Name = "Switch-Lower_Resting_Grounds", Pool = LeverPool },
-                new Item { Name = "Switch-Petra_Arena", Pool = LeverPool },
-                new Item { Name = "Switch-Queen's_Gardens_Stag", Pool = LeverPool },
-                new Item { Name = "Switch-Crossroads_East", Pool = LeverPool },
-                new Item { Name = "Lever-Dung_Defender", Pool = LeverPool },
-                new Item { Name = "Lever-Waterways_Hwurmp_Arena", Pool = LeverPool },
-                new Item { Name = "Lever-Queen's_Station_Mask_Shard", Pool = LeverPool },
-                new Item { Name = "Lever-Queen's_Gardens_Ground_Block", Pool = LeverPool },
-                new Item { Name = "Lever-Below_Overgrown_Mound", Pool = LeverPool },
-                new Item { Name = "Lever-Tower_of_Love", Pool = LeverPool },
-                new Item { Name = "Lever-Resting_Grounds_Stag", Pool = LeverPool },
-                new Item { Name = "Lever-Abyss_Lighthouse", Pool = LeverPool },
-                new Item { Name = "Lever-Failed_Tramway_Right", Pool = LeverPool },
-                new Item { Name = "Lever-Failed_Tramway_Left", Pool = LeverPool },
-                new Item { Name = "Lever-Below_Spell_Twister", Pool = LeverPool },
-                new Item { Name = "Lever-Sanctum_East", Pool = LeverPool },
-                new Item { Name = "Lever-Sanctum_Soul_Warrior", Pool = LeverPool },
-                new Item { Name = "Lever-Sanctum_Bottom", Pool = LeverPool },
-                new Item { Name = "Lever-Sanctum_West_Upper", Pool = LeverPool },
-                new Item { Name = "Lever-Sanctum_West_Lower", Pool = LeverPool },
-                new Item { Name = "Lever-City_Fountain", Pool = LeverPool },
-                new Item { Name = "Lever-City_Spire_Sentry_Lower", Pool = LeverPool },
-                new Item { Name = "Lever-City_Spire_Sentry_Upper", Pool = LeverPool },
-                new Item { Name = "Lever-City_Bridge_Above_Fountain", Pool = LeverPool },
-                new Item { Name = "Lever-City_Storerooms", Pool = LeverPool },
-                new Item { Name = "Lever-City_Lemm", Pool = LeverPool },
-                new Item { Name = "Lever-City_Above_Lemm_Right", Pool = LeverPool },
-                new Item { Name = "Lever-City_Above_Lemm_Left", Pool = LeverPool },
-                new Item { Name = "Lever-City_Above_Lemm_Upper", Pool = LeverPool },
-                new Item { Name = "Lever-Shade_Soul_Exit", Pool = LeverPool },
-                new Item { Name = "Lever-Emilitia", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Top_Left", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Middle_Left", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Bottom_Left", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Middle_Right", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Bottom_Right", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Claw", Pool = LeverPool },
-                new Item { Name = "Lever-Mantis_Lords_Access", Pool = LeverPool },
-                new Item { Name = "Lever-Fungal_Wastes_Thorns_Gauntlet", Pool = LeverPool },
-                new Item { Name = "Lever-Fungal_Wastes_Below_Shrumal_Ogres", Pool = LeverPool },
-                new Item { Name = "Lever-Fungal_Wastes_Bouncy_Grub", Pool = LeverPool },
-                new Item { Name = "Lever-Dirtmouth_Elevator", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Upper", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Middle", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Tall_Room_Lower", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Spike_Grub", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Below_Chest", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Above_Chest", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Crushers_Grub", Pool = LeverPool },
-                new Item { Name = "Lever-Crystal_Peak_Crushers_Chest", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Atrium", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Right", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Final", Pool = LeverPool },
-                new Item { Name = "Lever-Path_of_Pain", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Entrance_Orb", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Left_Orb", Pool = LeverPool },
-                new Item { Name = "Lever-Palace_Right_Orb", Pool = LeverPool },
-                new Item { Name = "Lever-Pilgrim's_Way_Left", Pool = LeverPool },
-                new Item { Name = "Lever-Pilgrim's_Way_Right", Pool = LeverPool },
-            };
-
-        private List<Item> GetTranscendenceCharms() =>
-            new List<Item>
-            {
-                new Item { Name = "Marissa's_Audience", Pool = TranscendencePool },
-                new Item { Name = "Lemm's_Strength", Pool = TranscendencePool },
-                new Item { Name = "Snail_Slash", Pool = TranscendencePool },
-                new Item { Name = "Millibelle's_Blessing", Pool = TranscendencePool },
-                new Item { Name = "Disinfectant_Flask", Pool = TranscendencePool },
-                new Item { Name = "Florist's_Blessing", Pool = TranscendencePool },
-                new Item { Name = "Greedsong", Pool = TranscendencePool },
-                new Item { Name = "Snail_Soul", Pool = TranscendencePool },
-                new Item { Name = "Nitro_Crystal", Pool = TranscendencePool },
-                new Item { Name = "Shaman_Amp", Pool = TranscendencePool },
-                new Item { Name = "Crystalmaster", Pool = TranscendencePool },
-                new Item { Name = "Bluemoth_Wings", Pool = TranscendencePool },
-                new Item { Name = "Chaos_Orb", Pool = TranscendencePool },
-                new Item { Name = "Antigravity_Amulet", Pool = TranscendencePool },
-            };
-
-        private List<Item> GetRainbowEggs() =>
-            new List<Item>
-            {
-                new Item { Name = "Red_Egg", Pool = EggPool },
-                new Item { Name = "Orange_Egg", Pool = EggPool },
-                new Item { Name = "Yellow_Egg", Pool = EggPool },
-                new Item { Name = "Green_Egg", Pool = EggPool },
-                new Item { Name = "Cyan_Egg", Pool = EggPool },
-                new Item { Name = "Blue_Egg", Pool = EggPool },
-                new Item { Name = "Purple_Egg", Pool = EggPool },
-                new Item { Name = "Pink_Egg", Pool = EggPool },
-                new Item { Name = "Trans_Egg", Pool = EggPool },
-                new Item { Name = "Rainbow_Egg", Pool = EggPool },
-                new Item { Name = "Arcane_Eg", Pool = EggPool },
-            };
-
-        private List<Item> GetNailUpgrades() =>
-            new List<Item>
-            {
-                new Item { Name = "Nail_Upgrade", Pool = SkillPool }
-            };
-
-        private List<Item> GetBenches() =>
-            new List<Item>
-            {
-                new Item { Name = "Bench-Dirtmouth", Pool = BenchPool },
-                new Item { Name = "Bench-Mato" , Pool = BenchPool },
-                new Item { Name = "Bench-Crossroads_Hot_Springs", Pool = BenchPool },
-                new Item { Name = "Bench-Crossroads_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Salubra", Pool = BenchPool },
-                new Item { Name = "Bench-Ancestral_Mound", Pool = BenchPool },
-                new Item { Name = "Bench-Black_Egg_Temple", Pool = BenchPool },
-                new Item { Name = "Bench-Waterfall", Pool = BenchPool },
-                new Item { Name = "Bench-Stone_Sanctuary", Pool = BenchPool },
-                new Item { Name = "Bench-Greenpath_Toll", Pool = BenchPool },
-                new Item { Name = "Bench-Greenpath_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Lake_of_Unn", Pool = BenchPool },
-                new Item { Name = "Bench-Sheo", Pool = BenchPool },
-                new Item { Name = "Bench-Archives", Pool = BenchPool },
-                new Item { Name = "Bench-Queen's_Station", Pool = BenchPool },
-                new Item { Name = "Bench-Leg_Eater", Pool = BenchPool },
-                new Item { Name = "Bench-Bretta", Pool = BenchPool },
-                new Item { Name = "Bench-Mantis_Village", Pool = BenchPool },
-                new Item { Name = "Bench-Quirrel", Pool = BenchPool },
-                new Item { Name = "Bench-City_Toll", Pool = BenchPool },
-                new Item { Name = "Bench-City_Storerooms", Pool = BenchPool },
-                new Item { Name = "Bench-Watcher's_Spire", Pool = BenchPool },
-                new Item { Name = "Bench-King's_Station", Pool = BenchPool },
-                new Item { Name = "Bench-Pleasure_House", Pool = BenchPool },
-                new Item { Name = "Bench-Waterways", Pool = BenchPool },
-                new Item { Name = "Bench-Godhome_Atrium", Pool = BenchPool },
-                new Item { Name = "Bench-Godhome_Roof", Pool = BenchPool },
-                new Item { Name = "Bench-Hall_of_Gods", Pool = BenchPool },
-                new Item { Name = "Bench-Deepnest_Hot_Springs", Pool = BenchPool },
-                new Item { Name = "Bench-Failed_Tramway", Pool = BenchPool },
-                new Item { Name = "Bench-Beast's_Den", Pool = BenchPool },
-                new Item { Name = "Bench-Basin_Toll", Pool = BenchPool },
-                new Item { Name = "Bench-Hidden_Station", Pool = BenchPool },
-                new Item { Name = "Bench-Oro", Pool = BenchPool },
-                new Item { Name = "Bench-Camp", Pool = BenchPool },
-                new Item { Name = "Bench-Colosseum", Pool = BenchPool },
-                new Item { Name = "Bench-Hive", Pool = BenchPool },
-                new Item { Name = "Bench-Peak_Dark_Room", Pool = BenchPool },
-                new Item { Name = "Bench-Crystal_Guardian", Pool = BenchPool },
-                new Item { Name = "Bench-Grounds_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Grey_Mourner", Pool = BenchPool },
-                new Item { Name = "Bench-Gardens_Cornifer", Pool = BenchPool },
-                new Item { Name = "Bench-Gardens_Toll", Pool = BenchPool },
-                new Item { Name = "Bench-Gardens_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_Entrance", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_Atrium", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_Balcony", Pool = BenchPool },
-                new Item { Name = "Bench-Upper_Tram", Pool = BenchPool },
-                new Item { Name = "Bench-Lower_Tram", Pool = BenchPool },
-                new Item { Name = "Bench-Stag_Nest", Pool = BenchPool },
-                new Item { Name = "Bench-Cliffs_Overhang", Pool = BenchPool },
-                new Item { Name = "Bench-Joni's_Repose", Pool = BenchPool },
-                new Item { Name = "Bench-Nightmare_Lantern", Pool = BenchPool },
-                new Item { Name = "Bench-Blasted_Plains", Pool = BenchPool },
-                new Item { Name = "Bench-Baldur_Cavern", Pool = BenchPool },
-                new Item { Name = "Bench-Crossroads_Center", Pool = BenchPool },
-                new Item { Name = "Bench-Myla", Pool = BenchPool },
-                new Item { Name = "Bench-Grubfather", Pool = BenchPool },
-                new Item { Name = "Bench-Crossroads_Elevator", Pool = BenchPool },
-                new Item { Name = "Bench-Fungal_Road", Pool = BenchPool },
-                new Item { Name = "Bench-Pilgrim's_Start", Pool = BenchPool },
-                new Item { Name = "Bench-Canyon_Depths", Pool = BenchPool },
-                new Item { Name = "Bench-Canyon's_End", Pool = BenchPool },
-                new Item { Name = "Bench-Overgrown_Atrium", Pool = BenchPool },
-                new Item { Name = "Bench-Overgrown_Mound", Pool = BenchPool },
-                new Item { Name = "Bench-Millibelle", Pool = BenchPool },
-                new Item { Name = "Bench-Fungal_Core", Pool = BenchPool },
-                new Item { Name = "Bench-Fungal_Tower", Pool = BenchPool },
-                new Item { Name = "Bench-Cloth's_Ambush", Pool = BenchPool },
-                new Item { Name = "Bench-Pilgrim's_End", Pool = BenchPool },
-                new Item { Name = "Bench-Mantis_Hub", Pool = BenchPool },
-                new Item { Name = "Bench-Prophet's_Gate", Pool = BenchPool },
-                new Item { Name = "Bench-City_Entrance", Pool = BenchPool },
-                new Item { Name = "Bench-Inner_Sanctum", Pool = BenchPool },
-                new Item { Name = "Bench-Outer_Sanctum", Pool = BenchPool },
-                new Item { Name = "Bench-City_Fountain", Pool = BenchPool },
-                new Item { Name = "Bench-Nailsmith", Pool = BenchPool },
-                new Item { Name = "Bench-Flooded_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Zote's_Skyway", Pool = BenchPool },
-                new Item { Name = "Bench-Watcher's_Skyway", Pool = BenchPool },
-                new Item { Name = "Bench-Tower_of_Love", Pool = BenchPool },
-                new Item { Name = "Bench-Hive_Hideaway", Pool = BenchPool },
-                new Item { Name = "Bench-Pure_Altar", Pool = BenchPool },
-                new Item { Name = "Bench-Lurker's_Overlook", Pool = BenchPool },
-                new Item { Name = "Bench-Edge_Summit", Pool = BenchPool },
-                new Item { Name = "Bench-Bardoon", Pool = BenchPool },
-                new Item { Name = "Bench-Bardoon's_Tail", Pool = BenchPool },
-                new Item { Name = "Bench-West_Lake_Shore", Pool = BenchPool },
-                new Item { Name = "Bench-East_Lake_Shore", Pool = BenchPool },
-                new Item { Name = "Bench-Spirits'_Glade", Pool = BenchPool },
-                new Item { Name = "Bench-Crypts", Pool = BenchPool },
-                new Item { Name = "Bench-Nosk's_Lair", Pool = BenchPool },
-                new Item { Name = "Bench-Weaver's_Den", Pool = BenchPool },
-                new Item { Name = "Bench-Distant_Reservoir", Pool = BenchPool },
-                new Item { Name = "Bench-Deepnest_Gate", Pool = BenchPool },
-                new Item { Name = "Bench-Distant_Stag", Pool = BenchPool },
-                new Item { Name = "Bench-Deepnest_Maze", Pool = BenchPool },
-                new Item { Name = "Bench-Abyss_Workshop", Pool = BenchPool },
-                new Item { Name = "Bench-Far_Basin", Pool = BenchPool },
-                new Item { Name = "Bench-Basin_Hub", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_Grounds", Pool = BenchPool },
-                new Item { Name = "Bench-Traitor's_Grave", Pool = BenchPool },
-                new Item { Name = "Bench-Fort_Loodle", Pool = BenchPool },
-                new Item { Name = "Bench-Far_Gardens", Pool = BenchPool },
-                new Item { Name = "Bench-Dark_Gardens", Pool = BenchPool },
-                new Item { Name = "Bench-Gardens_Atrium", Pool = BenchPool },
-                new Item { Name = "Bench-Peak_Entrance", Pool = BenchPool },
-                new Item { Name = "Bench-Crown_Ascent", Pool = BenchPool },
-                new Item { Name = "Bench-Crystallized_Mound", Pool = BenchPool },
-                new Item { Name = "Bench-Crusher_Refuge", Pool = BenchPool },
-                new Item { Name = "Bench-Western_Peak", Pool = BenchPool },
-                new Item { Name = "Bench-Quirrel_Peak", Pool = BenchPool },
-                new Item { Name = "Bench-Peak_Ravine", Pool = BenchPool },
-                new Item { Name = "Bench-Unn's_Chamber", Pool = BenchPool },
-                new Item { Name = "Bench-Gulka_Gulley", Pool = BenchPool },
-                new Item { Name = "Bench-Hunter's_Hideout", Pool = BenchPool },
-                new Item { Name = "Bench-Duranda's_Trial", Pool = BenchPool },
-                new Item { Name = "Bench-Greenpath_Entrance", Pool = BenchPool },
-                new Item { Name = "Bench-Defender's_Repose", Pool = BenchPool },
-                new Item { Name = "Bench-Hermit's_Approach", Pool = BenchPool },
-                new Item { Name = "Bench-Waterways_Entrance", Pool = BenchPool },
-                new Item { Name = "Bench-Isma's_Grove", Pool = BenchPool },
-                new Item { Name = "Bench-Acid_Sluice_East", Pool = BenchPool },
-                new Item { Name = "Bench-Acid_Sluice_West", Pool = BenchPool },
-                new Item { Name = "Bench-Fort_Flukefey", Pool = BenchPool },
-                new Item { Name = "Bench-Destroyed_Tram", Pool = BenchPool },
-                new Item { Name = "Bench-Kingsmould_Duelist", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_West", Pool = BenchPool },
-                new Item { Name = "Bench-Sawblade_Choir", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_East", Pool = BenchPool },
-                new Item { Name = "Bench-Thorny_Respite", Pool = BenchPool },
-                new Item { Name = "Bench-Palace_Workshop", Pool = BenchPool },
-                new Item { Name = "Bench-Throne_Approach", Pool = BenchPool },
-                new Item { Name = "Bench-Path_Midpoint", Pool = BenchPool },
-            };
-
-        private void SetupItemPreviews()
+        private void LoadReferenceItems()
         {
-            PreviewItems = Items.Select(x => new Item
+            var itemImports = GetItemImportsFromFile();
+            ReferenceItems = itemImports.Select(x => new ReferenceItem
             {
-                Name = GetPreviewName(x),
+                Name = x.Name,
+                PreviewName = x.Name.Replace("-", " ").Replace("_", " "),
                 Pool = x.Pool
+            })
+                //flibber-hk
+                .Concat(MrMushroomItemImport())
+                .Concat(NailUpgradeItemImport())
+                .Concat(SkillUpgradeItemImport())
+                .Concat(FungalCityGateKeyItemImport())
+                .Concat(LeverItemImport())
+
+                //dpinela
+                .Concat(TranscendenceItemImport())
+                .Concat(RainbowEggItemImport())
+
+                //homothetyhk
+                .Concat(BenchItemImport())
+
+                //BadMagic100
+                // TRJR
+                // https://github.com/BadMagic100/TheRealJournalRando
+
+                //dplochcoder
+                .Concat(MoreDoorsItemImport())
+                .Concat(DarknessItemImport())
+
+                //Hoo-Knows
+                .Concat(LostArtifactsItemImport())
+
+                //Korzer420
+                .Concat(LoreMasterItemImport())
+
+                .ToList();
+        }
+
+        private static List<ItemImport> GetItemImportsFromFile() =>
+            LoadDictionaryFile<ItemImport>(ReferenceItemsFilePath).Concat(new List<ItemImport>
+            {
+                new ItemImport { Name = "White_Fragment", Pool = "Charm" },
+                new ItemImport { Name = "Kingsoul", Pool = "Charm" },
+                new ItemImport { Name = "Grimmchild", Pool = "Charm" },
             }).ToList();
-        }
 
-        private string GetPreviewName(Item item) =>
-            item.Pool switch
+        private static List<ReferenceItem> MrMushroomItemImport() =>
+            new()
             {
-                LeverPool => GetLeverPreviewName(item.Name),
-                BenchPool => GetBenchPreviewName(item.Name),
-                SkillUpgradePool => item.Name.AddSpacesBeforeCapitals(),
-                _ => item.Name.Replace("-", " ").Replace("_", " "),
+                // https://github.com/flibber-hk/HollowKnight.RandoPlus
+                new ReferenceItem { Name = "Mr_Mushroom_Level_Up", PreviewName = "Mr Mushroom Level Up" , Pool = MrMushroomPool },
             };
 
-        private string GetLeverPreviewName(string leverName) =>
-            leverName switch
+        private static List<ReferenceItem> NailUpgradeItemImport() =>
+            new()
             {
-                // https://github.com/flibber-hk/HollowKnight.RandomizableLevers/blob/main/RandomizableLevers/Resources/languagedata.json
-                "Switch-Dirtmouth_Stag" => "Dirtmouth Station Door",
-                "Switch-Outside_Ancestral_Mound" => "Shaman Mound Pillar",
-                "Switch-Greenpath_Stag" => "Greenpath Stag Gate",
-                "Switch-Lower_Resting_Grounds" => "Resting Grounds Floor",
-                "Switch-Petra_Arena" => "Petra Arena Gate",
-                "Switch-Queen's_Gardens_Stag" => "QG Stag Door",
-                "Switch-Crossroads_East" => "East Crossroads Gate",
-                "Lever-Dung_Defender" => "Waterways Acid Pool",
-                "Lever-Waterways_Hwurmp_Arena" => "Waterways Exit Gate",
-                "Lever-Queen's_Station_Mask_Shard" => "QS Mask Gauntlet Exit",
-                "Lever-Queen's_Gardens_Ground_Block" => "QG Ground Block",
-                "Lever-Below_Overgrown_Mound" => "Overgrown Mound Gate",
-                "Lever-Tower_of_Love" => "Tower of Love Exit",
-                "Lever-Resting_Grounds_Stag" => "RG Stag Lever",
-                "Lever-Abyss_Lighthouse" => "Abyss Lighthouse",
-                "Lever-Failed_Tramway_Right" => "Tramway Lower Gate",
-                "Lever-Failed_Tramway_Left" => "Tramway Exit Gates",
-                "Lever-Below_Spell_Twister" => "Gate Below Spell Twister",
-                "Lever-Sanctum_East" => "East Sanctum Gate",
-                "Lever-Sanctum_Soul_Warrior" => "Soul Warrior 1 Arena Gate",
-                "Lever-Sanctum_Bottom" => "Lower Sanctum Gate",
-                "Lever-Sanctum_West_Upper" => "West Sanctum Upper Gate",
-                "Lever-Sanctum_West_Lower" => "West Sanctum Lower Gate",
-                "Lever-City_Fountain" => "City Fountain Gate",
-                "Lever-City_Spire_Sentry_Lower" => "Spire Lower Gate",
-                "Lever-City_Spire_Sentry_Upper" => "Spire Upper Gate",
-                "Lever-City_Bridge_Above_Fountain" => "Spire Bridge Gate",
-                "Lever-City_Storerooms" => "City Storerooms Gate",
-                "Lever-City_Lemm" => "Gate Opposite Lemm",
-                "Lever-City_Above_Lemm_Right" => "Single Gate Above Lemm",
-                "Lever-City_Above_Lemm_Left" => "Triple Gate Above Lemm",
-                "Lever-City_Above_Lemm_Upper" => "City Gate Opposite Grub",
-                "Lever-Shade_Soul_Exit" => "Shade Soul Exit Gate",
-                "Lever-Emilitia" => "Emilitia Door",
-                "Lever-Mantis_Lords_Top_Left" => "Mantis Lords Top Left",
-                "Lever-Mantis_Lords_Middle_Left" => "Mantis Lords Middle Left",
-                "Lever-Mantis_Lords_Bottom_Left" => "Mantis Lords Bottom Left",
-                "Lever-Mantis_Lords_Middle_Right" => "Mantis Lords Middle Right",
-                "Lever-Mantis_Lords_Bottom_Right" => "Mantis Lords Bottom Right",
-                "Lever-Mantis_Claw" => "Mantis Claw Access",
-                "Lever-Mantis_Lords_Access" => "Mantis Lords Access",
-                "Lever-Fungal_Wastes_Thorns_Gauntlet" => "Fungal Thorns Gauntlet Exit",
-                "Lever-Fungal_Wastes_Below_Shrumal_Ogres" => "Gate Below Shrumal Ogres",
-                "Lever-Fungal_Wastes_Bouncy_Grub" => "Fungal Bouncy Grub Gate",
-                "Lever-Dirtmouth_Elevator" => "Dirtmouth Elevator",
-                "Lever-Crystal_Peak_Tall_Room_Upper" => "Peaks Tall Room Upper",
-                "Lever-Crystal_Peak_Tall_Room_Middle" => "Peaks Tall Room Middle",
-                "Lever-Crystal_Peak_Tall_Room_Lower" => "Peaks Tall Room Lower",
-                "Lever-Crystal_Peak_Spike_Grub" => "Peaks Spike Grub Gate",
-                "Lever-Crystal_Peak_Below_Chest" => "Peaks Gate Below Chest",
-                "Lever-Crystal_Peak_Above_Chest" => "Peaks Gate Above Chest",
-                "Lever-Crystal_Peak_Crushers_Grub" => "Peaks Upper Crushers",
-                "Lever-Crystal_Peak_Crushers_Chest" => "Peaks Lower Crushers",
-                "Lever-Palace_Atrium" => "Palace Atrium Gate",
-                "Lever-Palace_Right" => "Palace Right Gates",
-                "Lever-Palace_Final" => "Palace Final Gates",
-                "Lever-Path_of_Pain" => "Path of Pain Gate",
-                "Lever-Palace_Entrance_Orb" => "Palace Entrance Orb",
-                "Lever-Palace_Left_Orb" => "Palace Left Orb",
-                "Lever-Palace_Right_Orb" => "Palace Right Orb",
-                "Lever-Pilgrim's_Way_Left" => "Left Pilgrim's Way Bridge",
-                "Lever-Pilgrim's_Way_Right" => "Right Pilgrim's Way Bridge",
-                _ => leverName,
+                // https://github.com/flibber-hk/HollowKnight.RandoPlus
+                new ReferenceItem { Name = "Nail_Upgrade", PreviewName = "Nail Upgrade" , Pool = SkillPool },
             };
 
-        private string GetBenchPreviewName(string benchName) =>
-            benchName switch
+        private static List<ReferenceItem> SkillUpgradeItemImport() =>
+            new()
             {
-                // https://github.com/homothetyhk/BenchRando/blob/master/BenchRando/Resources/language.json
-                "Bench-Dirtmouth" => "Dirtmouth Bench",
-                "Bench-Mato" => "Mato Bench",
-                "Bench-Crossroads_Hot_Springs" => "Crossroads Hot Springs Bench",
-                "Bench-Crossroads_Stag" => "Crossroads Stag Bench",
-                "Bench-Salubra" => "Salubra Bench",
-                "Bench-Ancestral_Mound" => "Ancestral Mound Bench",
-                "Bench-Black_Egg_Temple" => "Black Egg Temple Bench",
-                "Bench-Waterfall" => "Waterfall Bench",
-                "Bench-Stone_Sanctuary" => "Stone Sanctuary Bench",
-                "Bench-Greenpath_Toll" => "Greenpath Toll Bench",
-                "Bench-Greenpath_Stag" => "Greenpath Stag Bench",
-                "Bench-Lake_of_Unn" => "Lake of Unn Bench",
-                "Bench-Sheo" => "Sheo Bench",
-                "Bench-Archives" => "Archives Bench",
-                "Bench-Queen's_Station" => "Queen's Station Bench",
-                "Bench-Leg_Eater" => "Leg Eater Bench",
-                "Bench-Bretta" => "Bretta Bench",
-                "Bench-Mantis_Village" => "Mantis Village Bench",
-                "Bench-Quirrel" => "City Quirrel Bench",
-                "Bench-City_Toll" => "City Toll Bench",
-                "Bench-City_Storerooms" => "City Storerooms Bench",
-                "Bench-Watcher's_Spire" => "Watcher's Spire Bench",
-                "Bench-King's_Station" => "King's Station Bench",
-                "Bench-Pleasure_House" => "Pleasure House Bench",
-                "Bench-Waterways" => "Waterways Bench",
-                "Bench-Godhome_Atrium" => "Godhome Atrium Bench",
-                "Bench-Godhome_Roof" => "Godhome Roof Bench",
-                "Bench-Hall_of_Gods" => "Hall of Gods Bench",
-                "Bench-Deepnest_Hot_Springs" => "Deepnest Hot Springs Bench",
-                "Bench-Failed_Tramway" => "Failed Tramway Bench",
-                "Bench-Beast's_Den" => "Beast's Den Bench",
-                "Bench-Basin_Toll" => "Basin Toll Bench",
-                "Bench-Hidden_Station" => "Hidden Station Bench",
-                "Bench-Oro" => "Oro Bench",
-                "Bench-Camp" => "Camp Bench",
-                "Bench-Colosseum" => "Colosseum Bench",
-                "Bench-Hive" => "Hive Bench",
-                "Bench-Peak_Dark_Room" => "Dark Room Bench",
-                "Bench-Crystal_Guardian" => "Crystal Guardian Bench",
-                "Bench-Grounds_Stag" => "Grounds Stag Bench",
-                "Bench-Grey_Mourner" => "Grey Mourner Bench",
-                "Bench-Gardens_Cornifer" => "Gardens Cornifer Bench",
-                "Bench-Gardens_Toll" => "Gardens Toll Bench",
-                "Bench-Gardens_Stag" => "Gardens Stag Bench",
-                "Bench-Palace_Entrance" => "Palace Entrance Bench",
-                "Bench-Palace_Atrium" => "Palace Atrium Bench",
-                "Bench-Palace_Balcony" => "Palace Balcony Bench",
-                "Bench-Upper_Tram" => "Upper Tram Bench",
-                "Bench-Lower_Tram" => "Lower Tram Bench",
-                "Bench-Stag_Nest" => "Stag Nest Bench",
-                "Bench-Cliffs_Overhang" => "Cliff Overhang Bench",
-                "Bench-Joni's_Repose" => "Joni's Repose Bench",
-                "Bench-Nightmare_Lantern" => "Nightmare Lantern Bench",
-                "Bench-Blasted_Plains" => "Blasted Plains Bench",
-                "Bench-Baldur_Cavern" => "Baldur Cavern Bench",
-                "Bench-Crossroads_Center" => "Crossroads Center Bench",
-                "Bench-Myla" => "Myla Bench",
-                "Bench-Grubfather" => "Grubfather Bench",
-                "Bench-Crossroads_Elevator" => "Crossroads Elevator Bench",
-                "Bench-Fungal_Road" => "Fungal Road Bench",
-                "Bench-Pilgrim's_Start" => "Pilgrim's Start Bench",
-                "Bench-Canyon_Depths" => "Canyon Depths Bench",
-                "Bench-Canyon's_End" => "Canyon's End Bench",
-                "Bench-Overgrown_Atrium" => "Overgrown Atrium Bench",
-                "Bench-Overgrown_Mound" => "Overgrown Mound Bench",
-                "Bench-Millibelle" => "Millibelle Bench",
-                "Bench-Fungal_Core" => "Fungal Core Bench",
-                "Bench-Fungal_Tower" => "Fungal Tower Bench",
-                "Bench-Cloth's_Ambush" => "Cloth's Ambush Bench",
-                "Bench-Pilgrim's_End" => "Pilgrim's End Bench",
-                "Bench-Mantis_Hub" => "Mantis Hub Bench",
-                "Bench-Prophet's_Gate" => "Prophet's Gate Bench",
-                "Bench-City_Entrance" => "City Entrance Bench",
-                "Bench-Inner_Sanctum" => "Inner Sanctum Bench",
-                "Bench-Outer_Sanctum" => "Outer Sanctum Bench",
-                "Bench-City_Fountain" => "City Fountain Bench",
-                "Bench-Nailsmith" => "Nailsmith Bench",
-                "Bench-Flooded_Stag" => "Flooded Stag Bench",
-                "Bench-Zote's_Skyway" => "Zote's Skyway Bench",
-                "Bench-Watcher's_Skyway" => "Watcher's Skyway Bench",
-                "Bench-Tower_of_Love" => "Tower of Love Bench",
-                "Bench-Hive_Hideaway" => "Hive Hideaway Bench",
-                "Bench-Pure_Altar" => "Pure Altar Bench",
-                "Bench-Lurker's_Overlook" => "Lurker's Overlook Bench",
-                "Bench-Edge_Summit" => "Edge Summit Bench",
-                "Bench-Bardoon" => "Bardoon Bench",
-                "Bench-Bardoon's_Tail" => "Bardoon's Tail Bench",
-                "Bench-West_Lake_Shore" => "West Lake Shore Bench",
-                "Bench-East_Lake_Shore" => "East Lake Shore Bench",
-                "Bench-Spirits'_Glade" => "Spirits' Glade Bench",
-                "Bench-Crypts" => "Crypts Bench",
-                "Bench-Nosk's_Lair" => "Nosk's Lair Bench",
-                "Bench-Weaver's_Den" => "Weaver's Den Bench",
-                "Bench-Distant_Reservoir" => "Distant Reservoir Bench",
-                "Bench-Deepnest_Gate" => "Deepnest Gate Bench",
-                "Bench-Distant_Stag" => "Distant Stag Bench",
-                "Bench-Deepnest_Maze" => "Deepnest Maze Bench",
-                "Bench-Abyss_Workshop" => "Abyss Workshop Bench",
-                "Bench-Far_Basin" => "Far Basin Bench",
-                "Bench-Basin_Hub" => "Basin Hub Bench",
-                "Bench-Palace_Grounds" => "Palace Grounds Bench",
-                "Bench-Traitor's_Grave" => "Traitor's Grave Bench",
-                "Bench-Fort_Loodle" => "Fort Loodle Bench",
-                "Bench-Far_Gardens" => "Far Gardens Bench",
-                "Bench-Dark_Gardens" => "Dark Gardens Bench",
-                "Bench-Gardens_Atrium" => "Gardens Atrium Bench",
-                "Bench-Peak_Entrance" => "Peak Entrance Bench",
-                "Bench-Crown_Ascent" => "Crown Ascent Bench",
-                "Bench-Crystallized_Mound" => "Crystal Mound Bench",
-                "Bench-Crusher_Refuge" => "Crusher Refuge Bench",
-                "Bench-Western_Peak" => "Western Peak Bench",
-                "Bench-Quirrel_Peak" => "Quirrel Peak Bench",
-                "Bench-Peak_Ravine" => "Peak Ravine Bench",
-                "Bench-Unn's_Chamber" => "Unn's Chamber Bench",
-                "Bench-Gulka_Gulley" => "Gulka Gulley Bench",
-                "Bench-Hunter's_Hideout" => "Hunter's Hideout Bench",
-                "Bench-Duranda's_Trial" => "Duranda's Trial Bench",
-                "Bench-Greenpath_Entrance" => "Greenpath Entrance Bench",
-                "Bench-Defender's_Repose" => "Defender's Repose Bench",
-                "Bench-Hermit's_Approach" => "Hermit's Approach Bench",
-                "Bench-Waterways_Entrance" => "Waterways Entrance Bench",
-                "Bench-Isma's_Grove" => "Isma's Grove Bench",
-                "Bench-Acid_Sluice_East" => "Acid Sluice East Bench",
-                "Bench-Acid_Sluice_West" => "Acid Sluice West Bench",
-                "Bench-Fort_Flukefey" => "Fort Flukefey Bench",
-                "Bench-Destroyed_Tram" => "Destroyed Tram Bench",
-                "Bench-Kingsmould_Duelist" => "Kingsmould Duelist Bench",
-                "Bench-Palace_West" => "Palace West Bench",
-                "Bench-Sawblade_Choir" => "Sawblade Choir Bench",
-                "Bench-Palace_East" => "Palace East Bench",
-                "Bench-Thorny_Respite" => "Thorny Respite Bench",
-                "Bench-Palace_Workshop" => "Palace Workshop Bench",
-                "Bench-Throne_Approach" => "Throne Approach Bench",
-                "Bench-Path_Midpoint" => "Path Midpoint Bench",
-                _ => benchName,
+                // https://github.com/flibber-hk/HollowKnight.SkillUpgrades
+                new ReferenceItem { Name = "DirectionalDash", PreviewName = "Directional Dash", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "DownwardFireball", PreviewName = "Downward Fireball", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "ExtraAirDash", PreviewName = "Extra Air Dash", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "GreatSlashShockwave", PreviewName = "Great Slash Shockwave", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "HorizontalDive", PreviewName = "Horizontal Dive", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "SpiralScream", PreviewName = "Spiral Scream", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "TripleJump", PreviewName = "Triple Jump", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "VerticalSuperdash", PreviewName = "Vertical Superdash", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "WallClimb", PreviewName = "Wall Climb", Pool = SkillUpgradePool },
+                new ReferenceItem { Name = "WingsGlide", PreviewName = "Wings Glide", Pool = SkillUpgradePool },
             };
 
-        private void LoadTransitions()
-        {
-            if (!File.Exists(".\\Reference\\transitions.json") || !File.Exists(".\\Reference\\rooms.json"))
+        private static List<ReferenceItem> FungalCityGateKeyItemImport() =>
+            new()
             {
-                return;
+                // https://github.com/flibber-hk/HollowKnight.ReopenCityDoor
+                new ReferenceItem { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key" , Pool = "Key" },
+            };
+
+        private class LeverItem
+        {
+            public string Key;
+            public string Text;
+        }
+        private static List<ReferenceItem> LeverItemImport() =>
+            // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
+            LoadListFile<LeverItem>(ReferenceRandoLeverItemsFilePath)
+                .Where(x => x.Key.StartsWith("LEVERNAME"))
+                .Select(x => new ReferenceItem
+                {
+                    Name = x.Key.Replace("LEVERNAME.", ""),
+                    PreviewName = x.Text,
+                    Pool = LeverPool,
+                })
+                .ToList();
+
+        private static List<ReferenceItem> TranscendenceItemImport() =>
+            new()
+            {
+                // https://github.com/dpinela/Transcendence
+                new ReferenceItem { Name = "Marissa's_Audience", PreviewName = "Marissa's Audience" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Lemm's_Strength", PreviewName = "Lemm's Strength" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Snail_Slash", PreviewName = "Snail Slash" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Millibelle's_Blessing", PreviewName = "Millibelle's Blessing" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Disinfectant_Flask", PreviewName = "Disinfectant Flask" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Florist's_Blessing", PreviewName = "Florist's Blessing" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Greedsong", PreviewName = "Greedsong" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Snail_Soul", PreviewName = "Snail Soul" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Nitro_Crystal", PreviewName = "Nitro Crystal" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Shaman_Amp", PreviewName = "Shaman Amp" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Crystalmaster", PreviewName = "Crystalmaster" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Bluemoth_Wings", PreviewName = "Bluemoth Wings" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Chaos_Orb", PreviewName = "Chaos Orb" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Antigravity_Amulet", PreviewName = "Antigravity Amulet" , Pool = TranscendencePool },
+            };
+
+        private static List<ReferenceItem> RainbowEggItemImport() =>
+            new()
+            {
+                // https://github.com/dpinela/RainbowEggs
+                new ReferenceItem { Name = "Red_Egg", PreviewName = "Red Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Orange_Egg", PreviewName = "Orange Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Yellow_Egg", PreviewName = "Yellow Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Green_Egg", PreviewName = "Green Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Cyan_Egg", PreviewName = "Cyan Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Blue_Egg", PreviewName = "Blue Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Purple_Egg", PreviewName = "Purple Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Pink_Egg", PreviewName = "Pink Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Trans_Egg", PreviewName = "Trans Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Rainbow_Egg", PreviewName = "Rainbow Egg" , Pool = EggPool },
+                new ReferenceItem { Name = "Arcane_Eg", PreviewName = "Arcane Eg" , Pool = EggPool },
+            };
+
+        private class BenchItem
+        {
+            public string Key;
+            public string Value;
+        }
+        private static List<ReferenceItem> BenchItemImport() =>
+            // https://github.com/homothetyhk/BenchRando
+            LoadListFile<BenchItem>(ReferenceBenchRandoItemsFilePath)
+                .Where(x => x.Key.StartsWith("BENCHNAME"))
+                .Select(x => new ReferenceItem
+                {
+                    Name = x.Key.Replace("BENCHNAME.", ""),
+                    PreviewName = x.Value,
+                    Pool = BenchPool,
+                })
+                .ToList();
+
+        private class MoreDoorItem
+        {
+            public MoreDoorKey Key;
+        }
+        private class MoreDoorKey
+        {
+            public string ItemName;
+            public string UIItemName;
+            public MoreDoorGate Location;
+        }
+        private class MoreDoorGate
+        {
+            public string Name;
+            public string SceneName;
+        }
+        private static List<ReferenceItem> MoreDoorsItemImport() =>
+            // https://github.com/dplochcoder/HollowKnight.MoreDoors
+            LoadDictionaryFile<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
+            new ReferenceItem
+            {
+                Name = x.Key.ItemName,
+                PreviewName = x.Key.UIItemName,
+                Pool = MoreDoorsPool,
+            }).ToList();
+
+        private static List<ReferenceItem> LostArtifactsItemImport() =>
+            new()
+            {
+                // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
+                new ReferenceItem { Name = "TravelersGarment", PreviewName = "Travelers Garment" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "PavingStone", PreviewName = "Paving Stone" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "LushMoss", PreviewName = "Lush Moss" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "NoxiousShroom", PreviewName = "Noxious Shroom" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "CryingStatue", PreviewName = "Crying Statue" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "TotemShard", PreviewName = "Totem Shard" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "DungBall", PreviewName = "Dung Ball" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Tumbleweed", PreviewName = "Tumbleweed" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "ChargedCrystal", PreviewName = "Charged Crystal" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Dreamwood", PreviewName = "Dreamwood" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "LumaflyEssence", PreviewName = "Lumafly Essence" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "ThornedLeaf", PreviewName = "Thorned Leaf" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "WeaverSilk", PreviewName = "Weaver Silk" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "WyrmAsh", PreviewName = "Wyrm Ash" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "BeastShell", PreviewName = "Beast Shell" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Honeydrop", PreviewName = "Honeydrop" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "InfectedRock", PreviewName = "Infected Rock" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Buzzsaw", PreviewName = "Buzzsaw" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "VoidEmblem", PreviewName = "Void Emblem" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "AttunedJewel", PreviewName = "Attuned Jewel" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "HiddenMemento", PreviewName = "Hidden Memento" , Pool = LostArtifactPool },
+            };
+
+        private static List<ReferenceItem> LoreMasterItemImport() =>
+            new()
+            {
+                // https://github.com/Korzer420/LoreMaster/
+                new ReferenceItem { Name = "Magical_Key", PreviewName = "Magical Key" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Medallion", PreviewName = "Dream Medallion" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Silksong_Journal", PreviewName = "Silksong Journal?" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Silver_Hallownest_Seal", PreviewName = "Silver Seal" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Bronze_King_Idol", PreviewName = "Bronze King's Idol" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Golden_Arcane_Egg", PreviewName = "Golden Arcane Egg" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Lore_Tablet-Stag_Egg_Inspect", PreviewName = "Stag Adoption" , Pool = LoreMasterPool },
+                
+                new ReferenceItem { Name = "Read_Ability", PreviewName = "Reading" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Listen_Ability", PreviewName = "Listening" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Lore_Page", PreviewName = "Lore Page" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Lore_Page_Control", PreviewName = "Lore Control" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Cleansing_Scroll", PreviewName = "Cleansing Scroll" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Joker_Scroll", PreviewName = "Knowledge Scroll" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Cleansing_Scroll_Double", PreviewName = "Cleansing Scroll Pack" , Pool = LoreMasterPool },
+                
+                new ReferenceItem { Name = "Lemm_Order", PreviewName = "Lemm's Order" , Pool = LoreMasterPool },
+                
+                new ReferenceItem { Name = "Dialogue-Bretta_Diary", PreviewName = "Bretta Diary" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Bardoon", PreviewName = "Bardoon" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Vespa", PreviewName = "Vespa" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Mask_Maker", PreviewName = "Mask Maker" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Midwife", PreviewName = "Midwife" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Gravedigger", PreviewName = "Gravedigger" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Poggy", PreviewName = "Poggy" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Joni", PreviewName = "Joni" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Myla", PreviewName = "Myla" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Emilitia", PreviewName = "Emilitia" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Willoh", PreviewName = "Willoh" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Moss_Prophet", PreviewName = "Moss Prophet" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Fluke_Hermit", PreviewName = "Fluke Hermit" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Queen", PreviewName = "Queen" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Marissa", PreviewName = "Marissa" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Grasshopper", PreviewName = "Grasshopper" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Dung_Defender", PreviewName = "Dung Defender" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Menderbug_Diary", PreviewName = "Menderbug Diary" , Pool = LoreMasterPool },
+                
+                new ReferenceItem { Name = "Inspect-Elder_Hu", PreviewName = "Elder Hu" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Xero", PreviewName = "Xero" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Galien", PreviewName = "Galien" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Marmu", PreviewName = "Marmu" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Gorb", PreviewName = "Gorb" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Markoth", PreviewName = "Markoth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-No_Eyes", PreviewName = "No Eyes" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Dream_Dialogue-Aspid_Queen", PreviewName = "Aspid Queen" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Mine_Golem", PreviewName = "Mine Golem" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Hopper_Dummy", PreviewName = "Hopper Dummy" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Ancient_Nailsmith_Golem", PreviewName = "Ancient Nailsmith Golem" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Shriek_Statue", PreviewName = "Shriek Statue" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Normal", PreviewName = "Shade Golem Normal" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Void", PreviewName = "Shade Golem Void" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Overgrown_Shaman", PreviewName = "Overgrown Shaman" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Crystalized_Shaman", PreviewName = "Crystalized Shaman" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Shroom_King", PreviewName = "Shroom King" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Dryya", PreviewName = "Dryya" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Isma", PreviewName = "Isma" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Radiance_Statue", PreviewName = "Radiance Statue" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Dashmaster_Statue", PreviewName = "Dashmaster Statue" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Snail_Shaman_Tomb", PreviewName = "Snail Shaman Tomb" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Pale_King", PreviewName = "Pale King" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Grimm_Summoner", PreviewName = "Grimm Summoner" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Kings_Mould", PreviewName = "Kings Mould" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Dream_Shield_Statue", PreviewName = "Dream Shield Statue" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Inscription-City_Fountain", PreviewName = "City Fountain" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inscription-Dreamer_Tablet", PreviewName = "Dreamer Tablet" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Inspect-Beast_Den_Altar", PreviewName = "Beast Den Altar" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Weaver_Seal", PreviewName = "Weaver Seal" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Grimm_Machine", PreviewName = "Grimm Machine" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Garden_Golem", PreviewName = "Garden Golem" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Grub_Seal", PreviewName = "Grub Seal" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-White_Palace_Nursery", PreviewName = "White Palace Nursery" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Grimm_Summoner_Corpse", PreviewName = "Grimm Summoner Corpse" , Pool = LoreMasterPool },
+                
+                new ReferenceItem { Name = "Dialogue-Quirrel_Crossroads", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Greenpath", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Queen_Station", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Mantis_Village", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_City", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Deepnest", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Peaks", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Outside_Archive", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Archive", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Blue_Lake", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Dialogue-Cloth_Fungal_Wastes", PreviewName = "Cloth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Cloth_Basin", PreviewName = "Cloth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Cloth_Deepnest", PreviewName = "Cloth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Cloth_Garden", PreviewName = "Cloth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Cloth_Ghost", PreviewName = "Cloth" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Dialogue-Tiso_Dirtmouth", PreviewName = "Tiso" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Tiso_Crossroads", PreviewName = "Tiso" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Tiso_Blue_Lake", PreviewName = "Tiso" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Tiso_Colosseum", PreviewName = "Tiso" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Tiso_Corpse", PreviewName = "Tiso" , Pool = LoreMasterPool },
+
+                new ReferenceItem { Name = "Dialogue-Zote_Greenpath", PreviewName = "Zote" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_Intro", PreviewName = "Zote" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Zote_City", PreviewName = "Zote" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Zote_Deepnest", PreviewName = "Zote" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Zote_Colosseum", PreviewName = "Zote" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_After_Colosseum", PreviewName = "Zote" , Pool = LoreMasterPool },
+            };
+
+        private static List<ReferenceItem> DarknessItemImport() =>
+            new()
+            {
+                // https://github.com/dplochcoder/HollowKnight.DarknessRandomizer
+                new ReferenceItem { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)" , Pool = "Key" },
+                new ReferenceItem { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard" , Pool = "Key" },
+            };
+
+        private void LoadReferenceLocations()
+        {
+            var locationImports = GetLocationImportsFromFile();
+            var roomImports = GetRoomImportsFromFile();
+            var customImports = GetCustomImports();
+
+            ReferenceLocations = locationImports.Join(
+                roomImports,
+                location => location.SceneName,
+                room => room.SceneName,
+                (location, room) => new ReferenceLocation
+                {
+                    Name = location.Name,
+                    SceneName = location.SceneName,
+                    MapArea = room.MapArea,
+                    TitledArea = room.TitledArea,
+                    Pool = GetReferenceLocationPool(location.Name)
+                })
+                .Concat(customImports.Join(
+                    roomImports,
+                    customLocation => customLocation.SceneName,
+                    room => room.SceneName,
+                    (customLocation, room) => new ReferenceLocation
+                    {
+                        Name = customLocation.Name,
+                        SceneName = customLocation.SceneName,
+                        MapArea = room.MapArea,
+                        TitledArea = room.TitledArea,
+                        Pool = customLocation.Pool
+                    })
+                ).ToList();
+
+            var sceneNames = roomImports.Select(x => x.SceneName).ToList();
+            DeadLocations = locationImports.Concat(customImports).Where(location => !sceneNames.Contains(location.SceneName)).ToList();
+        }
+
+        private static List<LocationImport> GetLocationImportsFromFile() =>
+            LoadDictionaryFile<LocationImport>(ReferenceLocationsFilePath);
+
+        private static List<RoomImport> GetRoomImportsFromFile() =>
+            LoadDictionaryFile<RoomImport>(ReferenceRoomsFilePath).Concat(new List<RoomImport>
+            {
+                new RoomImport { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
+                new RoomImport { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
+                new RoomImport { SceneName = "Room_Final_Boss_Atrium", MapArea = "Black Egg Temple", TitledArea = "Black Egg Temple" },
+                new RoomImport { SceneName = "GG_Atrium", MapArea = "Godhome", TitledArea = "Godhome" },
+                new RoomImport { SceneName = "GG_Atrium_Roof", MapArea = "Godhome", TitledArea = "Godhome" },
+                new RoomImport { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
+                new RoomImport { SceneName = "Town/Fungus3_23", MapArea = "Dirthmouth/Queen's Garden", TitledArea = "Dirthmouth/Queen's Garden" },
+            }).ToList();
+
+        private readonly string[] ShopLocations = new[]
+        {
+            "Sly",
+            "Sly_(Key)",
+            "Iselda",
+            "Salubra",
+            "Salubra_(Requires_Charms)",
+            "Leg_Eater",
+            "Grubfather",
+            "Seer",
+            "Egg_Shop"
+        };
+
+        private string GetReferenceLocationPool(string locationName)
+        {
+            var perfectMatch = ReferenceItems.FirstOrDefault(x => x.Name == locationName)?.Pool;
+            if (!string.IsNullOrWhiteSpace(perfectMatch))
+            {
+                return perfectMatch;
             }
-            var roomsContent = ReadFile(".\\Reference\\rooms.json");
-            var rooms = JsonConvert.DeserializeObject<Dictionary<string, RoomImport>>(roomsContent).Values.ToList();
 
-            var transitionsContent = ReadFile(".\\Reference\\transitions.json");
-            var transitions = JsonConvert.DeserializeObject<Dictionary<string, TransitionImport>>(transitionsContent).Values.ToList();
-
-            Transitions = new List<Transition>(transitions.Select(x =>
+            var locationPrefix = locationName.Split('-')[0];
+            if (locationPrefix != locationName)
             {
-                var roomDetails = rooms.FirstOrDefault(y => y.SceneName == x.SceneName) ?? new RoomImport { SceneName = x.SceneName, MapArea = "undefined", TitledArea = "undefined" };
-                return new Transition { SceneName = x.SceneName, DoorName = x.DoorName, TitledArea = roomDetails.TitledArea, MapArea = roomDetails.MapArea };
-            }));
-        }
+                var prefixMatch = ReferenceItems.FirstOrDefault(x => x.Name == locationPrefix)?.Pool;
+                if (!string.IsNullOrWhiteSpace(prefixMatch))
+                {
+                    return prefixMatch;
+                }
 
-        public Dictionary<string, LocationWithTime> GetHelperLogLocations()
-        {
-            if (!File.Exists("_HelperLogLocations.json"))
-            {
-                return new Dictionary<string, LocationWithTime>();
+                if (locationPrefix == "Lifeblood_Cocoon")
+                    return "Lifeblood_Cocoon";
+
+                if (locationPrefix == "Geo_Rock")
+                    return "Rock";
+
+                if (locationPrefix == "Soul_Totem")
+                    return "Soul";
             }
-            var content = ReadFile("_HelperLogLocations.json");
-            return JsonConvert.DeserializeObject<Dictionary<string, LocationWithTime>>(content);
+
+            if (ShopLocations.Any(x => x == locationName))
+                return "Shop";
+
+            if (locationName == "Split_Mothwing_Cloak" || locationName == "Split_Crystal_Heart")
+                return "Skill";
+
+            if (locationName == "Start")
+                return "Start";
+
+            return "Unregistered Pool";
         }
 
-        public Dictionary<string, TransitionWithTime> GetHelperLogTransitions()
+        private List<ReferenceLocation> GetCustomImports()
         {
-            if (!File.Exists("_HelperLogTransitions.json"))
+            return new List<ReferenceLocation>()
+                //flibber-hk
+                .Concat(MrMushroomLocationImport())
+                .Concat(NailUpgradeLocationImport())
+                .Concat(LeverLocationImport())
+
+                //homothetyhk
+                .Concat(BenchLocationImport())
+
+                //BadMagic100
+                // TRJR
+                // https://github.com/BadMagic100/TheRealJournalRando
+
+                //dplochcoder
+                .Concat(MoreDoorsLocationImport())
+
+                //Hoo-Knows
+                .Concat(LostArtifactsLocationImport())
+
+                //Korzer420
+                .Concat(LoreMasterLocationImport())
+
+                .ToList();
+        }
+
+        private List<ReferenceLocation> MrMushroomLocationImport() =>
+            new()
             {
-                return new Dictionary<string, TransitionWithTime>();
-            }
-            var content = ReadFile("_HelperLogTransitions.json");
-            return JsonConvert.DeserializeObject<Dictionary<string, TransitionWithTime>>(content);
-        }
+                // https://github.com/flibber-hk/HollowKnight.RandoPlus
+                new ReferenceLocation { Name = "Mr_Mushroom-Fungal_Wastes", SceneName = "Fungus2_18", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-Kingdom's_Edge", SceneName = "Deepnest_East_01", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-Deepnest", SceneName = "Deepnest_40", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-Howling_Cliffs", SceneName = "Room_nailmaster", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-Ancient_Basin", SceneName = "Abyss_21", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-Fog_Canyon", SceneName = "Fungus3_44", Pool = MrMushroomPool },
+                new ReferenceLocation { Name = "Mr_Mushroom-King's_Pass", SceneName = "Tutorial_01", Pool = MrMushroomPool },
+            };
 
-        public Settings GetUserSettings()
-        {
-            if (!File.Exists("_Settings.json"))
+        private static List<ReferenceLocation> NailUpgradeLocationImport() =>
+            new()
             {
-                var defaultSettings = new Settings();
-                defaultSettings.SetDefaultValues();
-                return defaultSettings;
+                // https://github.com/flibber-hk/HollowKnight.RandoPlus
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith" , Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith" , Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith" , Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith" , Pool = "Shop" },
+            };
+
+        private class LeverLocation {
+            public string Name;
+            public string SceneName;
+        }
+        private static List<ReferenceLocation> LeverLocationImport() =>
+            // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
+            LoadDictionaryFile<LeverLocation>(ReferenceRandoLeverLocationsFilePath).Select(x =>
+            new ReferenceLocation
+            {
+                Name = x.Name,
+                SceneName = x.SceneName,
+                Pool = LeverPool,
+            }).ToList();
+
+        private class BenchLocation
+        {
+            public string Name;
+            public string SceneName;
+        }
+        private static List<ReferenceLocation> BenchLocationImport() =>
+            // https://github.com/homothetyhk/BenchRando
+            LoadDictionaryFile<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
+                .Select(x => new ReferenceLocation
+                {
+                    Name = x.Name,
+                    SceneName = x.SceneName,
+                    Pool = BenchPool,
+                })
+                .ToList();
+
+        private static List<ReferenceLocation> MoreDoorsLocationImport() =>
+            // https://github.com/dplochcoder/HollowKnight.MoreDoors
+            LoadDictionaryFile<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
+            new ReferenceLocation
+            {
+                Name = x.Key.Location.Name,
+                SceneName = x.Key.Location.SceneName,
+                Pool = MoreDoorsPool,
+            }).ToList();
+
+        private static List<ReferenceLocation> LostArtifactsLocationImport() =>
+            new()
+            {
+                // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
+                new ReferenceLocation { Name = "AttunedJewel", SceneName = "GG_Workshop" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "BeastShell", SceneName = "Room_Colosseum_01" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Buzzsaw", SceneName = "White_Palace_08" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "ChargedCrystal", SceneName = "Mines_18" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "CryingStatue", SceneName = "Ruins1_27" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Dreamwood", SceneName = "RestingGrounds_05" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "DungBall", SceneName = "Waterways_15" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "HiddenMemento", SceneName = "White_Palace_06" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Honeydrop", SceneName = "Hive_01" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "InfectedRock", SceneName = "Abyss_19" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "LumaflyEssence", SceneName = "Fungus3_archive_02" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "LushMoss", SceneName = "Fungus1_29" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "NoxiousShroom", SceneName = "Fungus2_30" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "PavingStone", SceneName = "Crossroads_47" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "ThornedLeaf", SceneName = "Fungus3_10" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "TotemShard", SceneName = "Ruins1_32" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "TravelersGarment", SceneName = "Town" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Tumbleweed", SceneName = "Cliffs_01" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "VoidEmblem", SceneName = "Abyss_09" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "WeaverSilk", SceneName = "Deepnest_45_v02" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "WyrmAsh", SceneName = "Deepnest_East_12" , Pool = LostArtifactPool },
+            };
+
+        private static List<ReferenceLocation> LoreMasterLocationImport() =>
+            new()
+            {
+                // https://github.com/Korzer420/LoreMaster/
+                new ReferenceLocation { Name = "Bretta_Diary", SceneName = "Room_Bretta" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Bardoon", SceneName = "Deepnest_East_04" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Vespa", SceneName = "Hive_05" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Mask_Maker", SceneName = "Room_Mask_Maker" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Midwife", SceneName = "Deepnest_41" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Gravedigger", SceneName = "Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Poggy", SceneName = "Ruins_Elevator" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Joni", SceneName = "Cliffs_05" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Myla", SceneName = "Crossroads_45" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Emilitia", SceneName = "Ruins_House_03" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Willoh", SceneName = "Fungus2_34" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Moss_Prophet", SceneName = "Fungus3_39" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Fluke_Hermit", SceneName = "Room_GG_Shortcut" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Queen", SceneName = "Room_Queen" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Marissa", SceneName = "Ruins_Bathhouse" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grasshopper", SceneName = "Fungus1_24" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dung_Defender", SceneName = "Waterways_05" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Menderbug_Diary", SceneName = "Room_Mender_House" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Elder_Hu_Grave", SceneName = "Fungus2_32" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Xero_Grave", SceneName = "RestingGrounds_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Gorb_Grave", SceneName = "Cliffs_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Marmu_Grave", SceneName = "Fungus3_40" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "No_Eyes_Statue", SceneName = "Fungus1_35" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Markoth_Corpse", SceneName = "Deepnest_East_10" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Galien_Corpse", SceneName = "Deepnest_40" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Aspid_Queen_Dream", SceneName = "Crossroads_22" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Mine_Golem_Dream", SceneName = "Mines_31" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Hopper_Dummy_Dream", SceneName = "Deepnest_East_16" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Ancient_Nailsmith_Golem_Dream", SceneName = "Deepnest_East_14b" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shriek_Statue_Dream", SceneName = "Abyss_12" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Overgrown_Shaman_Dream", SceneName = "Room_Fungus_Shaman" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shroom_King_Dream", SceneName = "Fungus2_30" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dryya_Dream", SceneName = "Fungus3_48" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Isma_Dream", SceneName = "Waterways_13" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Radiance_Statue_Dream", SceneName = "Mines_34" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dashmaster_Statue_Dream", SceneName = "Fungus2_23" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Snail_Shaman_Tomb_Dream", SceneName = "RestingGrounds_10" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Kings_Mould_Machine_Dream", SceneName = "White_Palace_08" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dream_Shield_Statue_Dream", SceneName = "RestingGrounds_17" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Shade_Golem_Dream_Normal", SceneName = "Abyss_10" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shade_Golem_Dream_Void", SceneName = "Abyss_10" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Pale_King_Dream", SceneName = "White_Palace_09" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Crystalized_Shaman_Dream", SceneName = "Mines_35" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Summoner_Dream", SceneName = "Cliffs_06" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "City_Fountain", SceneName = "Ruins1_27" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dreamer_Tablet", SceneName = "RestingGrounds_04" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Beast_Den_Altar", SceneName = "Deepnest_Spider_Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Weaver_Seal", SceneName = "Deepnest_45_v02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Machine", SceneName = "Grimm_Main_Tent" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Garden_Golem", SceneName = "Fungus1_23" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grub_Seal", SceneName = "Ruins2_11" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Path_Of_Pain_Seal", SceneName = "White_Palace_18" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "White_Palace_Nursery", SceneName = "White_Palace_09" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Summoner_Corpse", SceneName = "Cliffs_06" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Quirrel_Crossroads", SceneName = "Room_temple" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Greenpath", SceneName = "Room_Slug_Shrine" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Queen_Station", SceneName = "Fungus2_01" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Mantis_Village", SceneName = "Fungus2_14" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_City", SceneName = "Ruins1_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Peaks", SceneName = "Mines_13" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Deepnest", SceneName = "Deepnest_30" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Outside_Archive", SceneName = "Fungus3_47" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_After_Monomon", SceneName = "Fungus3_archive_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Blue_Lake", SceneName = "Crossroads_50" , Pool = LoreMasterPool },
+
+                new ReferenceLocation { Name = "Cloth_Fungal_Wastes", SceneName = "Fungus2_09" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Basin", SceneName = "Abyss_17" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Deepnest", SceneName = "Deepnest_14" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Garden", SceneName = "Fungus3_34" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Ghost", SceneName = "Fungus3_23" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Town", SceneName = "Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_End", SceneName = "Town/Fungus3_23" , Pool = LoreMasterPool }, 
+                
+                new ReferenceLocation { Name = "Tiso_Dirtmouth", SceneName = "Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Crossroads", SceneName = "Crossroads_47" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Blue_Lake", SceneName = "Crossroads_50" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Colosseum", SceneName = "Room_Colosseum_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Corpse", SceneName = "Deepnest_East_07" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Zote_Greenpath", SceneName = "Fungus1_20_v02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Dirtmouth_Intro", SceneName = "Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_City", SceneName = "Ruins1_06" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Deepnest", SceneName = "Deepnest_33" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Colosseum", SceneName = "Room_Colosseum_02" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Dirtmouth_After_Colosseum", SceneName = "Town" , Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Elderbug_Reward_1", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_2", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_3", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_4", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_5", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_6", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_7", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_8", SceneName="Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elderbug_Reward_9", SceneName="Town", Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Stag_Nest", SceneName="Cliffs_03", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Lemm_Door", SceneName="Ruins1_05b", Pool = LoreMasterPool },
+                
+                new ReferenceLocation { Name = "Treasure-Howling_Cliffs", SceneName="Cliffs_01", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Crossroads", SceneName="Crossroads_42", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Greenpath", SceneName="Fungus1_Slug", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Fog_Canyon", SceneName="Fungus3_archive_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Fog_Canyon", SceneName="Fungus3_archive_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Fungal_Wastes", SceneName="Fungus2_10", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-City_Of_Tears", SceneName="Ruins2_05", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Waterways", SceneName="Waterways_13", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Deepnest", SceneName="Deepnest_30", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Ancient_Basin", SceneName="Abyss_06_Core", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Kingdoms_Edge", SceneName="GG_Lurker", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Crystal_Peaks", SceneName="Mines_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Resting_Grounds", SceneName="RestingGrounds_08", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-Queens_Garden", SceneName="Fungus3_04", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Treasure-White_Palace", SceneName="White_Palace_01", Pool = LoreMasterPool },
+            };
+
+        private void LoadReferenceTransitions()
+        {
+            var transitionImports = GetTransitionImportsFromFile();
+            var roomImports = GetRoomImportsFromFile();
+
+            ReferenceTransitions = transitionImports.Join(
+                roomImports,
+                transition => transition.SceneName,
+                room => room.SceneName,
+                (transition, room) => new ReferenceTransition
+                {
+                    DoorName = transition.DoorName,
+                    SceneName = transition.SceneName,
+                    MapArea = room.MapArea,
+                    TitledArea = room.TitledArea
+                }).ToList();
+
+            var sceneNames = roomImports.Select(x => x.SceneName).ToList();
+            DeadTransitions = transitionImports.Where(transition => !sceneNames.Contains(transition.SceneName)).ToList();
+        }
+
+        private static List<TransitionImport> GetTransitionImportsFromFile() =>
+            LoadDictionaryFile<TransitionImport>(ReferenceTransitionsFilePath);
+
+        private static List<T> LoadDictionaryFile<T>(string filePath) =>
+            File.Exists(filePath)
+                ? DeserializeFile<Dictionary<string, T>>(filePath).Values.ToList()
+                : new List<T>();
+
+        private static List<T> LoadListFile<T>(string filePath) =>
+            File.Exists(filePath)
+                ? DeserializeFile<T[]>(filePath).ToList()
+                : new List<T>();
+
+        public Dictionary<string, Location> GetHelperLogLocations() =>
+            GetDictionaryDataFromFileOrDefault<Location>(HelperLogLocationsFilename);
+
+        public Dictionary<string, Transition> GetHelperLogTransitions() =>
+            GetDictionaryDataFromFileOrDefault<Transition>(HelperLogTransitionsFilename);
+
+        public Dictionary<string, ItemWithLocation> GetTrackerLogItems() =>
+            GetDictionaryDataFromFileOrDefault<ItemWithLocation>(TrackerLogItemsFilename);
+
+        public Dictionary<string, TransitionWithDestination> GetTrackerLogTransitions() =>
+            GetDictionaryDataFromFileOrDefault<TransitionWithDestination>(TrackerLogTransitionsFilename);
+
+        public static Dictionary<string, T> GetDictionaryDataFromFileOrDefault<T>(string filename) =>
+            File.Exists(filename)
+                ? DeserializeFile<Dictionary<string, T>>(filename)
+                : new Dictionary<string, T>();
+
+        public AppSettings GetAppSettings()
+        {
+            var appSettings = new AppSettings();
+
+            if (File.Exists(AppSettingsFilename))
+            {
+                var appSettingsData = JsonConvert.DeserializeObject<JObject>(string.Join("", File.ReadAllLines(AppSettingsFilename).ToList()));
+
+                appSettings.SelectedHelperLocationGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperLocationGrouping") ?? appSettings.SelectedHelperLocationGrouping, HelperLocationGroupingOptions.Length - 1);
+                appSettings.SelectedHelperLocationOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperLocationOrder") ?? appSettings.SelectedHelperLocationOrder, HelperLocationOrderingOptions.Length - 1);
+                appSettings.SelectedHelperTransitionGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperTransitionGrouping") ?? appSettings.SelectedHelperTransitionGrouping, HelperTransitionGroupingOptions.Length - 1);
+                appSettings.SelectedHelperTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperTransitionOrder") ?? appSettings.SelectedHelperTransitionOrder, HelperTransitionOrderingOptions.Length - 1);
+                appSettings.SelectedTrackerItemGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerItemGrouping") ?? appSettings.SelectedTrackerItemGrouping, TrackerItemGroupingOptions.Length - 1);
+                appSettings.SelectedTrackerItemOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerItemOrder") ?? appSettings.SelectedTrackerItemOrder, TrackerItemOrderingOptions.Length - 1);
+                appSettings.SelectedTrackerTransitionGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerTransitionGrouping") ?? appSettings.SelectedTrackerTransitionGrouping, TrackerTransitionGroupingOptions.Length - 1);
+                appSettings.SelectedTrackerTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerTransitionOrder") ?? appSettings.SelectedTrackerTransitionOrder, TrackerTransitionOrderingOptions.Length - 1);
+                appSettings.SelectedSpoilerItemGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerItemGrouping") ?? appSettings.SelectedSpoilerItemGrouping, SpoilerItemGroupingOptions.Length - 1);
+                appSettings.SelectedSpoilerItemOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerItemOrder") ?? appSettings.SelectedSpoilerItemOrder, SpoilerItemOrderingOptions.Length - 1);
+                appSettings.SelectedSpoilerTransitionGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerTransitionGrouping") ?? appSettings.SelectedSpoilerTransitionGrouping, SpoilerTransitionGroupingOptions.Length - 1);
+                appSettings.SelectedSpoilerTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerTransitionOrder") ?? appSettings.SelectedSpoilerTransitionOrder, SpoilerTransitionOrderingOptions.Length - 1);
             }
-            var content = ReadFile("_Settings.json");
-            var settings = JsonConvert.DeserializeObject<Settings>(content);
-            settings.SetDefaultValues();
-            return settings;
+
+            return appSettings;
         }
 
-        private static string ReadFile(string filename)
+        private static int? GetValueFromAppSettings(JObject jObject, string key)
         {
-            using var file = new StreamReader($"{AppDomain.CurrentDomain.BaseDirectory}/{filename}");
-            return file.ReadToEnd();
+            var value = jObject[key]?.Value<int>();
+            return !value.HasValue || value.Value >= 0 ? value : null;
         }
 
-        public void SaveHelperLogLocations(Dictionary<string, LocationWithTime> helperLogLocations)
+        public string GetSeed() =>
+            GetDictionaryDataFromFileOrDefault<string>(SeedFilename)
+                .TryGetValue("Seed", out var value) 
+                    ? value
+                    : "";
+
+        private static T DeserializeFile<T>(string filePath)
         {
-            WriteFile("_HelperLogLocations.json", helperLogLocations);
+            using var file = new StreamReader(filePath);
+            return JsonConvert.DeserializeObject<T>(file.ReadToEnd());
         }
 
-        public void SaveHelperLogTransitions(Dictionary<string, TransitionWithTime> helperLogTransitions)
-        {
-            WriteFile("_HelperLogTransitions.json", helperLogTransitions);
-        }
+        public void SaveHelperLogLocations(Dictionary<string, Location> helperLogLocations) => 
+            WriteFile(HelperLogLocationsFilename, helperLogLocations);
 
-        public void SaveUserSettings(Settings settings)
-        {
-            WriteFile("_Settings.json", settings);
-        }
+        public void SaveHelperLogTransitions(Dictionary<string, Transition> helperLogTransitions) => 
+            WriteFile(HelperLogTransitionsFilename, helperLogTransitions);
+
+        public void SaveTrackerLogItems(Dictionary<string, ItemWithLocation> trackerLogItems) =>
+            WriteFile(TrackerLogItemsFilename, trackerLogItems);
+
+        public void SaveTrackerLogTransitions(Dictionary<string, TransitionWithDestination> trackerLogTransitions) =>
+            WriteFile(TrackerLogTransitionsFilename, trackerLogTransitions);
+
+        public void SaveAppSettings(AppSettings settings) => 
+            WriteFile(AppSettingsFilename, settings);
+
+        public void SaveSeed(string seed) =>
+            WriteFile(SeedFilename, new Dictionary<string, string> { { "Seed", seed } });
 
         private static void WriteFile<T>(string filename, T data)
         {
-            using StreamWriter file = File.CreateText($"{AppDomain.CurrentDomain.BaseDirectory}/{filename}");
+            using StreamWriter file = File.CreateText(filename);
             new JsonSerializer { Formatting = Formatting.Indented }.Serialize(file, data);
         }
     }

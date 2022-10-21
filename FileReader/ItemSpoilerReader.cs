@@ -1,45 +1,50 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+
+using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface IItemSpoilerReader : ILogReader
     {
-        public List<ItemWithLocation> GetItems();
-        public Dictionary<string, List<ItemWithLocation>> GetCuratedItems();
-        public Dictionary<string, List<ItemWithLocation>> GetItemsByPool();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItemsByPool();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetItemsByPool();
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetLocationsByPool();
+        public List<SpoilerItemWithLocation> GetItems();
     }
 
     public class ItemSpoilerReader : IItemSpoilerReader
     {
         private readonly IResourceLoader _resourceLoader;
+        private readonly List<SpoilerItemWithLocation> _spoilerItems = new();
 
         public bool IsFileFound { get; private set; }
 
         public ItemSpoilerReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
+            LoadData();
         }
 
         public void LoadData()
         {
-            var filepath = Constants.ItemSpoilerLogPath;
-            if (!File.Exists(filepath))
+            IsFileFound = File.Exists(ItemSpoilerLogPath);
+            if (!IsFileFound)
             {
-                IsFileFound = false;
                 return;
             }
-
-            IsFileFound = true;
-            var itemSpoilerData = File.ReadAllLines(filepath).ToList();
-
+            var itemSpoilerData = File.ReadAllLines(ItemSpoilerLogPath).ToList();
             LoadItemSpoiler(itemSpoilerData);
         }
 
-        private List<ItemWithLocation> _spoilerItems = new List<ItemWithLocation>();
+        public void OpenFile()
+        {
+            if (File.Exists(ItemSpoilerLogPath)) Process.Start("notepad.exe", ItemSpoilerLogPath);
+        }
 
         private void LoadItemSpoiler(List<string> itemSpoilerData)
         {
@@ -60,24 +65,58 @@ namespace HK_Rando_4_Log_Display.FileReader
             var spoilerItems = JsonConvert.DeserializeObject<List<SpoilerItem>>(itemSpoilerString);
             spoilerItems.ForEach(x =>
             {
-                var item = x.Item;
-                var location = x.Location;
+                var itemName = x.Item;
+                var locationName = x.Location;
+                // TODO: Improve cost string to be displayed
                 var cost = x.Costs != null ? string.Join(",", x.Costs) : null;
-                var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
 
-                var itemWithLocation = new ItemWithLocation(referenceItem, x.Costs == null ? location : $"{location} [{cost}]");
-                _spoilerItems.Add(itemWithLocation);
+                var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                    ?? new ReferenceItem
+                    {
+                        Name = itemName,
+                        Pool = locationName == "Start"
+                                ? "Start"
+                                : itemName.Contains("-")
+                                ? $"> {itemName.Split('-')[0]}"
+                                : "> Unrecognised Items",
+                    };
+                var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName)
+                    ?? new ReferenceLocation
+                    {
+                        Name = locationName,
+                        Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
+                        MapArea = "> Unrecognised Location",
+                        TitledArea = "> Unrecognised Location",
+                        SceneName = "> Unrecognised Location"
+                    };
+
+                _spoilerItems.Add(
+                       new SpoilerItemWithLocation
+                       {
+                           Item = new Item
+                           {
+                               Name = itemDetails.Name,
+                               Pool = itemDetails.Pool,
+                           },
+                           Location = new Location
+                           {
+                               Name = locationDetails.Name,
+                               Pool = locationDetails.Pool,
+                               MapArea = locationDetails.MapArea,
+                               TitledArea = locationDetails.TitledArea,
+                               SceneName = locationDetails.SceneName,
+                           },
+                           Cost = cost
+                       });
             });
         }
 
-        private class SpoilerItem
-        {
-            public string Item { get; set; }
-            public string Location { get; set; }
-            public string[] Costs { get; set; }
-        }
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItemsByPool() =>
+            GetCuratedItems();
 
-        public Dictionary<string, List<ItemWithLocation>> GetCuratedItems()
+        #region Curated Logic
+
+        private Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItems()
         {
             var kvps = new[] {
                 GetTrueEndingItems(),
@@ -87,7 +126,6 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetNailArts(),
                 GetPaleOre(),
                 GetSignificantCharms(),
-                GetBaldurKillers(),
                 GetKeys(),
                 GetStags(),
                 GetGrimmFlames(),
@@ -97,9 +135,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return kvps.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        #region Curated Pool Functions
-
-        public KeyValuePair<string, List<ItemWithLocation>> GetTrueEndingItems()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetTrueEndingItems()
         {
             var poolName = "True Ending Items";
             var dreamers = new[] {
@@ -112,6 +148,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 "Dreamer"
             };
             var fragments = new[] {
+                "White_Fragment",
                 "King_Fragment",
                 "Queen_Fragment",
                 "Kingsoul",
@@ -122,10 +159,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(dupeDreamer),
                 GetItems(fragments)
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetMovementItems()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetMovementItems()
         {
             var poolName = "Movement abilities";
             var dashes = new[] {
@@ -166,10 +203,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(tear),
                 GetItems(swim),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetSpells()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetSpells()
         {
             var poolName = "Spells";
             var fireballs = new[] {
@@ -191,10 +228,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(quakes),
                 GetItems(screams),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetDreamnails()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetDreamnails()
         {
             var poolName = "Dream Nails";
             var dreamNails = new[] {
@@ -205,10 +242,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(dreamNails)
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetNailArts()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetNailArts()
         {
             var poolName = "Nail Arts";
             var nailArts = new[] {
@@ -219,10 +256,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(nailArts)
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetPaleOre()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetPaleOre()
         {
             var poolName = "Pale Ore";
             var paleOre = new[] {
@@ -231,10 +268,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(paleOre)
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetSignificantCharms()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetSignificantCharms()
         {
             var poolName = "Notable Charms";
             var spellCharms = new[] {
@@ -280,43 +317,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(healthCharms),
                 GetItems(grimmChild),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetBaldurKillers()
-        {
-            var poolName = "Baldur Killers";
-            var fireballs = new[] {
-                "Vengeful_Spirit",
-                "Shade_Soul",
-            };
-            var quakes = new[]
-            {
-                "Desolate_Dive",
-                "Descending_Dark",
-            };
-            var nailArts = new[] {
-                "Cyclone_Slash",
-                "Dash_Slash",
-            };
-            var charms = new[]
-            {
-                "Glowing_Womb",
-                "Weaversong",
-                "Spore_Shroom",
-                "Cyclone_Slash",
-                "Grubberfly's_Elegy",
-            };
-            var trackedItems = new[] {
-                GetItems(fireballs),
-                GetItems(quakes),
-                GetItems(nailArts),
-                GetItems(charms),
-            }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
-        }
-
-        public KeyValuePair<string, List<ItemWithLocation>> GetKeys()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetKeys()
         {
             var poolName = "Keys";
             var keys = new[] {
@@ -333,10 +337,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(keys),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetStags()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetStags()
         {
             var poolName = "Stags";
             var stags = new[] {
@@ -355,10 +359,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(stags),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetGrimmFlames()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetGrimmFlames()
         {
             var poolName = "Grimmkin Flames";
             var flames = new[] {
@@ -367,10 +371,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             var trackedItems = new[] {
                 GetItems(flames),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetGeoCaches()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetGeoCaches()
         {
             var poolName = "Geo Caches";
             var arcaneEggs = new[]
@@ -412,10 +416,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(bossGeo),
                 GetItems(fourTwentyRock),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetEssenceCaches()
+        private KeyValuePair<string, List<SpoilerItemWithLocation>> GetEssenceCaches()
         {
             var poolName = "Essence Caches";
             var dreamWarriors = new[] {
@@ -438,18 +442,28 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetItems(dreamWarriors),
                 GetItems(dreamBosses),
             }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
+            return new KeyValuePair<string, List<SpoilerItemWithLocation>>(poolName, trackedItems);
         }
 
-        public List<ItemWithLocation> GetItems(string[] itemsInPool) =>
-            _spoilerItems.Where(x => itemsInPool.Contains(x.Name)).ToList();
+        private List<SpoilerItemWithLocation> GetItems(string[] itemsInPool) =>
+           _spoilerItems.Where(x => itemsInPool.Contains(x.Item.Name)).ToList();
 
         #endregion
 
-        public Dictionary<string, List<ItemWithLocation>> GetItemsByPool() =>
-            _spoilerItems.GroupBy(x => x.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetItemsByPool() =>
+            _spoilerItems.GroupBy(x => x.Item.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public List<ItemWithLocation> GetItems() 
-            => _spoilerItems;
+        public Dictionary<string, List<SpoilerItemWithLocation>> GetLocationsByPool() =>
+            _spoilerItems.GroupBy(x => x.Location.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public List<SpoilerItemWithLocation> GetItems() => _spoilerItems.ToList();
+
+
+        private class SpoilerItem
+        {
+            public string Item { get; set; }
+            public string Location { get; set; }
+            public string[] Costs { get; set; }
+        }
     }
 }

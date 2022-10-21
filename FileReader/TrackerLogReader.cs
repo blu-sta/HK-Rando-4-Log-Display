@@ -1,101 +1,154 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Reference;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+
+using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface ITrackerLogReader : ILogReader
     {
-        public Dictionary<string, List<ItemWithLocation>> GetCuratedItems();
-
+        public Dictionary<string, List<ItemWithLocation>> GetCuratedItemsByPool();
         public Dictionary<string, List<ItemWithLocation>> GetItemsByPool();
-
+        public Dictionary<string, List<ItemWithLocation>> GetLocationsByPool();
         public List<ItemWithLocation> GetItems();
-
         public int? GetEssenceFromPools();
-
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea();
-
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea();
-
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom();
-
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea();
-
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea();
-
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea(bool useDestination);
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination);
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName);
         public List<TransitionWithDestination> GetTransitions();
+        public void SaveState();
+        public void PurgeMemory();
     }
 
     public class TrackerLogReader : ITrackerLogReader
     {
+        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly IResourceLoader _resourceLoader;
+        private DateTime _referenceTime;
+        private readonly Dictionary<string, ItemWithLocation> _trackerLogItems = new();
+        private readonly Dictionary<string, TransitionWithDestination> _trackerLogTransitions = new();
 
         public bool IsFileFound { get; private set; }
 
-        public TrackerLogReader(IResourceLoader resourceLoader)
+        public TrackerLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader, SceneNameDictionary sceneNameDictionary)
         {
+            _sceneNameDictionary = sceneNameDictionary;
             _resourceLoader = resourceLoader;
+
+            if (!settingsReader.IsFileFound ||
+                (settingsReader.IsFileFound && settingsReader.GetSeed() == resourceLoader.GetSeed()))
+            {
+                _trackerLogItems = _resourceLoader.GetTrackerLogItems();
+                _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
+            }
+
+            LoadData();
         }
 
         public void LoadData()
         {
-            if (!File.Exists(Constants.TrackerLogPath))
+            IsFileFound = File.Exists(TrackerLogPath);
+            if (!IsFileFound)
             {
-                IsFileFound = false;
                 return;
             }
 
-            IsFileFound = true;
-            var trackerLogData = File.ReadAllLines(Constants.TrackerLogPath).ToList();
-
+            _referenceTime = DateTime.Now;
+            var trackerLogData = File.ReadAllLines(TrackerLogPath).ToList();
             LoadItems(trackerLogData);
             LoadTransitions(trackerLogData);
         }
 
-        private List<ItemWithLocation> _trackerLogItems = new List<ItemWithLocation>();
+        public void OpenFile()
+        {
+            if (File.Exists(TrackerLogPath)) Process.Start("notepad.exe", TrackerLogPath);
+        }
+
+        private class TrackedItem
+        {
+            public string ItemName;
+            public string LocationName;
+        }
 
         private void LoadItems(List<string> trackerLogData)
         {
-            _trackerLogItems.Clear();
-            var items = trackerLogData.Where(x => x.StartsWith("ITEM OBTAINED")).ToList();
-            items.ForEach(x =>
-            {
-                var matches = Regex.Matches(x, "{(.*?)}").ToList();
-                var item = matches[0].Groups[1].Value.Replace("100_Geo-", "");
-                var location = matches[1].Groups[1].Value;
-                var referenceItem = _resourceLoader.Items.FirstOrDefault(y => y.Name == item) ?? new Item { Name = item, Pool = location == "Start" ? "Start" : "undefined" };
+            var items = trackerLogData
+                .Where(x => x.StartsWith("ITEM OBTAINED"))
+                .Select(x =>
+                {
+                    var matches = Regex.Match(x, "{(\\S+)}.*{(\\S+)}.*{(\\S+)}");
+                    return new KeyValuePair<string, TrackedItem>(
+                            matches.Groups[3].Value,
+                            new TrackedItem
+                            {
+                                ItemName = matches.Groups[1].Value,
+                                LocationName = matches.Groups[2].Value,
+                            }
+                        );
+                })
+                .ToDictionary(x => x.Key, x => x.Value);
 
-                var itemWithLocation = new ItemWithLocation(referenceItem, location);
-                _trackerLogItems.Add(itemWithLocation);
-            });
+            _trackerLogItems.Keys.Except(items.Keys).ToList()
+                .ForEach(x => _trackerLogItems.Remove(x));
+            items.Keys.Except(_trackerLogItems.Keys).ToList()
+                .ForEach(id =>
+                {
+                    var trackedItem = items[id];
+                    var itemName = trackedItem.ItemName.Replace("100_Geo-", "");
+                    var locationName = trackedItem.LocationName;
+
+                    var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                        ?? new ReferenceItem
+                        {
+                            Name = itemName,
+                            Pool = locationName == "Start"
+                                ? "Start"
+                                : itemName.Contains("-")
+                                ? $"> {itemName.Split('-')[0]}"
+                                : "> Unrecognised Items",
+                        };
+                    var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName)
+                        ?? new ReferenceLocation
+                        {
+                            Name = locationName,
+                            Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
+                            MapArea = "> Unrecognised Location",
+                            TitledArea = "> Unrecognised Location",
+                            SceneName = "> Unrecognised Location"
+                        };
+
+                    _trackerLogItems.Add(
+                        id,
+                        new ItemWithLocation
+                        {
+                            Item = new Item
+                            {
+                                Name = itemDetails.Name,
+                                Pool = itemDetails.Pool,
+                            },
+                            Location = new Location
+                            {
+                                Name = locationDetails.Name,
+                                Pool = locationDetails.Pool,
+                                MapArea = locationDetails.MapArea,
+                                TitledArea = locationDetails.TitledArea,
+                                SceneName = locationDetails.SceneName,
+                                TimeAdded = _referenceTime
+                            }
+                        });
+                });
         }
 
-        private List<TransitionWithDestination> _trackerLogTransitions = new List<TransitionWithDestination>();
-
-        private void LoadTransitions(List<string> trackerLogData)
-        {
-            _trackerLogTransitions.Clear();
-            var items = trackerLogData.Where(x => x.StartsWith("TRANSITION")).ToList();
-            items.ForEach(x =>
-            {
-                var matches = Regex.Match(x, "{(.*)\\[(.*)\\]}.*{(.*)\\[(.*)\\]}");
-                var sceneName = matches.Groups[1].Value;
-                var doorName = matches.Groups[2].Value;
-                var destinationSceneName = matches.Groups[3].Value;
-                var destinationDoorName = matches.Groups[4].Value;
-                var referenceTransition = _resourceLoader.Transitions.FirstOrDefault(y => y.SceneName == sceneName && y.DoorName == doorName) ?? new Transition { SceneName = sceneName, DoorName = doorName, MapArea = "undefined", TitledArea = "undefined" };
-
-                var transitionWithDestination = new TransitionWithDestination(referenceTransition, destinationSceneName, destinationDoorName);
-                _trackerLogTransitions.Add(transitionWithDestination);
-            });
-        }
-
-        public Dictionary<string, List<ItemWithLocation>> GetCuratedItems()
-        {
-            var kvps = new[] {
+        public Dictionary<string, List<ItemWithLocation>> GetCuratedItemsByPool() =>
+            new[] {
                 GetTrueEndingItems(),
                 GetMovementItems(),
                 GetSpells(),
@@ -103,19 +156,16 @@ namespace HK_Rando_4_Log_Display.FileReader
                 GetNailArts(),
                 GetPaleOre(),
                 GetSignificantCharms(),
-                GetBaldurKillers(),
                 GetKeys(),
                 GetStags(),
                 GetGrimmFlames(),
                 GetGeoCaches(),
                 GetEssenceCaches()
-            }.Where(x => x.Value.Count > 0);
-            return kvps.ToDictionary(x => x.Key, x => x.Value);
-        }
+            }.Where(x => x.Value.Count > 0).ToDictionary(x => x.Key, x => x.Value);
 
-        #region Curated Pool Functions
+        #region Curated Logic
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetTrueEndingItems()
+        private KeyValuePair<string, List<ItemWithLocation>> GetTrueEndingItems()
         {
             var poolName = "True Ending Items";
             var dreamers = new[] {
@@ -128,6 +178,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 "Dreamer"
             };
             var fragments = new[] {
+                "White_Fragment",
                 "King_Fragment",
                 "Queen_Fragment",
                 "Kingsoul",
@@ -141,7 +192,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetMovementItems()
+        private KeyValuePair<string, List<ItemWithLocation>> GetMovementItems()
         {
             var poolName = "Movement abilities";
             var dashes = new[] {
@@ -185,7 +236,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetSpells()
+        private KeyValuePair<string, List<ItemWithLocation>> GetSpells()
         {
             var poolName = "Spells";
             var fireballs = new[] {
@@ -210,7 +261,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetDreamnails()
+        private KeyValuePair<string, List<ItemWithLocation>> GetDreamnails()
         {
             var poolName = "Dream Nails";
             var dreamNails = new[] {
@@ -224,7 +275,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetNailArts()
+        private KeyValuePair<string, List<ItemWithLocation>> GetNailArts()
         {
             var poolName = "Nail Arts";
             var nailArts = new[] {
@@ -238,7 +289,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetPaleOre()
+        private KeyValuePair<string, List<ItemWithLocation>> GetPaleOre()
         {
             var poolName = "Pale Ore";
             var paleOre = new[] {
@@ -250,7 +301,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetSignificantCharms()
+        private KeyValuePair<string, List<ItemWithLocation>> GetSignificantCharms()
         {
             var poolName = "Notable Charms";
             var spellCharms = new[] {
@@ -299,40 +350,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetBaldurKillers()
-        {
-            var poolName = "Baldur Killers";
-            var fireballs = new[] {
-                "Vengeful_Spirit",
-                "Shade_Soul",
-            };
-            var quakes = new[]
-            {
-                "Desolate_Dive",
-                "Descending_Dark",
-            };
-            var nailArts = new[] {
-                "Cyclone_Slash",
-                "Dash_Slash",
-            };
-            var charms = new[]
-            {
-                "Glowing_Womb",
-                "Weaversong",
-                "Spore_Shroom",
-                "Cyclone_Slash",
-                "Grubberfly's_Elegy",
-            };
-            var trackedItems = new[] {
-                GetItems(fireballs),
-                GetItems(quakes),
-                GetItems(nailArts),
-                GetItems(charms),
-            }.SelectMany(x => x).ToList();
-            return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
-        }
-
-        public KeyValuePair<string, List<ItemWithLocation>> GetKeys()
+        private KeyValuePair<string, List<ItemWithLocation>> GetKeys()
         {
             var poolName = "Keys";
             var keys = new[] {
@@ -352,7 +370,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetStags()
+        private KeyValuePair<string, List<ItemWithLocation>> GetStags()
         {
             var poolName = "Stags";
             var stags = new[] {
@@ -374,7 +392,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetGrimmFlames()
+        private KeyValuePair<string, List<ItemWithLocation>> GetGrimmFlames()
         {
             var poolName = "Grimmkin Flames";
             var flames = new[] {
@@ -386,7 +404,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetGeoCaches()
+        private KeyValuePair<string, List<ItemWithLocation>> GetGeoCaches()
         {
             var poolName = "Geo Caches";
             var arcaneEggs = new[]
@@ -431,7 +449,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public KeyValuePair<string, List<ItemWithLocation>> GetEssenceCaches()
+        private KeyValuePair<string, List<ItemWithLocation>> GetEssenceCaches()
         {
             var poolName = "Essence Caches";
             var dreamWarriors = new[] {
@@ -457,29 +475,25 @@ namespace HK_Rando_4_Log_Display.FileReader
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }
 
-        public List<ItemWithLocation> GetItems(string[] itemsInPool) =>
-            _trackerLogItems.Where(x => itemsInPool.Contains(x.Name)).ToList();
+        private List<ItemWithLocation> GetItems(string[] itemsInPool) =>
+           _trackerLogItems.Values.Where(x => itemsInPool.Contains(x.Item.Name)).OrderBy(x => x.TimeAdded).ToList();
 
         #endregion
 
         public Dictionary<string, List<ItemWithLocation>> GetItemsByPool() =>
-            _trackerLogItems.GroupBy(x => x.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+            _trackerLogItems.Values.GroupBy(x => x.Item.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public List<ItemWithLocation> GetItems() =>
-            _trackerLogItems;
+        public Dictionary<string, List<ItemWithLocation>> GetLocationsByPool() =>
+            _trackerLogItems.Values.GroupBy(x => x.Location.Pool).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public List<ItemWithLocation> GetItems() => _trackerLogItems.Values.ToList();
 
         public int? GetEssenceFromPools()
         {
-            var essenceSources = _trackerLogItems.Where(x => x.Pool == "Root" || x.Pool == "DreamWarrior" || x.Pool == "DreamBoss").Select(x => x.Name).ToList();
-            if (!essenceSources.Any())
-            {
-                return null;
-            }
-
-            return essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0);
+            var essenceSources = _trackerLogItems.Values.Where(x => x.Item.Pool == "Root" || x.Item.Pool == "DreamWarrior" || x.Item.Pool == "DreamBoss").Select(x => x.Item.Name).ToList();
+            return essenceSources.Any() ? essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0) : null;
         }
 
-        #region EssenceDictionary
         private readonly Dictionary<string, int> EssenceDictionary = new Dictionary<string, int>
         {
             { "Whispering_Root-Crossroads", 29 },
@@ -510,24 +524,100 @@ namespace HK_Rando_4_Log_Display.FileReader
             { "Boss_Essence-White_Defender", 300 },
             { "Boss_Essence-Grey_Prince_Zote", 300 },
         };
-        #endregion
 
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea() =>
-            _trackerLogTransitions.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+        private void LoadTransitions(List<string> trackerLogData)
+        {
+            var transitions = trackerLogData
+                .Where(x => x.StartsWith("TRANSITION"))
+                .Select(x =>
+                {
+                    var matches = Regex.Match(x, "{(\\S+)}.*{(\\S+)}");
+                    return new KeyValuePair<string, string>(matches.Groups[1].Value, matches.Groups[2].Value);
+                })
+                .ToDictionary(x => x.Key, x => x.Value);
 
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea() =>
-            _trackerLogTransitions.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+            _trackerLogTransitions.Keys.Except(transitions.Keys).ToList()
+                .ForEach(x => _trackerLogTransitions.Remove(x));
+            transitions.Keys.Except(_trackerLogTransitions.Keys).ToList()
+                .ForEach(sourceName =>
+                {
+                    var destinationName = transitions[sourceName];
 
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom() =>
-            _trackerLogTransitions.GroupBy(x => x.SceneName).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+                    var sourceDetails = _resourceLoader.ReferenceTransitions.FirstOrDefault(y => y.Name == sourceName)
+                        ?? new ReferenceTransition
+                        {
+                            SceneName = Regex.Match(sourceName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
+                            DoorName = Regex.Match(sourceName, "(\\S+)\\[(\\S+)\\]").Groups[2].Value,
+                            MapArea = "> Unrecognised Transitions",
+                            TitledArea = "> Unrecognised Transitions",
+                        };
+                    var destinationDetails = _resourceLoader.ReferenceTransitions.FirstOrDefault(y => y.Name == destinationName)
+                        ?? new ReferenceTransition
+                        {
+                            SceneName = Regex.Match(destinationName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
+                            DoorName = Regex.Match(destinationName, "(\\S+)\\[(\\S+)\\]").Groups[2].Value,
+                            MapArea = "> Unrecognised Transitions",
+                            TitledArea = "> Unrecognised Transitions",
+                        };
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea() =>
-            _trackerLogTransitions.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+                    _trackerLogTransitions.Add(
+                    sourceName,
+                    new TransitionWithDestination
+                    {
+                        Source = new Transition
+                        {
+                            SceneName = sourceDetails.SceneName,
+                            DoorName = sourceDetails.DoorName,
+                            MapArea = sourceDetails.MapArea,
+                            TitledArea = sourceDetails.TitledArea,
+                            TimeAdded = _referenceTime
+                        },
+                        Destination = new Transition
+                        {
+                            SceneName = destinationDetails.SceneName,
+                            DoorName = destinationDetails.DoorName,
+                            MapArea = destinationDetails.MapArea,
+                            TitledArea = destinationDetails.TitledArea,
+                            TimeAdded = _referenceTime
+                        },
+                    });
+                });
+        }
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea() =>
-            _trackerLogTransitions.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea(bool useDestination) =>
+            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.TitledArea : x.Source.TitledArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination) =>
+            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName) =>
+            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .OrderBy(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList());
+
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName) =>
+            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.TitledArea : x.Source.TitledArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
+
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName) =>
+            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
         public List<TransitionWithDestination> GetTransitions() =>
-            _trackerLogTransitions;
+            _trackerLogTransitions.Values.ToList();
+
+        public void SaveState()
+        {
+            _resourceLoader.SaveTrackerLogItems(_trackerLogItems);
+            _resourceLoader.SaveTrackerLogTransitions(_trackerLogTransitions);
+        }
+
+        public void PurgeMemory()
+        {
+            _trackerLogItems.Clear();
+            _trackerLogTransitions.Clear();
+        }
     }
 }
