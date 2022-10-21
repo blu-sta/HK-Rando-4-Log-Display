@@ -9,17 +9,18 @@ It was written for Windows and may require .NET 5 to be installed in order to wo
 ## Compatibility
 
 In addition to the default Randomiser, the following mods are also supported:
-- BenchRando
-- DarknessRandomizer
-- LostArtifacts
-- MoreDoors
-- RainbowEggs
-- RandomizableLevers
-- RandoPlus
-- ReopenCityDoor
-- SkillUpgrades
-- TheRealJournalRando
-- Transcendence
+- [BenchRando](https://github.com/homothetyhk/BenchRando)
+- [DarknessRandomizer](https://github.com/dplochcoder/HollowKnight.DarknessRandomizer)
+- [LoreMaster](https://github.com/Korzer420/LoreMaster)
+- [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
+- [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
+- [RainbowEggs](https://github.com/dpinela/RainbowEggs)
+- [RandomizableLevers](https://github.com/flibber-hk/HollowKnight.RandomizableLevers)
+- [RandoPlus](https://github.com/flibber-hk/HollowKnight.RandoPlus)
+- [ReopenCityDoor](https://github.com/flibber-hk/HollowKnight.ReopenCityDoor)
+- [SkillUpgrades](https://github.com/flibber-hk/HollowKnight.SkillUpgrades)
+- [TheRealJournalRando](https://github.com/BadMagic100/TheRealJournalRando)
+- [Transcendence](https://github.com/dpinela/Transcendence)
 
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
