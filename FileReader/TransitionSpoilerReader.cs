@@ -1,4 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Reference;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,21 +15,23 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea(bool useDestination);
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination);
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination);
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination);
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination);
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName);
         public List<TransitionWithDestination> GetTransitions();
     }
 
     public class TransitionSpoilerReader : ITransitionSpoilerReader
     {
+        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly IResourceLoader _resourceLoader;
         private readonly List<TransitionWithDestination> _spoilerTransitions = new();
 
         public bool IsFileFound { get; private set; }
 
-        public TransitionSpoilerReader(IResourceLoader resourceLoader)
+        public TransitionSpoilerReader(IResourceLoader resourceLoader, SceneNameDictionary sceneNameDictionary)
         {
+            _sceneNameDictionary = sceneNameDictionary;
             _resourceLoader = resourceLoader;
             LoadData();
         }
@@ -118,14 +121,20 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination) =>
             _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination) =>
-            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName) =>
+            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .OrderBy(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList());
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination) =>
-            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.TitledArea : x.Source.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName) =>
+            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.TitledArea : x.Source.TitledArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination) =>
-            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName) =>
+            _spoilerTransitions.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea)
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
         public List<TransitionWithDestination> GetTransitions() =>
             _spoilerTransitions.ToList();

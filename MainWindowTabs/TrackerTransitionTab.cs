@@ -17,6 +17,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedTrackedZonesWithTransitions = new();
         private bool _showTrackerTransitionsTime = true;
         private bool _useTrackerTransitionsDestination = false;
+        private bool _showTrackerTransitionAltRoomNames = false;
 
         private void UpdateTrackerTransitionsTab()
         {
@@ -36,13 +37,13 @@ namespace HK_Rando_4_Log_Display
                         UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByTitledArea(_useTrackerTransitionsDestination), trackerTransitionOrdering);
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoomByMapArea(_useTrackerTransitionsDestination), trackerTransitionOrdering);
+                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoomByMapArea(_useTrackerTransitionsDestination, _showTrackerTransitionAltRoomNames), trackerTransitionOrdering);
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoomByTitledArea(_useTrackerTransitionsDestination), trackerTransitionOrdering);
+                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoomByTitledArea(_useTrackerTransitionsDestination, _showTrackerTransitionAltRoomNames), trackerTransitionOrdering);
                         break;
                     case RoomGrouping.Room:
-                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoom(_useTrackerTransitionsDestination), trackerTransitionOrdering);
+                        UpdateTrackerTransitions(_trackerLogReader.GetTransitionsByRoom(_useTrackerTransitionsDestination, _showTrackerTransitionAltRoomNames), trackerTransitionOrdering);
                         break;
                     case RoomGrouping.None:
                     default:
@@ -138,6 +139,7 @@ namespace HK_Rando_4_Log_Display
             Tracker_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {TrackerTransitionOrderingOptions[_appSettings.SelectedTrackerTransitionOrder]}");
             Tracker_Transition_SourceDestination_Button.Content = GenerateButtonTextBlock(_useTrackerTransitionsDestination ? "Focus: Destination" : "Focus: Source");
             Tracker_Transition_Time_Button.Content = GenerateButtonTextBlock(_showTrackerTransitionsTime ? "Time: Show" : "Time: Hide");
+            Tracker_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showTrackerTransitionAltRoomNames ? "Room: Name" : "Room: Code");
         }
 
         private void Tracker_Transition_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -164,9 +166,10 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void Tracker_Transition_OpenFile_Click(object sender, RoutedEventArgs e)
+        private void Tracker_Transition_RoomDisplay_Click(object sender, RoutedEventArgs e)
         {
-            _trackerLogReader.OpenFile();
+            _showTrackerTransitionAltRoomNames = !_showTrackerTransitionAltRoomNames;
+            Dispatcher.Invoke(() => UpdateTabs());
         }
 
         private void Tracker_Transition_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerTransitionsList);

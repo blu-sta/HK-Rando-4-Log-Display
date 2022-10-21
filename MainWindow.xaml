@@ -7,6 +7,9 @@
         Title="HK Rando 4 Log Display" Height="800" Width="450">
     <Window.Resources>
         <Style TargetType="Button" x:Key="RoundButton">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="5,4" />
+            <Setter Property="Padding" Value="5,0" />
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="4" />
@@ -36,11 +39,7 @@
                 <Style TargetType="WrapPanel">
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
-                <Style TargetType="Button" BasedOn="{StaticResource RoundButton}">
-                    <Setter Property="Height" Value="24" />
-                    <Setter Property="Margin" Value="5,4" />
-                    <Setter Property="Padding" Value="5,0" />
-                </Style>
+                <Style TargetType="Button" BasedOn="{StaticResource RoundButton}" />
             </Style.Resources>
         </Style>
     </Window.Resources>
@@ -93,9 +92,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="2" Grid.Row="0" x:Name="Helper_Location_Time_Button" Click="Helper_Location_Time_Click" Content="Time Button" />
-                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Helper_Location_OpenFile_Button" Click="Helper_Location_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Helper_Location_RoomDisplay_Button" Click="Helper_Location_RoomDisplay_Click" Content="Room Button" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="HelperLocationsList" />
@@ -127,9 +124,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="2" Grid.Row="0" x:Name="Helper_Transition_Time_Button" Click="Helper_Transition_Time_Click" Content="Time Button" />
-                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Helper_Transition_OpenFile_Button" Click="Helper_Transition_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Helper_Transition_RoomDisplay_Button" Click="Helper_Transition_RoomDisplay_Click" Content="Room Button" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="HelperTransitionsList" />
@@ -170,9 +165,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="2" Grid.Row="0" x:Name="Tracker_Item_Time_Button" Click="Tracker_Item_Time_Click" Content="Time Button" />
-                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Tracker_Item_OpenFile_Button" Click="Tracker_Item_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="2" Grid.Row="1" IsEnabled="false" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="TrackerItemsList" />
@@ -206,9 +199,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="3" Grid.Row="0" x:Name="Tracker_Transition_Time_Button" Click="Tracker_Transition_Time_Click" Content="Time Button" />
-                                        <Button Grid.Column="3" Grid.Row="1" x:Name="Tracker_Transition_OpenFile_Button" Click="Tracker_Transition_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="3" Grid.Row="1" x:Name="Tracker_Transition_RoomDisplay_Button" Click="Tracker_Transition_RoomDisplay_Click" Content="Room Button" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="TrackerTransitionsList" />
@@ -249,9 +240,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="2" Grid.Row="0" x:Name="Spoiler_Item_Obtained_Button" Click="Spoiler_Item_Obtained_Click" Content="Obtained Button" />
-                                        <Button Grid.Column="2" Grid.Row="1" x:Name="Spoiler_Item_OpenFile_Button" Click="Spoiler_Item_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="2" Grid.Row="1" IsEnabled="false" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="SpoilerItemsList" />
@@ -285,9 +274,7 @@
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
                                         <Button Grid.Column="3" Grid.Row="0" x:Name="Spoiler_Transition_Traversed_Button" Click="Spoiler_Transition_Traversed_Click" Content="Traversed Button" />
-                                        <Button Grid.Column="3" Grid.Row="1" x:Name="Spoiler_Transition_OpenFile_Button" Click="Spoiler_Transition_OpenFile_Click">
-                                            <TextBlock Text="Open Log" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
-                                        </Button>
+                                        <Button Grid.Column="3" Grid.Row="1" x:Name="Spoiler_Transition_RoomDisplay_Button" Click="Spoiler_Transition_RoomDisplay_Click" Content="Room Button" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
                                         <ListBox x:Name="SpoilerTransitionsList" />
@@ -374,6 +361,9 @@
             </TabControl>
         </Grid>
         <!--Footer-->
-        <TextBlock Grid.Row="2" x:Name="Footer" TextAlignment="Right" Background="LightGray" Text="blu.sta"/>
+        <DockPanel Grid.Row="2" LastChildFill="True" Background="LightGray">
+            <Button x:Name="OpenLogFile_Button" Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="Open Log File" Click="OpenLogFile_Click" />
+            <TextBlock x:Name="Footer" TextAlignment="Right" VerticalAlignment="Center" Text="blu.sta" />
+        </DockPanel>
     </Grid>
 </Window>

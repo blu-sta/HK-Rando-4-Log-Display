@@ -1,5 +1,6 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.FileReader;
+using HK_Rando_4_Log_Display.Reference;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -200,7 +201,13 @@ namespace HK_Rando_4_Log_Display
             };
 
             if (IsLoaded)
+            {
                 Dispatcher.CurrentDispatcher.BeginInvoke(() => UpdateTabs());
+                if (_selectedParentTab == "Settings" && _selectedChildTab == "App Settings")
+                    Dispatcher.CurrentDispatcher.BeginInvoke(() => OpenLogFile_Button.Visibility = Visibility.Hidden);
+                else if (OpenLogFile_Button.Visibility == Visibility.Hidden)
+                    Dispatcher.CurrentDispatcher.BeginInvoke(() => OpenLogFile_Button.Visibility = Visibility.Visible);
+            }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -208,6 +215,40 @@ namespace HK_Rando_4_Log_Display
             ScrollViewer scv = sender as ScrollViewer;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta / 8.0);
             e.Handled = true;
+        }
+
+        private void OpenLogFile_Click(object sender, RoutedEventArgs e)
+        {
+            switch (_selectedParentTab)
+            {
+                case "Helper":
+                    _helperLogReader.OpenFile();
+                    break;
+                case "Tracker":
+                    _trackerLogReader.OpenFile();
+                    break;
+                case "Spoiler":
+                    switch (_selectedChildTab)
+                    {
+                        case "Items":
+                            _itemSpoilerReader.OpenFile();
+                            break;
+                        case "Transitions":
+                            _transitionSpoilerReader.OpenFile();
+                            break;
+                    }
+                    break;
+                case "Settings":
+                    switch (_selectedChildTab)
+                    {
+                        case "Seed Settings":
+                            _settingsReader.OpenFile();
+                            break;
+                        case "App Settings":
+                            break;
+                    }
+                    break;
+            }
         }
 
         protected override void OnClosed(EventArgs e)

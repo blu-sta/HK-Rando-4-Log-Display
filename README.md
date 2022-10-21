@@ -31,15 +31,15 @@ Also displays randomiser files that cannot be found
 
 ### Helper Tab - Locations
 
-###### Buttons
+#### Buttons
 `Group` toggles how locations are grouped together \
 Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or None \
 `Sort` toggles whether locations are ordered alphabetically or order of appearance in the logs  \
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
 `Time` will show or hide the time the location appeared in the log \
-`Open Log` will open the helper log file in notepad
+`Room` will toggle between showing the in-game room code and an alternate description of the room
 
-###### Sections
+#### Sections
 `Countables`: Tracks count of items that could be required for other checks \
 e.g. Grubs, Charms, Essence, etc. \
 `Previewed Locations`: All previewed locations grouped by location pool, showing the item at the location and any costs associated \
@@ -51,11 +51,11 @@ Locations with \* prefix are considered out of logic
 
 ### Helper Tab - Transitions
 
-###### Buttons
+#### Buttons
 
 Refer to **Helper Tab - Locations**, as all buttons here have the same functionality
 
-###### Sections
+#### Sections
 
 `Transition Groups`: Expandable sections defined by the `Group` setting \
 Also displays the number of transitions in the group \
@@ -63,16 +63,15 @@ Transitions with \* prefix are considered out of logic.
 
 ### Tracker Tab - Items
 
-###### Buttons
+#### Buttons
 `Group` toggles how items are grouped together \
 Options include Curated Item Pools, All Item Pools, All Location Pools or None \
 Curated Item Pools is loosely defined as collections of specific items that were often considered useful to recall before the days of ItemSync \
 `Sort` toggles whether items are ordered alphabetically or order of pick up; disabled when `Group` is curated  \
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
-`Time` will show or hide the time the item was obtained \
-`Open Log` will open the tracker log file in notepad
+`Time` will show or hide the time the item was obtained
 
-###### Sections
+#### Sections
 
 `Item Groups`: Expandable sections defined by the `Group` setting \
 Also displays the number of items obtained in the pool \
@@ -82,7 +81,7 @@ e.g. a White_Fragment bought at Sly would show under Charms for All Item Pools, 
 
 ### Tracker Tab - Transitions
 
-###### Buttons
+#### Buttons
 `Group` toggles how transitions are grouped together \
 Options are the same as in **Helper Tab - Locations** \
 `Sort` toggles whether transitions are ordered alphabetically or order of traversal \
@@ -90,34 +89,32 @@ Options are the same as in **Helper Tab - Locations** \
 (This is only really useful when considering Uncoupled transitions) \
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
 `Time` will show or hide the time the transition was first traversed \
-`Open Log` will open the tracker log file in notepad
+`Room` will toggle between showing the in-game room code and an alternate description of the room
 
-###### Sections
+#### Sections
 
 `Transition Groups`: Same as `Transition Groups` in **Helper Tab - Transitions**. \
 Does not record if transitions were traversed outside of logic.
 
 ### Spoiler Tab - Items
 
-###### Buttons
+#### Buttons
 
 `Group`, `Sort`, `Expand All` and `Collapse All` function the same as in **Tracker Tab - Items** \
-`Obtained` replaces `Time` to show or hide a strikethrough for each item obtained \
-`Open Log` will open the item spoiler log file in notepad
+`Obtained` replaces `Time` to show or hide a strikethrough for each item obtained
 
-###### Sections
+#### Sections
 
 `Item Groups`: Same as `Item Groups` in **Tracker Tab - Items**
 
 ### Spoiler Tab - Transitions
 
-###### Buttons
+#### Buttons
 
-`Group`, `Sort`, `Focus`, `Expand All` and `Collapse All` function the same as in **Tracker Tab - Transitions** \
-`Traversed` replaces `Time` to show or hide a strikethrough for each transition traversed \
-`Open Log` will open the transition spoiler log file in notepad
+`Group`, `Sort`, `Focus`, `Expand All`, `Collapse All` and `Room` function the same as in **Tracker Tab - Transitions** \
+`Traversed` replaces `Time` to show or hide a strikethrough for each transition traversed
 
-###### Sections
+#### Sections
 
 `Transition Groups`: Same as `Transition Groups` in **Tracker Tab - Transitions**
 
@@ -140,6 +137,7 @@ Current state is highlighted
 
 ### Bottom Bar
 
+`Open Log File` will open the log file for the currently selected tab in notepad \
 Shows the current version number
 
 ### Appreciation

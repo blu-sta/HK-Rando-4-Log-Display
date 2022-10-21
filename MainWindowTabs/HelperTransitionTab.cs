@@ -16,6 +16,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedRoomsWithTransitions = new();
         private readonly HashSet<string> ExpandedZonesWithTransitions = new();
         private bool _showHelperTransitionsTime = true;
+        private bool _showHelperTransitionAltRoomNames = false;
 
         private void UpdateHelperTransitionsTab()
         {
@@ -35,13 +36,13 @@ namespace HK_Rando_4_Log_Display
                         UpdateHelperTransitions(_helperLogReader.GetTransitionsByTitledArea(), helperTransitionOrdering);
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByMapArea(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByMapArea(_showHelperTransitionAltRoomNames), helperTransitionOrdering);
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByTitledArea(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByTitledArea(_showHelperTransitionAltRoomNames), helperTransitionOrdering);
                         break;
                     case RoomGrouping.Room:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoom(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoom(_showHelperTransitionAltRoomNames), helperTransitionOrdering);
                         break;
                     case RoomGrouping.None:
                     default:
@@ -128,6 +129,7 @@ namespace HK_Rando_4_Log_Display
             Helper_Transition_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperTransitionGroupingOptions[_appSettings.SelectedHelperTransitionGrouping]}");
             Helper_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperTransitionOrderingOptions[_appSettings.SelectedHelperTransitionOrder]}");
             Helper_Transition_Time_Button.Content = GenerateButtonTextBlock(_showHelperTransitionsTime ? "Time: Show" : "Time: Hide");
+            Helper_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperTransitionAltRoomNames ? "Room: Name" : "Room: Code");
         }
 
         private void Helper_Transition_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -148,9 +150,10 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void Helper_Transition_OpenFile_Click(object sender, RoutedEventArgs e)
+        private void Helper_Transition_RoomDisplay_Click(object sender, RoutedEventArgs e)
         {
-            _helperLogReader.OpenFile();
+            _showHelperTransitionAltRoomNames = !_showHelperTransitionAltRoomNames;
+            Dispatcher.Invoke(() => UpdateTabs());
         }
 
         private void Helper_Transition_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(HelperTransitionsList);

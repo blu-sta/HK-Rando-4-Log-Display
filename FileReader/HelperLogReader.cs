@@ -1,4 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Reference;
 using HK_Rando_4_Log_Display.Utils;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,17 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         public Dictionary<string, List<Location>> GetLocationsByTitledArea();
         public Dictionary<string, List<Location>> GetLocationsByMapArea();
-        public Dictionary<string, List<Location>> GetLocationsByRoom();
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea();
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea();
+        public Dictionary<string, List<Location>> GetLocationsByRoom(bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(bool useAltSceneName);
         public List<Location> GetLocations();
         public Dictionary<string, List<LocationPreview>> GetPreviewedLocations();
         public Dictionary<string, List<LocationPreview>> GetPreviewedItems();
         public Dictionary<string, List<Transition>> GetTransitionsByTitledArea();
         public Dictionary<string, List<Transition>> GetTransitionsByMapArea();
-        public Dictionary<string, List<Transition>> GetTransitionsByRoom();
-        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByMapArea();
-        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByTitledArea();
+        public Dictionary<string, List<Transition>> GetTransitionsByRoom(bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByMapArea(bool useAltSceneName);
+        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByTitledArea(bool useAltSceneName);
         public List<Transition> GetTransitions();
         public void SaveState();
         public void PurgeMemory();
@@ -33,6 +34,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class HelperLogReader : IHelperLogReader
     {
+        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly IResourceLoader _resourceLoader;
         private DateTime _referenceTime;
         private readonly Dictionary<string, Location> _helperLogLocations = new();
@@ -41,8 +43,9 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public bool IsFileFound { get; private set; }
 
-        public HelperLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader)
+        public HelperLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader, SceneNameDictionary sceneNameDictionary)
         {
+            _sceneNameDictionary = sceneNameDictionary;
             _resourceLoader = resourceLoader;
 
             if (!settingsReader.IsFileFound ||
@@ -120,17 +123,20 @@ namespace HK_Rando_4_Log_Display.FileReader
             _helperLogLocations.Values.GroupBy(x => x.MapArea)
                 .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<Location>> GetLocationsByRoom() =>
+        public Dictionary<string, List<Location>> GetLocationsByRoom(bool useAltSceneName) =>
             _helperLogLocations.Values.GroupBy(x => x.SceneName)
-                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+                .OrderBy(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList());
 
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea() =>
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(bool useAltSceneName) =>
             _helperLogLocations.Values.GroupBy(x => x.TitledArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea() =>
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(bool useAltSceneName) =>
             _helperLogLocations.Values.GroupBy(x => x.MapArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
         public List<Location> GetLocations() =>
             _helperLogLocations.Values.ToList();
@@ -340,14 +346,20 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, List<Transition>> GetTransitionsByTitledArea() =>
             _helperLogTransitions.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<Transition>> GetTransitionsByRoom() =>
-            _helperLogTransitions.Values.GroupBy(x => x.SceneName).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
+        public Dictionary<string, List<Transition>> GetTransitionsByRoom(bool useAltSceneName) =>
+            _helperLogTransitions.Values.GroupBy(x => x.SceneName)
+                .OrderBy(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList());
 
-        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByMapArea() =>
-            _helperLogTransitions.Values.GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByMapArea(bool useAltSceneName) =>
+            _helperLogTransitions.Values.GroupBy(x => x.MapArea).OrderBy(x => x.Key)
+                .ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
-        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByTitledArea() =>
-            _helperLogTransitions.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName).ToDictionary(x => x.Key, x => x.ToList()));
+        public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByTitledArea(bool useAltSceneName) =>
+            _helperLogTransitions.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key)
+                .ToDictionary(y => y.Key, y => y.GroupBy(x => x.SceneName)
+                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
 
         public List<Transition> GetTransitions() =>
             _helperLogTransitions.Values.ToList();
