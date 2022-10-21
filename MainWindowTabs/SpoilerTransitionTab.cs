@@ -71,9 +71,9 @@ namespace HK_Rando_4_Log_Display
                 var roomsWithTransitions = area.Value.OrderBy(x => x.Key).ToList();
                 roomsWithTransitions.ForEach(roomWithTransitions =>
                 {
-                    roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedTrackedRoomsWithTransitions, ordering, trackedTransitions));
+                    roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedSpoilerTrackedRoomsWithTransitions, ordering, trackedTransitions));
                 });
-                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedTrackedZonesWithTransitions);
+                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions);
                 SpoilerTransitionsList.Items.Add(areaExpander);
             }
         }
