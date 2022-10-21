@@ -363,7 +363,7 @@
         <!--Footer-->
         <DockPanel Grid.Row="2" LastChildFill="True" Background="LightGray">
             <Button x:Name="OpenLogFile_Button" Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="Open Log File" Click="OpenLogFile_Click" />
-            <TextBlock x:Name="Footer" TextAlignment="Right" VerticalAlignment="Center" Text="blu.sta" />
+            <TextBlock x:Name="Footer" TextAlignment="Right" VerticalAlignment="Center" Text="blu.sta" Margin="5" />
         </DockPanel>
     </Grid>
 </Window>
