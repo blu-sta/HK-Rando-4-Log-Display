@@ -74,6 +74,21 @@ namespace HK_Rando_4_Log_Display
 
         private void GetMajorCountables()
         {
+            var objectGrid = new Grid
+            {
+                Margin = GenerateStandardThickness()
+            };
+            var colDef1 = new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Auto)
+            };
+            var colDef2 = new ColumnDefinition
+            {
+                Width = new GridLength(1, GridUnitType.Star)
+            };
+            objectGrid.ColumnDefinitions.Add(colDef1);
+            objectGrid.ColumnDefinitions.Add(colDef2);
+
             var trackedItemsByPool = _trackerLogReader.GetItemsByPool();
 
             var majorCountables = new List<string>();
@@ -90,7 +105,7 @@ namespace HK_Rando_4_Log_Display
             {
                 var charmCollections = new[] { charms, transcendenceCharms }.Where(x => x != null).Aggregate(new List<ItemWithLocation>(), (current, next) => current.Concat(next).ToList());
                 var charmHashSet = new HashSet<ItemWithLocation>(charmCollections);
-                var charmCount = charms?.Count(x => !x.Item.Name.Contains("_Fragment") && !x.Item.Name.Contains("Unbreakable_") && x.Item.Name != "Void_Heart");
+                var charmCount = charmHashSet?.Count(x => !x.Item.Name.Contains("_Fragment") && !x.Item.Name.Contains("Unbreakable_") && x.Item.Name != "Void_Heart");
                 if (charmCount != null)
                 {
                     majorCountables.Add($"Charms: {charmCount}");
@@ -102,17 +117,17 @@ namespace HK_Rando_4_Log_Display
             {
                 majorCountables.Add($"Essence: {essenceCount}");
             }
-            // Rancid Eggs
-            var eggCount = GetItemCount(trackedItemsByPool, "Egg");
-            if (eggCount != null)
-            {
-                majorCountables.Add($"Rancid Eggs: {eggCount}");
-            }
             // Pale Ore
             var oreCount = GetItemCount(trackedItemsByPool, "Ore");
             if (oreCount != null)
             {
                 majorCountables.Add($"Pale Ore: {oreCount}");
+            }
+            // Rancid Eggs
+            var eggCount = GetItemCount(trackedItemsByPool, "Egg");
+            if (eggCount != null)
+            {
+                majorCountables.Add($"Rancid Eggs: {eggCount}");
             }
             // Grimmkin Flames
             var flameCount = GetItemCount(trackedItemsByPool, "Flame");
@@ -121,20 +136,57 @@ namespace HK_Rando_4_Log_Display
                 majorCountables.Add($"Grimmkin Flames: {flameCount}");
             }
             // MrMushroom Levels
-            var mushroomCount = GetItemCount(trackedItemsByPool, "MrMushroom");
+            var mushroomCount = GetItemCount(trackedItemsByPool, "Mr Mushroom");
             if (mushroomCount != null)
             {
                 majorCountables.Add($"Mr Mushroom Level: {mushroomCount}");
             }
 
-            if (!majorCountables.Any())
+            // True Ending Items
+            var teCountables = new List<string>();
+            var curatedItemsByPool = _trackerLogReader.GetCuratedItemsByPool();
+            var trueEndingItems = curatedItemsByPool.FirstOrDefault(x => x.Key == "True Ending Items").Value ?? new List<ItemWithLocation>();
+            var fragmentCount = trueEndingItems.Count(x => x.Item.Pool == "Charm");
+            var dreamerCount = trueEndingItems.Count(x => x.Item.Pool == "Dreamer");
+            var dreamNails = curatedItemsByPool.FirstOrDefault(x => x.Key == "Dream Nails").Value ?? new List<ItemWithLocation>();
+            var dreamNailCount = dreamNails.Count();
+            
+            if (fragmentCount > 0 || dreamerCount > 0 || dreamNailCount > 0)
+            {
+                teCountables.Add($"True Ending Items:");
+
+                if (fragmentCount > 0)
+                {
+                    teCountables.Add($"{fragmentCount}/3 fragments");
+                }
+                if (dreamerCount > 0)
+                {
+                    teCountables.Add($"{dreamerCount}/3 dreamers");
+                }
+                if (dreamNailCount > 0)
+                {
+                    teCountables.Add($"{dreamNailCount}/1 dream nails");
+                }
+            }
+
+            if (!majorCountables.Any() && !teCountables.Any())
             {
                 return;
             }
 
-            var poolStacker = GenerateStackPanel();
-            majorCountables.ForEach(x => poolStacker.Children.Add(new TextBlock { Text = x }));
-            HelperLocationsList.Items.Add(GenerateExpanderWithContent("Countables", poolStacker, _expandCountables));
+            var countableStacker = GenerateStackPanel();
+            majorCountables.ForEach(x => countableStacker.Children.Add(new TextBlock { Text = x }));
+            Grid.SetColumn(countableStacker, 0);
+            Grid.SetRow(countableStacker, 0);
+            objectGrid.Children.Add(countableStacker);
+
+            var teStacker = GenerateStackPanel();
+            teCountables.ForEach(x => teStacker.Children.Add(new TextBlock { Text = x }));
+            Grid.SetColumn(teStacker, 1);
+            Grid.SetRow(teStacker, 0);
+            objectGrid.Children.Add(teStacker);
+
+            HelperLocationsList.Items.Add(GenerateExpanderWithContent("Countables", objectGrid, _expandCountables));
         }
 
         private static int? GetItemCount(Dictionary<string, List<ItemWithLocation>> pooledItems, string itemPool) =>

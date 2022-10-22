@@ -66,7 +66,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             ReferenceItems = itemImports.Select(x => new ReferenceItem
             {
                 Name = x.Name,
-                PreviewName = x.Name.Replace("-", " ").Replace("_", " "),
+                PreviewName = GetItemPreviewName(x),
                 Pool = x.Pool
             })
                 //flibber-hk
@@ -98,6 +98,14 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(LoreMasterItemImport())
 
                 .ToList();
+        }
+
+        private static string GetItemPreviewName(ItemImport x)
+        {
+            if (x.Name == "Lumafly_Escape")
+                return "Nothing?";
+
+            return x.Name.Replace("-", " ").Replace("_", " ");
         }
 
         private static List<ItemImport> GetItemImportsFromFile() =>
