@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.1";
+        public static readonly string AppVersion = "v2.0.2";
 
         public enum RoomGrouping
         {
@@ -53,6 +53,16 @@ namespace HK_Rando_4_Log_Display.Constants
             SeedDefault = 1,
         }
 
+        public enum ShowLocationRoom
+        {
+            [EnumMember(Value = "None")]
+            None = 0,
+            [EnumMember(Value = "Code")]
+            RoomCode = 1,
+            [EnumMember(Value = "Desc.")]
+            RoomAltName = 2,
+        }
+
         public static readonly string[] HelperLocationGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperLocationOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
@@ -60,11 +70,13 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static readonly string[] TrackerItemGroupingOptions = Enum.GetValues(typeof(PoolGrouping)).Cast<PoolGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] TrackerItemOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] TrackerShowLocationRoomOptions = Enum.GetValues(typeof(ShowLocationRoom)).Cast<ShowLocationRoom>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] TrackerTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] TrackerTransitionOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
 
         public static readonly string[] SpoilerItemGroupingOptions = Enum.GetValues(typeof(PoolGrouping)).Cast<PoolGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerItemOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] SpoilerShowLocationRoomOptions = Enum.GetValues(typeof(ShowLocationRoom)).Cast<ShowLocationRoom>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
 

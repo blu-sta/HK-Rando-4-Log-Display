@@ -139,7 +139,7 @@ namespace HK_Rando_4_Log_Display
             Tracker_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {TrackerTransitionOrderingOptions[_appSettings.SelectedTrackerTransitionOrder]}");
             Tracker_Transition_SourceDestination_Button.Content = GenerateButtonTextBlock(_useTrackerTransitionsDestination ? "Focus: Destination" : "Focus: Source");
             Tracker_Transition_Time_Button.Content = GenerateButtonTextBlock(_showTrackerTransitionsTime ? "Time: Show" : "Time: Hide");
-            Tracker_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showTrackerTransitionAltRoomNames ? "Room: Name" : "Room: Code");
+            Tracker_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showTrackerTransitionAltRoomNames ? "Room: Desc." : "Room: Code");
         }
 
         private void Tracker_Transition_GroupBy_Click(object sender, RoutedEventArgs e)

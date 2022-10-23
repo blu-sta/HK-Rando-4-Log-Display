@@ -129,7 +129,7 @@ namespace HK_Rando_4_Log_Display
             Helper_Transition_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperTransitionGroupingOptions[_appSettings.SelectedHelperTransitionGrouping]}");
             Helper_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperTransitionOrderingOptions[_appSettings.SelectedHelperTransitionOrder]}");
             Helper_Transition_Time_Button.Content = GenerateButtonTextBlock(_showHelperTransitionsTime ? "Time: Show" : "Time: Hide");
-            Helper_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperTransitionAltRoomNames ? "Room: Name" : "Room: Code");
+            Helper_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperTransitionAltRoomNames ? "Room: Desc." : "Room: Code");
         }
 
         private void Helper_Transition_GroupBy_Click(object sender, RoutedEventArgs e)

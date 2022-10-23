@@ -24,6 +24,7 @@ namespace HK_Rando_4_Log_Display
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
+            services.AddTransient<IVersionChecker, VersionChecker>();
             services.AddTransient<IHelperLogReader, HelperLogReader>();
             services.AddTransient<ITrackerLogReader, TrackerLogReader>();
             services.AddTransient<ISettingsReader, SettingsReader>();

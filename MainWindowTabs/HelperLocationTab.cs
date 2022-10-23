@@ -327,7 +327,7 @@ namespace HK_Rando_4_Log_Display
             Helper_Location_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperLocationGroupingOptions[_appSettings.SelectedHelperLocationGrouping]}");
             Helper_Location_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperLocationOrderingOptions[_appSettings.SelectedHelperLocationOrder]}");
             Helper_Location_Time_Button.Content = GenerateButtonTextBlock(_showHelperLocationsTime ? "Time: Show" : "Time: Hide");
-            Helper_Location_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperLocationAltRoomNames ? "Room: Name" : "Room: Code");
+            Helper_Location_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperLocationAltRoomNames ? "Room: Desc." : "Room: Code");
         }
 
         private void Helper_Location_GroupBy_Click(object sender, RoutedEventArgs e)

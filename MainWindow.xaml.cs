@@ -3,7 +3,9 @@ using HK_Rando_4_Log_Display.FileReader;
 using HK_Rando_4_Log_Display.Reference;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,23 +26,27 @@ namespace HK_Rando_4_Log_Display
         private readonly IItemSpoilerReader _itemSpoilerReader;
         private readonly ITransitionSpoilerReader _transitionSpoilerReader;
         private readonly IResourceLoader _resourceLoader;
+        private readonly IVersionChecker _versionChecker;
+        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly AppSettings _appSettings;
         private string _selectedParentTab;
         private string _selectedChildTab;
         private DateTime _referenceTime;
 
         public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISettingsReader settingsReader,
-            IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader)
+            IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader,
+            SceneNameDictionary sceneNameDictionary, IVersionChecker versionChecker)
         {
             DataContext = this;
 
+            _sceneNameDictionary = sceneNameDictionary;
+            _versionChecker = versionChecker;
             _helperLogReader = helperLogReader;
             _trackerLogReader = trackerLogReader;
             _settingsReader = settingsReader;
             _itemSpoilerReader = itemSpoilerReader;
             _transitionSpoilerReader = transitionSpoilerReader;
             _resourceLoader = resourceLoader;
-
             _appSettings = _resourceLoader.GetAppSettings();
 
             InitializeComponent();
@@ -59,6 +65,15 @@ namespace HK_Rando_4_Log_Display
             dataExtractor.AutoReset = true;
             dataExtractor.Enabled = true;
             UpdateTabsFirstRun();
+            Dispatcher.BeginInvoke(async () => await ShowUpdateAvailability());
+        }
+
+        private async Task ShowUpdateAvailability()
+        {
+            if (await _versionChecker.IsUpdateAvailable())
+            {
+                UpdateUX(() => Update_Button.Visibility = Visibility.Visible);
+            }
         }
 
         private void UpdateTabs(object _, ElapsedEventArgs __) => UpdateTabs();
@@ -187,6 +202,9 @@ namespace HK_Rando_4_Log_Display
         }
 
         #region Events
+
+        private void Update_Click(object sender, RoutedEventArgs e) => 
+            Process.Start(new ProcessStartInfo("https://github.com/blu-sta/HK-Rando-4-Log-Display/releases/latest") { UseShellExecute = true });
 
         private void Tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

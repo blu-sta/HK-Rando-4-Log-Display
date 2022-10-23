@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.1
+# HK Rando 4 Log Display v2.0.2
 
 ## Requirements
 
@@ -139,18 +139,24 @@ Current state is highlighted
 ### Bottom Bar
 
 `Open Log File` will open the log file for the currently selected tab in notepad \
-Shows the current version number
+`Update Available` will appear if a newer version is available from Github \
+Also shows the current version number in the right corner
 
-### Appreciation
+## Future Plans
+
+Improvements to room descriptions
+Ability for user to personalise room descriptions
+
+## Appreciation
 
 A big thank you to those who continue to report problems and make suggestions to help improve this application \
 And a special thanks to **ColetteMSLP**, who constantly tests it against the latest rando mods and helps with improving the compatibility
 
-### Reporting issues
+## Reporting issues
 
 If something goes wrong while using this application, please contact `@blu.sta#9997` on Discord
 
-### Reference material
+## Reference material
 
 Files found in the **Reference** folder can be updated manually if you do not wish to wait for a patch update \
 But please note that items already logged will not be updated immediately, and if the schema changes the import may break

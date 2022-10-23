@@ -14,6 +14,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedSpoilerPoolsWithItems = new();
         private readonly HashSet<string> ExpandedSpoilerPoolsWithLocations = new();
         private bool _showSpoilerItemObtained = true;
+        private int _showSpoilerRoomState = 0;
 
         private void UpdateSpoilerItemsTab()
         {
@@ -110,7 +111,14 @@ namespace HK_Rando_4_Log_Display
                 var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
                 return new KeyValuePair<string, string>(
                     $"{(isTracked ? "<s>" : "")}{x.Item.Name.WithoutUnderscores()}",
-                    $"{(isTracked ? "<s>" : "")}found at {x.Location.Name.WithoutUnderscores()}{(!string.IsNullOrEmpty(x.Cost) ? $" [{x.Cost}]" : "")}"
+                    $"{(isTracked ? "<s>" : "")}found at {x.Location.Name.WithoutUnderscores()}" +
+                    ((ShowLocationRoom)_showSpoilerRoomState switch
+                    {
+                        ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
+                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        _ => "",
+                    }) +
+                    (!string.IsNullOrEmpty(x.Cost) ? $" ({x.Cost})" : "")
                 );
             }).ToList();
             return GenerateAutoStarGrid(itemKvps);
@@ -118,14 +126,21 @@ namespace HK_Rando_4_Log_Display
 
         private Grid GetSpoiledLocationsGrid(List<SpoilerItemWithLocation> locations, List<ItemWithLocation> trackedItems)
         {
-            var locationKvps = locations.Select((x,i) =>
+            var locationKvps = locations.Select((x, i) =>
             {
                 var itemName = x.Item.Name;
                 var locationName = x.Location.Name;
                 var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
                 return new KeyValuePair<string, string>(
-                    $"{(isTracked ? "<s>" : "")}{x.Location.Name.WithoutUnderscores()}",
-                    $"{(isTracked ? "<s>" : "")}provided {x.Item.Name.WithoutUnderscores()}{(!string.IsNullOrEmpty(x.Cost) ? $" [{x.Cost}]" : "")}"
+                    $"{(isTracked ? "<s>" : "")}{x.Location.Name.WithoutUnderscores()}" +
+                    ((ShowLocationRoom)_showSpoilerRoomState switch
+                    {
+                        ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
+                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        _ => "",
+                    }),
+                    $"{(isTracked ? "<s>" : "")}provided {x.Item.Name.WithoutUnderscores()}" +
+                    (!string.IsNullOrEmpty(x.Cost) ? $" ({x.Cost})" : "")
                 );
             }).ToList();
             return GenerateAutoStarGrid(locationKvps);
@@ -197,6 +212,7 @@ namespace HK_Rando_4_Log_Display
                 : "Sort: Curated";
             Spoiler_Item_SortBy_Button.IsEnabled = !isCuratedPool;
             Spoiler_Item_Obtained_Button.Content = GenerateButtonTextBlock(_showSpoilerItemObtained ? "Obtained: Show" : "Obtained: Hide");
+            Spoiler_Item_ShowRoom_Button.Content = GenerateButtonTextBlock($"Room: {SpoilerShowLocationRoomOptions[_showSpoilerRoomState]}");
         }
 
         private void Spoiler_Item_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -217,9 +233,10 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void Spoiler_Item_OpenFile_Click(object sender, RoutedEventArgs e)
+        private void Spoiler_Item_ShowRoom_Click(object sender, RoutedEventArgs e)
         {
-            _itemSpoilerReader.OpenFile();
+            _showSpoilerRoomState = (_showSpoilerRoomState + 1) % SpoilerShowLocationRoomOptions.Length;
+            Dispatcher.Invoke(() => UpdateTabs());
         }
 
         private void Spoiler_Item_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(SpoilerItemsList);

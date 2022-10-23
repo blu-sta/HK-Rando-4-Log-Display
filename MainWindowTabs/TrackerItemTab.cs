@@ -15,6 +15,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedPoolsWithItems = new();
         private readonly HashSet<string> ExpandedPoolsWithLocations = new();
         private bool _showTrackerItemsTime = true;
+        private int _showTrackerRoomState = 0;
 
         private void UpdateTrackerItemsTab()
         {
@@ -103,17 +104,32 @@ namespace HK_Rando_4_Log_Display
         private Grid GetTrackedItemsGrid(List<ItemWithLocation> items)
         {
             var itemKvps = items.Select(x =>
-                new KeyValuePair<string, string>($"{x.Item.Name.WithoutUnderscores()}",
-                $"found at {x.Location.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
-            ).ToList();
+                new KeyValuePair<string, string>(
+                    $"{x.Item.Name.WithoutUnderscores()}",
+                    $"found at {x.Location.Name.WithoutUnderscores()}" +
+                    ((ShowLocationRoom)_showTrackerRoomState switch
+                    {
+                        ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
+                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        _ => "",
+                    }) +
+                    (_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : ""))
+                ).ToList();
             return GenerateAutoStarGrid(itemKvps);
         }
 
         private Grid GetTrackedLocationsGrid(List<ItemWithLocation> locations)
         {
             var locationKvps = locations.Select(x =>
-                new KeyValuePair<string, string>($"{x.Location.Name.WithoutUnderscores()}",
-                $"provided {x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
+                new KeyValuePair<string, string>(
+                    $"{x.Location.Name.WithoutUnderscores()}" +
+                    ((ShowLocationRoom)_showTrackerRoomState switch
+                    {
+                        ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
+                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        _ => "",
+                    }),
+                    $"provided {x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
             ).ToList();
             return GenerateAutoStarGrid(locationKvps);
         }
@@ -129,6 +145,7 @@ namespace HK_Rando_4_Log_Display
                 : "Sort: Curated";
             Tracker_Item_SortBy_Button.IsEnabled = !isCuratedPool;
             Tracker_Item_Time_Button.Content = GenerateButtonTextBlock(_showTrackerItemsTime ? "Time: Show" : "Time: Hide");
+            Tracker_Item_ShowRoom_Button.Content = GenerateButtonTextBlock($"Room: {TrackerShowLocationRoomOptions[_showTrackerRoomState]}");
         }
 
         private void Tracker_Item_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -149,9 +166,10 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void Tracker_Item_OpenFile_Click(object sender, RoutedEventArgs e)
+        private void Tracker_Item_ShowRoom_Click(object sender, RoutedEventArgs e)
         {
-            _trackerLogReader.OpenFile();
+            _showTrackerRoomState = (_showTrackerRoomState + 1) % TrackerShowLocationRoomOptions.Length;
+            Dispatcher.Invoke(() => UpdateTabs());
         }
 
         private void Tracker_Item_Expand_Click(object sender, RoutedEventArgs e) => ExpandExpanders(TrackerItemsList);

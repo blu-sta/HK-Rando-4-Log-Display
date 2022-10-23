@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<Version>2.0.1</Version>
+	<Version>2.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Changelog.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="readme.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -149,7 +149,7 @@ namespace HK_Rando_4_Log_Display
             Spoiler_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {SpoilerTransitionOrderingOptions[_appSettings.SelectedSpoilerTransitionOrder]}");
             Spoiler_Transition_SourceDestination_Button.Content = GenerateButtonTextBlock(_useSpoilerTransitionsDestination ? "Focus: Destination" : "Focus: Source");
             Spoiler_Transition_Traversed_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionTraversed ? "Traversed: Show" : "Traversed: Hide");
-            Spoiler_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionAltRoomNames ? "Room: Name" : "Room: Code");
+            Spoiler_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionAltRoomNames ? "Room: Desc." : "Room: Code");
         }
 
         private void Spoiler_Transition_GroupBy_Click(object sender, RoutedEventArgs e)
