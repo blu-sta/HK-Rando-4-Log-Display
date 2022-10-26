@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.2";
+        public static readonly string AppVersion = "v2.0.3";
 
         public enum RoomGrouping
         {
@@ -60,7 +60,7 @@ namespace HK_Rando_4_Log_Display.Constants
             [EnumMember(Value = "Code")]
             RoomCode = 1,
             [EnumMember(Value = "Desc.")]
-            RoomAltName = 2,
+            RoomDescription = 2,
         }
 
         public static readonly string[] HelperLocationGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
@@ -117,7 +117,6 @@ namespace HK_Rando_4_Log_Display.Constants
         public static string TrackerLogTransitionsFilename => "_TrackerLogTransitions.json";
         public static string TrackerLogItemsFilename => "_TrackerLogItems.json";
         public static string AppSettingsFilename => "_AppSettings.json";
-        public static string SettingsFilename => "_Settings.json";
         public static string SeedFilename => "_Seed.json";
 
         #endregion
@@ -132,6 +131,8 @@ namespace HK_Rando_4_Log_Display.Constants
             GetReferenceFilepath("rooms.json");
         public static string ReferenceItemsFilePath =>
             GetReferenceFilepath("items.json");
+        public static string ReferenceSceneDescriptionFilePath =>
+            GetReferenceFilepath("_sceneDescriptions.json");
 
         #region Mod References
 

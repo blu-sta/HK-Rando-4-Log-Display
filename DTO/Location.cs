@@ -13,5 +13,6 @@ namespace HK_Rando_4_Log_Display.DTO
         public string Pool { get; set; }
         public string MapArea { get; set; }
         public string TitledArea { get; set; }
+        public string SceneDescription { get; set; }
     }
 }

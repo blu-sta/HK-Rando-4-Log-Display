@@ -110,7 +110,7 @@ namespace HK_Rando_4_Log_Display
                     ((ShowLocationRoom)_showTrackerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
-                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }) +
                     (_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : ""))
@@ -126,7 +126,7 @@ namespace HK_Rando_4_Log_Display
                     ((ShowLocationRoom)_showTrackerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
-                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }),
                     $"provided {x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")

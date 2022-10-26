@@ -43,7 +43,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public void OpenFile()
         {
-            if (File.Exists(ItemSpoilerLogPath)) Process.Start("notepad.exe", ItemSpoilerLogPath);
+            if (File.Exists(ItemSpoilerLogPath)) Process.Start(new ProcessStartInfo(ItemSpoilerLogPath) { UseShellExecute = true });
         }
 
         private void LoadItemSpoiler(List<string> itemSpoilerData)
@@ -87,7 +87,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                         Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
                         MapArea = "> Unrecognised Location",
                         TitledArea = "> Unrecognised Location",
-                        SceneName = "> Unrecognised Location"
+                        SceneName = "> Unrecognised Location",
+                        SceneDescription = "> Unrecognised Location"
                     };
 
                 _spoilerItems.Add(
@@ -105,6 +106,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                                MapArea = locationDetails.MapArea,
                                TitledArea = locationDetails.TitledArea,
                                SceneName = locationDetails.SceneName,
+                               SceneDescription = locationDetails.SceneDescription,
                            },
                            Cost = cost
                        });

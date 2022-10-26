@@ -1,5 +1,13 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.3
+
+- `Update Available` button now shows the latest version number
+- `TODO` Updated room descriptions
+- Added `_sceneDescriptions.json` to allow users to update with their own descriptions
+- `TODO` Updated mods: [LoreMaster](https://github.com/Korzer420/LoreMaster/blob/main/LoreMaster/Randomizer/RandomizerRequestModifier.cs#L248)
+- Disclaimer added for MultiWorld (please see [Readme](https://github.com/blu-sta/HK-Rando-4-Log-Display/blob/main/README.md#multiWorld-disclaimer) for details)
+
 ## v2.0.2
 
 - Added check for updates on startup, with button to link to Github if update is available

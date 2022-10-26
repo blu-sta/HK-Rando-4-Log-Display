@@ -12,21 +12,22 @@ namespace HK_Rando_4_Log_Display
 {
     public interface IVersionChecker
     {
-        public Task<bool> IsUpdateAvailable();
+        public Task<string> GetNewVersionOrDefault();
     }
     public class VersionChecker : IVersionChecker
     {
-        public async Task<bool> IsUpdateAvailable()
+        public async Task<string> GetNewVersionOrDefault()
         {
             try
             {
+                var latestVersionString = await GetLatestVersion();
+                var latestVersion = GetVersion(latestVersionString);
                 var currentVersion = GetVersion(AppVersion);
-                var latestVersion = GetVersion(await GetLatestVersion());
-                return latestVersion.CompareTo(currentVersion) == 1;
+                return latestVersion.CompareTo(currentVersion) == 1 ? latestVersionString : string.Empty;
             }
             catch
             {
-                return false;
+                return string.Empty;
             }
         }
 

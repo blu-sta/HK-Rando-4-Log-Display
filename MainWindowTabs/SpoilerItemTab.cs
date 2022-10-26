@@ -115,7 +115,7 @@ namespace HK_Rando_4_Log_Display
                     ((ShowLocationRoom)_showSpoilerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
-                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }) +
                     (!string.IsNullOrEmpty(x.Cost) ? $" ({x.Cost})" : "")
@@ -136,7 +136,7 @@ namespace HK_Rando_4_Log_Display
                     ((ShowLocationRoom)_showSpoilerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
-                        ShowLocationRoom.RoomAltName => $" [{_sceneNameDictionary.GetAltSceneName(x.Location.SceneName)}]",
+                        ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }),
                     $"{(isTracked ? "<s>" : "")}provided {x.Item.Name.WithoutUnderscores()}" +

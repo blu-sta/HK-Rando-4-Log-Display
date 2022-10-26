@@ -16,7 +16,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedSpoilerTrackedZonesWithTransitions = new();
         private bool _useSpoilerTransitionsDestination = false;
         private bool _showSpoilerTransitionTraversed = true;
-        private bool _showSpoilerTransitionAltRoomNames = false;
+        private bool _showSpoilerTransitionSceneDescriptions = false;
 
         private void UpdateSpoilerTransitionsTab()
         {
@@ -38,13 +38,13 @@ namespace HK_Rando_4_Log_Display
                         UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByTitledArea(_useSpoilerTransitionsDestination), spoilerTransitionOrdering, trackedTransitions);
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByMapArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionAltRoomNames), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByMapArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByTitledArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionAltRoomNames), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByTitledArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
                         break;
                     case RoomGrouping.Room:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoom(_useSpoilerTransitionsDestination, _showSpoilerTransitionAltRoomNames), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoom(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
                         break;
                     case RoomGrouping.None:
                     default:
@@ -149,7 +149,7 @@ namespace HK_Rando_4_Log_Display
             Spoiler_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {SpoilerTransitionOrderingOptions[_appSettings.SelectedSpoilerTransitionOrder]}");
             Spoiler_Transition_SourceDestination_Button.Content = GenerateButtonTextBlock(_useSpoilerTransitionsDestination ? "Focus: Destination" : "Focus: Source");
             Spoiler_Transition_Traversed_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionTraversed ? "Traversed: Show" : "Traversed: Hide");
-            Spoiler_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionAltRoomNames ? "Room: Desc." : "Room: Code");
+            Spoiler_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionSceneDescriptions ? "Room: Desc." : "Room: Code");
         }
 
         private void Spoiler_Transition_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -178,7 +178,7 @@ namespace HK_Rando_4_Log_Display
 
         private void Spoiler_Transition_RoomDisplay_Click(object sender, RoutedEventArgs e)
         {
-            _showSpoilerTransitionAltRoomNames = !_showSpoilerTransitionAltRoomNames;
+            _showSpoilerTransitionSceneDescriptions = !_showSpoilerTransitionSceneDescriptions;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 

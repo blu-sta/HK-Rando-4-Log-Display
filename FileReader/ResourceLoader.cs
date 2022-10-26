@@ -1,5 +1,4 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
-using HK_Rando_4_Log_Display.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -24,13 +23,13 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, TransitionWithDestination> GetTrackerLogTransitions();
 
         public AppSettings GetAppSettings();
-        public string GetSeed();
+        public string GetSeedGenerationCode();
         public void SaveHelperLogLocations(Dictionary<string, Location> helperLogLocations);
         public void SaveHelperLogTransitions(Dictionary<string, Transition> helperLogTransitions);
         public void SaveTrackerLogItems(Dictionary<string, ItemWithLocation> trackerLogItems);
         public void SaveTrackerLogTransitions(Dictionary<string, TransitionWithDestination> trackerLogTransitions);
         public void SaveAppSettings(AppSettings appSettings);
-        public void SaveSeed(string seed);
+        public void SaveSeedGenerationCode(string seed);
     }
 
     public class ResourceLoader : IResourceLoader
@@ -109,7 +108,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<ItemImport> GetItemImportsFromFile() =>
-            LoadDictionaryFile<ItemImport>(ReferenceItemsFilePath).Concat(new List<ItemImport>
+            LoadDictionaryFileValues<ItemImport>(ReferenceItemsFilePath).Concat(new List<ItemImport>
             {
                 new ItemImport { Name = "White_Fragment", Pool = "Charm" },
                 new ItemImport { Name = "Kingsoul", Pool = "Charm" },
@@ -241,7 +240,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
         private static List<ReferenceItem> MoreDoorsItemImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
-            LoadDictionaryFile<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
+            LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
             new ReferenceItem
             {
                 Name = x.Key.ItemName,
@@ -399,6 +398,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             var locationImports = GetLocationImportsFromFile();
             var roomImports = GetRoomImportsFromFile();
+            var sceneDescriptions = GetSceneDescriptionsFromFile();
             var customImports = GetCustomImports();
 
             ReferenceLocations = locationImports.Join(
@@ -411,7 +411,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                     SceneName = location.SceneName,
                     MapArea = room.MapArea,
                     TitledArea = room.TitledArea,
-                    Pool = GetReferenceLocationPool(location.Name)
+                    Pool = GetReferenceLocationPool(location.Name),
+                    SceneDescription = sceneDescriptions.TryGetValue(location.SceneName, out var sceneDescription) ? sceneDescription : location.SceneName
                 })
                 .Concat(customImports.Join(
                     roomImports,
@@ -423,7 +424,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                         SceneName = customLocation.SceneName,
                         MapArea = room.MapArea,
                         TitledArea = room.TitledArea,
-                        Pool = customLocation.Pool
+                        Pool = customLocation.Pool,
+                        SceneDescription = sceneDescriptions.TryGetValue(customLocation.SceneName, out var sceneDescription) ? sceneDescription : customLocation.SceneName
                     })
                 ).ToList();
 
@@ -432,10 +434,10 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<LocationImport> GetLocationImportsFromFile() =>
-            LoadDictionaryFile<LocationImport>(ReferenceLocationsFilePath);
+            LoadDictionaryFileValues<LocationImport>(ReferenceLocationsFilePath);
 
         private static List<RoomImport> GetRoomImportsFromFile() =>
-            LoadDictionaryFile<RoomImport>(ReferenceRoomsFilePath).Concat(new List<RoomImport>
+            LoadDictionaryFileValues<RoomImport>(ReferenceRoomsFilePath).Concat(new List<RoomImport>
             {
                 new RoomImport { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
                 new RoomImport { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
@@ -444,7 +446,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new RoomImport { SceneName = "GG_Atrium_Roof", MapArea = "Godhome", TitledArea = "Godhome" },
                 new RoomImport { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
                 new RoomImport { SceneName = "Town/Fungus3_23", MapArea = "Dirthmouth/Queen's Garden", TitledArea = "Dirthmouth/Queen's Garden" },
+                new RoomImport { SceneName = "> Multiworld", MapArea = "> Multiworld", TitledArea = "> Multiworld" },
             }).ToList();
+
+        private static Dictionary<string, string> GetSceneDescriptionsFromFile() =>
+            LoadDictionaryFile<string>(ReferenceSceneDescriptionFilePath);
 
         private readonly string[] ShopLocations = new[]
         {
@@ -501,6 +507,8 @@ namespace HK_Rando_4_Log_Display.FileReader
         private List<ReferenceLocation> GetCustomImports()
         {
             return new List<ReferenceLocation>()
+                .Concat(MultiWorldImport())
+
                 //flibber-hk
                 .Concat(MrMushroomLocationImport())
                 .Concat(NailUpgradeLocationImport())
@@ -524,6 +532,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                 .ToList();
         }
+
+        private List<ReferenceLocation> MultiWorldImport() =>
+            new()
+            {
+                new ReferenceLocation { Name = "Remote", SceneName = "> Multiworld", Pool = "> Multiworld" },
+            };
 
         private List<ReferenceLocation> MrMushroomLocationImport() =>
             new()
@@ -554,7 +568,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
         private static List<ReferenceLocation> LeverLocationImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
-            LoadDictionaryFile<LeverLocation>(ReferenceRandoLeverLocationsFilePath).Select(x =>
+            LoadDictionaryFileValues<LeverLocation>(ReferenceRandoLeverLocationsFilePath).Select(x =>
             new ReferenceLocation
             {
                 Name = x.Name,
@@ -569,7 +583,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
         private static List<ReferenceLocation> BenchLocationImport() =>
             // https://github.com/homothetyhk/BenchRando
-            LoadDictionaryFile<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
+            LoadDictionaryFileValues<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
                 .Select(x => new ReferenceLocation
                 {
                     Name = x.Name,
@@ -580,7 +594,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         private static List<ReferenceLocation> MoreDoorsLocationImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
-            LoadDictionaryFile<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
+            LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
             new ReferenceLocation
             {
                 Name = x.Key.Location.Name,
@@ -744,6 +758,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             var transitionImports = GetTransitionImportsFromFile();
             var roomImports = GetRoomImportsFromFile();
+            var sceneDescriptions = GetSceneDescriptionsFromFile();
 
             ReferenceTransitions = transitionImports.Join(
                 roomImports,
@@ -754,7 +769,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                     DoorName = transition.DoorName,
                     SceneName = transition.SceneName,
                     MapArea = room.MapArea,
-                    TitledArea = room.TitledArea
+                    TitledArea = room.TitledArea,
+                    SceneDescription = sceneDescriptions.TryGetValue(transition.SceneName, out var sceneDescription) ? sceneDescription : transition.SceneName
                 }).ToList();
 
             var sceneNames = roomImports.Select(x => x.SceneName).ToList();
@@ -762,12 +778,17 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<TransitionImport> GetTransitionImportsFromFile() =>
-            LoadDictionaryFile<TransitionImport>(ReferenceTransitionsFilePath);
+            LoadDictionaryFileValues<TransitionImport>(ReferenceTransitionsFilePath);
 
-        private static List<T> LoadDictionaryFile<T>(string filePath) =>
+        private static List<T> LoadDictionaryFileValues<T>(string filePath) =>
             File.Exists(filePath)
                 ? DeserializeFile<Dictionary<string, T>>(filePath).Values.ToList()
                 : new List<T>();
+
+        private static Dictionary<string, T> LoadDictionaryFile<T>(string filePath) =>
+            File.Exists(filePath)
+                ? DeserializeFile<Dictionary<string, T>>(filePath)
+                : new Dictionary<string, T>();
 
         private static List<T> LoadListFile<T>(string filePath) =>
             File.Exists(filePath)
@@ -822,9 +843,9 @@ namespace HK_Rando_4_Log_Display.FileReader
             return !value.HasValue || value.Value >= 0 ? value : null;
         }
 
-        public string GetSeed() =>
+        public string GetSeedGenerationCode() =>
             GetDictionaryDataFromFileOrDefault<string>(SeedFilename)
-                .TryGetValue("Seed", out var value) 
+                .TryGetValue("SeedGenerationCode", out var value) 
                     ? value
                     : "";
 
@@ -849,8 +870,8 @@ namespace HK_Rando_4_Log_Display.FileReader
         public void SaveAppSettings(AppSettings settings) => 
             WriteFile(AppSettingsFilename, settings);
 
-        public void SaveSeed(string seed) =>
-            WriteFile(SeedFilename, new Dictionary<string, string> { { "Seed", seed } });
+        public void SaveSeedGenerationCode(string seed) =>
+            WriteFile(SeedFilename, new Dictionary<string, string> { { "SeedGenerationCode", seed } });
 
         private static void WriteFile<T>(string filename, T data)
         {

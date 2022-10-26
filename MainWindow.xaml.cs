@@ -1,6 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.FileReader;
-using HK_Rando_4_Log_Display.Reference;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +26,6 @@ namespace HK_Rando_4_Log_Display
         private readonly ITransitionSpoilerReader _transitionSpoilerReader;
         private readonly IResourceLoader _resourceLoader;
         private readonly IVersionChecker _versionChecker;
-        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly AppSettings _appSettings;
         private string _selectedParentTab;
         private string _selectedChildTab;
@@ -35,11 +33,10 @@ namespace HK_Rando_4_Log_Display
 
         public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISettingsReader settingsReader,
             IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader,
-            SceneNameDictionary sceneNameDictionary, IVersionChecker versionChecker)
+            IVersionChecker versionChecker)
         {
             DataContext = this;
 
-            _sceneNameDictionary = sceneNameDictionary;
             _versionChecker = versionChecker;
             _helperLogReader = helperLogReader;
             _trackerLogReader = trackerLogReader;
@@ -70,9 +67,14 @@ namespace HK_Rando_4_Log_Display
 
         private async Task ShowUpdateAvailability()
         {
-            if (await _versionChecker.IsUpdateAvailable())
+            var updatedVersion = await _versionChecker.GetNewVersionOrDefault();
+            if (!string.IsNullOrWhiteSpace(updatedVersion))
             {
-                UpdateUX(() => Update_Button.Visibility = Visibility.Visible);
+                UpdateUX(() =>
+                {
+                    Update_Button.Content = $"Update Available: {updatedVersion}";
+                    Update_Button.Visibility = Visibility.Visible;
+                });
             }
         }
 
@@ -280,7 +282,7 @@ namespace HK_Rando_4_Log_Display
         {
             _helperLogReader.SaveState();
             _trackerLogReader.SaveState();
-            _resourceLoader.SaveSeed(_settingsReader.GetSeed());
+            _resourceLoader.SaveSeedGenerationCode(_settingsReader.GetGenerationCode());
             _resourceLoader.SaveAppSettings(_appSettings);
         }
 

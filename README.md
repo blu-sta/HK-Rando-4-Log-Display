@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.2
+# HK Rando 4 Log Display v2.0.3
 
 ## Requirements
 
@@ -24,6 +24,14 @@ In addition to the default Randomiser, the following mods are also supported:
 
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
+#### MultiWorld Disclaimer
+[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) has some unresolved issues at this stage \
+This is because the log files don't provide recognisable references to the MultiWorld \
+The Helper Tab Locations (i.e. your reachable locations) will function as normal \
+However, the Previewed and Tracked Items may not identify pools correctly, due to the inclusion of nicknames \
+And the Spoiler Items file does not reflect the MultiWorld location of items \
+If you would like to see improved support for MultiWorld, please contact `@blu.sta#9997` on Discord
+
 ## How to use this app
 
 ### Top bar
@@ -41,7 +49,7 @@ Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or
 `Room` will toggle between showing the in-game room code and an alternate description of the room
 
 #### Sections
-`Countables`: Tracks count of items that could be required for other checks \
+`Countables`: Tracks count of items that could be required for other checks or True Ending \
 e.g. Grubs, Charms, Essence, etc. \
 `Previewed Locations`: All previewed locations grouped by location pool, showing the item at the location and any costs associated \
 `Previewed Items`: All previewed items grouped by item pool, showing the location and any costs associated \
@@ -138,7 +146,7 @@ Current state is highlighted
 
 ### Bottom Bar
 
-`Open Log File` will open the log file for the currently selected tab in notepad \
+`Open Log File` will open the log file for the currently selected tab \
 `Update Available` will appear if a newer version is available from Github \
 Also shows the current version number in the right corner
 
@@ -147,19 +155,22 @@ Also shows the current version number in the right corner
 Improvements to room descriptions
 Ability for user to personalise room descriptions
 
+## Reporting Issues and Feature Requests
+
+If something goes wrong while using this application, \
+or you would like something added or improved, \
+please contact `@blu.sta#9997` on Discord
+
 ## Appreciation
 
 A big thank you to those who continue to report problems and make suggestions to help improve this application \
 And a special thanks to **ColetteMSLP**, who constantly tests it against the latest rando mods and helps with improving the compatibility
 
-## Reporting issues
-
-If something goes wrong while using this application, please contact `@blu.sta#9997` on Discord
-
 ## Reference material
 
 Files found in the **Reference** folder can be updated manually if you do not wish to wait for a patch update \
-But please note that items already logged will not be updated immediately, and if the schema changes the import may break
+`_sceneDescriptions.json` is a file with a list of room codes with descriptions that can be updated as you see fit \
+Please note that items already logged for a rando run will not be updated immediately, and if the schema changes the import may break
 
 Base RandomizerMod files: [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data) \
 \(Note: items.json has been modified to adjust item pools to be more convenient\) \

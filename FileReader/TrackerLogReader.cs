@@ -1,5 +1,4 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
-using HK_Rando_4_Log_Display.Reference;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,9 +19,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         public int? GetEssenceFromPools();
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByTitledArea(bool useDestination);
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination);
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName);
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName);
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName);
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useSceneDescription);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useSceneDescription);
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useSceneDescription);
         public List<TransitionWithDestination> GetTransitions();
         public void SaveState();
         public void PurgeMemory();
@@ -30,7 +29,6 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class TrackerLogReader : ITrackerLogReader
     {
-        private readonly SceneNameDictionary _sceneNameDictionary;
         private readonly IResourceLoader _resourceLoader;
         private DateTime _referenceTime;
         private readonly Dictionary<string, ItemWithLocation> _trackerLogItems = new();
@@ -38,13 +36,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public bool IsFileFound { get; private set; }
 
-        public TrackerLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader, SceneNameDictionary sceneNameDictionary)
+        public TrackerLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader)
         {
-            _sceneNameDictionary = sceneNameDictionary;
             _resourceLoader = resourceLoader;
 
             if (!settingsReader.IsFileFound ||
-                (settingsReader.IsFileFound && settingsReader.GetSeed() == resourceLoader.GetSeed()))
+                (settingsReader.IsFileFound && settingsReader.GetGenerationCode() == resourceLoader.GetSeedGenerationCode()))
             {
                 _trackerLogItems = _resourceLoader.GetTrackerLogItems();
                 _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
@@ -69,7 +66,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public void OpenFile()
         {
-            if (File.Exists(TrackerLogPath)) Process.Start("notepad.exe", TrackerLogPath);
+            if (File.Exists(TrackerLogPath)) Process.Start(new ProcessStartInfo(TrackerLogPath) { UseShellExecute = true });
         }
 
         private class TrackedItem
@@ -122,7 +119,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                             Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
                             MapArea = "> Unrecognised Location",
                             TitledArea = "> Unrecognised Location",
-                            SceneName = "> Unrecognised Location"
+                            SceneName = "> Unrecognised Location",
+                            SceneDescription = "> Unrecognised Location"
                         };
 
                     _trackerLogItems.Add(
@@ -141,7 +139,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                                 MapArea = locationDetails.MapArea,
                                 TitledArea = locationDetails.TitledArea,
                                 SceneName = locationDetails.SceneName,
-                                TimeAdded = _referenceTime
+                                SceneDescription = locationDetails.SceneDescription,
+                                TimeAdded = _referenceTime,
                             }
                         });
                 });
@@ -546,6 +545,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var sourceDetails = _resourceLoader.ReferenceTransitions.FirstOrDefault(y => y.Name == sourceName)
                         ?? new ReferenceTransition
                         {
+                            SceneDescription = Regex.Match(sourceName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
                             SceneName = Regex.Match(sourceName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
                             DoorName = Regex.Match(sourceName, "(\\S+)\\[(\\S+)\\]").Groups[2].Value,
                             MapArea = "> Unrecognised Transitions",
@@ -554,6 +554,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var destinationDetails = _resourceLoader.ReferenceTransitions.FirstOrDefault(y => y.Name == destinationName)
                         ?? new ReferenceTransition
                         {
+                            SceneDescription = Regex.Match(destinationName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
                             SceneName = Regex.Match(destinationName, "(\\S+)\\[(\\S+)\\]").Groups[1].Value,
                             DoorName = Regex.Match(destinationName, "(\\S+)\\[(\\S+)\\]").Groups[2].Value,
                             MapArea = "> Unrecognised Transitions",
@@ -567,6 +568,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                         Source = new Transition
                         {
                             SceneName = sourceDetails.SceneName,
+                            SceneDescription = sourceDetails.SceneDescription,
                             DoorName = sourceDetails.DoorName,
                             MapArea = sourceDetails.MapArea,
                             TitledArea = sourceDetails.TitledArea,
@@ -575,6 +577,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                         Destination = new Transition
                         {
                             SceneName = destinationDetails.SceneName,
+                            SceneDescription = destinationDetails.SceneDescription,
                             DoorName = destinationDetails.DoorName,
                             MapArea = destinationDetails.MapArea,
                             TitledArea = destinationDetails.TitledArea,
@@ -590,20 +593,25 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByMapArea(bool useDestination) =>
             _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useAltSceneName) =>
-            _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
-                .OrderBy(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key)
-                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList());
+        public Dictionary<string, List<TransitionWithDestination>> GetTransitionsByRoom(bool useDestination, bool useSceneDescription) =>
+            _trackerLogTransitions.Values.GroupBy(x => GetTransitionKey(useDestination, useSceneDescription, x))
+                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useAltSceneName) =>
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByTitledArea(bool useDestination, bool useSceneDescription) =>
             _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.TitledArea : x.Source.TitledArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
-                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => GetTransitionKey(useDestination, useSceneDescription, x))
+                .ToDictionary(x => x.Key, x => x.ToList()));
 
-        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useAltSceneName) =>
+        public Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> GetTransitionsByRoomByMapArea(bool useDestination, bool useSceneDescription) =>
             _trackerLogTransitions.Values.GroupBy(x => useDestination ? x.Destination.MapArea : x.Source.MapArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => useDestination ? x.Destination.SceneName : x.Source.SceneName)
-                .ToDictionary(x => useAltSceneName ? _sceneNameDictionary.GetAltSceneName(x.Key) : x.Key, x => x.ToList()));
+                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => y.GroupBy(x => GetTransitionKey(useDestination, useSceneDescription, x))
+                .ToDictionary(x => x.Key, x => x.ToList()));
+
+        private static string GetTransitionKey(bool useDestination, bool useSceneDescription, TransitionWithDestination x)
+        {
+            var transition = useDestination ? x.Destination : x.Source;
+            return useSceneDescription ? transition.SceneDescription : transition.SceneName;
+        }
 
         public List<TransitionWithDestination> GetTransitions() =>
             _trackerLogTransitions.Values.ToList();

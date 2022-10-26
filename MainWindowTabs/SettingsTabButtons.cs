@@ -41,7 +41,7 @@ namespace HK_Rando_4_Log_Display
 
             Directory.Delete(tempFolderPath, true);
 
-            Process.Start("explorer.exe", zipFolderPath);
+            Process.Start(new ProcessStartInfo(zipFolderPath) { UseShellExecute = true });
         }
 
         private static void CopyFileIfExists(string fromPath, string toPath)

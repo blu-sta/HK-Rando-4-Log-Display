@@ -22,7 +22,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedRoomsWithLocations = new();
         private readonly HashSet<string> ExpandedZonesWithLocations = new();
         private bool _showHelperLocationsTime = true;
-        private bool _showHelperLocationAltRoomNames = false;
+        private bool _showHelperLocationSceneDescriptions = false;
 
         private void UpdateHelperLocationsTab()
         {
@@ -45,13 +45,13 @@ namespace HK_Rando_4_Log_Display
                         UpdateHelperLocations(_helperLogReader.GetLocationsByTitledArea(), helperLocationOrdering);
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByMapArea(_showHelperLocationAltRoomNames), helperLocationOrdering);
+                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByMapArea(_showHelperLocationSceneDescriptions), helperLocationOrdering);
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByTitledArea(_showHelperLocationAltRoomNames), helperLocationOrdering);
+                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByTitledArea(_showHelperLocationSceneDescriptions), helperLocationOrdering);
                         break;
                     case RoomGrouping.Room:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoom(_showHelperLocationAltRoomNames), helperLocationOrdering);
+                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoom(_showHelperLocationSceneDescriptions), helperLocationOrdering);
                         break;
                     case RoomGrouping.None:
                     default:
@@ -327,7 +327,7 @@ namespace HK_Rando_4_Log_Display
             Helper_Location_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperLocationGroupingOptions[_appSettings.SelectedHelperLocationGrouping]}");
             Helper_Location_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperLocationOrderingOptions[_appSettings.SelectedHelperLocationOrder]}");
             Helper_Location_Time_Button.Content = GenerateButtonTextBlock(_showHelperLocationsTime ? "Time: Show" : "Time: Hide");
-            Helper_Location_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperLocationAltRoomNames ? "Room: Desc." : "Room: Code");
+            Helper_Location_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperLocationSceneDescriptions ? "Room: Desc." : "Room: Code");
         }
 
         private void Helper_Location_GroupBy_Click(object sender, RoutedEventArgs e)
@@ -350,7 +350,7 @@ namespace HK_Rando_4_Log_Display
 
         private void Helper_Location_RoomDisplay_Click(object sender, RoutedEventArgs e)
         {
-            _showHelperLocationAltRoomNames = !_showHelperLocationAltRoomNames;
+            _showHelperLocationSceneDescriptions = !_showHelperLocationSceneDescriptions;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 

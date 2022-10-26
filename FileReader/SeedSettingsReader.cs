@@ -44,7 +44,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public void OpenFile()
         {
-            if (File.Exists(SeedSettingsPath)) Process.Start("notepad.exe", SeedSettingsPath);
+            if (File.Exists(SeedSettingsPath)) Process.Start(new ProcessStartInfo(SeedSettingsPath) { UseShellExecute = true });
         }
 
         private void LoadSeedSettings(List<string> trackerLogData)

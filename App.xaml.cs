@@ -1,5 +1,4 @@
 ﻿using HK_Rando_4_Log_Display.FileReader;
-using HK_Rando_4_Log_Display.Reference;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using System;
@@ -31,7 +30,6 @@ namespace HK_Rando_4_Log_Display
             services.AddTransient<IItemSpoilerReader, ItemSpoilerReader>();
             services.AddTransient<ITransitionSpoilerReader, TransitionSpoilerReader>();
             services.AddSingleton<IResourceLoader, ResourceLoader>();
-            services.AddSingleton<SceneNameDictionary>();
         }
 
         private void OnStartup(object sender, StartupEventArgs e)
