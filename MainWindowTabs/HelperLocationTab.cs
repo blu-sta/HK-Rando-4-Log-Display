@@ -231,7 +231,7 @@ namespace HK_Rando_4_Log_Display
                     }
                 });
 
-                poolStacker.Children.Add(GenerateExpanderWithContent($"{locationPool} [{locationsWithItems.Count}]" , locationStacker, ExpandedPreviewedLocationPools));
+                poolStacker.Children.Add(GenerateExpanderWithContent($"{locationPool} [{locationsWithItems.Count}]", locationStacker, ExpandedPreviewedLocationPools));
             });
 
             HelperLocationsList.Items.Add(GenerateExpanderWithContent("Previewed Locations", poolStacker, _expandPreviewedLocationSection));

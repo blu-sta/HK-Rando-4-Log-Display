@@ -1,4 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using HK_Rando_4_Log_Display.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -50,7 +51,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string BenchPool = "Bench";
         private const string MoreDoorsPool = "Key - MoreDoors";
         private const string LostArtifactPool = "Lost Artifact";
-        private const string LoreMasterPool = "Lore - Lore Master";
+        private const string LoreMasterPool = "Lore Master";
 
         public ResourceLoader()
         {
@@ -94,7 +95,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(LostArtifactsItemImport())
 
                 //Korzer420
-                .Concat(LoreMasterItemImport())
+                .Concat(LoreMasterItemImport(itemImports.Where(x => x.Pool == "Lore").ToList()))
 
                 .ToList();
         }
@@ -119,14 +120,14 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
-                new ReferenceItem { Name = "Mr_Mushroom_Level_Up", PreviewName = "Mr Mushroom Level Up" , Pool = MrMushroomPool },
+                new ReferenceItem { Name = "Mr_Mushroom_Level_Up", PreviewName = "Mr Mushroom Level Up", Pool = MrMushroomPool },
             };
 
         private static List<ReferenceItem> NailUpgradeItemImport() =>
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
-                new ReferenceItem { Name = "Nail_Upgrade", PreviewName = "Nail Upgrade" , Pool = SkillPool },
+                new ReferenceItem { Name = "Nail_Upgrade", PreviewName = "Nail Upgrade", Pool = SkillPool },
             };
 
         private static List<ReferenceItem> SkillUpgradeItemImport() =>
@@ -149,7 +150,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.ReopenCityDoor
-                new ReferenceItem { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key" , Pool = "Key" },
+                new ReferenceItem { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key", Pool = "Key" },
             };
 
         private class LeverItem
@@ -173,37 +174,37 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/dpinela/Transcendence
-                new ReferenceItem { Name = "Marissa's_Audience", PreviewName = "Marissa's Audience" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Lemm's_Strength", PreviewName = "Lemm's Strength" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Snail_Slash", PreviewName = "Snail Slash" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Millibelle's_Blessing", PreviewName = "Millibelle's Blessing" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Disinfectant_Flask", PreviewName = "Disinfectant Flask" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Florist's_Blessing", PreviewName = "Florist's Blessing" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Greedsong", PreviewName = "Greedsong" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Snail_Soul", PreviewName = "Snail Soul" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Nitro_Crystal", PreviewName = "Nitro Crystal" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Shaman_Amp", PreviewName = "Shaman Amp" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Crystalmaster", PreviewName = "Crystalmaster" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Bluemoth_Wings", PreviewName = "Bluemoth Wings" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Chaos_Orb", PreviewName = "Chaos Orb" , Pool = TranscendencePool },
-                new ReferenceItem { Name = "Antigravity_Amulet", PreviewName = "Antigravity Amulet" , Pool = TranscendencePool },
+                new ReferenceItem { Name = "Marissa's_Audience", PreviewName = "Marissa's Audience", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Lemm's_Strength", PreviewName = "Lemm's Strength", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Snail_Slash", PreviewName = "Snail Slash", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Millibelle's_Blessing", PreviewName = "Millibelle's Blessing", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Disinfectant_Flask", PreviewName = "Disinfectant Flask", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Florist's_Blessing", PreviewName = "Florist's Blessing", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Greedsong", PreviewName = "Greedsong", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Snail_Soul", PreviewName = "Snail Soul", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Nitro_Crystal", PreviewName = "Nitro Crystal", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Shaman_Amp", PreviewName = "Shaman Amp", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Crystalmaster", PreviewName = "Crystalmaster", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Bluemoth_Wings", PreviewName = "Bluemoth Wings", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Chaos_Orb", PreviewName = "Chaos Orb", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Antigravity_Amulet", PreviewName = "Antigravity Amulet", Pool = TranscendencePool },
             };
 
         private static List<ReferenceItem> RainbowEggItemImport() =>
             new()
             {
                 // https://github.com/dpinela/RainbowEggs
-                new ReferenceItem { Name = "Red_Egg", PreviewName = "Red Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Orange_Egg", PreviewName = "Orange Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Yellow_Egg", PreviewName = "Yellow Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Green_Egg", PreviewName = "Green Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Cyan_Egg", PreviewName = "Cyan Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Blue_Egg", PreviewName = "Blue Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Purple_Egg", PreviewName = "Purple Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Pink_Egg", PreviewName = "Pink Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Trans_Egg", PreviewName = "Trans Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Rainbow_Egg", PreviewName = "Rainbow Egg" , Pool = EggPool },
-                new ReferenceItem { Name = "Arcane_Eg", PreviewName = "Arcane Eg" , Pool = EggPool },
+                new ReferenceItem { Name = "Red_Egg", PreviewName = "Red Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Orange_Egg", PreviewName = "Orange Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Yellow_Egg", PreviewName = "Yellow Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Green_Egg", PreviewName = "Green Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Cyan_Egg", PreviewName = "Cyan Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Blue_Egg", PreviewName = "Blue Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Purple_Egg", PreviewName = "Purple Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Pink_Egg", PreviewName = "Pink Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Trans_Egg", PreviewName = "Trans Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Rainbow_Egg", PreviewName = "Rainbow Egg", Pool = EggPool },
+                new ReferenceItem { Name = "Arcane_Eg", PreviewName = "Arcane Eg", Pool = EggPool },
             };
 
         private class BenchItem
@@ -252,146 +253,159 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
-                new ReferenceItem { Name = "TravelersGarment", PreviewName = "Travelers Garment" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "PavingStone", PreviewName = "Paving Stone" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "LushMoss", PreviewName = "Lush Moss" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "NoxiousShroom", PreviewName = "Noxious Shroom" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "CryingStatue", PreviewName = "Crying Statue" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "TotemShard", PreviewName = "Totem Shard" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "DungBall", PreviewName = "Dung Ball" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "Tumbleweed", PreviewName = "Tumbleweed" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "ChargedCrystal", PreviewName = "Charged Crystal" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "Dreamwood", PreviewName = "Dreamwood" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "LumaflyEssence", PreviewName = "Lumafly Essence" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "ThornedLeaf", PreviewName = "Thorned Leaf" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "WeaverSilk", PreviewName = "Weaver Silk" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "WyrmAsh", PreviewName = "Wyrm Ash" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "BeastShell", PreviewName = "Beast Shell" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "Honeydrop", PreviewName = "Honeydrop" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "InfectedRock", PreviewName = "Infected Rock" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "Buzzsaw", PreviewName = "Buzzsaw" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "VoidEmblem", PreviewName = "Void Emblem" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "AttunedJewel", PreviewName = "Attuned Jewel" , Pool = LostArtifactPool },
-                new ReferenceItem { Name = "HiddenMemento", PreviewName = "Hidden Memento" , Pool = LostArtifactPool },
+                new ReferenceItem { Name = "TravelersGarment", PreviewName = "Travelers Garment", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "PavingStone", PreviewName = "Paving Stone", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "LushMoss", PreviewName = "Lush Moss", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "NoxiousShroom", PreviewName = "Noxious Shroom", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "CryingStatue", PreviewName = "Crying Statue", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "TotemShard", PreviewName = "Totem Shard", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "DungBall", PreviewName = "Dung Ball", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Tumbleweed", PreviewName = "Tumbleweed", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "ChargedCrystal", PreviewName = "Charged Crystal", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Dreamwood", PreviewName = "Dreamwood", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "LumaflyEssence", PreviewName = "Lumafly Essence", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "ThornedLeaf", PreviewName = "Thorned Leaf", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "WeaverSilk", PreviewName = "Weaver Silk", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "WyrmAsh", PreviewName = "Wyrm Ash", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "BeastShell", PreviewName = "Beast Shell", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Honeydrop", PreviewName = "Honeydrop", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "InfectedRock", PreviewName = "Infected Rock", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "Buzzsaw", PreviewName = "Buzzsaw", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "VoidEmblem", PreviewName = "Void Emblem", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "AttunedJewel", PreviewName = "Attuned Jewel", Pool = LostArtifactPool },
+                new ReferenceItem { Name = "HiddenMemento", PreviewName = "Hidden Memento", Pool = LostArtifactPool },
             };
 
-        private static List<ReferenceItem> LoreMasterItemImport() =>
-            new()
+        private static List<ReferenceItem> LoreMasterItemImport(List<ItemImport> defaultLorePoolItems) =>
+            new List<ReferenceItem>()
             {
                 // https://github.com/Korzer420/LoreMaster/
-                new ReferenceItem { Name = "Magical_Key", PreviewName = "Magical Key" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Medallion", PreviewName = "Dream Medallion" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Silksong_Journal", PreviewName = "Silksong Journal?" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Silver_Hallownest_Seal", PreviewName = "Silver Seal" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Bronze_King_Idol", PreviewName = "Bronze King's Idol" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Golden_Arcane_Egg", PreviewName = "Golden Arcane Egg" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Lore_Tablet-Stag_Egg_Inspect", PreviewName = "Stag Adoption" , Pool = LoreMasterPool },
-                
-                new ReferenceItem { Name = "Read_Ability", PreviewName = "Reading" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Listen_Ability", PreviewName = "Listening" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Lore_Page", PreviewName = "Lore Page" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Lore_Page_Control", PreviewName = "Lore Control" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Cleansing_Scroll", PreviewName = "Cleansing Scroll" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Joker_Scroll", PreviewName = "Knowledge Scroll" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Cleansing_Scroll_Double", PreviewName = "Cleansing Scroll Pack" , Pool = LoreMasterPool },
-                
-                new ReferenceItem { Name = "Lemm_Order", PreviewName = "Lemm's Order" , Pool = LoreMasterPool },
-                
-                new ReferenceItem { Name = "Dialogue-Bretta_Diary", PreviewName = "Bretta Diary" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Bardoon", PreviewName = "Bardoon" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Vespa", PreviewName = "Vespa" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Mask_Maker", PreviewName = "Mask Maker" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Midwife", PreviewName = "Midwife" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Gravedigger", PreviewName = "Gravedigger" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Poggy", PreviewName = "Poggy" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Joni", PreviewName = "Joni" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Myla", PreviewName = "Myla" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Emilitia", PreviewName = "Emilitia" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Willoh", PreviewName = "Willoh" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Moss_Prophet", PreviewName = "Moss Prophet" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Fluke_Hermit", PreviewName = "Fluke Hermit" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Queen", PreviewName = "Queen" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Marissa", PreviewName = "Marissa" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Grasshopper", PreviewName = "Grasshopper" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Dung_Defender", PreviewName = "Dung Defender" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Menderbug_Diary", PreviewName = "Menderbug Diary" , Pool = LoreMasterPool },
-                
-                new ReferenceItem { Name = "Inspect-Elder_Hu", PreviewName = "Elder Hu" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Xero", PreviewName = "Xero" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Galien", PreviewName = "Galien" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Marmu", PreviewName = "Marmu" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Gorb", PreviewName = "Gorb" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Markoth", PreviewName = "Markoth" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-No_Eyes", PreviewName = "No Eyes" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Magical_Key", PreviewName = "Magical Key" },
+                new ReferenceItem { Name = "Dream_Medallion", PreviewName = "Dream Medallion" },
+                new ReferenceItem { Name = "Silksong_Journal", PreviewName = "Silksong Journal?" },
+                new ReferenceItem { Name = "Silver_Hallownest_Seal", PreviewName = "Silver Seal" },
+                new ReferenceItem { Name = "Bronze_King_Idol", PreviewName = "Bronze King's Idol" },
+                new ReferenceItem { Name = "Golden_Arcane_Egg", PreviewName = "Golden Arcane Egg" },
+                new ReferenceItem { Name = "Lore_Tablet-Stag_Egg_Inspect", PreviewName = "Stag Adoption" },
+                new ReferenceItem { Name = "Lore_Tablet-Record_Bela", PreviewName = "Lore Tablet Record Bela" },
 
-                new ReferenceItem { Name = "Dream_Dialogue-Aspid_Queen", PreviewName = "Aspid Queen" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Mine_Golem", PreviewName = "Mine Golem" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Hopper_Dummy", PreviewName = "Hopper Dummy" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Ancient_Nailsmith_Golem", PreviewName = "Ancient Nailsmith Golem" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Shriek_Statue", PreviewName = "Shriek Statue" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Normal", PreviewName = "Shade Golem Normal" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Void", PreviewName = "Shade Golem Void" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Overgrown_Shaman", PreviewName = "Overgrown Shaman" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Crystalized_Shaman", PreviewName = "Crystalized Shaman" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Shroom_King", PreviewName = "Shroom King" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Dryya", PreviewName = "Dryya" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Isma", PreviewName = "Isma" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Radiance_Statue", PreviewName = "Radiance Statue" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Dashmaster_Statue", PreviewName = "Dashmaster Statue" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Snail_Shaman_Tomb", PreviewName = "Snail Shaman Tomb" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Pale_King", PreviewName = "Pale King" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Grimm_Summoner", PreviewName = "Grimm Summoner" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Kings_Mould", PreviewName = "Kings Mould" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Dream_Shield_Statue", PreviewName = "Dream Shield Statue" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Read_Ability", PreviewName = "Reading" },
+                new ReferenceItem { Name = "Listen_Ability", PreviewName = "Listening" },
+                new ReferenceItem { Name = "Lore_Page", PreviewName = "Lore Page" },
+                new ReferenceItem { Name = "Lore_Page_Control", PreviewName = "Lore Control" },
+                new ReferenceItem { Name = "Cleansing_Scroll", PreviewName = "Cleansing Scroll" },
+                new ReferenceItem { Name = "Joker_Scroll", PreviewName = "Knowledge Scroll" },
+                new ReferenceItem { Name = "Cleansing_Scroll_Double", PreviewName = "Cleansing Scroll Pack" },
 
-                new ReferenceItem { Name = "Inscription-City_Fountain", PreviewName = "City Fountain" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inscription-Dreamer_Tablet", PreviewName = "Dreamer Tablet" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Lemm_Order", PreviewName = "Lemm's Order" },
+                new ReferenceItem { Name = "Traitor_Grave", PreviewName = "Traitor Grave" },
 
-                new ReferenceItem { Name = "Inspect-Beast_Den_Altar", PreviewName = "Beast Den Altar" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Weaver_Seal", PreviewName = "Weaver Seal" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Grimm_Machine", PreviewName = "Grimm Machine" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Garden_Golem", PreviewName = "Garden Golem" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Grub_Seal", PreviewName = "Grub Seal" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-White_Palace_Nursery", PreviewName = "White Palace Nursery" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Inspect-Grimm_Summoner_Corpse", PreviewName = "Grimm Summoner Corpse" , Pool = LoreMasterPool },
-                
-                new ReferenceItem { Name = "Dialogue-Quirrel_Crossroads", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Greenpath", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Queen_Station", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Mantis_Village", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_City", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Deepnest", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Peaks", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Outside_Archive", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Archive", PreviewName = "Quirrel" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Quirrel_Blue_Lake", PreviewName = "Quirrel" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dialogue-Bretta_Diary", PreviewName = "Bretta Diary" },
+                new ReferenceItem { Name = "Dialogue-Bardoon", PreviewName = "Bardoon" },
+                new ReferenceItem { Name = "Dialogue-Vespa", PreviewName = "Vespa" },
+                new ReferenceItem { Name = "Dialogue-Mask_Maker", PreviewName = "Mask Maker" },
+                new ReferenceItem { Name = "Dialogue-Midwife", PreviewName = "Midwife" },
+                new ReferenceItem { Name = "Dialogue-Gravedigger", PreviewName = "Gravedigger" },
+                new ReferenceItem { Name = "Dialogue-Poggy", PreviewName = "Poggy" },
+                new ReferenceItem { Name = "Dialogue-Joni", PreviewName = "Joni" },
+                new ReferenceItem { Name = "Dialogue-Myla", PreviewName = "Myla" },
+                new ReferenceItem { Name = "Dialogue-Emilitia", PreviewName = "Emilitia" },
+                new ReferenceItem { Name = "Dialogue-Willoh", PreviewName = "Willoh" },
+                new ReferenceItem { Name = "Dialogue-Moss_Prophet", PreviewName = "Moss Prophet" },
+                new ReferenceItem { Name = "Dialogue-Fluke_Hermit", PreviewName = "Fluke Hermit" },
+                new ReferenceItem { Name = "Dialogue-Queen", PreviewName = "Queen" },
+                new ReferenceItem { Name = "Dialogue-Marissa", PreviewName = "Marissa" },
+                new ReferenceItem { Name = "Dialogue-Grasshopper", PreviewName = "Grasshopper" },
+                new ReferenceItem { Name = "Dialogue-Dung_Defender", PreviewName = "Dung Defender" },
+                new ReferenceItem { Name = "Dialogue-Menderbug_Diary", PreviewName = "Menderbug Diary" },
 
-                new ReferenceItem { Name = "Dialogue-Cloth_Fungal_Wastes", PreviewName = "Cloth" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Cloth_Basin", PreviewName = "Cloth" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Cloth_Deepnest", PreviewName = "Cloth" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Cloth_Garden", PreviewName = "Cloth" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Cloth_Ghost", PreviewName = "Cloth" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Inspect-Elder_Hu", PreviewName = "Elder Hu" },
+                new ReferenceItem { Name = "Inspect-Xero", PreviewName = "Xero" },
+                new ReferenceItem { Name = "Inspect-Galien", PreviewName = "Galien" },
+                new ReferenceItem { Name = "Inspect-Marmu", PreviewName = "Marmu" },
+                new ReferenceItem { Name = "Inspect-Gorb", PreviewName = "Gorb" },
+                new ReferenceItem { Name = "Inspect-Markoth", PreviewName = "Markoth" },
+                new ReferenceItem { Name = "Inspect-No_Eyes", PreviewName = "No Eyes" },
 
-                new ReferenceItem { Name = "Dialogue-Tiso_Dirtmouth", PreviewName = "Tiso" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Tiso_Crossroads", PreviewName = "Tiso" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Tiso_Blue_Lake", PreviewName = "Tiso" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Tiso_Colosseum", PreviewName = "Tiso" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dream_Dialogue-Tiso_Corpse", PreviewName = "Tiso" , Pool = LoreMasterPool },
+                new ReferenceItem { Name = "Dream_Dialogue-Aspid_Queen", PreviewName = "Aspid Queen" },
+                new ReferenceItem { Name = "Dream_Dialogue-Mine_Golem", PreviewName = "Mine Golem" },
+                new ReferenceItem { Name = "Dream_Dialogue-Hopper_Dummy", PreviewName = "Hopper Dummy" },
+                new ReferenceItem { Name = "Dream_Dialogue-Ancient_Nailsmith_Golem", PreviewName = "Ancient Nailsmith Golem" },
+                new ReferenceItem { Name = "Dream_Dialogue-Shriek_Statue", PreviewName = "Shriek Statue" },
+                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Normal", PreviewName = "Shade Golem Normal" },
+                new ReferenceItem { Name = "Dream_Dialogue-Shade_Golem_Void", PreviewName = "Shade Golem Void" },
+                new ReferenceItem { Name = "Dream_Dialogue-Overgrown_Shaman", PreviewName = "Overgrown Shaman" },
+                new ReferenceItem { Name = "Dream_Dialogue-Crystalized_Shaman", PreviewName = "Crystalized Shaman" },
+                new ReferenceItem { Name = "Dream_Dialogue-Shroom_King", PreviewName = "Shroom King" },
+                new ReferenceItem { Name = "Dream_Dialogue-Dryya", PreviewName = "Dryya" },
+                new ReferenceItem { Name = "Dream_Dialogue-Isma", PreviewName = "Isma" },
+                new ReferenceItem { Name = "Dream_Dialogue-Radiance_Statue", PreviewName = "Radiance Statue" },
+                new ReferenceItem { Name = "Dream_Dialogue-Dashmaster_Statue", PreviewName = "Dashmaster Statue" },
+                new ReferenceItem { Name = "Dream_Dialogue-Snail_Shaman_Tomb", PreviewName = "Snail Shaman Tomb" },
+                new ReferenceItem { Name = "Dream_Dialogue-Pale_King", PreviewName = "Pale King" },
+                new ReferenceItem { Name = "Dream_Dialogue-Grimm_Summoner", PreviewName = "Grimm Summoner" },
+                new ReferenceItem { Name = "Dream_Dialogue-Kings_Mould", PreviewName = "Kings Mould" },
+                new ReferenceItem { Name = "Dream_Dialogue-Dream_Shield_Statue", PreviewName = "Dream Shield Statue" },
 
-                new ReferenceItem { Name = "Dialogue-Zote_Greenpath", PreviewName = "Zote" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_Intro", PreviewName = "Zote" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Zote_City", PreviewName = "Zote" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Zote_Deepnest", PreviewName = "Zote" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Zote_Colosseum", PreviewName = "Zote" , Pool = LoreMasterPool },
-                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_After_Colosseum", PreviewName = "Zote" , Pool = LoreMasterPool },
-            };
+                new ReferenceItem { Name = "Inscription-City_Fountain", PreviewName = "City Fountain" },
+                new ReferenceItem { Name = "Inscription-Dreamer_Tablet", PreviewName = "Dreamer Tablet" },
+
+                new ReferenceItem { Name = "Inspect-Beast_Den_Altar", PreviewName = "Beast Den Altar" },
+                new ReferenceItem { Name = "Inspect-Weaver_Seal", PreviewName = "Weaver Seal" },
+                new ReferenceItem { Name = "Inspect-Grimm_Machine", PreviewName = "Grimm Machine" },
+                new ReferenceItem { Name = "Inspect-Garden_Golem", PreviewName = "Garden Golem" },
+                new ReferenceItem { Name = "Inspect-Grub_Seal", PreviewName = "Grub Seal" },
+                new ReferenceItem { Name = "Inspect-White_Palace_Nursery", PreviewName = "White Palace Nursery" },
+                new ReferenceItem { Name = "Inspect-Grimm_Summoner_Corpse", PreviewName = "Grimm Summoner Corpse" },
+
+                new ReferenceItem { Name = "Dialogue-Quirrel_Crossroads", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Greenpath", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Queen_Station", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Mantis_Village", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_City", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Deepnest", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Peaks", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Outside_Archive", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Archive", PreviewName = "Quirrel" },
+                new ReferenceItem { Name = "Dialogue-Quirrel_Blue_Lake", PreviewName = "Quirrel" },
+
+                new ReferenceItem { Name = "Dialogue-Cloth_Fungal_Wastes", PreviewName = "Cloth" },
+                new ReferenceItem { Name = "Dialogue-Cloth_Basin", PreviewName = "Cloth" },
+                new ReferenceItem { Name = "Dialogue-Cloth_Deepnest", PreviewName = "Cloth" },
+                new ReferenceItem { Name = "Dialogue-Cloth_Garden", PreviewName = "Cloth" },
+                new ReferenceItem { Name = "Dialogue-Cloth_Ghost", PreviewName = "Cloth" },
+
+                new ReferenceItem { Name = "Dialogue-Tiso_Dirtmouth", PreviewName = "Tiso" },
+                new ReferenceItem { Name = "Dialogue-Tiso_Crossroads", PreviewName = "Tiso" },
+                new ReferenceItem { Name = "Dialogue-Tiso_Blue_Lake", PreviewName = "Tiso" },
+                new ReferenceItem { Name = "Dialogue-Tiso_Colosseum", PreviewName = "Tiso" },
+                new ReferenceItem { Name = "Dream_Dialogue-Tiso_Corpse", PreviewName = "Tiso" },
+
+                new ReferenceItem { Name = "Dialogue-Zote_Greenpath", PreviewName = "Zote" },
+                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_Intro", PreviewName = "Zote" },
+                new ReferenceItem { Name = "Dialogue-Zote_City", PreviewName = "Zote" },
+                new ReferenceItem { Name = "Dialogue-Zote_Deepnest", PreviewName = "Zote" },
+                new ReferenceItem { Name = "Dialogue-Zote_Colosseum", PreviewName = "Zote" },
+                new ReferenceItem { Name = "Dialogue-Zote_Dirtmouth_After_Colosseum", PreviewName = "Zote" },
+            }.Concat(defaultLorePoolItems.Select(x => new ReferenceItem
+            {
+                Name = $"{x.Name}_Empowered",
+                PreviewName = $"{x.Name}_Empowered".WithoutUnderscores(),
+            }))
+            .Select(x => new ReferenceItem
+            {
+                Name = x.Name,
+                PreviewName = x.PreviewName,
+                Pool = $"Lore Master - {(x.Name.Contains("-") ? x.Name.Split('-')[0] : "Other")}"
+            }
+            ).ToList();
 
         private static List<ReferenceItem> DarknessItemImport() =>
             new()
             {
                 // https://github.com/dplochcoder/HollowKnight.DarknessRandomizer
-                new ReferenceItem { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)" , Pool = "Key" },
-                new ReferenceItem { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard" , Pool = "Key" },
+                new ReferenceItem { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)", Pool = "Key" },
+                new ReferenceItem { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard", Pool = "Key" },
             };
 
         private void LoadReferenceLocations()
@@ -556,10 +570,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
-                new ReferenceLocation { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith" , Pool = "Shop" },
-                new ReferenceLocation { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith" , Pool = "Shop" },
-                new ReferenceLocation { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith" , Pool = "Shop" },
-                new ReferenceLocation { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith" , Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith", Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith", Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith", Pool = "Shop" },
+                new ReferenceLocation { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith", Pool = "Shop" },
             };
 
         private class LeverLocation {
@@ -606,123 +620,123 @@ namespace HK_Rando_4_Log_Display.FileReader
             new()
             {
                 // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
-                new ReferenceLocation { Name = "AttunedJewel", SceneName = "GG_Workshop" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "BeastShell", SceneName = "Room_Colosseum_01" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "Buzzsaw", SceneName = "White_Palace_08" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "ChargedCrystal", SceneName = "Mines_18" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "CryingStatue", SceneName = "Ruins1_27" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "Dreamwood", SceneName = "RestingGrounds_05" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "DungBall", SceneName = "Waterways_15" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "HiddenMemento", SceneName = "White_Palace_06" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "Honeydrop", SceneName = "Hive_01" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "InfectedRock", SceneName = "Abyss_19" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "LumaflyEssence", SceneName = "Fungus3_archive_02" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "LushMoss", SceneName = "Fungus1_29" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "NoxiousShroom", SceneName = "Fungus2_30" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "PavingStone", SceneName = "Crossroads_47" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "ThornedLeaf", SceneName = "Fungus3_10" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "TotemShard", SceneName = "Ruins1_32" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "TravelersGarment", SceneName = "Town" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "Tumbleweed", SceneName = "Cliffs_01" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "VoidEmblem", SceneName = "Abyss_09" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "WeaverSilk", SceneName = "Deepnest_45_v02" , Pool = LostArtifactPool },
-                new ReferenceLocation { Name = "WyrmAsh", SceneName = "Deepnest_East_12" , Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "AttunedJewel", SceneName = "GG_Workshop", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "BeastShell", SceneName = "Room_Colosseum_01", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Buzzsaw", SceneName = "White_Palace_08", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "ChargedCrystal", SceneName = "Mines_18", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "CryingStatue", SceneName = "Ruins1_27", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Dreamwood", SceneName = "RestingGrounds_05", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "DungBall", SceneName = "Waterways_15", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "HiddenMemento", SceneName = "White_Palace_06", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Honeydrop", SceneName = "Hive_01", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "InfectedRock", SceneName = "Abyss_19", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "LumaflyEssence", SceneName = "Fungus3_archive_02", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "LushMoss", SceneName = "Fungus1_29", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "NoxiousShroom", SceneName = "Fungus2_30", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "PavingStone", SceneName = "Crossroads_47", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "ThornedLeaf", SceneName = "Fungus3_10", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "TotemShard", SceneName = "Ruins1_32", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "TravelersGarment", SceneName = "Town", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "Tumbleweed", SceneName = "Cliffs_01", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "VoidEmblem", SceneName = "Abyss_09", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "WeaverSilk", SceneName = "Deepnest_45_v02", Pool = LostArtifactPool },
+                new ReferenceLocation { Name = "WyrmAsh", SceneName = "Deepnest_East_12", Pool = LostArtifactPool },
             };
 
         private static List<ReferenceLocation> LoreMasterLocationImport() =>
             new()
             {
                 // https://github.com/Korzer420/LoreMaster/
-                new ReferenceLocation { Name = "Bretta_Diary", SceneName = "Room_Bretta" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Bardoon", SceneName = "Deepnest_East_04" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Vespa", SceneName = "Hive_05" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Mask_Maker", SceneName = "Room_Mask_Maker" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Midwife", SceneName = "Deepnest_41" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Gravedigger", SceneName = "Town" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Poggy", SceneName = "Ruins_Elevator" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Joni", SceneName = "Cliffs_05" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Myla", SceneName = "Crossroads_45" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Emilitia", SceneName = "Ruins_House_03" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Willoh", SceneName = "Fungus2_34" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Moss_Prophet", SceneName = "Fungus3_39" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Fluke_Hermit", SceneName = "Room_GG_Shortcut" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Queen", SceneName = "Room_Queen" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Marissa", SceneName = "Ruins_Bathhouse" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Grasshopper", SceneName = "Fungus1_24" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Dung_Defender", SceneName = "Waterways_05" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Menderbug_Diary", SceneName = "Room_Mender_House" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Bretta_Diary", SceneName = "Room_Bretta", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Bardoon", SceneName = "Deepnest_East_04", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Vespa", SceneName = "Hive_05", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Mask_Maker", SceneName = "Room_Mask_Maker", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Midwife", SceneName = "Deepnest_41", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Gravedigger", SceneName = "Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Poggy", SceneName = "Ruins_Elevator", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Joni", SceneName = "Cliffs_05", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Myla", SceneName = "Crossroads_45", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Emilitia", SceneName = "Ruins_House_03", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Willoh", SceneName = "Fungus2_34", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Moss_Prophet", SceneName = "Fungus3_39", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Fluke_Hermit", SceneName = "Room_GG_Shortcut", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Queen", SceneName = "Room_Queen", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Marissa", SceneName = "Ruins_Bathhouse", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grasshopper", SceneName = "Fungus1_24", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dung_Defender", SceneName = "Waterways_05", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Menderbug_Diary", SceneName = "Room_Mender_House", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "Elder_Hu_Grave", SceneName = "Fungus2_32" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Xero_Grave", SceneName = "RestingGrounds_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Gorb_Grave", SceneName = "Cliffs_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Marmu_Grave", SceneName = "Fungus3_40" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "No_Eyes_Statue", SceneName = "Fungus1_35" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Markoth_Corpse", SceneName = "Deepnest_East_10" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Galien_Corpse", SceneName = "Deepnest_40" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Elder_Hu_Grave", SceneName = "Fungus2_32", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Xero_Grave", SceneName = "RestingGrounds_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Gorb_Grave", SceneName = "Cliffs_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Marmu_Grave", SceneName = "Fungus3_40", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "No_Eyes_Statue", SceneName = "Fungus1_35", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Markoth_Corpse", SceneName = "Deepnest_East_10", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Galien_Corpse", SceneName = "Deepnest_40", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "Aspid_Queen_Dream", SceneName = "Crossroads_22" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Mine_Golem_Dream", SceneName = "Mines_31" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Hopper_Dummy_Dream", SceneName = "Deepnest_East_16" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Ancient_Nailsmith_Golem_Dream", SceneName = "Deepnest_East_14b" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Shriek_Statue_Dream", SceneName = "Abyss_12" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Overgrown_Shaman_Dream", SceneName = "Room_Fungus_Shaman" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Shroom_King_Dream", SceneName = "Fungus2_30" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Dryya_Dream", SceneName = "Fungus3_48" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Isma_Dream", SceneName = "Waterways_13" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Radiance_Statue_Dream", SceneName = "Mines_34" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Dashmaster_Statue_Dream", SceneName = "Fungus2_23" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Snail_Shaman_Tomb_Dream", SceneName = "RestingGrounds_10" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Kings_Mould_Machine_Dream", SceneName = "White_Palace_08" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Dream_Shield_Statue_Dream", SceneName = "RestingGrounds_17" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Aspid_Queen_Dream", SceneName = "Crossroads_22", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Mine_Golem_Dream", SceneName = "Mines_31", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Hopper_Dummy_Dream", SceneName = "Deepnest_East_16", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Ancient_Nailsmith_Golem_Dream", SceneName = "Deepnest_East_14b", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shriek_Statue_Dream", SceneName = "Abyss_12", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Overgrown_Shaman_Dream", SceneName = "Room_Fungus_Shaman", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shroom_King_Dream", SceneName = "Fungus2_30", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dryya_Dream", SceneName = "Fungus3_48", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Isma_Dream", SceneName = "Waterways_13", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Radiance_Statue_Dream", SceneName = "Mines_34", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dashmaster_Statue_Dream", SceneName = "Fungus2_23", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Snail_Shaman_Tomb_Dream", SceneName = "RestingGrounds_10", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Kings_Mould_Machine_Dream", SceneName = "White_Palace_08", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dream_Shield_Statue_Dream", SceneName = "RestingGrounds_17", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "Shade_Golem_Dream_Normal", SceneName = "Abyss_10" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Shade_Golem_Dream_Void", SceneName = "Abyss_10" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Pale_King_Dream", SceneName = "White_Palace_09" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Crystalized_Shaman_Dream", SceneName = "Mines_35" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Grimm_Summoner_Dream", SceneName = "Cliffs_06" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shade_Golem_Dream_Normal", SceneName = "Abyss_10", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Shade_Golem_Dream_Void", SceneName = "Abyss_10", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Pale_King_Dream", SceneName = "White_Palace_09", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Crystalized_Shaman_Dream", SceneName = "Mines_35", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Summoner_Dream", SceneName = "Cliffs_06", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "City_Fountain", SceneName = "Ruins1_27" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Dreamer_Tablet", SceneName = "RestingGrounds_04" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Beast_Den_Altar", SceneName = "Deepnest_Spider_Town" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Weaver_Seal", SceneName = "Deepnest_45_v02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Grimm_Machine", SceneName = "Grimm_Main_Tent" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Garden_Golem", SceneName = "Fungus1_23" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Grub_Seal", SceneName = "Ruins2_11" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Path_Of_Pain_Seal", SceneName = "White_Palace_18" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "White_Palace_Nursery", SceneName = "White_Palace_09" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Grimm_Summoner_Corpse", SceneName = "Cliffs_06" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "City_Fountain", SceneName = "Ruins1_27", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Dreamer_Tablet", SceneName = "RestingGrounds_04", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Beast_Den_Altar", SceneName = "Deepnest_Spider_Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Weaver_Seal", SceneName = "Deepnest_45_v02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Machine", SceneName = "Grimm_Main_Tent", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Garden_Golem", SceneName = "Fungus1_23", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grub_Seal", SceneName = "Ruins2_11", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Path_Of_Pain_Seal", SceneName = "White_Palace_18", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "White_Palace_Nursery", SceneName = "White_Palace_09", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Grimm_Summoner_Corpse", SceneName = "Cliffs_06", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "Quirrel_Crossroads", SceneName = "Room_temple" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Greenpath", SceneName = "Room_Slug_Shrine" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Queen_Station", SceneName = "Fungus2_01" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Mantis_Village", SceneName = "Fungus2_14" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_City", SceneName = "Ruins1_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Peaks", SceneName = "Mines_13" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Deepnest", SceneName = "Deepnest_30" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Outside_Archive", SceneName = "Fungus3_47" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_After_Monomon", SceneName = "Fungus3_archive_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Quirrel_Blue_Lake", SceneName = "Crossroads_50" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Crossroads", SceneName = "Room_temple", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Greenpath", SceneName = "Room_Slug_Shrine", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Queen_Station", SceneName = "Fungus2_01", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Mantis_Village", SceneName = "Fungus2_14", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_City", SceneName = "Ruins1_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Peaks", SceneName = "Mines_13", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Deepnest", SceneName = "Deepnest_30", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Outside_Archive", SceneName = "Fungus3_47", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_After_Monomon", SceneName = "Fungus3_archive_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Quirrel_Blue_Lake", SceneName = "Crossroads_50", Pool = LoreMasterPool },
 
-                new ReferenceLocation { Name = "Cloth_Fungal_Wastes", SceneName = "Fungus2_09" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_Basin", SceneName = "Abyss_17" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_Deepnest", SceneName = "Deepnest_14" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_Garden", SceneName = "Fungus3_34" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_Ghost", SceneName = "Fungus3_23" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_Town", SceneName = "Town" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Cloth_End", SceneName = "Town/Fungus3_23" , Pool = LoreMasterPool }, 
+                new ReferenceLocation { Name = "Cloth_Fungal_Wastes", SceneName = "Fungus2_09", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Basin", SceneName = "Abyss_17", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Deepnest", SceneName = "Deepnest_14", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Garden", SceneName = "Fungus3_34", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Ghost", SceneName = "Fungus3_23", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_Town", SceneName = "Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Cloth_End", SceneName = "Town/Fungus3_23", Pool = LoreMasterPool }, 
                 
-                new ReferenceLocation { Name = "Tiso_Dirtmouth", SceneName = "Town" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Tiso_Crossroads", SceneName = "Crossroads_47" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Tiso_Blue_Lake", SceneName = "Crossroads_50" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Tiso_Colosseum", SceneName = "Room_Colosseum_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Tiso_Corpse", SceneName = "Deepnest_East_07" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Dirtmouth", SceneName = "Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Crossroads", SceneName = "Crossroads_47", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Blue_Lake", SceneName = "Crossroads_50", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Colosseum", SceneName = "Room_Colosseum_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Tiso_Corpse", SceneName = "Deepnest_East_07", Pool = LoreMasterPool },
                 
-                new ReferenceLocation { Name = "Zote_Greenpath", SceneName = "Fungus1_20_v02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Zote_Dirtmouth_Intro", SceneName = "Town" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Zote_City", SceneName = "Ruins1_06" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Zote_Deepnest", SceneName = "Deepnest_33" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Zote_Colosseum", SceneName = "Room_Colosseum_02" , Pool = LoreMasterPool },
-                new ReferenceLocation { Name = "Zote_Dirtmouth_After_Colosseum", SceneName = "Town" , Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Greenpath", SceneName = "Fungus1_20_v02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Dirtmouth_Intro", SceneName = "Town", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_City", SceneName = "Ruins1_06", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Deepnest", SceneName = "Deepnest_33", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Colosseum", SceneName = "Room_Colosseum_02", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Zote_Dirtmouth_After_Colosseum", SceneName = "Town", Pool = LoreMasterPool },
                 
                 new ReferenceLocation { Name = "Elderbug_Reward_1", SceneName="Town", Pool = LoreMasterPool },
                 new ReferenceLocation { Name = "Elderbug_Reward_2", SceneName="Town", Pool = LoreMasterPool },
@@ -736,6 +750,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 
                 new ReferenceLocation { Name = "Stag_Nest", SceneName="Cliffs_03", Pool = LoreMasterPool },
                 new ReferenceLocation { Name = "Lemm_Door", SceneName="Ruins1_05b", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Lore_Tablet-Record_Bela", SceneName="Ruins1_30", Pool = LoreMasterPool },
+                new ReferenceLocation { Name = "Traitor_Grave", SceneName="Fungus3_49", Pool = LoreMasterPool },
                 
                 new ReferenceLocation { Name = "Treasure-Howling_Cliffs", SceneName="Cliffs_01", Pool = LoreMasterPool },
                 new ReferenceLocation { Name = "Treasure-Crossroads", SceneName="Crossroads_42", Pool = LoreMasterPool },
