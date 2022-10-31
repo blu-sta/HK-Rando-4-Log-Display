@@ -2,12 +2,12 @@
 
 ## v2.0.3
 
-- `Update Available` button now shows the latest version number
-- Updated room descriptions
-- Added `_sceneDescriptions.json` to allow users to update with their own descriptions
-- Updated mods: LoreMaster
-- Improved handling of MultiWorld rando, with plans for further improvements
-- Disclaimer added for MultiWorld (please see [Readme](https://github.com/blu-sta/HK-Rando-4-Log-Display/blob/main/README.md#multiWorld-disclaimer) for details)
+- Fixed MultiWorld rando crash in Tracker log
+- Added MultiWorld disclaimer to [Readme](https://github.com/blu-sta/HK-Rando-4-Log-Display/blob/main/README.md#multiWorld-disclaimer)
+- Updated scene descriptions
+- Added `_sceneDescriptions.json` file to allow for custom descriptions
+- Updated `LoreMaster`
+- Added update version to `Update Available` button
 
 ## v2.0.2
 
