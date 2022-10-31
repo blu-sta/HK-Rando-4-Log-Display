@@ -41,6 +41,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return;
             }
             var transitionSpoilerData = File.ReadAllLines(TransitionSpoilerLogPath).ToList();
+
+            // TODO: Load safe try-catch
             LoadTransitionSpoiler(transitionSpoilerData);
         }
 

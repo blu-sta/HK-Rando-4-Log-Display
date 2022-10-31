@@ -25,12 +25,9 @@ In addition to the default Randomiser, the following mods are also supported:
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
 #### MultiWorld Disclaimer
-[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) has some unresolved issues at this stage \
-This is because the log files don't provide recognisable references to the MultiWorld \
-The Helper Tab Locations (i.e. your reachable locations) will function as normal \
-However, the Previewed and Tracked Items may not identify pools correctly, due to the inclusion of nicknames \
-And the Spoiler Items file does not reflect the MultiWorld location of items \
-If you would like to see improved support for MultiWorld, please contact `@blu.sta#9997` on Discord
+[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) should work better now, although there are some issues that cannot be easily resolved by reading the data in the log files \
+Pools are not always identified correctly, due to player names being added, and the Item Spoiler file does not reflect the MultiWorld location of items \
+Further support will be added soon, but if you notice significant issues, please report them to `@blu.sta#9997` on Discord
 
 ## How to use this app
 
@@ -46,7 +43,8 @@ Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or
 `Sort` toggles whether locations are ordered alphabetically or order of appearance in the logs  \
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
 `Time` will show or hide the time the location appeared in the log \
-`Room` will toggle between showing the in-game room code and an alternate description of the room
+`Room` will toggle between showing the in-game room code and an alternate description of the room \
+**Note**: Alternate descriptions can be personalised by editting the `_sceneDescriptions.json` file
 
 #### Sections
 `Countables`: Tracks count of items that could be required for other checks or True Ending \
@@ -56,7 +54,7 @@ e.g. Grubs, Charms, Essence, etc. \
 This is effectively the same as `Previewed Locations`, but is an alternative way to check for where to find desired items like charms or spells, as opposed to what items are available at a location such as a shop or whispering root. \
 `Location Groups`: Expandable sections defined by the `Group` setting \
 Also displays the number of locations in the group \
-Locations with \* prefix are considered out of logic
+Locations with `*` prefix are considered out of logic
 
 ### Helper Tab - Transitions
 
@@ -152,8 +150,8 @@ Also shows the current version number in the right corner
 
 ## Future Plans
 
-Improvements to room descriptions
-Ability for user to personalise room descriptions
+- Ability to add player names for improved MultiWorld support
+- Improved log file imports to prevent crashes
 
 ## Reporting Issues and Feature Requests
 

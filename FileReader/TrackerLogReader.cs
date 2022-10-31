@@ -60,7 +60,11 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             _referenceTime = DateTime.Now;
             var trackerLogData = File.ReadAllLines(TrackerLogPath).ToList();
+
+            // TODO: Load safe try-catch
             LoadItems(trackerLogData);
+
+            // TODO: Load safe try-catch
             LoadTransitions(trackerLogData);
         }
 
@@ -81,7 +85,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Where(x => x.StartsWith("ITEM OBTAINED"))
                 .Select(x =>
                 {
-                    var matches = Regex.Match(x, "{(\\S+)}.*{(\\S+)}.*{(\\S+)}");
+                    var matches = Regex.Match(x, "{(.+)}.*{(.+)}.* {(.+)}");
                     return new KeyValuePair<string, TrackedItem>(
                             matches.Groups[3].Value,
                             new TrackedItem
@@ -93,6 +97,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 })
                 .ToDictionary(x => x.Key, x => x.Value);
 
+            // TODO: Update existing items without wiping times when MultiWorld names are updated
+
             _trackerLogItems.Keys.Except(items.Keys).ToList()
                 .ForEach(x => _trackerLogItems.Remove(x));
             items.Keys.Except(_trackerLogItems.Keys).ToList()
@@ -103,6 +109,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var locationName = trackedItem.LocationName;
 
                     var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                        // TODO: Identify MultiWorld items correctly before showing as Unrecognised
                         ?? new ReferenceItem
                         {
                             Name = itemName,

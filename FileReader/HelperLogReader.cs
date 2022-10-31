@@ -65,8 +65,14 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             _referenceTime = DateTime.Now;
             var helperLogData = File.ReadAllLines(HelperLogPath).ToList();
+
+            // TODO: Load safe try-catch
             LoadReachableLocations(helperLogData);
+
+            // TODO: Load safe try-catch
             LoadPreviewedLocations(helperLogData);
+
+            // TODO: Load safe try-catch
             LoadReachableTransitions(helperLogData);
         }
 
@@ -167,7 +173,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var previewLocation = new Location
                     {
                         Name = locationDetails?.Name ?? locationName,
-                        Pool = locationDetails?.Pool ?? (locationName.Contains("-") ? locationName.Split('-')[0] : "Other Previewed Items"),
+                        Pool = locationDetails?.Pool ?? (locationName.Contains("-") ? locationName.Split('-')[0] : "Other Previewed Locations"),
                         SceneName = locationDetails?.SceneName ?? locationFallbackValue,
                         SceneDescription = locationDetails?.SceneDescription ?? locationFallbackValue,
                         MapArea = locationDetails?.MapArea ?? locationFallbackValue,
@@ -241,6 +247,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                     Pool = referenceItem.Pool
                 };
             }
+
+            // TODO: Identify MultiWorld previews if in MultiWorld mode
 
             Item GeneratePreviewItem(string pool) => new()
             {

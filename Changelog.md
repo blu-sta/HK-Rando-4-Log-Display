@@ -6,6 +6,7 @@
 - Updated room descriptions
 - Added `_sceneDescriptions.json` to allow users to update with their own descriptions
 - Updated mods: LoreMaster
+- Improved handling of MultiWorld rando, with plans for further improvements
 - Disclaimer added for MultiWorld (please see [Readme](https://github.com/blu-sta/HK-Rando-4-Log-Display/blob/main/README.md#multiWorld-disclaimer) for details)
 
 ## v2.0.2

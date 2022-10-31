@@ -38,6 +38,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return;
             }
             var itemSpoilerData = File.ReadAllLines(ItemSpoilerLogPath).ToList();
+
+            // TODO: Load safe try-catch
             LoadItemSpoiler(itemSpoilerData);
         }
 
