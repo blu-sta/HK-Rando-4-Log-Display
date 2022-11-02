@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4
+
+- Added message in header when log file is not loaded correctly
+
 ## v2.0.3
 
 - Fixed MultiWorld rando crash in Tracker log

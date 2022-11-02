@@ -1,5 +1,6 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Utils;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,6 +34,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class HelperLogReader : IHelperLogReader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
         private DateTime _referenceTime;
         private readonly Dictionary<string, Location> _helperLogLocations = new();
@@ -40,8 +42,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         private readonly Dictionary<string, Transition> _helperLogTransitions = new();
 
         public bool IsFileFound { get; private set; }
+        public bool IsFileLoaded { get; private set; }
 
-        public HelperLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader)
+        public HelperLogReader(IResourceLoader resourceLoader, ISeedSettingsReader settingsReader)
         {
             _resourceLoader = resourceLoader;
 
@@ -66,14 +69,18 @@ namespace HK_Rando_4_Log_Display.FileReader
             _referenceTime = DateTime.Now;
             var helperLogData = File.ReadAllLines(HelperLogPath).ToList();
 
-            // TODO: Load safe try-catch
-            LoadReachableLocations(helperLogData);
-
-            // TODO: Load safe try-catch
-            LoadPreviewedLocations(helperLogData);
-
-            // TODO: Load safe try-catch
-            LoadReachableTransitions(helperLogData);
+            try
+            {
+                LoadReachableLocations(helperLogData);
+                LoadPreviewedLocations(helperLogData);
+                LoadReachableTransitions(helperLogData);
+                IsFileLoaded = true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "HelperLogReader LoadData Error");
+                IsFileLoaded = false;
+            }
         }
 
         public void OpenFile()

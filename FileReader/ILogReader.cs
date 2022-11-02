@@ -3,6 +3,7 @@
     public interface ILogReader
     {
         public bool IsFileFound { get; }
+        public bool IsFileLoaded { get; }
         public void LoadData();
         public void OpenFile();
     }

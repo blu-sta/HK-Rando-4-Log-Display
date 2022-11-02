@@ -1,5 +1,7 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,10 +24,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class TransitionSpoilerReader : ITransitionSpoilerReader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
         private readonly List<TransitionWithDestination> _spoilerTransitions = new();
 
         public bool IsFileFound { get; private set; }
+        public bool IsFileLoaded { get; private set; }
 
         public TransitionSpoilerReader(IResourceLoader resourceLoader)
         {
@@ -42,8 +46,16 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             var transitionSpoilerData = File.ReadAllLines(TransitionSpoilerLogPath).ToList();
 
-            // TODO: Load safe try-catch
-            LoadTransitionSpoiler(transitionSpoilerData);
+            try
+            {
+                LoadTransitionSpoiler(transitionSpoilerData);
+                IsFileLoaded = true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "TransitionSpoilerReader LoadData Error");
+                IsFileLoaded = false;
+            }
         }
 
         public void OpenFile()

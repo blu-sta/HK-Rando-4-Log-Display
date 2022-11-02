@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +11,7 @@ using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
 {
-    public interface ISettingsReader : ILogReader
+    public interface ISeedSettingsReader : ILogReader
     {
         public JObject GetSettings();
         public string GetSeed();
@@ -18,14 +20,16 @@ namespace HK_Rando_4_Log_Display.FileReader
     }
 
 
-    public class SettingsReader : ISettingsReader
+    public class SeedSettingsReader : ISeedSettingsReader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private JObject _seedSettings;
         private string _generationCode;
 
         public bool IsFileFound { get; private set; }
+        public bool IsFileLoaded { get; private set; }
 
-        public SettingsReader()
+        public SeedSettingsReader()
         {
             LoadData();
         }
@@ -38,8 +42,18 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return;
             }
             var settingsData = File.ReadAllLines(SeedSettingsPath).ToList();
-            LoadSeedSettings(settingsData);
-            LoadGenerationCode(settingsData);
+
+            try
+            {
+                LoadSeedSettings(settingsData);
+                LoadGenerationCode(settingsData);
+                IsFileLoaded = true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "SettingsReader LoadData Error");
+                IsFileLoaded = false;
+            }
         }
 
         public void OpenFile()

@@ -1,4 +1,5 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,14 +30,16 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class TrackerLogReader : ITrackerLogReader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
         private DateTime _referenceTime;
         private readonly Dictionary<string, ItemWithLocation> _trackerLogItems = new();
         private readonly Dictionary<string, TransitionWithDestination> _trackerLogTransitions = new();
 
         public bool IsFileFound { get; private set; }
+        public bool IsFileLoaded { get; private set; }
 
-        public TrackerLogReader(IResourceLoader resourceLoader, ISettingsReader settingsReader)
+        public TrackerLogReader(IResourceLoader resourceLoader, ISeedSettingsReader settingsReader)
         {
             _resourceLoader = resourceLoader;
 
@@ -61,11 +64,17 @@ namespace HK_Rando_4_Log_Display.FileReader
             _referenceTime = DateTime.Now;
             var trackerLogData = File.ReadAllLines(TrackerLogPath).ToList();
 
-            // TODO: Load safe try-catch
-            LoadItems(trackerLogData);
-
-            // TODO: Load safe try-catch
-            LoadTransitions(trackerLogData);
+            try
+            {
+                LoadItems(trackerLogData);
+                LoadTransitions(trackerLogData);
+                IsFileLoaded = true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "TrackerLogReader LoadData Error");
+                IsFileLoaded = false;
+            }
         }
 
         public void OpenFile()
@@ -85,7 +94,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Where(x => x.StartsWith("ITEM OBTAINED"))
                 .Select(x =>
                 {
-                    var matches = Regex.Match(x, "{(.+)}.*{(.+)}.* {(.+)}");
+                    var matches = Regex.Match(x, "{(.+)}.*{(.+)}.*{(.+)}");
                     return new KeyValuePair<string, TrackedItem>(
                             matches.Groups[3].Value,
                             new TrackedItem

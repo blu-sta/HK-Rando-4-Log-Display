@@ -26,7 +26,7 @@ namespace HK_Rando_4_Log_Display
             services.AddTransient<IVersionChecker, VersionChecker>();
             services.AddTransient<IHelperLogReader, HelperLogReader>();
             services.AddTransient<ITrackerLogReader, TrackerLogReader>();
-            services.AddTransient<ISettingsReader, SettingsReader>();
+            services.AddTransient<ISeedSettingsReader, SeedSettingsReader>();
             services.AddTransient<IItemSpoilerReader, ItemSpoilerReader>();
             services.AddTransient<ITransitionSpoilerReader, TransitionSpoilerReader>();
             services.AddSingleton<IResourceLoader, ResourceLoader>();

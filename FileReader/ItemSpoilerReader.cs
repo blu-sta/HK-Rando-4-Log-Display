@@ -1,5 +1,7 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using Newtonsoft.Json;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -19,10 +21,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
     public class ItemSpoilerReader : IItemSpoilerReader
     {
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
         private readonly List<SpoilerItemWithLocation> _spoilerItems = new();
 
         public bool IsFileFound { get; private set; }
+        public bool IsFileLoaded { get; private set; }
 
         public ItemSpoilerReader(IResourceLoader resourceLoader)
         {
@@ -39,8 +43,16 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             var itemSpoilerData = File.ReadAllLines(ItemSpoilerLogPath).ToList();
 
-            // TODO: Load safe try-catch
-            LoadItemSpoiler(itemSpoilerData);
+            try
+            {
+                LoadItemSpoiler(itemSpoilerData);
+                IsFileLoaded = true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "LoadData LoadData Error");
+                IsFileLoaded = false;
+            }
         }
 
         public void OpenFile()

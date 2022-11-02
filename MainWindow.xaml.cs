@@ -21,7 +21,7 @@ namespace HK_Rando_4_Log_Display
         private readonly Timer dataExtractor = new(5000);
         private readonly IHelperLogReader _helperLogReader;
         private readonly ITrackerLogReader _trackerLogReader;
-        private readonly ISettingsReader _settingsReader;
+        private readonly ISeedSettingsReader _settingsReader;
         private readonly IItemSpoilerReader _itemSpoilerReader;
         private readonly ITransitionSpoilerReader _transitionSpoilerReader;
         private readonly IResourceLoader _resourceLoader;
@@ -31,7 +31,7 @@ namespace HK_Rando_4_Log_Display
         private string _selectedChildTab;
         private DateTime _referenceTime;
 
-        public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISettingsReader settingsReader,
+        public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISeedSettingsReader settingsReader,
             IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader,
             IVersionChecker versionChecker)
         {
@@ -190,16 +190,33 @@ namespace HK_Rando_4_Log_Display
 
         private void UpdateHeader()
         {
-            var headerStrings = new List<(bool, string)>
-            {
-                {(_settingsReader.IsFileFound, string.Join(": ", new[] { _settingsReader.GetMode(), _settingsReader.GetSeed() }.Where(x => !string.IsNullOrWhiteSpace(x))))},
-                {(!_helperLogReader.IsFileFound, "HelperLog.txt not found" )},
-                {(!_trackerLogReader.IsFileFound, "TrackerLog.txt not found" )},
-                {(!_itemSpoilerReader.IsFileFound, "ItemSpoilerLog.json not found" )},
-                {(!_transitionSpoilerReader.IsFileFound, "TransitionSpoilerLog.json not found" )},
-                {(!_settingsReader.IsFileFound, "settings.txt not found" )},
-            }.Where(x => x.Item1).Select(x => x.Item2).ToList();
+            var headerStrings = new List<string>();
 
+            if (_settingsReader.IsFileFound)
+            {
+                headerStrings.Add(string.Join(": ", new[] { _settingsReader.GetMode(), _settingsReader.GetSeed() }.Where(x => !string.IsNullOrWhiteSpace(x))));
+            }
+            new (ILogReader, string)[] {
+                (_helperLogReader, "HelperLog.txt"),
+                (_trackerLogReader, "TrackerLog.txt"),
+                (_itemSpoilerReader, "ItemSpoilerLog.json"),
+                (_transitionSpoilerReader, "TransitionSpoilerLog.json"),
+                (_settingsReader, "settings.txt")
+            }.ToList().ForEach((x) =>
+            {
+                var logReader = x.Item1;
+                var filename = x.Item2;
+
+                if (!logReader.IsFileFound)
+                {
+                    headerStrings.Add($"{filename} not found");
+                }
+                else if (!logReader.IsFileLoaded)
+                {
+                    headerStrings.Add($"{filename} not loaded correctly");
+                }
+            });
+            
             UpdateUX(() => Header.Text = string.Join("\n", headerStrings));
         }
 

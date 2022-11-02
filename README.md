@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.3
+# HK Rando 4 Log Display v2.0.4
 
 ## Requirements
 
@@ -33,7 +33,7 @@ Further support will be added soon, but if you notice significant issues, please
 
 ### Top bar
 Shows the mode and seed \
-Also displays randomiser files that cannot be found
+Also displays randomiser files that cannot be found or fail to load
 
 ### Helper Tab - Locations
 
