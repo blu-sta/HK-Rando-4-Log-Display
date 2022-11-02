@@ -145,13 +145,13 @@ Current state is highlighted
 ### Bottom Bar
 
 `Open Log File` will open the log file for the currently selected tab \
+`MultiWorld` will open a window to enter player names for MultiWorld rando \
 `Update Available` will appear if a newer version is available from Github \
 Also shows the current version number in the right corner
 
 ## Future Plans
 
-- Ability to add player names for improved MultiWorld support
-- Improved log file imports to prevent crashes
+- Predict player names for MultiWorld (need reference file that includes player names)
 
 ## Reporting Issues and Feature Requests
 

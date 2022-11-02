@@ -231,7 +231,7 @@ namespace HK_Rando_4_Log_Display
                     }
                 });
 
-                poolStacker.Children.Add(GenerateExpanderWithContent($"{locationPool} [{locationsWithItems.Count}]", locationStacker, ExpandedPreviewedLocationPools));
+                poolStacker.Children.Add(GenerateExpanderWithContent(locationPool, locationStacker, ExpandedPreviewedLocationPools, $"[{locationsWithItems.Count}]"));
             });
 
             HelperLocationsList.Items.Add(GenerateExpanderWithContent("Previewed Locations", poolStacker, _expandPreviewedLocationSection));
@@ -259,7 +259,7 @@ namespace HK_Rando_4_Log_Display
                         $"at {x.Location.Name}{(!string.IsNullOrWhiteSpace(x.CostString) ? $" ({x.CostString})" : "")}"))
                     .ToList();
 
-                poolStacker.Children.Add(GenerateExpanderWithContent($"{itemPool} [{poolWithLocations.Value.Count}]", GenerateAutoStarGrid(itemsWithLocationsAndCosts), ExpandedPreviewedItemPools));
+                poolStacker.Children.Add(GenerateExpanderWithContent(itemPool, GenerateAutoStarGrid(itemsWithLocationsAndCosts), ExpandedPreviewedItemPools, $"[{poolWithLocations.Value.Count}]"));
             });
 
             HelperLocationsList.Items.Add(GenerateExpanderWithContent("Previewed Items", poolStacker, _expandPreviewedItemSection));

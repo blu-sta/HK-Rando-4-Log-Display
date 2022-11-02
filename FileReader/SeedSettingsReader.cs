@@ -31,10 +31,10 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public SeedSettingsReader()
         {
-            LoadData();
+            LoadData(Array.Empty<string>());
         }
 
-        public void LoadData()
+        public void LoadData(string[] _)
         {
             IsFileFound = File.Exists(SeedSettingsPath);
             if (!IsFileFound)

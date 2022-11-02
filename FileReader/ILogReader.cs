@@ -4,7 +4,7 @@
     {
         public bool IsFileFound { get; }
         public bool IsFileLoaded { get; }
-        public void LoadData();
+        public void LoadData(string[] multiWorldPlayerNames);
         public void OpenFile();
     }
 }

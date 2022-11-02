@@ -30,6 +30,7 @@ namespace HK_Rando_4_Log_Display
         private string _selectedParentTab;
         private string _selectedChildTab;
         private DateTime _referenceTime;
+        private string[] _multiWorldPlayerNames = Array.Empty<string>();
 
         public MainWindow(IHelperLogReader helperLogReader, ITrackerLogReader trackerLogReader, ISeedSettingsReader settingsReader,
             IItemSpoilerReader itemSpoilerReader, ITransitionSpoilerReader transitionSpoilerReader, IResourceLoader resourceLoader,
@@ -181,11 +182,11 @@ namespace HK_Rando_4_Log_Display
 
         private void LoadFiles()
         {
-            _helperLogReader.LoadData();
-            _trackerLogReader.LoadData();
-            _itemSpoilerReader.LoadData();
-            _transitionSpoilerReader.LoadData();
-            _settingsReader.LoadData();
+            _helperLogReader.LoadData(_multiWorldPlayerNames);
+            _trackerLogReader.LoadData(_multiWorldPlayerNames);
+            _itemSpoilerReader.LoadData(_multiWorldPlayerNames);
+            _transitionSpoilerReader.LoadData(_multiWorldPlayerNames);
+            _settingsReader.LoadData(_multiWorldPlayerNames);
         }
 
         private void UpdateHeader()
@@ -221,6 +222,16 @@ namespace HK_Rando_4_Log_Display
         }
 
         #region Events
+
+        private void MultiWorld_Click(object sender, RoutedEventArgs e)
+        {
+            var multiWorldWindow = new MultiWorldWindow(_multiWorldPlayerNames)
+            {
+                Owner = this
+            };
+            multiWorldWindow.ShowDialog();
+            _multiWorldPlayerNames = MultiWorldWindow.PlayerNames;
+        }
 
         private void Update_Click(object sender, RoutedEventArgs e) => 
             Process.Start(new ProcessStartInfo("https://github.com/blu-sta/HK-Rando-4-Log-Display/releases/latest") { UseShellExecute = true });

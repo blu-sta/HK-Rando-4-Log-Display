@@ -34,10 +34,10 @@ namespace HK_Rando_4_Log_Display.FileReader
         public TransitionSpoilerReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
-            LoadData();
+            LoadData(Array.Empty<string>());
         }
 
-        public void LoadData()
+        public void LoadData(string[] _)
         {
             IsFileFound = File.Exists(TransitionSpoilerLogPath);
             if (!IsFileFound)

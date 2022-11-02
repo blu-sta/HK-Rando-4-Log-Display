@@ -31,10 +31,10 @@ namespace HK_Rando_4_Log_Display.FileReader
         public ItemSpoilerReader(IResourceLoader resourceLoader)
         {
             _resourceLoader = resourceLoader;
-            LoadData();
+            LoadData(Array.Empty<string>());
         }
 
-        public void LoadData()
+        public void LoadData(string[] multiWorldPlayerNames)
         {
             IsFileFound = File.Exists(ItemSpoilerLogPath);
             if (!IsFileFound)

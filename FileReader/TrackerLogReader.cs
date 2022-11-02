@@ -50,10 +50,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
             }
 
-            LoadData();
+            LoadData(Array.Empty<string>());
         }
 
-        public void LoadData()
+        public void LoadData(string[] multiWorldPlayerNames)
         {
             IsFileFound = File.Exists(TrackerLogPath);
             if (!IsFileFound)

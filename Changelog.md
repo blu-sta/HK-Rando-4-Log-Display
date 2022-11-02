@@ -2,6 +2,7 @@
 
 ## v2.0.4
 
+- Added button to add MultiWorld player names
 - Added message in header when log file is not loaded correctly
 
 ## v2.0.3

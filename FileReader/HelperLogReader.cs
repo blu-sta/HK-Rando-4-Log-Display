@@ -55,10 +55,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
             }
 
-            LoadData();
+            LoadData(Array.Empty<string>());
         }
 
-        public void LoadData()
+        public void LoadData(string[] multiWorldPlayerNames)
         {
             IsFileFound = File.Exists(HelperLogPath);
             if (!IsFileFound)
@@ -72,7 +72,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             try
             {
                 LoadReachableLocations(helperLogData);
-                LoadPreviewedLocations(helperLogData);
+                LoadPreviewedLocations(helperLogData, multiWorldPlayerNames);
                 LoadReachableTransitions(helperLogData);
                 IsFileLoaded = true;
             }
@@ -157,7 +157,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         #region Previewed Locations
 
-        private void LoadPreviewedLocations(List<string> helperLogData)
+        private void LoadPreviewedLocations(List<string> helperLogData, string[] multiWorldPlayerNames)
         {
             var previewedLocations = LoadSection(helperLogData, "PREVIEWED LOCATIONS");
             if (previewedLocations == null)
@@ -200,7 +200,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                         foreach (var itemPreviewName in editedItemNames.Split(",").Select(x => x.Trim()))
                         {
                             var location = previewLocation;
-                            var item = GetItemFromPreviewName(itemPreviewName);
+                            var item = GetItemFromPreviewName(itemPreviewName, multiWorldPlayerNames);
                             var costString = editedItemCost;
                             var primaryCost = int.TryParse(Regex.Match(editedItemCost, "(\\d+) ([a-zA-Z]+)").Groups[1].Value, out var cost1) ? cost1 : 0;
                             var secondaryCost = int.TryParse(Regex.Match(editedItemCost, "(\\d+)(\\D+)(\\d+) ([a-zA-Z]+)").Groups[3].Value, out var cost2) ? cost2 : 0;
@@ -242,7 +242,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return itemLine;
         }
 
-        private Item GetItemFromPreviewName(string previewName)
+        private Item GetItemFromPreviewName(string previewName, string[] multiWorldPlayerNames)
         {
             var referenceItem = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.PreviewName == previewName);
             if (referenceItem != null)
@@ -255,7 +255,13 @@ namespace HK_Rando_4_Log_Display.FileReader
                 };
             }
 
-            // TODO: Identify MultiWorld previews if in MultiWorld mode
+            if (multiWorldPlayerNames.Any(x => previewName.Contains($"{x}'s ")))
+            {
+                var multiWorldPlayerName = multiWorldPlayerNames.First(x => previewName.Contains($"{x}'s "));
+                var item = GetItemFromPreviewName(previewName.Split($"{multiWorldPlayerName}'s ")[1], Array.Empty<string>());
+                item.PreviewName = previewName;
+                return item;
+            }
 
             Item GeneratePreviewItem(string pool) => new()
             {
