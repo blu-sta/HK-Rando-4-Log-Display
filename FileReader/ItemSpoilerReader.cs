@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using static HK_Rando_4_Log_Display.Constants.Constants;
 
@@ -34,7 +35,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             LoadData(Array.Empty<string>());
         }
 
-        public void LoadData(string[] multiWorldPlayerNames)
+        public void LoadData(string[] _)
         {
             IsFileFound = File.Exists(ItemSpoilerLogPath);
             if (!IsFileFound)
@@ -81,10 +82,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 var itemName = x.Item;
                 var locationName = x.Location;
-                // TODO: Improve cost string to be displayed
-                var cost = x.Costs != null ? string.Join(",", x.Costs) : null;
+                var cost = x.Costs != null ? string.Join(", ", x.Costs.Select(FormatCost)) : null;
 
                 var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                    // TODO: Item Spoiler Data does not include reference to multiworld items at this stage
                     ?? new ReferenceItem
                     {
                         Name = itemName,
@@ -125,6 +126,76 @@ namespace HK_Rando_4_Log_Display.FileReader
                            Cost = cost
                        });
             });
+        }
+
+        private static string FormatCost(string x)
+        {
+            try
+            {
+                if (x.Contains("LogicGeoCost"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Geo";
+                }
+
+                if (x.Contains("DREAMNAIL"))
+                {
+                    return $"Requires Dreamnail";
+                }
+
+                if (x.Contains("Spore_Shroom"))
+                {
+                    return $"Requires Spore Shroom";
+                }
+
+                if (x.Contains("RANCIDEGGS"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Eggs";
+                }
+
+                if (x.Contains("GRUBS"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Grubs";
+                }
+
+                if (x.Contains("CHARMS"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Charms";
+                }
+
+                if (x.Contains("ESSENCE"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Essence";
+                }
+
+                if (x.Contains("SCREAM"))
+                {
+                    return $"Requires Wraiths/Shriek";
+                }
+
+                if (x.Contains("SIMPLE"))
+                {
+                    return $"Requires Simple Key";
+                }
+
+                if (x.Contains("LogicEnemyKillCost") ||
+                    x.Contains("BLUGGSACS") ||
+                    x.Contains("CRYSTALGUARDIANS") ||
+                    x.Contains("ELDERBALDURS") ||
+                    x.Contains("MIMICS") ||
+                    x.Contains("GRUZMOTHERS") ||
+                    x.Contains("HORNETS") ||
+                    x.Contains("KINGSMOULDS") ||
+                    x.Contains("VENGEFLYKINGS"))
+                {
+                    return $"Kill {Regex.Match(x, "\\d+").Value}";
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "ItemSpoilerReader FormatCost Regex failure");
+            }
+
+            return x;
         }
 
         public Dictionary<string, List<SpoilerItemWithLocation>> GetCuratedItemsByPool() =>

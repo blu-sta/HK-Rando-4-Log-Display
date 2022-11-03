@@ -255,12 +255,19 @@ namespace HK_Rando_4_Log_Display.FileReader
                 };
             }
 
-            if (multiWorldPlayerNames.Any(x => previewName.Contains($"{x}'s ")))
+            var multiWorldPlayerName = multiWorldPlayerNames.FirstOrDefault(x => previewName.Contains($"{x}'s "));
+            if (!string.IsNullOrEmpty(multiWorldPlayerName))
             {
-                var multiWorldPlayerName = multiWorldPlayerNames.First(x => previewName.Contains($"{x}'s "));
                 var item = GetItemFromPreviewName(previewName.Split($"{multiWorldPlayerName}'s ")[1], Array.Empty<string>());
-                item.PreviewName = previewName;
-                return item;
+                if (item.Pool != "> Unrecognised Items")
+                {
+                    return new Item
+                    {
+                        Name = item.Name,
+                        Pool = item.Pool,
+                        PreviewName = previewName
+                    };
+                }
             }
 
             Item GeneratePreviewItem(string pool) => new()

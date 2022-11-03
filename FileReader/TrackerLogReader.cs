@@ -66,7 +66,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             try
             {
-                LoadItems(trackerLogData);
+                LoadItems(trackerLogData, multiWorldPlayerNames);
                 LoadTransitions(trackerLogData);
                 IsFileLoaded = true;
             }
@@ -88,7 +88,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             public string LocationName;
         }
 
-        private void LoadItems(List<string> trackerLogData)
+        private void LoadItems(List<string> trackerLogData, string[] multiWorldPlayerNames)
         {
             var items = trackerLogData
                 .Where(x => x.StartsWith("ITEM OBTAINED"))
@@ -118,7 +118,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var locationName = trackedItem.LocationName;
 
                     var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
-                        // TODO: Identify MultiWorld items correctly before showing as Unrecognised
+                        ?? GetMultiWorldItemOrDefault(itemName, multiWorldPlayerNames)
                         ?? new ReferenceItem
                         {
                             Name = itemName,
@@ -160,6 +160,37 @@ namespace HK_Rando_4_Log_Display.FileReader
                             }
                         });
                 });
+            _trackerLogItems.Where(x =>
+                x.Value.Item.Pool.StartsWith(">") &&
+                multiWorldPlayerNames.Any(y => x.Value.Item.Name.Contains($"{y}'s_")))
+                .ToList()
+                .ForEach(x =>
+                {
+                    var item = x.Value.Item;
+                    var multiWorldItem = GetMultiWorldItemOrDefault(item.Name, multiWorldPlayerNames);
+                    item.Pool = multiWorldItem?.Pool ?? item.Pool.Replace($"{multiWorldPlayerNames.FirstOrDefault(y => item.Name.Contains($"{y}'s_"))}'s_", "");
+                    item.PreviewName = multiWorldItem?.PreviewName ?? item.PreviewName;
+                });
+        }
+
+        private ReferenceItem GetMultiWorldItemOrDefault(string itemName, string[] multiWorldPlayerNames)
+        {
+            var multiWorldPlayerName = multiWorldPlayerNames.FirstOrDefault(x => itemName.Contains($"{x}'s_"));
+            if (string.IsNullOrEmpty(multiWorldPlayerName))
+                return null;
+
+            var multiWorldItem = itemName.Split($"{multiWorldPlayerName}'s_")[1];
+            var item = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == multiWorldItem);
+            
+            if (item == null)
+                return null;
+
+            return new ReferenceItem
+            {
+                Name = itemName,
+                Pool = item.Pool,
+                PreviewName = $"{multiWorldPlayerName}'s {item.PreviewName}"
+            };
         }
 
         public Dictionary<string, List<ItemWithLocation>> GetCuratedItemsByPool() =>
