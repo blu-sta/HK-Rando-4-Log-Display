@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.4";
+        public static readonly string AppVersion = "v2.0.4.1";
 
         public enum RoomGrouping
         {

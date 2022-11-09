@@ -182,11 +182,11 @@ namespace HK_Rando_4_Log_Display
 
         private void LoadFiles()
         {
+            _settingsReader.LoadData(_multiWorldPlayerNames);
             _helperLogReader.LoadData(_multiWorldPlayerNames);
             _trackerLogReader.LoadData(_multiWorldPlayerNames);
             _itemSpoilerReader.LoadData(_multiWorldPlayerNames);
             _transitionSpoilerReader.LoadData(_multiWorldPlayerNames);
-            _settingsReader.LoadData(_multiWorldPlayerNames);
         }
 
         private void UpdateHeader()

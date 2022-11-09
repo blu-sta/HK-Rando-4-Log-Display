@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.1
+
+- Added Simple Keys to tracked countables
+- Fixed Dreamgate preview
+
 ## v2.0.4
 
 - Added button to add MultiWorld player names

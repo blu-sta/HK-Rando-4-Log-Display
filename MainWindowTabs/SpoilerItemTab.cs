@@ -186,7 +186,7 @@ namespace HK_Rando_4_Log_Display
                 ? itemName.Replace("Journal_Entry", "Hunter's_Notes")
                 : itemName;
 
-        private static readonly string[] whiteFragments = new[] { "Queen_Fragment", "King_Fragment", "Kingsoul", "Void_Heart" };
+        private static readonly string[] whiteFragments = new[] { "White_Fragment", "Queen_Fragment", "King_Fragment", "Kingsoul", "Void_Heart" };
         private static readonly string[] greedCharms = new[] { "Fragile_Greed", "Unbreakable_Greed" };
         private static readonly string[] heartCharms = new[] { "Fragile_Heart", "Unbreakable_Heart" };
         private static readonly string[] strengthCharms = new[] { "Fragile_Strength", "Unbreakable_Strength" };

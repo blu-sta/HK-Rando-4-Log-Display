@@ -104,6 +104,8 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             if (x.Name == "Lumafly_Escape")
                 return "Nothing?";
+            if (x.Name == "Dream_Gate")
+                return "Dreamgate";
 
             return x.Name.Replace("-", " ").Replace("_", " ");
         }

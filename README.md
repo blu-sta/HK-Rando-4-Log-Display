@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.4
+# HK Rando 4 Log Display v2.0.4.1
 
 ## Requirements
 
@@ -151,7 +151,10 @@ Also shows the current version number in the right corner
 
 ## Future Plans
 
-- Predict player names for MultiWorld (need reference file that includes player names)
+- Track use of Simple Keys and Rancid Eggs, if possible
+**If there is interest:**
+- Button to predict player names for MultiWorld
+- Replace spoiler log with MultiWorld spoiler when in MultiWorld rando
 
 ## Reporting Issues and Feature Requests
 

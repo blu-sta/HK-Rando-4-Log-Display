@@ -32,6 +32,8 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
+        private readonly ISeedSettingsReader _settingsReader;
+        private string _loadedSeed;
         private DateTime _referenceTime;
         private readonly Dictionary<string, ItemWithLocation> _trackerLogItems = new();
         private readonly Dictionary<string, TransitionWithDestination> _trackerLogTransitions = new();
@@ -42,10 +44,12 @@ namespace HK_Rando_4_Log_Display.FileReader
         public TrackerLogReader(IResourceLoader resourceLoader, ISeedSettingsReader settingsReader)
         {
             _resourceLoader = resourceLoader;
+            _settingsReader = settingsReader;
 
-            if (!settingsReader.IsFileFound ||
-                (settingsReader.IsFileFound && settingsReader.GetGenerationCode() == resourceLoader.GetSeedGenerationCode()))
+            if (!_settingsReader.IsFileFound ||
+                (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode()))
             {
+                _loadedSeed = _settingsReader.GetGenerationCode();
                 _trackerLogItems = _resourceLoader.GetTrackerLogItems();
                 _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
             }
@@ -106,7 +110,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 })
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            // TODO: Update existing items without wiping times when MultiWorld names are updated
+            if (_settingsReader.IsFileFound && (_settingsReader.GetGenerationCode() != _loadedSeed))
+            {
+                _loadedSeed = _settingsReader.GetGenerationCode();
+                _trackerLogItems.Clear();
+            }
 
             _trackerLogItems.Keys.Except(items.Keys).ToList()
                 .ForEach(x => _trackerLogItems.Remove(x));

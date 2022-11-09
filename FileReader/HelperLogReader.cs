@@ -36,6 +36,8 @@ namespace HK_Rando_4_Log_Display.FileReader
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IResourceLoader _resourceLoader;
+        private readonly ISeedSettingsReader _settingsReader;
+        private string _loadedSeed;
         private DateTime _referenceTime;
         private readonly Dictionary<string, Location> _helperLogLocations = new();
         private readonly List<LocationPreview> _previewedLocationsWithItems = new();
@@ -47,9 +49,10 @@ namespace HK_Rando_4_Log_Display.FileReader
         public HelperLogReader(IResourceLoader resourceLoader, ISeedSettingsReader settingsReader)
         {
             _resourceLoader = resourceLoader;
+            _settingsReader = settingsReader;
 
-            if (!settingsReader.IsFileFound ||
-                (settingsReader.IsFileFound && settingsReader.GetGenerationCode() == resourceLoader.GetSeedGenerationCode()))
+            if (!_settingsReader.IsFileFound ||
+                (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode()))
             {
                 _helperLogLocations = _resourceLoader.GetHelperLogLocations();
                 _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
@@ -96,6 +99,12 @@ namespace HK_Rando_4_Log_Display.FileReader
             if (uncheckedReachableLocations == null)
             {
                 return;
+            }
+
+            if (_settingsReader.IsFileFound && (_settingsReader.GetGenerationCode() != _loadedSeed))
+            {
+                _loadedSeed = _settingsReader.GetGenerationCode();
+                _helperLogLocations.Clear();
             }
 
             _helperLogLocations.Keys.Except(uncheckedReachableLocations).ToList()

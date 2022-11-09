@@ -123,6 +123,12 @@ namespace HK_Rando_4_Log_Display
             {
                 majorCountables.Add($"Pale Ore: {oreCount}");
             }
+            // Simple Keys
+            var keyCount = trackedItemsByPool.FirstOrDefault(x => x.Key == "Key").Value?.Count(x => x.Item.Name == "Simple_Key");
+            if (keyCount != null && keyCount > 0)
+            {
+                majorCountables.Add($"Simple Keys: {keyCount}");
+            }
             // Rancid Eggs
             var eggCount = GetItemCount(trackedItemsByPool, "Egg");
             if (eggCount != null)
@@ -149,7 +155,7 @@ namespace HK_Rando_4_Log_Display
             var fragmentCount = trueEndingItems.Count(x => x.Item.Pool == "Charm");
             var dreamerCount = trueEndingItems.Count(x => x.Item.Pool == "Dreamer");
             var dreamNails = curatedItemsByPool.FirstOrDefault(x => x.Key == "Dream Nails").Value ?? new List<ItemWithLocation>();
-            var dreamNailCount = dreamNails.Count();
+            var dreamNailCount = dreamNails.Count;
             
             if (fragmentCount > 0 || dreamerCount > 0 || dreamNailCount > 0)
             {
