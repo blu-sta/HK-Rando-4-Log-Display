@@ -152,6 +152,7 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Track use of Simple Keys and Rancid Eggs, if possible
+
 **If there is interest:**
 - Button to predict player names for MultiWorld
 - Replace spoiler log with MultiWorld spoiler when in MultiWorld rando
