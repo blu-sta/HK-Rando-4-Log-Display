@@ -23,12 +23,12 @@ namespace HK_Rando_4_Log_Display
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
-            services.AddTransient<IVersionChecker, VersionChecker>();
-            services.AddTransient<IHelperLogReader, HelperLogReader>();
-            services.AddTransient<ITrackerLogReader, TrackerLogReader>();
-            services.AddTransient<ISeedSettingsReader, SeedSettingsReader>();
-            services.AddTransient<IItemSpoilerReader, ItemSpoilerReader>();
-            services.AddTransient<ITransitionSpoilerReader, TransitionSpoilerReader>();
+            services.AddSingleton<IVersionChecker, VersionChecker>();
+            services.AddSingleton<IHelperLogReader, HelperLogReader>();
+            services.AddSingleton<ITrackerLogReader, TrackerLogReader>();
+            services.AddSingleton<ISeedSettingsReader, SeedSettingsReader>();
+            services.AddSingleton<IItemSpoilerReader, ItemSpoilerReader>();
+            services.AddSingleton<ITransitionSpoilerReader, TransitionSpoilerReader>();
             services.AddSingleton<IResourceLoader, ResourceLoader>();
         }
 

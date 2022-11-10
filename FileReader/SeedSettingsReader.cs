@@ -23,8 +23,8 @@ namespace HK_Rando_4_Log_Display.FileReader
     public class SeedSettingsReader : ISeedSettingsReader
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private static JObject _seedSettings;
-        private static string _generationCode;
+        private JObject _seedSettings;
+        private string _generationCode;
 
         public bool IsFileFound { get; private set; }
         public bool IsFileLoaded { get; private set; }

@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.4.1
+# HK Rando 4 Log Display v2.0.4.2
 
 ## Requirements
 
@@ -150,8 +150,6 @@ Current state is highlighted
 Also shows the current version number in the right corner
 
 ## Future Plans
-
-- Track use of Simple Keys and Rancid Eggs, if possible
 
 **If there is interest:**
 - Button to predict player names for MultiWorld

@@ -5,8 +5,8 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
-	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<Version>2.0.4.1</Version>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <Version>2.0.4.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

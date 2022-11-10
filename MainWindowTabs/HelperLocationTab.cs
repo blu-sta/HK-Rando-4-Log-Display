@@ -1,6 +1,7 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
 using HK_Rando_4_Log_Display.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -133,7 +134,8 @@ namespace HK_Rando_4_Log_Display
             var eggCount = GetItemCount(trackedItemsByPool, "Egg");
             if (eggCount != null)
             {
-                majorCountables.Add($"Rancid Eggs: {eggCount}");
+                var remainingEggCount = GetRemainingEggCount(eggCount.Value);
+                majorCountables.Add($"Rancid Eggs: {eggCount}{(remainingEggCount != eggCount ? $" [{remainingEggCount} held]" : "")}");
             }
             // Grimmkin Flames
             var flameCount = GetItemCount(trackedItemsByPool, "Flame");
@@ -197,6 +199,36 @@ namespace HK_Rando_4_Log_Display
 
         private static int? GetItemCount(Dictionary<string, List<ItemWithLocation>> pooledItems, string itemPool) =>
             pooledItems.FirstOrDefault(x => x.Key == itemPool).Value?.Count;
+
+        private int? GetRemainingEggCount(int totalEggsFound)
+        {
+            if (!_trackerLogReader.IsFileFound || !_itemSpoilerReader.IsFileFound)
+            {
+                return null;
+            }
+
+            var trackedEggShopItems = _trackerLogReader.GetLocationsByPool()
+                .FirstOrDefault(x => x.Key == "Shop").Value
+                .Where(x => x.Location.Name == "Egg_Shop")
+                .ToList();
+            var spoilerEggShopItems = _itemSpoilerReader.GetLocationsByPool()
+                .FirstOrDefault(x => x.Key == "Shop").Value
+                .Where(x => x.Location.Name == "Egg_Shop")
+                .OrderBy(x => int.TryParse(Regex.Match(x.Cost, "\\d+").Value, out var number) ? number : 0)
+                .ToList();
+
+            return totalEggsFound - trackedEggShopItems.Max(trackedItem =>
+            {
+                var itemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(trackedItem.Item.Name, spoilerEggShopItems);
+                if (itemWithLocation == null)
+                {
+                    return 0; 
+                }
+                var spoilerItem = spoilerEggShopItems.FirstOrDefault(x => itemWithLocation.Item.Name == x.Item.Name);
+                spoilerEggShopItems.Remove(spoilerItem);
+                return int.TryParse(Regex.Match(spoilerItem.Cost, "\\d+").Value, out var number) ? number : 0;
+            });
+        }
 
         private void UpdatePreviewedLocations(Dictionary<string, List<LocationPreview>> previewedLocations)
         {

@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.2
+
+- Added eggs held count to existing Rancid Egg counter
+
 ## v2.0.4.1
 
 - Added Simple Keys to tracked countables
