@@ -219,7 +219,7 @@ namespace HK_Rando_4_Log_Display
                 .OrderBy(x => int.TryParse(Regex.Match(x.Cost, "\\d+").Value, out var number) ? number : 0)
                 .ToList();
 
-            if (!trackedEggShopItems.Any() || !spoilerEggShopItems.Any())
+            if (trackedEggShopItems == null || spoilerEggShopItems == null || !trackedEggShopItems.Any() || !spoilerEggShopItems.Any())
             {
                 return null;
             }
