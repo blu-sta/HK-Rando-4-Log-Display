@@ -135,7 +135,8 @@ namespace HK_Rando_4_Log_Display
             if (eggCount != null)
             {
                 var remainingEggCount = GetRemainingEggCount(eggCount.Value);
-                majorCountables.Add($"Rancid Eggs: {eggCount}{(remainingEggCount != eggCount ? $" [{remainingEggCount} held]" : "")}");
+
+                majorCountables.Add($"Rancid Eggs: {eggCount}{(remainingEggCount != null && remainingEggCount != eggCount ? $" [{remainingEggCount} held]" : "")}");
             }
             // Grimmkin Flames
             var flameCount = GetItemCount(trackedItemsByPool, "Flame");
@@ -208,26 +209,32 @@ namespace HK_Rando_4_Log_Display
             }
 
             var trackedEggShopItems = _trackerLogReader.GetLocationsByPool()
-                .FirstOrDefault(x => x.Key == "Shop").Value
+                .FirstOrDefault(x => x.Key == "Shop").Value?
                 .Where(x => x.Location.Name == "Egg_Shop")
                 .ToList();
+
             var spoilerEggShopItems = _itemSpoilerReader.GetLocationsByPool()
-                .FirstOrDefault(x => x.Key == "Shop").Value
+                .FirstOrDefault(x => x.Key == "Shop").Value?
                 .Where(x => x.Location.Name == "Egg_Shop")
                 .OrderBy(x => int.TryParse(Regex.Match(x.Cost, "\\d+").Value, out var number) ? number : 0)
                 .ToList();
 
-            return totalEggsFound - trackedEggShopItems.Max(trackedItem =>
+            if (!trackedEggShopItems.Any() || !spoilerEggShopItems.Any())
+            {
+                return null;
+            }
+
+            return totalEggsFound - (trackedEggShopItems?.Max(trackedItem =>
             {
                 var itemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(trackedItem.Item.Name, spoilerEggShopItems);
                 if (itemWithLocation == null)
                 {
-                    return 0; 
+                    return 0;
                 }
                 var spoilerItem = spoilerEggShopItems.FirstOrDefault(x => itemWithLocation.Item.Name == x.Item.Name);
                 spoilerEggShopItems.Remove(spoilerItem);
                 return int.TryParse(Regex.Match(spoilerItem.Cost, "\\d+").Value, out var number) ? number : 0;
-            });
+            }) ?? 0);
         }
 
         private void UpdatePreviewedLocations(Dictionary<string, List<LocationPreview>> previewedLocations)
