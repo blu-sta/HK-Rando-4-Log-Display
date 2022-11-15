@@ -91,17 +91,22 @@ namespace HK_Rando_4_Log_Display
             objectGrid.ColumnDefinitions.Add(colDef2);
 
             var trackedItemsByPool = _trackerLogReader.GetItemsByPool();
+            var trackedItemsByPoolWithoutMultiWorldItems = trackedItemsByPool
+                .Select(x => new KeyValuePair<string, List<ItemWithLocation>>(
+                    x.Key,
+                    x.Value.Where(y => !_multiWorldPlayerNames.Any(z => y.Item.Name.Contains($"{z}'s_"))).ToList()
+                )).ToDictionary(x => x.Key, x => x.Value);
 
             var majorCountables = new List<string>();
             // Grubs
-            var grubCount = GetItemCount(trackedItemsByPool, "Grub");
+            var grubCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Grub");
             if (grubCount != null)
             {
                 majorCountables.Add($"Grubs: {grubCount}");
             }
             // Charms
-            var charms = trackedItemsByPool.FirstOrDefault(x => x.Key == "Charm").Value;
-            var transcendenceCharms = trackedItemsByPool.FirstOrDefault(x => x.Key == "Charm - Transcendence").Value;
+            var charms = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Charm").Value;
+            var transcendenceCharms = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Charm - Transcendence").Value;
             if (charms != null || transcendenceCharms != null)
             {
                 var charmCollections = new[] { charms, transcendenceCharms }.Where(x => x != null).Aggregate(new List<ItemWithLocation>(), (current, next) => current.Concat(next).ToList());
@@ -119,19 +124,19 @@ namespace HK_Rando_4_Log_Display
                 majorCountables.Add($"Essence: {essenceCount}");
             }
             // Pale Ore
-            var oreCount = GetItemCount(trackedItemsByPool, "Ore");
+            var oreCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Ore");
             if (oreCount != null)
             {
                 majorCountables.Add($"Pale Ore: {oreCount}");
             }
             // Simple Keys
-            var keyCount = trackedItemsByPool.FirstOrDefault(x => x.Key == "Key").Value?.Count(x => x.Item.Name == "Simple_Key");
+            var keyCount = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Key").Value?.Count(x => x.Item.Name == "Simple_Key");
             if (keyCount != null && keyCount > 0)
             {
                 majorCountables.Add($"Simple Keys: {keyCount}");
             }
             // Rancid Eggs
-            var eggCount = GetItemCount(trackedItemsByPool, "Egg");
+            var eggCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Egg");
             if (eggCount != null)
             {
                 var remainingEggCount = GetRemainingEggCount(eggCount.Value);
@@ -139,13 +144,13 @@ namespace HK_Rando_4_Log_Display
                 majorCountables.Add($"Rancid Eggs: {eggCount}{(remainingEggCount != null && remainingEggCount != eggCount ? $" [{remainingEggCount} held]" : "")}");
             }
             // Grimmkin Flames
-            var flameCount = GetItemCount(trackedItemsByPool, "Flame");
+            var flameCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Flame");
             if (flameCount != null)
             {
                 majorCountables.Add($"Grimmkin Flames: {flameCount}");
             }
             // MrMushroom Levels
-            var mushroomCount = GetItemCount(trackedItemsByPool, "Mr Mushroom");
+            var mushroomCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Mr Mushroom");
             if (mushroomCount != null)
             {
                 majorCountables.Add($"Mr Mushroom Level: {mushroomCount}");

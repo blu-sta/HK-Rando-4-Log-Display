@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.4.3
+# HK Rando 4 Log Display v2.0.4.4
 
 ## Requirements
 
@@ -25,9 +25,10 @@ In addition to the default Randomiser, the following mods are also supported:
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
 #### MultiWorld Disclaimer
-[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) should work better now, although there are some issues that cannot be easily resolved by reading the data in the log files \
-Pools are not always identified correctly, due to player names being added, and the Item Spoiler file does not reflect the MultiWorld location of items \
-Further support will be added soon, but if you notice significant issues, please report them to `@blu.sta#9997` on Discord
+[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) should work better now \
+Please use the `MultiWorld` button to enter player names so item pools are identified correctly \
+Be aware that the Item Spoiler file does not reflect the MultiWorld location of items - this is found in another file not kept with other logs \
+If you notice any issues, please report them to `@blu.sta#9997` on Discord, preferably with a zip of the relevant log files (button found on the Settings tab)
 
 ## How to use this app
 
@@ -150,6 +151,8 @@ Current state is highlighted
 Also shows the current version number in the right corner
 
 ## Future Plans
+
+- Configuration of Curated list (pool selection, charm selection)
 
 **If there is interest:**
 - Button to predict player names for MultiWorld

@@ -361,6 +361,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private KeyValuePair<string, List<SpoilerItemWithLocation>> GetSignificantCharms()
         {
             var poolName = "Notable Charms";
+            // TODO: Use this as default, but add this as editable
             var spellCharms = new[] {
                 "Shaman_Stone",
                 "Spell_Twister",
