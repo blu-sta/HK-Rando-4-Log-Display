@@ -56,6 +56,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             {
                 _helperLogLocations = _resourceLoader.GetHelperLogLocations();
                 _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
+                _loadedSeed = _settingsReader.GetGenerationCode();
             }
 
             LoadData(Array.Empty<string>());

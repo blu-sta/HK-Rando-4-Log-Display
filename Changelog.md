@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.5
+
+- Fixed Helper tab memory issue
+
 ## v2.0.4.4
 
 - MultiWorld & Countable bugfix

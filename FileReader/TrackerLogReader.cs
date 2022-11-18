@@ -49,9 +49,9 @@ namespace HK_Rando_4_Log_Display.FileReader
             if (!_settingsReader.IsFileFound ||
                 (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode()))
             {
-                _loadedSeed = _settingsReader.GetGenerationCode();
                 _trackerLogItems = _resourceLoader.GetTrackerLogItems();
                 _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
+                _loadedSeed = _settingsReader.GetGenerationCode();
             }
 
             LoadData(Array.Empty<string>());
