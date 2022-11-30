@@ -11,23 +11,26 @@ namespace HK_Rando_4_Log_Display
     
     public static class TrackedSpoilerItems
     {
-        public static ItemWithLocation GetTrackedItemWithLocation(string itemName, IEnumerable<ItemWithLocation> trackedLocations) =>
-            trackedLocations.FirstOrDefault(y => y.Item.Name == itemName)
-                 ?? GetProgressiveItem(itemName, trackedLocations)
-                 ?? GetHunterItem(itemName, trackedLocations);
+        public static ItemWithLocation GetTrackedItemWithLocation(Item item, IEnumerable<ItemWithLocation> trackedLocations) =>
+            GetTrackedItemWithLocationForGivenMWPlayer(item, trackedLocations.Where(x => x.Item.MWPlayerName == item.MWPlayerName));
 
-        private static ItemWithLocation GetProgressiveItem(string itemName, IEnumerable<ItemWithLocation> trackedLocations) =>
-            allProgressiveItems.Contains(itemName)
+        private static ItemWithLocation GetTrackedItemWithLocationForGivenMWPlayer(Item item, IEnumerable<ItemWithLocation> trackedLocations) =>
+            trackedLocations.FirstOrDefault(y => y.Item.Name == item.Name)
+                 ?? GetProgressiveItem(item, trackedLocations)
+                 ?? GetHunterItem(item, trackedLocations);
+
+        private static ItemWithLocation GetProgressiveItem(Item item, IEnumerable<ItemWithLocation> trackedLocations) =>
+            allProgressiveItems.Contains(item.Name)
                 ? progressiveItemBuckets.Select(x =>
-                        x.Contains(itemName)
+                        x.Contains(item.Name)
                             ? trackedLocations.FirstOrDefault(y => x.Contains(y.Item.Name))
                             : default)
                     .FirstOrDefault(x => x != null)
                 : default;
 
-        private static ItemWithLocation GetHunterItem(string itemName, IEnumerable<ItemWithLocation> trackedLocations) =>
-            itemName.StartsWith("Hunter's_Notes") || itemName.StartsWith("Journal_Entry")
-                ? trackedLocations.FirstOrDefault(y => y.Item.Name == InvertHunterItemPool(itemName))
+        private static ItemWithLocation GetHunterItem(Item item, IEnumerable<ItemWithLocation> trackedLocations) =>
+            item.Name.StartsWith("Hunter's_Notes") || item.Name.StartsWith("Journal_Entry")
+                ? trackedLocations.FirstOrDefault(y => y.Item.Name == InvertHunterItemPool(item.Name))
                 : default;
 
         private static string InvertHunterItemPool(string itemName) =>

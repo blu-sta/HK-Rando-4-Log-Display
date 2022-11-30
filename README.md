@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.4.5
+# HK Rando 4 Log Display v2.0.4.6
 
 ## Requirements
 
@@ -14,6 +14,7 @@ In addition to the default Randomiser, the following mods are also supported:
 - [LoreMaster](https://github.com/Korzer420/LoreMaster)
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
+- [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/)
 - [RainbowEggs](https://github.com/dpinela/RainbowEggs)
 - [RandomizableLevers](https://github.com/flibber-hk/HollowKnight.RandomizableLevers)
 - [RandoPlus](https://github.com/flibber-hk/HollowKnight.RandoPlus)
@@ -24,11 +25,10 @@ In addition to the default Randomiser, the following mods are also supported:
 
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
-#### MultiWorld Disclaimer
-[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) should work better now \
-Please use the `MultiWorld` button to enter player names so item pools are identified correctly \
-Be aware that the Item Spoiler file does not reflect the MultiWorld location of items - this is found in another file not kept with other logs \
-If you notice any issues, please report them to `@blu.sta#9997` on Discord, preferably with a zip of the relevant log files (button found on the Settings tab)
+#### MultiWorld Note
+[MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) support has been vastly improved as of v2.0.5 \
+Please use the `MultiWorld` button to enter player names \
+The `Predict` button in the MultiWorld window will attempt to identify players from the Item Spoiler Log
 
 ## How to use this app
 
@@ -153,10 +153,9 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
-
-**If there is interest:**
-- Button to predict player names for MultiWorld
-- Replace spoiler log with MultiWorld spoiler when in MultiWorld rando
+- Check for vanilla Stag Nest
+- Check Mr Mushroom level includes 3x Dreamers (i.e. vanilla)
+- Not Isma's and Not Swim currently unrecognised
 
 ## Reporting Issues and Feature Requests
 

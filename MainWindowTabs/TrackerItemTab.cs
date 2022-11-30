@@ -65,9 +65,9 @@ namespace HK_Rando_4_Log_Display
         {
             var orderedItems = ordering switch
             {
-                Sorting.Alpha => items.OrderBy(x => x.Item.Name).ToList(),
                 Sorting.Time => items.OrderBy(x => x.TimeAdded).ToList(),
-                _ => items.OrderBy(x => x.Item.Name).ToList(),
+                // Sorting.Alpha
+                _ => items.OrderBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ToList(),
             };
             var itemsWithLocationGrid = GetTrackedItemsGrid(orderedItems);
             TrackerItemsList.Items.Add(itemsWithLocationGrid);
@@ -80,9 +80,9 @@ namespace HK_Rando_4_Log_Display
                 ? poolWithItems.Value.ToList()
                 : ordering switch
                 {
-                    Sorting.Alpha => poolWithItems.Value.OrderBy(x => x.Item.Name).ThenBy(x => x.Location.Name).ToList(),
                     Sorting.Time => poolWithItems.Value.OrderBy(x => x.TimeAdded).ToList(),
-                    _ => poolWithItems.Value.OrderBy(x => x.Item.Name).ToList(),
+                    // Sorting.Alpha 
+                    _ => poolWithItems.Value.OrderBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ThenBy(x => x.Location.MWPlayerName).ThenBy(x => x.Location.Name).ToList(),
                 };
             var itemsWithLocationGrid = GetTrackedItemsGrid(orderedItems);
             return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset, $"[Obtained: {orderedItems.Count}]");
@@ -93,9 +93,9 @@ namespace HK_Rando_4_Log_Display
             var poolName = poolWithLocations.Key.WithoutUnderscores();
             var orderedLocations = ordering switch
             {
-                Sorting.Alpha => poolWithLocations.Value.OrderBy(x => x.Location.Name).ThenBy(x => x.Item.Name).ToList(),
                 Sorting.Time => poolWithLocations.Value.OrderBy(x => x.TimeAdded).ToList(),
-                _ => poolWithLocations.Value.OrderBy(x => x.Location.Name).ToList(),
+                // Sorting.Alpha 
+                _ => poolWithLocations.Value.OrderBy(x => x.Location.MWPlayerName).ThenBy(x => x.Location.Name).ThenBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ToList(),
             };
             var itemsWithLocationGrid = GetTrackedLocationsGrid(orderedLocations);
             return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset, $"[Provided: {orderedLocations.Count}]");
@@ -105,8 +105,8 @@ namespace HK_Rando_4_Log_Display
         {
             var itemKvps = items.Select(x =>
                 new KeyValuePair<string, string>(
-                    $"{x.Item.Name.WithoutUnderscores()}",
-                    $"found at {x.Location.Name.WithoutUnderscores()}" +
+                    $"{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}",
+                    $"found at {(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                     ((ShowLocationRoom)_showTrackerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
@@ -122,14 +122,14 @@ namespace HK_Rando_4_Log_Display
         {
             var locationKvps = locations.Select(x =>
                 new KeyValuePair<string, string>(
-                    $"{x.Location.Name.WithoutUnderscores()}" +
+                    $"{(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                     ((ShowLocationRoom)_showTrackerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
                         ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }),
-                    $"provided {x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
+                    $"provided {(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}{(_showTrackerItemsTime ? $" ({GetAgeInMinutes(_referenceTime, x.TimeAdded)})" : "")}")
             ).ToList();
             return GenerateAutoStarGrid(locationKvps);
         }

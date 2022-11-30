@@ -2,6 +2,7 @@
 {
     public class Item : ReferenceItem
     {
+        public string MWPlayerName { get; set; }
     }
 
     public class ReferenceItem : ItemImport

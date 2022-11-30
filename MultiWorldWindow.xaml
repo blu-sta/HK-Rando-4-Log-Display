@@ -38,8 +38,7 @@
             <Button Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="Remove" Click="Remove_Click"/>
             <Button Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="Clear All" Click="ClearAll_Click"/>
             <Button Style="{DynamicResource RoundButton}" DockPanel.Dock="Right" Content="Save" Click="Save_Click"/>
-            <!--Make Predict work, remove name, remove visibility-->
-            <Button x:Name="Predict_Button" Visibility="Collapsed" Style="{DynamicResource RoundButton}" DockPanel.Dock="Right" Content="Predict" Click="Predict_Click"/>
+            <Button x:Name="Predict_Button" Style="{DynamicResource RoundButton}" DockPanel.Dock="Right" Content="Predict" Click="Predict_Click"/>
         </DockPanel>
         <ScrollViewer Grid.Row="2" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
             <StackPanel x:Name="MultiWorldStackPanel">

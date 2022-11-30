@@ -1,7 +1,6 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
 using HK_Rando_4_Log_Display.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -94,7 +93,7 @@ namespace HK_Rando_4_Log_Display
             var trackedItemsByPoolWithoutMultiWorldItems = trackedItemsByPool
                 .Select(x => new KeyValuePair<string, List<ItemWithLocation>>(
                     x.Key,
-                    x.Value.Where(y => !_multiWorldPlayerNames.Any(z => y.Item.Name.Contains($"{z}'s_"))).ToList()
+                    x.Value.Where(y => y.Item.MWPlayerName == null).ToList()
                 )).ToDictionary(x => x.Key, x => x.Value);
 
             var majorCountables = new List<string>();
@@ -215,12 +214,12 @@ namespace HK_Rando_4_Log_Display
 
             var trackedEggShopItems = _trackerLogReader.GetLocationsByPool()
                 .FirstOrDefault(x => x.Key == "Shop").Value?
-                .Where(x => x.Location.Name == "Egg_Shop")
+                .Where(x => x.Location.Name == "Egg_Shop" && x.Location.MWPlayerName == null)
                 .ToList();
 
             var spoilerEggShopItems = _itemSpoilerReader.GetLocationsByPool()
                 .FirstOrDefault(x => x.Key == "Shop").Value?
-                .Where(x => x.Location.Name == "Egg_Shop")
+                .Where(x => x.Location.Name == "Egg_Shop" && x.Location.MWPlayerName == null)
                 .OrderBy(x => int.TryParse(Regex.Match(x.Cost, "\\d+").Value, out var number) ? number : 0)
                 .ToList();
 
@@ -231,7 +230,7 @@ namespace HK_Rando_4_Log_Display
 
             return totalEggsFound - (trackedEggShopItems?.Max(trackedItem =>
             {
-                var itemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(trackedItem.Item.Name, spoilerEggShopItems);
+                var itemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(trackedItem.Item, spoilerEggShopItems);
                 if (itemWithLocation == null)
                 {
                     return 0;
@@ -261,12 +260,13 @@ namespace HK_Rando_4_Log_Display
                     var itemsWithCosts = locationWithItems.Value
                         .OrderBy(x => x.SecondaryCost)
                         .ThenBy(x => x.PrimaryCost)
+                        .ThenBy(x => x.Item.MWPlayerName)
                         .ThenBy(x =>
                         {
                             var startNumbers = Regex.Match(x.Item.PreviewName, "^(\\d+)").Groups[1].Value;
                             return string.IsNullOrEmpty(startNumbers) ? x.Item.PreviewName : startNumbers;
                         }, new SemiNumericComparer())
-                        .Select(x => new KeyValuePair<string, string>(x.Item.PreviewName, x.CostString))
+                        .Select(x => new KeyValuePair<string, string>($"{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.PreviewName}", x.CostString))
                         .ToList();
 
                     if (locationPool == "Shop")
@@ -299,13 +299,14 @@ namespace HK_Rando_4_Log_Display
             {
                 var itemPool = poolWithLocations.Key.WithoutUnderscores();
                 var itemsWithLocationsAndCosts = poolWithLocations.Value
-                    .OrderBy(x =>
+                    .OrderBy(x => x.Item.MWPlayerName)
+                    .ThenBy(x =>
                     {
                         var startNumbers = Regex.Match(x.Item.PreviewName, "^(\\d+)").Groups[1].Value;
                         return string.IsNullOrEmpty(startNumbers) ? x.Item.PreviewName : startNumbers;
                     }, new SemiNumericComparer())
                     .Select(x => new KeyValuePair<string, string>(
-                        x.Item.PreviewName,
+                        $"{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.PreviewName}",
                         $"at {x.Location.Name}{(!string.IsNullOrWhiteSpace(x.CostString) ? $" ({x.CostString})" : "")}"))
                     .ToList();
 
@@ -340,9 +341,9 @@ namespace HK_Rando_4_Log_Display
         {
             var orderedLocations = ordering switch
             {
-                Sorting.Alpha => locations.OrderBy(x => x.Name).ToList(),
-                Sorting.Time => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
-                _ => locations.OrderBy(x => x.Name).ToList(),
+                Sorting.Time => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                // Sorting.Alpha
+                _ => locations.OrderBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
             };
             var locationsGrid = GetLocationsGrid(orderedLocations);
             HelperLocationsList.Items.Add(locationsGrid);
@@ -353,9 +354,9 @@ namespace HK_Rando_4_Log_Display
             var zoneName = zoneWithLocations.Key.WithoutUnderscores();
             var orderedLocations = helperLocationOrdering switch
             {
-                Sorting.Alpha => zoneWithLocations.Value.OrderBy(x => x.Name).ToList(),
-                Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
-                _ => zoneWithLocations.Value.OrderBy(x => x.Name).ToList(),
+                Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.TimeAdded).ThenBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                // Sorting.Alpha
+                _ => zoneWithLocations.Value.OrderBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
             };
             var locationsGrid = GetLocationsGrid(orderedLocations);
             return GenerateExpanderWithContent(zoneName, locationsGrid, expandedHashset, $"[Locations: {orderedLocations.Count}]");
@@ -363,10 +364,11 @@ namespace HK_Rando_4_Log_Display
 
         private Grid GetLocationsGrid(List<Location> locations)
         {
-            var locationKvps = locations.ToDictionary(
-                    x => $"{(x.IsOutOfLogic ? "*" : "")}{x.Name.WithoutUnderscores()}",
-                    x => _showHelperLocationsTime ? GetAgeInMinutes(_referenceTime, x.TimeAdded) : "")
-                .ToList();
+            var locationKvps = locations.Select(x =>
+                new KeyValuePair<string, string>(
+                    $"{(x.IsOutOfLogic ? "*" : "")}{(string.IsNullOrEmpty(x.MWPlayerName) ? "" : $"{x.MWPlayerName}'s ")}{x.Name.WithoutUnderscores()}",
+                    _showHelperLocationsTime ? GetAgeInMinutes(_referenceTime, x.TimeAdded) : "")
+                ).ToList();
             return GenerateAutoStarGrid(locationKvps);
         }
 

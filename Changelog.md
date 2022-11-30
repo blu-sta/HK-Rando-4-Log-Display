@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.6
+
+- Major MultiWorld update to handle new information in logs
+- Added "Predict" button to MultiWorld window to detect player names
+
 ## v2.0.4.5
 
 - Fixed Helper tab memory issue

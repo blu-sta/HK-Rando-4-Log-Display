@@ -1,7 +1,8 @@
-﻿using HK_Rando_4_Log_Display.DTO;
+﻿using HK_Rando_4_Log_Display.FileReader;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,12 +11,16 @@ namespace HK_Rando_4_Log_Display
 {
     public partial class MultiWorldWindow : Window
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "Used by parent window")]
         public static string[] PlayerNames = Array.Empty<string>();
+        private readonly IItemSpoilerReader _itemSpoilerReader;
 
-        public MultiWorldWindow(string[] multiWorldPlayerNames)
+        public MultiWorldWindow(string[] multiWorldPlayerNames, IItemSpoilerReader itemSpoilerReader)
         {
             InitializeComponent();
             
+            _itemSpoilerReader = itemSpoilerReader;
+
             PlayerNames = multiWorldPlayerNames;
             if (PlayerNames.Any())
             {
@@ -34,10 +39,6 @@ namespace HK_Rando_4_Log_Display
                 lastTextBox.Focus();
                 lastTextBox.CaretIndex = lastTextBox.Text.Length;
             }
-
-#if DEBUG
-            Predict_Button.Visibility = Visibility.Visible;
-#endif
         }
 
         private void Add_Click(object sender, RoutedEventArgs e) => 
@@ -60,17 +61,40 @@ namespace HK_Rando_4_Log_Display
             {
                 MultiWorldStackPanel.Children.RemoveAt(MultiWorldStackPanel.Children.Count - 1);
             }
+            if (MultiWorldStackPanel.Children.Count == 0)
+            {
+                AddTextBox().Focus();
+            }
         }
 
         private void ClearAll_Click(object sender, RoutedEventArgs e)
         {
             MultiWorldStackPanel.Children.Clear();
+            AddTextBox().Focus();
         }
 
         private void Predict_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Spoiler log does not have this information!!
-            // Try again with something else?
+            var allItems = _itemSpoilerReader.GetItems();
+            var existingNames = PlayerNames.Where(x => allItems.Any(y => y.Item.MWPlayerName == x || y.Location.MWPlayerName == x));
+            var unrecognisedLocations = allItems.Where(x => x.Location.Pool.StartsWith(">")).Select(x => x.Location.Name);
+            var unrecognisedItems = allItems.Where(x => x.Item.Pool.StartsWith(">")).Select(x => x.Item.Name);
+            var unrecognisedValues = unrecognisedLocations.Concat(unrecognisedItems);
+            var possibleNames = existingNames
+                .Concat(unrecognisedValues.Select(x => Regex.Match(x, "^(.*)'s ").Groups[1].Value))
+                .Distinct()
+                .Where(x => !string.IsNullOrEmpty(x))
+                .ToList();
+            if (possibleNames.Any())
+            {
+                MultiWorldStackPanel.Children.Clear();
+                possibleNames.ForEach(x =>
+                {
+                    var textBox = AddTextBox();
+                    textBox.Text = x;
+                });
+                AddTextBox().Focus();
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)

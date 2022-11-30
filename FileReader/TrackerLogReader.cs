@@ -46,8 +46,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             _resourceLoader = resourceLoader;
             _settingsReader = settingsReader;
 
-            if (!_settingsReader.IsFileFound ||
-                (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode()))
+            if (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode())
             {
                 _trackerLogItems = _resourceLoader.GetTrackerLogItems();
                 _trackerLogTransitions = _resourceLoader.GetTrackerLogTransitions();
@@ -122,11 +121,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .ForEach(id =>
                 {
                     var trackedItem = items[id];
-                    var itemName = trackedItem.ItemName.Replace("100_Geo-", "");
-                    var locationName = trackedItem.LocationName;
+                    var cleanedItemName = trackedItem.ItemName.Replace("100_Geo-", "");
+
+                    var mwPlayerItem = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => cleanedItemName.StartsWith($"{mwPlayerName}'s_"));
+                    var itemName = string.IsNullOrEmpty(mwPlayerItem) ? cleanedItemName : Regex.Replace(cleanedItemName, $"^{mwPlayerItem}'s_", "");
+
+                    var mwPlayerLocation = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => trackedItem.LocationName.StartsWith($"{mwPlayerName}'s "));
+                    var locationName = string.IsNullOrEmpty(mwPlayerLocation) ? trackedItem.LocationName : Regex.Replace(trackedItem.LocationName, $"^{mwPlayerLocation}'s ", "");
 
                     var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
-                        ?? GetMultiWorldItemOrDefault(itemName, multiWorldPlayerNames)
                         ?? new ReferenceItem
                         {
                             Name = itemName,
@@ -153,11 +156,13 @@ namespace HK_Rando_4_Log_Display.FileReader
                         {
                             Item = new Item
                             {
+                                MWPlayerName = mwPlayerItem,
                                 Name = itemDetails.Name,
                                 Pool = itemDetails.Pool,
                             },
                             Location = new Location
                             {
+                                MWPlayerName = mwPlayerLocation,
                                 Name = locationDetails.Name,
                                 Pool = locationDetails.Pool,
                                 MapArea = locationDetails.MapArea,
@@ -170,35 +175,56 @@ namespace HK_Rando_4_Log_Display.FileReader
                 });
             _trackerLogItems.Where(x =>
                 x.Value.Item.Pool.StartsWith(">") &&
-                multiWorldPlayerNames.Any(y => x.Value.Item.Name.Contains($"{y}'s_")))
+                multiWorldPlayerNames.Any(y => x.Value.Item.Name.StartsWith($"{y}'s_")))
                 .ToList()
                 .ForEach(x =>
                 {
-                    var item = x.Value.Item;
-                    var multiWorldItem = GetMultiWorldItemOrDefault(item.Name, multiWorldPlayerNames);
-                    item.Pool = multiWorldItem?.Pool ?? item.Pool.Replace($"{multiWorldPlayerNames.FirstOrDefault(y => item.Name.Contains($"{y}'s_"))}'s_", "");
-                    item.PreviewName = multiWorldItem?.PreviewName ?? item.PreviewName;
+                    var itemToUpdate = x.Value.Item;
+                    var mwPlayerItem = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => itemToUpdate.Name.StartsWith($"{mwPlayerName}'s_"));
+                    var itemName = string.IsNullOrEmpty(mwPlayerItem) ? itemToUpdate.Name : Regex.Replace(itemToUpdate.Name, $"^{mwPlayerItem}'s_", "");
+                    var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
+                        ?? new ReferenceItem
+                        {
+                            Name = itemName,
+                            Pool = x.Value.Location.Name == "Start"
+                                ? "Start"
+                                : itemName.Contains("-")
+                                ? $"> {itemName.Split('-')[0]}"
+                                : "> Unrecognised Items",
+                        };
+
+                    itemToUpdate.Name = itemDetails.Name;
+                    itemToUpdate.Pool = itemDetails.Pool;
+                    itemToUpdate.MWPlayerName = mwPlayerItem;
                 });
-        }
+            _trackerLogItems.Where(x =>
+                x.Value.Location.Pool.StartsWith(">") &&
+                multiWorldPlayerNames.Any(y => x.Value.Location.Name.StartsWith($"{y}'s ")))
+                .ToList()
+                .ForEach(x =>
+                {
+                    var locationToUpdate = x.Value.Location;
+                    var mwPlayerLocation = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => locationToUpdate.Name.StartsWith($"{mwPlayerName}'s "));
+                    var locationName = string.IsNullOrEmpty(mwPlayerLocation) ? locationToUpdate.Name : Regex.Replace(locationToUpdate.Name, $"^{mwPlayerLocation}'s ", "");
+                    var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName)
+                        ?? new ReferenceLocation
+                        {
+                            Name = locationName,
+                            Pool = locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location",
+                            MapArea = "> Unrecognised Location",
+                            TitledArea = "> Unrecognised Location",
+                            SceneName = "> Unrecognised Location",
+                            SceneDescription = "> Unrecognised Location"
+                        };
 
-        private ReferenceItem GetMultiWorldItemOrDefault(string itemName, string[] multiWorldPlayerNames)
-        {
-            var multiWorldPlayerName = multiWorldPlayerNames.FirstOrDefault(x => itemName.Contains($"{x}'s_"));
-            if (string.IsNullOrEmpty(multiWorldPlayerName))
-                return null;
-
-            var multiWorldItem = itemName.Split($"{multiWorldPlayerName}'s_")[1];
-            var item = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == multiWorldItem);
-            
-            if (item == null)
-                return null;
-
-            return new ReferenceItem
-            {
-                Name = itemName,
-                Pool = item.Pool,
-                PreviewName = $"{multiWorldPlayerName}'s {item.PreviewName}"
-            };
+                    locationToUpdate.Name = locationDetails.Name;
+                    locationToUpdate.Pool = locationDetails.Pool;
+                    locationToUpdate.MapArea = locationDetails.MapArea;
+                    locationToUpdate.TitledArea = locationDetails.TitledArea;
+                    locationToUpdate.SceneName = locationDetails.SceneName;
+                    locationToUpdate.SceneDescription = locationDetails.SceneDescription;
+                    locationToUpdate.MWPlayerName = mwPlayerLocation;
+                });
         }
 
         public Dictionary<string, List<ItemWithLocation>> GetCuratedItemsByPool() =>
@@ -530,7 +556,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private List<ItemWithLocation> GetItems(string[] itemsInPool) =>
-           _trackerLogItems.Values.Where(x => itemsInPool.Contains(x.Item.Name)).OrderBy(x => x.TimeAdded).ToList();
+           _trackerLogItems.Values.Where(x => itemsInPool.Contains(x.Item.Name) && x.Item.MWPlayerName == null).OrderBy(x => x.TimeAdded).ToList();
 
         #endregion
 
@@ -544,7 +570,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public int? GetEssenceFromPools()
         {
-            var essenceSources = _trackerLogItems.Values.Where(x => x.Item.Pool == "Root" || x.Item.Pool == "DreamWarrior" || x.Item.Pool == "DreamBoss").Select(x => x.Item.Name).ToList();
+            var essenceSources = _trackerLogItems.Values.Where(x => x.Item.MWPlayerName == null).Where(x => x.Item.Pool == "Root" || x.Item.Pool == "DreamWarrior" || x.Item.Pool == "DreamBoss").Select(x => x.Item.Name).ToList();
             return essenceSources.Any() ? essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0) : null;
         }
 

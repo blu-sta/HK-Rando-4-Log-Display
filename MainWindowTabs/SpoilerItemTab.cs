@@ -66,9 +66,9 @@ namespace HK_Rando_4_Log_Display
         {
             var orderedItems = ordering switch
             {
-                SpoilerSorting.Alpha => items.OrderBy(x => x.Item.Name).ToList(),
                 SpoilerSorting.SeedDefault => items.ToList(),
-                _ => items.OrderBy(x => x.Item.Name).ToList(),
+                // SpoilerSorting.Alpha
+                _ => items.OrderBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ThenBy(x => x.Location.MWPlayerName).ThenBy(x => x.Location.Name).ToList(),
             };
             var itemsWithLocationGrid = GetSpoiledItemsGrid(orderedItems, trackedItems);
             SpoilerItemsList.Items.Add(itemsWithLocationGrid);
@@ -81,9 +81,9 @@ namespace HK_Rando_4_Log_Display
                 ? poolWithItems.Value.ToList()
                 : ordering switch
                 {
-                    SpoilerSorting.Alpha => poolWithItems.Value.OrderBy(x => x.Item.Name).ThenBy(x => x.Location.Name).ToList(),
                     SpoilerSorting.SeedDefault => poolWithItems.Value.ToList(),
-                    _ => poolWithItems.Value.OrderBy(x => x.Item.Name).ToList(),
+                    // SpoilerSorting.Alpha
+                    _ => poolWithItems.Value.OrderBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ThenBy(x => x.Location.MWPlayerName).ThenBy(x => x.Location.Name).ToList(),
                 };
             var itemsWithLocationGrid = GetSpoiledItemsGrid(orderedItems, trackedItems);
             return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset);
@@ -94,9 +94,9 @@ namespace HK_Rando_4_Log_Display
             var poolName = poolWithLocations.Key.WithoutUnderscores();
             var orderedLocations = ordering switch
             {
-                SpoilerSorting.Alpha => poolWithLocations.Value.OrderBy(x => x.Location.Name).ThenBy(x => x.Item.Name).ToList(),
                 SpoilerSorting.SeedDefault => poolWithLocations.Value.ToList(),
-                _ => poolWithLocations.Value.OrderBy(x => x.Location.Name).ToList(),
+                // SpoilerSorting.Alpha
+                _ => poolWithLocations.Value.OrderBy(x => x.Location.MWPlayerName).ThenBy(x => x.Location.Name).ThenBy(x => x.Item.MWPlayerName).ThenBy(x => x.Item.Name).ToList(),
             };
             var itemsWithLocationGrid = GetSpoiledLocationsGrid(orderedLocations, trackedItems);
             return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset);
@@ -106,12 +106,10 @@ namespace HK_Rando_4_Log_Display
         {
             var itemKvps = items.Select(x =>
             {
-                var itemName = x.Item.Name;
-                var locationName = x.Location.Name;
-                var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
+                var isTracked = _showSpoilerItemObtained && IsTracked(x.Item, x.Location, trackedItems);
                 return new KeyValuePair<string, string>(
-                    $"{(isTracked ? "<s>" : "")}{x.Item.Name.WithoutUnderscores()}",
-                    $"{(isTracked ? "<s>" : "")}found at {x.Location.Name.WithoutUnderscores()}" +
+                    $"{(isTracked ? "<s>" : "")}{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}",
+                    $"{(isTracked ? "<s>" : "")}found at {(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                     ((ShowLocationRoom)_showSpoilerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
@@ -128,31 +126,29 @@ namespace HK_Rando_4_Log_Display
         {
             var locationKvps = locations.Select((x, i) =>
             {
-                var itemName = x.Item.Name;
-                var locationName = x.Location.Name;
-                var isTracked = _showSpoilerItemObtained && IsTracked(itemName, locationName, trackedItems);
+                var isTracked = _showSpoilerItemObtained && IsTracked(x.Item, x.Location, trackedItems);
                 return new KeyValuePair<string, string>(
-                    $"{(isTracked ? "<s>" : "")}{x.Location.Name.WithoutUnderscores()}" +
+                    $"{(isTracked ? "<s>" : "")}{(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                     ((ShowLocationRoom)_showSpoilerRoomState switch
                     {
                         ShowLocationRoom.RoomCode => $" [{x.Location.SceneName}]",
                         ShowLocationRoom.RoomDescription => $" [{x.Location.SceneDescription}]",
                         _ => "",
                     }),
-                    $"{(isTracked ? "<s>" : "")}provided {x.Item.Name.WithoutUnderscores()}" +
+                    $"{(isTracked ? "<s>" : "")}provided {(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}" +
                     (!string.IsNullOrEmpty(x.Cost) ? $" ({x.Cost})" : "")
                 );
             }).ToList();
             return GenerateAutoStarGrid(locationKvps);
         }
 
-        private static bool IsTracked(string itemName, string locationName, List<ItemWithLocation> trackedItems)
+        private static bool IsTracked(Item item, Location location, List<ItemWithLocation> trackedItems)
         {
-            var trackedLocations = trackedItems.Where(x => x.Location.Name == locationName).ToList();
+            var trackedLocations = trackedItems.Where(x => x.Location.Name == location.Name && x.Location.MWPlayerName == location.MWPlayerName).ToList();
             if (!trackedLocations.Any())
                 return false;
 
-            var trackedItemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(itemName, trackedLocations);
+            var trackedItemWithLocation = TrackedSpoilerItems.GetTrackedItemWithLocation(item, trackedLocations);
 
             if (trackedItemWithLocation != null)
             {

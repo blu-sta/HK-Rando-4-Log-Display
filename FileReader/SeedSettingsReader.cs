@@ -51,7 +51,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             catch (Exception e)
             {
-                _logger.Error(e, "SettingsReader LoadData Error");
+                _logger.Error(e, "SeedSettingsReader LoadData Error");
                 IsFileLoaded = false;
             }
         }

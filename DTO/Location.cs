@@ -4,6 +4,7 @@ namespace HK_Rando_4_Log_Display.DTO
 {
     public class Location : ReferenceLocation
     {
+        public string MWPlayerName { get; set; }
         public bool IsOutOfLogic { get; set; }
         public DateTime? TimeAdded { get; set; }
     }

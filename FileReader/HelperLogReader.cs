@@ -51,8 +51,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             _resourceLoader = resourceLoader;
             _settingsReader = settingsReader;
 
-            if (!_settingsReader.IsFileFound ||
-                (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode()))
+            if (_settingsReader.IsFileFound && _settingsReader.GetGenerationCode() == _resourceLoader.GetSeedGenerationCode())
             {
                 _helperLogLocations = _resourceLoader.GetHelperLogLocations();
                 _helperLogTransitions = _resourceLoader.GetHelperLogTransitions();
@@ -75,7 +74,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             try
             {
-                LoadReachableLocations(helperLogData);
+                LoadReachableLocations(helperLogData, multiWorldPlayerNames);
                 LoadPreviewedLocations(helperLogData, multiWorldPlayerNames);
                 LoadReachableTransitions(helperLogData);
                 IsFileLoaded = true;
@@ -94,7 +93,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         #region Locations
 
-        private void LoadReachableLocations(List<string> helperLogData)
+        private void LoadReachableLocations(List<string> helperLogData, string[] multiWorldPlayerNames)
         {
             var uncheckedReachableLocations = LoadSection(helperLogData, "UNCHECKED REACHABLE LOCATIONS")?.Select(x => x.Trim()).ToList();
             if (uncheckedReachableLocations == null)
@@ -114,13 +113,18 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .ForEach(x =>
                 {
                     var isOutOfLogic = x.StartsWith("*");
-                    var locationName = x.Replace("*", "");
+                    var cleanedLocationName = x.Replace("*", "");
+
+                    var mwPlayerLocation = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => cleanedLocationName.StartsWith($"{mwPlayerName}'s "));
+                    var locationName = string.IsNullOrEmpty(mwPlayerLocation) ? cleanedLocationName : Regex.Replace(cleanedLocationName, $"^{mwPlayerLocation}'s ", "");
+
                     var locationFallbackValue = GetLocationFallbackValue(locationName);
                     var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName);
                     _helperLogLocations.Add(
                     x,
                     new Location
                     {
+                        MWPlayerName = mwPlayerLocation,
                         Name = locationName,
                         Pool = locationDetails?.Pool ?? locationFallbackValue,
                         SceneName = locationDetails?.SceneName ?? locationFallbackValue,
@@ -130,6 +134,28 @@ namespace HK_Rando_4_Log_Display.FileReader
                         IsOutOfLogic = isOutOfLogic,
                         TimeAdded = _referenceTime
                     });
+                });
+            _helperLogLocations.Where(x =>
+                x.Value.Pool.StartsWith(">") &&
+                multiWorldPlayerNames.Any(y => x.Value.Name.StartsWith($"{y}'s ")))
+                .ToList()
+                .ForEach(x =>
+                {
+                    var locationToUpdate = x.Value;
+
+                    var mwPlayerLocation = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => locationToUpdate.Name.StartsWith($"{mwPlayerName}'s "));
+                    var locationName = string.IsNullOrEmpty(mwPlayerLocation) ? locationToUpdate.Name : Regex.Replace(locationToUpdate.Name, $"^{mwPlayerLocation}'s ", "");
+                    var locationDetails = _resourceLoader.ReferenceLocations.FirstOrDefault(y => y.Name == locationName);
+                    if (locationDetails != null)
+                    {
+                        locationToUpdate.Name = locationName;
+                        locationToUpdate.Pool = locationDetails.Pool;
+                        locationToUpdate.SceneName = locationDetails.SceneName;
+                        locationToUpdate.SceneDescription = locationDetails.SceneDescription;
+                        locationToUpdate.MapArea = locationDetails.MapArea;
+                        locationToUpdate.TitledArea = locationDetails.TitledArea;
+                        locationToUpdate.MWPlayerName = mwPlayerLocation;
+                    }
                 });
         }
 
@@ -273,9 +299,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 {
                     return new Item
                     {
+                        MWPlayerName = multiWorldPlayerName,
                         Name = item.Name,
                         Pool = item.Pool,
-                        PreviewName = previewName
+                        PreviewName = item.PreviewName
                     };
                 }
             }

@@ -225,7 +225,7 @@ namespace HK_Rando_4_Log_Display
 
         private void MultiWorld_Click(object sender, RoutedEventArgs e)
         {
-            var multiWorldWindow = new MultiWorldWindow(_multiWorldPlayerNames)
+            var multiWorldWindow = new MultiWorldWindow(_multiWorldPlayerNames, _itemSpoilerReader)
             {
                 Owner = this
             };

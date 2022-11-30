@@ -35,7 +35,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             LoadData(Array.Empty<string>());
         }
 
-        public void LoadData(string[] _)
+        public void LoadData(string[] multiWorldPlayerNames)
         {
             IsFileFound = File.Exists(ItemSpoilerLogPath);
             if (!IsFileFound)
@@ -46,12 +46,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             try
             {
-                LoadItemSpoiler(itemSpoilerData);
+                LoadItemSpoiler(itemSpoilerData, multiWorldPlayerNames);
                 IsFileLoaded = true;
             }
             catch (Exception e)
             {
-                _logger.Error(e, "LoadData LoadData Error");
+                _logger.Error(e, "ItemSpoilerReader LoadData Error");
                 IsFileLoaded = false;
             }
         }
@@ -61,7 +61,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             if (File.Exists(ItemSpoilerLogPath)) Process.Start(new ProcessStartInfo(ItemSpoilerLogPath) { UseShellExecute = true });
         }
 
-        private void LoadItemSpoiler(List<string> itemSpoilerData)
+        private void LoadItemSpoiler(List<string> itemSpoilerData, string[] multiWorldPlayerNames)
         {
             _spoilerItems.Clear();
             var start = itemSpoilerData.IndexOf("[");
@@ -80,12 +80,13 @@ namespace HK_Rando_4_Log_Display.FileReader
             var spoilerItems = JsonConvert.DeserializeObject<List<SpoilerItem>>(itemSpoilerString);
             spoilerItems.ForEach(x =>
             {
-                var itemName = x.Item;
-                var locationName = x.Location;
+                var mwPlayerItem = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => x.Item.StartsWith($"{mwPlayerName}'s "));
+                var itemName = string.IsNullOrEmpty(mwPlayerItem) ? x.Item : Regex.Replace(x.Item, $"(^{mwPlayerItem}'s |_\\(\\d+\\)$)", "");
+                var mwPlayerLocation = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => x.Location.StartsWith($"{mwPlayerName}'s "));
+                var locationName = string.IsNullOrEmpty(mwPlayerLocation) ? x.Location : Regex.Replace(x.Location, $"^{mwPlayerLocation}'s ", "");
                 var cost = x.Costs != null ? string.Join(", ", x.Costs.Select(FormatCost)) : null;
 
                 var itemDetails = _resourceLoader.ReferenceItems.FirstOrDefault(y => y.Name == itemName)
-                    // TODO: Item Spoiler Data does not include reference to multiworld items at this stage
                     ?? new ReferenceItem
                     {
                         Name = itemName,
@@ -111,11 +112,13 @@ namespace HK_Rando_4_Log_Display.FileReader
                        {
                            Item = new Item
                            {
+                               MWPlayerName = mwPlayerItem,
                                Name = itemDetails.Name,
                                Pool = itemDetails.Pool,
                            },
                            Location = new Location
                            {
+                               MWPlayerName = mwPlayerLocation,
                                Name = locationDetails.Name,
                                Pool = locationDetails.Pool,
                                MapArea = locationDetails.MapArea,
@@ -534,7 +537,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private List<SpoilerItemWithLocation> GetItems(string[] itemsInPool) =>
-           _spoilerItems.Where(x => itemsInPool.Contains(x.Item.Name)).ToList();
+           _spoilerItems.Where(x => itemsInPool.Contains(x.Item.Name) && x.Item.MWPlayerName == null).ToList();
 
         #endregion
 
