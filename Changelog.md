@@ -3,6 +3,7 @@
 ## v2.0.4.7
 
 - Moved MW locations to new dropdown in Location Helper
+- Added `Beta Available` version of `Update Available` button
 
 ## v2.0.4.6
 

@@ -156,8 +156,6 @@ Also shows the current version number in the right corner
 - Check for vanilla Stag Nest
 - Check Mr Mushroom level includes 3x Dreamers (i.e. vanilla)
 - Not Isma's and Not Swim currently unrecognised
-- Show when pre-release update is available
-- Confirm Transcendence charms count towards Salubra
 
 ## Reporting Issues and Feature Requests
 

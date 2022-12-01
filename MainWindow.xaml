@@ -364,7 +364,8 @@
         <DockPanel Grid.Row="2" LastChildFill="True" Background="LightGray">
             <Button x:Name="OpenLogFile_Button" Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="Open Log File" Click="OpenLogFile_Click" />
             <Button x:Name="MultiWorld_Button" Style="{DynamicResource RoundButton}" DockPanel.Dock="Left" Content="MultiWorld" Click="MultiWorld_Click" />
-            <Button x:Name="Update_Button" Style="{DynamicResource RoundButton}" Background="Red" Content="Update Available" Click="Update_Click" Visibility="Collapsed"/>
+            <Button x:Name="BetaUpdate_Button" Style="{DynamicResource RoundButton}" Background="OliveDrab" Content="Beta Available" Click="BetaUpdate_Click" Visibility="Collapsed"/>
+            <Button x:Name="Update_Button" Style="{DynamicResource RoundButton}" Background="Lime" Content="Update Available" Click="Update_Click" Visibility="Collapsed"/>
             <TextBlock x:Name="Footer" TextAlignment="Right" VerticalAlignment="Center" Text="blu.sta" Margin="5" />
         </DockPanel>
     </Grid>

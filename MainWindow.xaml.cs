@@ -76,6 +76,17 @@ namespace HK_Rando_4_Log_Display
                     Update_Button.Content = $"Update Available: {updatedVersion}";
                     Update_Button.Visibility = Visibility.Visible;
                 });
+                return;
+            }
+            var betaUpdatedVersion = await _versionChecker.GetNewBetaVersionOrDefault();
+            if (!string.IsNullOrWhiteSpace(betaUpdatedVersion))
+            {
+                UpdateUX(() =>
+                {
+                    BetaUpdate_Button.Content = $"Beta Available: {betaUpdatedVersion}";
+                    BetaUpdate_Button.Visibility = Visibility.Visible;
+                });
+                return;
             }
         }
 
@@ -235,6 +246,9 @@ namespace HK_Rando_4_Log_Display
 
         private void Update_Click(object sender, RoutedEventArgs e) => 
             Process.Start(new ProcessStartInfo("https://github.com/blu-sta/HK-Rando-4-Log-Display/releases/latest") { UseShellExecute = true });
+
+        private void BetaUpdate_Click(object sender, RoutedEventArgs e) =>
+            Process.Start(new ProcessStartInfo("https://github.com/blu-sta/HK-Rando-4-Log-Display/releases") { UseShellExecute = true });
 
         private void Tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

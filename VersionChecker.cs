@@ -13,6 +13,7 @@ namespace HK_Rando_4_Log_Display
     public interface IVersionChecker
     {
         public Task<string> GetNewVersionOrDefault();
+        public Task<string> GetNewBetaVersionOrDefault();
     }
     public class VersionChecker : IVersionChecker
     {
@@ -21,6 +22,21 @@ namespace HK_Rando_4_Log_Display
             try
             {
                 var latestVersionString = await GetLatestVersion();
+                var latestVersion = GetVersion(latestVersionString);
+                var currentVersion = GetVersion(AppVersion);
+                return latestVersion.CompareTo(currentVersion) == 1 ? latestVersionString : string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        public async Task<string> GetNewBetaVersionOrDefault()
+        {
+            try
+            {
+                var latestVersionString = await GetLatestBetaVersion();
                 var latestVersion = GetVersion(latestVersionString);
                 var currentVersion = GetVersion(AppVersion);
                 return latestVersion.CompareTo(currentVersion) == 1 ? latestVersionString : string.Empty;
@@ -40,6 +56,15 @@ namespace HK_Rando_4_Log_Display
             httpClient.DefaultRequestHeaders.Add("User-Agent", "blu-sta");
             var response = await httpClient.GetStringAsync(new Uri("https://api.github.com/repos/blu-sta/HK-Rando-4-Log-Display/releases/latest"));
             var jObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jObject["tag_name"]?.Value<string>();
+        }
+
+        private static async Task<string> GetLatestBetaVersion()
+        {
+            var httpClient = new HttpClient();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "blu-sta");
+            var response = await httpClient.GetStringAsync(new Uri("https://api.github.com/repos/blu-sta/HK-Rando-4-Log-Display/releases"));
+            var jObject = JsonConvert.DeserializeObject<JObject[]>(response).FirstOrDefault();
             return jObject["tag_name"]?.Value<string>();
         }
     }
