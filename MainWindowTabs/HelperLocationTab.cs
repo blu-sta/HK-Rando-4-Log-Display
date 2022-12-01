@@ -1,6 +1,7 @@
 ﻿using HK_Rando_4_Log_Display.DTO;
 using HK_Rando_4_Log_Display.Extensions;
 using HK_Rando_4_Log_Display.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -21,6 +22,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedPreviewedItemPools = new();
         private readonly HashSet<string> ExpandedRoomsWithLocations = new();
         private readonly HashSet<string> ExpandedZonesWithLocations = new();
+        private readonly HashSet<string> ExpandedMWPlayerNames = new();
         private bool _showHelperLocationsTime = true;
         private bool _showHelperLocationSceneDescriptions = false;
 
@@ -36,27 +38,38 @@ namespace HK_Rando_4_Log_Display
                 var helperLocationGrouping = (RoomGrouping)_appSettings.SelectedHelperLocationGrouping;
                 var helperLocationOrdering = (Sorting)_appSettings.SelectedHelperLocationOrder;
 
-                switch (helperLocationGrouping)
+                foreach(var mwPlayerName in _multiWorldPlayerNames.Concat(new List<string> { null }))
                 {
-                    case RoomGrouping.MapArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByMapArea(), helperLocationOrdering);
-                        break;
-                    case RoomGrouping.TitleArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByTitledArea(), helperLocationOrdering);
-                        break;
-                    case RoomGrouping.RoomMapArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByMapArea(_showHelperLocationSceneDescriptions), helperLocationOrdering);
-                        break;
-                    case RoomGrouping.RoomTitleArea:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoomByTitledArea(_showHelperLocationSceneDescriptions), helperLocationOrdering);
-                        break;
-                    case RoomGrouping.Room:
-                        UpdateHelperLocations(_helperLogReader.GetLocationsByRoom(_showHelperLocationSceneDescriptions), helperLocationOrdering);
-                        break;
-                    case RoomGrouping.None:
-                    default:
-                        UpdateHelperLocations(_helperLogReader.GetLocations(), helperLocationOrdering);
-                        break;
+                    var playerName = mwPlayerName != null ? Regex.Replace(mwPlayerName, @"[^\w ]", "").WithoutUnderscores() : null;
+                    var playerStacker = mwPlayerName != null && helperLocationGrouping != RoomGrouping.None ? GenerateStackPanel() : null;
+                    if (mwPlayerName != null && helperLocationGrouping != RoomGrouping.None)
+                    {
+                        HelperLocationsList.Items.Add(GenerateExpanderWithContent($"{playerName}'s MW Locations", playerStacker, ExpandedMWPlayerNames));
+                    }
+                    void AddExpanderToContainer(Expander expander) { if (mwPlayerName == null) { HelperLocationsList.Items.Add(expander); } else { playerStacker?.Children.Add(expander); } }
+                    
+                    switch (helperLocationGrouping)
+                    {
+                        case RoomGrouping.MapArea:
+                            UpdateHelperLocations(AddExpanderToContainer, playerName, _helperLogReader.GetLocationsByMapArea(mwPlayerName), helperLocationOrdering);
+                            break;
+                        case RoomGrouping.TitleArea:
+                            UpdateHelperLocations(AddExpanderToContainer, playerName, _helperLogReader.GetLocationsByTitledArea(mwPlayerName), helperLocationOrdering);
+                            break;
+                        case RoomGrouping.RoomMapArea:
+                            UpdateHelperLocations(AddExpanderToContainer, playerName, _helperLogReader.GetLocationsByRoomByMapArea(mwPlayerName, _showHelperLocationSceneDescriptions), helperLocationOrdering);
+                            break;
+                        case RoomGrouping.RoomTitleArea:
+                            UpdateHelperLocations(AddExpanderToContainer, playerName, _helperLogReader.GetLocationsByRoomByTitledArea(mwPlayerName, _showHelperLocationSceneDescriptions), helperLocationOrdering);
+                            break;
+                        case RoomGrouping.Room:
+                            UpdateHelperLocations(AddExpanderToContainer, playerName, _helperLogReader.GetLocationsByRoom(mwPlayerName, _showHelperLocationSceneDescriptions), helperLocationOrdering);
+                            break;
+                        case RoomGrouping.None:
+                        default:
+                            UpdateHelperLocations(playerName, _helperLogReader.GetLocations(mwPlayerName), helperLocationOrdering);
+                            break;
+                    };
                 };
             });
         }
@@ -316,50 +329,51 @@ namespace HK_Rando_4_Log_Display
             HelperLocationsList.Items.Add(GenerateExpanderWithContent("Previewed Items", poolStacker, _expandPreviewedItemSection));
         }
 
-        private void UpdateHelperLocations(Dictionary<string, List<Location>> locationsByArea, Sorting ordering)
+        private void UpdateHelperLocations(Action<Expander> AddExpanderToContainer, string mwPlayerName, Dictionary<string, List<Location>> locationsByArea, Sorting ordering)
         {
             foreach (var area in locationsByArea)
             {
-                HelperLocationsList.Items.Add(GetZoneWithLocationsExpander(area, ExpandedZonesWithLocations, ordering));
+                AddExpanderToContainer(GetZoneWithLocationsExpander(mwPlayerName, area, ExpandedZonesWithLocations, ordering));
             }
         }
 
-        private void UpdateHelperLocations(Dictionary<string, Dictionary<string, List<Location>>> locationsByRoomByArea, Sorting ordering)
+        private void UpdateHelperLocations(Action<Expander> AddExpanderToContainer, string mwPlayerName, Dictionary<string, Dictionary<string, List<Location>>> locationsByRoomByArea, Sorting ordering)
         {
             foreach (var area in locationsByRoomByArea)
             {
                 var roomStacker = GenerateStackPanel();
                 var areaName = area.Key.WithoutUnderscores();
                 var roomsWithLocations = area.Value.OrderBy(x => x.Key).ToList();
-                roomsWithLocations.ForEach(roomWithLocations => roomStacker.Children.Add(GetZoneWithLocationsExpander(roomWithLocations, ExpandedRoomsWithLocations, ordering)));
-                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedZonesWithLocations, $"[Rooms: {roomsWithLocations.Count} / Locations: {roomsWithLocations.Sum(x => x.Value.Count)}]");
-                HelperLocationsList.Items.Add(areaExpander);
+                roomsWithLocations.ForEach(roomWithLocations => roomStacker.Children.Add(GetZoneWithLocationsExpander(mwPlayerName, roomWithLocations, ExpandedRoomsWithLocations, ordering)));
+                var areaExpander = GenerateExpanderWithContent($"{(string.IsNullOrEmpty(mwPlayerName)?"":$"{mwPlayerName}'s ")}{areaName}", roomStacker, ExpandedZonesWithLocations, $"[Rooms: {roomsWithLocations.Count} / Locations: {roomsWithLocations.Sum(x => x.Value.Count)}]");
+                AddExpanderToContainer(areaExpander);
             }
         }
 
-        private void UpdateHelperLocations(List<Location> locations, Sorting ordering)
+        private void UpdateHelperLocations(string mwPlayerName, List<Location> locations, Sorting ordering)
         {
             var orderedLocations = ordering switch
             {
-                Sorting.Time => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                Sorting.Time => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                 // Sorting.Alpha
-                _ => locations.OrderBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                _ => locations.OrderBy(x => x.Name).ToList(),
             };
             var locationsGrid = GetLocationsGrid(orderedLocations);
-            HelperLocationsList.Items.Add(locationsGrid);
+            var allLocationsExpander = GenerateExpanderWithContent($"{(string.IsNullOrEmpty(mwPlayerName) ? "All Locations" : $"{mwPlayerName}'s MW Locations")}", locationsGrid, ExpandedMWPlayerNames);
+            HelperLocationsList.Items.Add(allLocationsExpander);
         }
 
-        private Expander GetZoneWithLocationsExpander(KeyValuePair<string, List<Location>> zoneWithLocations, HashSet<string> expandedHashset, Sorting helperLocationOrdering)
+        private Expander GetZoneWithLocationsExpander(string mwPlayerName, KeyValuePair<string, List<Location>> zoneWithLocations, HashSet<string> expandedHashset, Sorting helperLocationOrdering)
         {
             var zoneName = zoneWithLocations.Key.WithoutUnderscores();
             var orderedLocations = helperLocationOrdering switch
             {
-                Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.TimeAdded).ThenBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                 // Sorting.Alpha
-                _ => zoneWithLocations.Value.OrderBy(x => x.MWPlayerName).ThenBy(x => x.Name).ToList(),
+                _ => zoneWithLocations.Value.OrderBy(x => x.Name).ToList(),
             };
             var locationsGrid = GetLocationsGrid(orderedLocations);
-            return GenerateExpanderWithContent(zoneName, locationsGrid, expandedHashset, $"[Locations: {orderedLocations.Count}]");
+            return GenerateExpanderWithContent($"{(string.IsNullOrEmpty(mwPlayerName) ? "" : $"{mwPlayerName}'s ")}{zoneName}", locationsGrid, expandedHashset, $"[Locations: {orderedLocations.Count}]");
         }
 
         private Grid GetLocationsGrid(List<Location> locations)

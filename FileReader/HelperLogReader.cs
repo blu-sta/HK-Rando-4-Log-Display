@@ -14,12 +14,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 {
     public interface IHelperLogReader : ILogReader
     {
-        public Dictionary<string, List<Location>> GetLocationsByTitledArea();
-        public Dictionary<string, List<Location>> GetLocationsByMapArea();
-        public Dictionary<string, List<Location>> GetLocationsByRoom(bool useSceneDescription);
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(bool useSceneDescription);
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(bool useSceneDescription);
-        public List<Location> GetLocations();
+        public Dictionary<string, List<Location>> GetLocationsByTitledArea(string mwPlayerName);
+        public Dictionary<string, List<Location>> GetLocationsByMapArea(string mwPlayerName);
+        public Dictionary<string, List<Location>> GetLocationsByRoom(string mwPlayerName, bool useSceneDescription);
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(string mwPlayerName, bool useSceneDescription);
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(string mwPlayerName, bool useSceneDescription);
+        public List<Location> GetLocations(string mwPlayerName);
         public Dictionary<string, List<LocationPreview>> GetPreviewedLocations();
         public Dictionary<string, List<LocationPreview>> GetPreviewedItems();
         public Dictionary<string, List<Transition>> GetTransitionsByTitledArea();
@@ -162,32 +162,35 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static string GetLocationFallbackValue(string locationName) =>
             locationName.Contains("-") ? $"> {locationName.Split('-')[0]}" : "> Unrecognised Location";
 
-        public Dictionary<string, List<Location>> GetLocationsByTitledArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.TitledArea)
+        public Dictionary<string, List<Location>> GetLocationsByTitledArea(string mwPlayerName) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
+                .GroupBy(x => x.TitledArea).OrderBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.ToList());
+
+        public Dictionary<string, List<Location>> GetLocationsByMapArea(string mwPlayerName) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
+                .GroupBy(x => x.MapArea).OrderBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.ToList());
+
+        public Dictionary<string, List<Location>> GetLocationsByRoom(string mwPlayerName,bool useSceneDescription) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
+                .GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
                 .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<Location>> GetLocationsByMapArea() =>
-            _helperLogLocations.Values.GroupBy(x => x.MapArea)
-                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
-
-        public Dictionary<string, List<Location>> GetLocationsByRoom(bool useSceneDescription) =>
-            _helperLogLocations.Values.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
-                .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
-
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(bool useSceneDescription) =>
-            _helperLogLocations.Values.GroupBy(x => x.TitledArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(string mwPlayerName, bool useSceneDescription) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
+                .GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
                     y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
                         .ToDictionary(x => x.Key, x => x.ToList()));
 
-        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(bool useSceneDescription) =>
-            _helperLogLocations.Values.GroupBy(x => x.MapArea)
-                .OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
+        public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(string mwPlayerName, bool useSceneDescription) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
+                .GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
                     y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
                         .ToDictionary(x => x.Key, x => x.ToList()));
 
-        public List<Location> GetLocations() =>
-            _helperLogLocations.Values.ToList();
+        public List<Location> GetLocations(string mwPlayerName) =>
+            _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName).ToList();
 
         #endregion
 

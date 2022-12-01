@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.7
+
+- Moved MW locations to new dropdown in Location Helper
+
 ## v2.0.4.6
 
 - Major MultiWorld update to handle new information in logs
