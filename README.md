@@ -153,9 +153,9 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
-- Check for vanilla Stag Nest
-- Check Mr Mushroom level includes 3x Dreamers (i.e. vanilla)
-- Not Isma's and Not Swim currently unrecognised
+- Vanilla improvement: Highlight when Stag Nest Stag is available via vanilla means
+- RandoPlus improvement: Include 3x Dreamers as Mr Mushroom level
+- RandoPlus improvement: No Tear, No Swim and No Lantern fix
 
 ## Reporting Issues and Feature Requests
 
