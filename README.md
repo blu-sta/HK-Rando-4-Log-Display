@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.4.7
+# HK Rando 4 Log Display v2.0.4.8
 
 ## Requirements
 
@@ -153,9 +153,6 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
-- Vanilla improvement: Highlight when Stag Nest Stag is available via vanilla means
-- RandoPlus improvement: Include 3x Dreamers as Mr Mushroom level
-- RandoPlus improvement: No Tear, No Swim and No Lantern fix
 
 ## Reporting Issues and Feature Requests
 

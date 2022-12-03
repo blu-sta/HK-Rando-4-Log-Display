@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.8
+
+- Added line in countables for vanilla Stag Nest Stag
+- RandoPlus: "Not" items added, vanilla Mr Mushroom conditions added to Mr Mushroom countable
+
 ## v2.0.4.7
 
 - Moved MW locations to new dropdown in Location Helper
@@ -42,7 +47,7 @@
 - Added MultiWorld disclaimer to [Readme](https://github.com/blu-sta/HK-Rando-4-Log-Display/blob/main/README.md#multiWorld-disclaimer)
 - Updated scene descriptions
 - Added `_sceneDescriptions.json` file to allow for custom descriptions
-- Updated `LoreMaster`
+- Updated LoreMaster
 - Added update version to `Update Available` button
 
 ## v2.0.2

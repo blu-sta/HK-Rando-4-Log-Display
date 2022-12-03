@@ -163,9 +163,24 @@ namespace HK_Rando_4_Log_Display
             }
             // MrMushroom Levels
             var mushroomCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Mr Mushroom");
-            if (mushroomCount != null)
+            var dreamerMrMushroomCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Dreamer");
+            var hasVanillaMrMushroom = dreamerMrMushroomCount.HasValue && dreamerMrMushroomCount.Value > 2;
+            if (mushroomCount != null || hasVanillaMrMushroom)
             {
-                majorCountables.Add($"Mr Mushroom Level: {mushroomCount}");
+                if (hasVanillaMrMushroom && (!mushroomCount.HasValue || mushroomCount.Value == 0))
+                {
+                    majorCountables.Add($"Mr Mushroom Level: Vanilla");
+                }
+                else
+                {
+                    majorCountables.Add($"Mr Mushroom Level: {mushroomCount + (hasVanillaMrMushroom ? 1 : 0)}{(hasVanillaMrMushroom ? " (inc. Vanilla)" : "")}");
+                }
+            }
+            // Vanilla Stag Nest
+            var trackedStags = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Stag").Value.Select(x => x.Item.Name).ToList();
+            if (trackedStags != null && trackedStags.Count == 10 && trackedStags.All(x => x != "Stag_Nest_Stag"))
+            {
+                majorCountables.Add("Vanilla Stag Nest obtained");
             }
 
             // True Ending Items

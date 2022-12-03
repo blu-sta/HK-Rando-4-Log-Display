@@ -70,8 +70,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 Pool = x.Pool
             })
                 //flibber-hk
-                .Concat(MrMushroomItemImport())
-                .Concat(NailUpgradeItemImport())
+                .Concat(RandoPlusItemImport())
                 .Concat(SkillUpgradeItemImport())
                 .Concat(FungalCityGateKeyItemImport())
                 .Concat(LeverItemImport())
@@ -118,18 +117,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ItemImport { Name = "Grimmchild", Pool = "Charm" },
             }).ToList();
 
-        private static List<ReferenceItem> MrMushroomItemImport() =>
+        private static List<ReferenceItem> RandoPlusItemImport() =>
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
                 new ReferenceItem { Name = "Mr_Mushroom_Level_Up", PreviewName = "Mr Mushroom Level Up", Pool = MrMushroomPool },
-            };
-
-        private static List<ReferenceItem> NailUpgradeItemImport() =>
-            new()
-            {
-                // https://github.com/flibber-hk/HollowKnight.RandoPlus
                 new ReferenceItem { Name = "Nail_Upgrade", PreviewName = "Nail Upgrade", Pool = SkillPool },
+                new ReferenceItem { Name = "Not_Isma's_Tear", PreviewName = "Not Isma's Tear", Pool = SkillPool },
+                new ReferenceItem { Name = "Not_Lumafly_Lantern", PreviewName = "Not Lumafly Lantern", Pool = SkillPool },
+                new ReferenceItem { Name = "Not_Swim", PreviewName = "Not Swim", Pool = SkillPool },
             };
 
         private static List<ReferenceItem> SkillUpgradeItemImport() =>
@@ -526,8 +522,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(MultiWorldImport())
 
                 //flibber-hk
-                .Concat(MrMushroomLocationImport())
-                .Concat(NailUpgradeLocationImport())
+                .Concat(RandoPlusLocationImport())
                 .Concat(LeverLocationImport())
 
                 //homothetyhk
@@ -555,7 +550,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceLocation { Name = "Remote", SceneName = "> Multiworld", Pool = "> Multiworld" },
             };
 
-        private List<ReferenceLocation> MrMushroomLocationImport() =>
+        private List<ReferenceLocation> RandoPlusLocationImport() =>
             new()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
@@ -566,12 +561,6 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceLocation { Name = "Mr_Mushroom-Ancient_Basin", SceneName = "Abyss_21", Pool = MrMushroomPool },
                 new ReferenceLocation { Name = "Mr_Mushroom-Fog_Canyon", SceneName = "Fungus3_44", Pool = MrMushroomPool },
                 new ReferenceLocation { Name = "Mr_Mushroom-King's_Pass", SceneName = "Tutorial_01", Pool = MrMushroomPool },
-            };
-
-        private static List<ReferenceLocation> NailUpgradeLocationImport() =>
-            new()
-            {
-                // https://github.com/flibber-hk/HollowKnight.RandoPlus
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith", Pool = "Shop" },
