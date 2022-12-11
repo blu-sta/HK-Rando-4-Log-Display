@@ -177,7 +177,7 @@ namespace HK_Rando_4_Log_Display
                 }
             }
             // Vanilla Stag Nest
-            var trackedStags = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Stag").Value.Select(x => x.Item.Name).ToList();
+            var trackedStags = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Stag").Value?.Select(x => x.Item.Name).ToList();
             if (trackedStags != null && trackedStags.Count == 10 && trackedStags.All(x => x != "Stag_Nest_Stag"))
             {
                 majorCountables.Add("Vanilla Stag Nest obtained");

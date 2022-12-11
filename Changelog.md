@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.4.9
+
+- Fixed a bug that occurs when you don't have any stags
+
 ## v2.0.4.8
 
 - Added line in countables for vanilla Stag Nest Stag
