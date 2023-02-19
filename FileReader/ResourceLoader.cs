@@ -85,6 +85,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 //BadMagic100
                 // TRJR
                 // https://github.com/BadMagic100/TheRealJournalRando
+                .Concat(new List<ReferenceItem>()
+                {
+                    new ReferenceItem { Name = "Hunter's_Mark", PreviewName = "Hunter's Mark", Pool = "Journal_Entry" },
+                })
 
                 //dplochcoder
                 .Concat(MoreDoorsItemImport())
@@ -186,6 +190,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceItem { Name = "Bluemoth_Wings", PreviewName = "Bluemoth Wings", Pool = TranscendencePool },
                 new ReferenceItem { Name = "Chaos_Orb", PreviewName = "Chaos Orb", Pool = TranscendencePool },
                 new ReferenceItem { Name = "Antigravity_Amulet", PreviewName = "Antigravity Amulet", Pool = TranscendencePool },
+                new ReferenceItem { Name = "Vespa's_Vengeance", PreviewName = "Vespa's Vengeance", Pool = TranscendencePool },
             };
 
         private static List<ReferenceItem> RainbowEggItemImport() =>
@@ -785,7 +790,13 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<TransitionImport> GetTransitionImportsFromFile() =>
-            LoadDictionaryFileValues<TransitionImport>(ReferenceTransitionsFilePath);
+            LoadDictionaryFileValues<TransitionImport>(ReferenceTransitionsFilePath)
+                .Concat(new[]
+                {
+                    new TransitionImport { SceneName = "Fungus2_08", DoorName = "right_RCD"},
+                    new TransitionImport { SceneName = "Crossroads_49b", DoorName = "left_RCD"},
+                })
+                .ToList();
 
         private static List<T> LoadDictionaryFileValues<T>(string filePath) =>
             File.Exists(filePath)

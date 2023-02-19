@@ -614,6 +614,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var matches = Regex.Match(x, "{(\\S+)}.*{(\\S+)}");
                     return new KeyValuePair<string, string>(matches.Groups[1].Value, matches.Groups[2].Value);
                 })
+                .Distinct()
                 .ToDictionary(x => x.Key, x => x.Value);
 
             _trackerLogTransitions.Keys.Except(transitions.Keys).ToList()

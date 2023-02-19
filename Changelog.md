@@ -1,44 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
-## v2.0.4.9
+## v2.0.5
 
-- Fixed a bug that occurs when you don't have any stags
-
-## v2.0.4.8
-
-- Added line in countables for vanilla Stag Nest Stag
-- RandoPlus: "Not" items added, vanilla Mr Mushroom conditions added to Mr Mushroom countable
-
-## v2.0.4.7
-
-- Moved MW locations to new dropdown in Location Helper
-- Added `Beta Available` version of `Update Available` button
-
-## v2.0.4.6
-
-- Major MultiWorld update to handle new information in logs
+- Improved countable items on Item Helper tab
+- Improved mod support: MultiWorld, RandoPlus
 - Added "Predict" button to MultiWorld window to detect player names
-
-## v2.0.4.5
-
-- Fixed Helper tab memory issue
-
-## v2.0.4.4
-
-- MultiWorld & Countable bugfix
-
-## v2.0.4.3
-
-- Egg count bugfix
-
-## v2.0.4.2
-
-- Added eggs held count to existing Rancid Egg counter
-
-## v2.0.4.1
-
-- Added Simple Keys to tracked countables
-- Fixed Dreamgate preview
 
 ## v2.0.4
 

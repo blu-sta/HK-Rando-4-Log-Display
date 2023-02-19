@@ -29,7 +29,7 @@ namespace HK_Rando_4_Log_Display
             CopyFileIfExists(HelperLogPath, $@"{tempFolderPath}\HelperLog.txt");
             CopyFileIfExists(TrackerLogPath, $@"{tempFolderPath}\TrackerLog.txt");
             CopyFileIfExists(ItemSpoilerLogPath, $@"{tempFolderPath}\ItemSpoilerLog.json");
-            CopyFileIfExists(TransitionSpoilerLogPath, $@"{tempFolderPath}\TransitionSpoilerLog.txt");
+            CopyFileIfExists(TransitionSpoilerLogPath, $@"{tempFolderPath}\TransitionSpoilerLog.json");
             CopyFileIfExists(SeedSettingsPath, $@"{tempFolderPath}\settings.txt");
 
             CopyFileIfExists(HelperLogTransitionsFilename, $@"{tempFolderPath}\{HelperLogTransitionsFilename}");
