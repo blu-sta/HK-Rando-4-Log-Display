@@ -536,6 +536,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 //BadMagic100
                 // TRJR
                 // https://github.com/BadMagic100/TheRealJournalRando
+                .Concat(
+                new List<ReferenceLocation>()
+                {
+                    new ReferenceLocation { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry"},
+                })
 
                 //dplochcoder
                 .Concat(MoreDoorsLocationImport())
