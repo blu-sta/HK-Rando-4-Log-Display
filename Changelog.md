@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.5.1
+
+- Allowed MW player names to start with numbers
+
 ## v2.0.5
 
 - Improved countable items on Item Helper tab
