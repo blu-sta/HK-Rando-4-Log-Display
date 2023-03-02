@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Text.RegularExpressions;
 using static HK_Rando_4_Log_Display.Constants.Constants;
 
 namespace HK_Rando_4_Log_Display.FileReader
@@ -52,6 +52,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string MoreDoorsPool = "Key - MoreDoors";
         private const string LostArtifactPool = "Lost Artifact";
         private const string LoreMasterPool = "Lore Master";
+        private const string BreakablePool = "Breakable Walls and Floors";
 
         public ResourceLoader()
         {
@@ -99,6 +100,9 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                 //Korzer420
                 .Concat(LoreMasterItemImport(itemImports.Where(x => x.Pool == "Lore").ToList()))
+
+                //Bentechy66
+                .Concat(BreakableWallsItemImport())
 
                 .ToList();
         }
@@ -411,6 +415,25 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceItem { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard", Pool = "Key" },
             };
 
+        private class BreakableWall
+        {
+            public string NiceName;
+            public string SceneName;
+        }
+        private static List<ReferenceItem> BreakableWallsItemImport() =>
+            // https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer
+            LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
+            .Select(x =>
+            {
+                var cleanedName = Regex.Replace(x.NiceName, @"[^\w\s]", "");
+                return new ReferenceItem
+                {
+                    Name = cleanedName,
+                    PreviewName = cleanedName,
+                    Pool = BreakablePool
+                };
+            }).ToList();
+
         private void LoadReferenceLocations()
         {
             var locationImports = GetLocationImportsFromFile();
@@ -550,6 +573,9 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                 //Korzer420
                 .Concat(LoreMasterLocationImport())
+
+                //Bentechy66
+                .Concat(BreakableWallsLocationImport())
 
                 .ToList();
         }
@@ -770,6 +796,17 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceLocation { Name = "Treasure-Queens_Garden", SceneName="Fungus3_04", Pool = LoreMasterPool },
                 new ReferenceLocation { Name = "Treasure-White_Palace", SceneName="White_Palace_01", Pool = LoreMasterPool },
             };
+
+        private static List<ReferenceLocation> BreakableWallsLocationImport() =>
+            // https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer
+            LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
+                .Select(x => new ReferenceLocation
+                {
+                    Name = Regex.Replace(x.NiceName, @"[^\w\s]", ""),
+                    SceneName = x.SceneName,
+                    Pool = BreakablePool,
+                })
+                .ToList();
 
         private void LoadReferenceTransitions()
         {

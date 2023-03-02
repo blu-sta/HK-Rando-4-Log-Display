@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.5.1
+# HK Rando 4 Log Display v2.0.6
 
 ## Requirements
 
@@ -10,6 +10,7 @@ It was written for Windows and may require .NET 5 to be installed in order to wo
 
 In addition to the default Randomiser, the following mods are also supported:
 - [BenchRando](https://github.com/homothetyhk/BenchRando)
+- [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer/)
 - [DarknessRandomizer](https://github.com/dplochcoder/HollowKnight.DarknessRandomizer)
 - [LoreMaster](https://github.com/Korzer420/LoreMaster)
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
@@ -174,5 +175,6 @@ Please note that items already logged for a rando run will not be updated immedi
 Base RandomizerMod files: [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data) \
 \(Note: items.json has been modified to adjust item pools to be more convenient\) \
 BenchRando files: [link](https://github.com/homothetyhk/BenchRando/tree/master/BenchRando/Resources)\
+BreakableWalls files: [link](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer/tree/main/Resources)\
 MoreDoors files: [link](https://github.com/dplochcoder/HollowKnight.MoreDoors/tree/main/MoreDoors/Resources/Data)\
 RandomizableLevers files: [link](https://github.com/flibber-hk/HollowKnight.RandomizableLevers/tree/main/RandomizableLevers/Resources)

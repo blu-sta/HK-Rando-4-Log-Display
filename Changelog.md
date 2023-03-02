@@ -1,7 +1,8 @@
 # HK Rando 4 Log Display Changelog
 
-## v2.0.5.1
+## v2.0.6
 
+- Added mod support: Breakable Walls
 - Allowed MW player names to start with numbers
 
 ## v2.0.5
