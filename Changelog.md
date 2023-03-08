@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.1
+
+- Possible fix for Journal Entries not showing up under correct preview pool
+
 ## v2.0.6
 
 - Added mod support: Breakable Walls

@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6
+# HK Rando 4 Log Display v2.0.6.1
 
 ## Requirements
 
@@ -164,7 +164,7 @@ please contact `@blu.sta#9997` on Discord
 ## Appreciation
 
 A big thank you to those who continue to report problems and make suggestions to help improve this application \
-And a special thanks to **ColetteMSLP**, who constantly tests it against the latest rando mods and helps with improving the compatibility
+And a special thanks to **ColetteMSLP** and **wataniyob**, both of whom constantly test this against the latest rando mods and helps with improving the compatibility
 
 ## Reference material
 

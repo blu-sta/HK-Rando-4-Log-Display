@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.6";
+        public static readonly string AppVersion = "v2.0.6.1";
 
         public enum RoomGrouping
         {
@@ -148,6 +148,9 @@ namespace HK_Rando_4_Log_Display.Constants
             GetReferenceFilepath(@"BenchRando\language.json");
         public static string ReferenceBenchRandoLocationsFilePath =>
             GetReferenceFilepath(@"BenchRando\benches.json");
+
+        public static string TRJRFilePath =>
+            GetReferenceFilepath(@"TRJR\journalData.json");
 
         public static string ReferenceBreakableWallsFilePath =>
             GetReferenceFilepath(@"BreakableWalls\breakable_walls.json");

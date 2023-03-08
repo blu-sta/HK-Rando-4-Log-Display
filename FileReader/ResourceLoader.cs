@@ -53,6 +53,8 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string LostArtifactPool = "Lost Artifact";
         private const string LoreMasterPool = "Lore Master";
         private const string BreakablePool = "Breakable Walls and Floors";
+        private const string JournalEntryPool = "Journal_Entry";
+        private const string HuntersNotesPool = "Hunter's Notes";
 
         public ResourceLoader()
         {
@@ -84,12 +86,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(BenchItemImport())
 
                 //BadMagic100
-                // TRJR
-                // https://github.com/BadMagic100/TheRealJournalRando
-                .Concat(new List<ReferenceItem>()
-                {
-                    new ReferenceItem { Name = "Hunter's_Mark", PreviewName = "Hunter's Mark", Pool = "Journal_Entry" },
-                })
+                .Concat(TRJRItemImport())
 
                 //dplochcoder
                 .Concat(MoreDoorsItemImport())
@@ -113,6 +110,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 return "Nothing?";
             if (x.Name == "Dream_Gate")
                 return "Dreamgate";
+            if (x.Name.StartsWith("Journal_Entry-"))
+                return string.Concat(x.Name.Replace("Journal_Entry-", "").Replace("-", " ").Replace("_", " "), " Journal Entry");
 
             return x.Name.Replace("-", " ").Replace("_", " ");
         }
@@ -229,6 +228,43 @@ namespace HK_Rando_4_Log_Display.FileReader
                     PreviewName = x.Value,
                     Pool = BenchPool,
                 })
+                .ToList();
+
+        private class TRJRImport
+        {
+            public string IcName;
+        }
+        private static List<ReferenceItem> TRJRItemImport() =>
+            // https://github.com/BadMagic100/TheRealJournalRando
+            LoadListFile<TRJRImport>(TRJRFilePath)
+                .Select(x =>
+                {
+                    var previewName = x.IcName.Replace("_", " ");
+                    return new ReferenceItem[]
+                    {
+                        new ReferenceItem
+                        {
+                            Name = $"Journal_Entry-{x.IcName}",
+                            PreviewName = $"{previewName} Journal Entry",
+                            Pool = JournalEntryPool,
+                        },
+                        new ReferenceItem
+                        {
+                            Name = $"Hunter's_Notes-{x.IcName}",
+                            PreviewName = $"{previewName} Hunter's Notes",
+                            Pool = HuntersNotesPool,
+                        },
+                    };
+                })
+                .SelectMany(x => x)
+                .Concat(
+                    new List<ReferenceItem>() {
+                        new ReferenceItem {
+                            Name = "Hunter's_Mark",
+                            PreviewName = "Hunter's Mark",
+                            Pool = JournalEntryPool
+                        },
+                    })
                 .ToList();
 
         private class MoreDoorItem
@@ -487,6 +523,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new RoomImport { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
                 new RoomImport { SceneName = "Town/Fungus3_23", MapArea = "Dirthmouth/Queen's Garden", TitledArea = "Dirthmouth/Queen's Garden" },
                 new RoomImport { SceneName = "> Multiworld", MapArea = "> Multiworld", TitledArea = "> Multiworld" },
+                new RoomImport { SceneName = "> Hunter's Notes", MapArea = "> Hunter's Notes", TitledArea = "> Hunter's Notes" },
+                new RoomImport { SceneName = "> Journal Entry", MapArea = "> Journal Entry", TitledArea = "> Journal Entry" },
             }).ToList();
 
         private static Dictionary<string, string> GetSceneDescriptionsFromFile() =>
@@ -557,13 +595,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(BenchLocationImport())
 
                 //BadMagic100
-                // TRJR
-                // https://github.com/BadMagic100/TheRealJournalRando
-                .Concat(
-                new List<ReferenceLocation>()
-                {
-                    new ReferenceLocation { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry"},
-                })
+                .Concat(TRJRLocationImport())
 
                 //dplochcoder
                 .Concat(MoreDoorsLocationImport())
@@ -631,6 +663,36 @@ namespace HK_Rando_4_Log_Display.FileReader
                     SceneName = x.SceneName,
                     Pool = BenchPool,
                 })
+                .ToList();
+
+        private static List<ReferenceLocation> TRJRLocationImport() =>
+            // https://github.com/BadMagic100/TheRealJournalRando
+            LoadListFile<TRJRImport>(TRJRFilePath)
+                .Select(x =>
+                {
+                    var previewName = x.IcName.Replace("_", " ");
+                    return new ReferenceLocation[]
+                    {
+                        new ReferenceLocation
+                        {
+                            Name = $"Journal_Entry-{x.IcName}",
+                            SceneName = "> Journal Entry",
+                            Pool = JournalEntryPool,
+                        },
+                        new ReferenceLocation
+                        {
+                            Name = $"Hunter's_Notes-{x.IcName}",
+                            SceneName = "> Hunter's Notes",
+                            Pool = HuntersNotesPool,
+                        },
+                    };
+                })
+                .SelectMany(x => x)
+                .Concat(
+                    new List<ReferenceLocation>()
+                    {
+                        new ReferenceLocation { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry"},
+                    })
                 .ToList();
 
         private static List<ReferenceLocation> MoreDoorsLocationImport() =>
