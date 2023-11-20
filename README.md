@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6.1
+# HK Rando 4 Log Display v2.0.6.2
 
 ## Requirements
 
@@ -153,6 +153,7 @@ Also shows the current version number in the right corner
 
 ## Future Plans
 
+- Additional support for MoreLocations, ExtraRando, Colo3 mod and RandoPlus update
 - Configuration of Curated list (pool selection, charm selection)
 
 ## Reporting Issues and Feature Requests

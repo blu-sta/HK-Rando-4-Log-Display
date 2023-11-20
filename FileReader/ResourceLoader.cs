@@ -54,7 +54,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string LoreMasterPool = "Lore Master";
         private const string BreakablePool = "Breakable Walls and Floors";
         private const string JournalEntryPool = "Journal_Entry";
-        private const string HuntersNotesPool = "Hunter's Notes";
+        private const string HuntersNotesPool = "Hunter's_Notes";
 
         public ResourceLoader()
         {

@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.2
+
+- Fix for Hunter's Notes not showing up under correct preview pool
+- Updated Breakable Walls
+
 ## v2.0.6.1
 
 - Possible fix for Journal Entries not showing up under correct preview pool
