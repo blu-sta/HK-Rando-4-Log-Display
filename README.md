@@ -10,17 +10,21 @@ It was written for Windows and may require .NET 5 to be installed in order to wo
 
 In addition to the default Randomiser, the following mods are also supported:
 - [BenchRando](https://github.com/homothetyhk/BenchRando)
-- [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer/)
+- [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer)
 - [DarknessRandomizer](https://github.com/dplochcoder/HollowKnight.DarknessRandomizer)
+- [ExtraRando](https://github.com/Korzer420/ExtraRando)
+- [GrassRando](https://github.com/StormZillaa/HollowKnightGrassRando)
 - [LoreMaster](https://github.com/Korzer420/LoreMaster)
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
-- [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/)
+- [MoreLocations](https://github.com/BadMagic100/MoreLocations)
+- [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld)
 - [RainbowEggs](https://github.com/dpinela/RainbowEggs)
 - [RandomizableLevers](https://github.com/flibber-hk/HollowKnight.RandomizableLevers)
 - [RandoPlus](https://github.com/flibber-hk/HollowKnight.RandoPlus)
 - [ReopenCityDoor](https://github.com/flibber-hk/HollowKnight.ReopenCityDoor)
 - [SkillUpgrades](https://github.com/flibber-hk/HollowKnight.SkillUpgrades)
+- [TheGloryOfBeingAFoolRandomizer](https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer)
 - [TheRealJournalRando](https://github.com/BadMagic100/TheRealJournalRando)
 - [Transcendence](https://github.com/dpinela/Transcendence)
 
@@ -153,7 +157,6 @@ Also shows the current version number in the right corner
 
 ## Future Plans
 
-- Additional support for MoreLocations, ExtraRando, Colo3 mod and RandoPlus update
 - Configuration of Curated list (pool selection, charm selection)
 
 ## Reporting Issues and Feature Requests

@@ -149,11 +149,17 @@ namespace HK_Rando_4_Log_Display.Constants
         public static string ReferenceBenchRandoLocationsFilePath =>
             GetReferenceFilepath(@"BenchRando\benches.json");
 
+        public static string ReferenceRandoPlusGhostLocationsFilePath =>
+            GetReferenceFilepath(@"RandoPlus\ghostdata.json");
+
         public static string TRJRFilePath =>
             GetReferenceFilepath(@"TRJR\journalData.json");
 
         public static string ReferenceBreakableWallsFilePath =>
             GetReferenceFilepath(@"BreakableWalls\breakable_walls.json");
+
+        public static string ReferenceGrassRandoFilePath =>
+            GetReferenceFilepath(@"GrassRando\GrassLog.json");
 
         #endregion
 

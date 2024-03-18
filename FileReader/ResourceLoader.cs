@@ -53,8 +53,11 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string LostArtifactPool = "Lost Artifact";
         private const string LoreMasterPool = "Lore Master";
         private const string BreakablePool = "Breakable Walls and Floors";
+        private const string GrassPool = "Grass";
         private const string JournalEntryPool = "Journal_Entry";
         private const string HuntersNotesPool = "Hunter's_Notes";
+        private const string MoreLocationsPool = "MoreLocations";
+        private const string GhostPool = "DreamGhost";
 
         public ResourceLoader()
         {
@@ -81,12 +84,14 @@ namespace HK_Rando_4_Log_Display.FileReader
                 //dpinela
                 .Concat(TranscendenceItemImport())
                 .Concat(RainbowEggItemImport())
+                .Concat(Colo3ItemImport())
 
                 //homothetyhk
                 .Concat(BenchItemImport())
 
                 //BadMagic100
                 .Concat(TRJRItemImport())
+                .Concat(MoreLocationsItemImport())
 
                 //dplochcoder
                 .Concat(MoreDoorsItemImport())
@@ -97,9 +102,16 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                 //Korzer420
                 .Concat(LoreMasterItemImport(itemImports.Where(x => x.Pool == "Lore").ToList()))
+                .Concat(ExtraRandoItemImport())
 
                 //Bentechy66
                 .Concat(BreakableWallsItemImport())
+
+                //StormZillaa
+                .Concat(GrassRandoItemImport())
+
+                // unidentified items
+                .Concat(UnidentifiedItems())
 
                 .ToList();
         }
@@ -133,6 +145,33 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceItem { Name = "Not_Isma's_Tear", PreviewName = "Not Isma's Tear", Pool = SkillPool },
                 new ReferenceItem { Name = "Not_Lumafly_Lantern", PreviewName = "Not Lumafly Lantern", Pool = SkillPool },
                 new ReferenceItem { Name = "Not_Swim", PreviewName = "Not Swim", Pool = SkillPool },
+                
+                new ReferenceItem { Name = "Ghost_Essence-Gravedigger", PreviewName = "Ghost_Essence-Gravedigger", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Vespa", PreviewName = "Ghost_Essence-Vespa", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Joni", PreviewName = "Ghost_Essence-Joni", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Marissa", PreviewName = "Ghost_Essence-Marissa", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Poggy_Thorax", PreviewName = "Ghost_Essence-Poggy_Thorax", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Caelif_Fera_Orthop", PreviewName = "Ghost_Essence-Caelif_Fera_Orthop", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Cloth", PreviewName = "Ghost_Essence-Cloth", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Revek", PreviewName = "Ghost_Essence-Revek", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Millybug", PreviewName = "Ghost_Essence-Millybug", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Caspian", PreviewName = "Ghost_Essence-Caspian", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Atra", PreviewName = "Ghost_Essence-Atra", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Dr_Chagax", PreviewName = "Ghost_Essence-Dr_Chagax", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Garro", PreviewName = "Ghost_Essence-Garro", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Kcin", PreviewName = "Ghost_Essence-Kcin", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Karina", PreviewName = "Ghost_Essence-Karina", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Hundred_Nail_Warrior", PreviewName = "Ghost_Essence-Hundred_Nail_Warrior", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Grohac", PreviewName = "Ghost_Essence-Grohac", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Perpetos_Noo", PreviewName = "Ghost_Essence-Perpetos_Noo", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Molten", PreviewName = "Ghost_Essence-Molten", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Magnus_Strong", PreviewName = "Ghost_Essence-Magnus_Strong", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Waldie", PreviewName = "Ghost_Essence-Waldie", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Wayner", PreviewName = "Ghost_Essence-Wayner", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Wyatt", PreviewName = "Ghost_Essence-Wyatt", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Hex", PreviewName = "Ghost_Essence-Hex", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Thistlewind", PreviewName = "Ghost_Essence-Thistlewind", Pool = GhostPool },
+                new ReferenceItem { Name = "Ghost_Essence-Boss", PreviewName = "Ghost_Essence-Boss", Pool = GhostPool },
             };
 
         private static List<ReferenceItem> SkillUpgradeItemImport() =>
@@ -213,6 +252,12 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceItem { Name = "Arcane_Eg", PreviewName = "Arcane Eg", Pool = EggPool },
             };
 
+        private static List<ReferenceItem> Colo3ItemImport() =>
+            new()
+            {
+                new ReferenceItem { Name = "The_Glory_of_Being_a_Fool", PreviewName = "TGOBAF", Pool = "Useless" },
+            };
+
         private class BenchItem
         {
             public string Key;
@@ -267,6 +312,30 @@ namespace HK_Rando_4_Log_Display.FileReader
                     })
                 .ToList();
 
+        private static List<ReferenceItem> MoreLocationsItemImport() => new()
+        {
+            new ReferenceItem {
+                Name = "Wanderer's_Journal_Sale",
+                PreviewName = "Wanderer's Journal Sale",
+                Pool = MoreLocationsPool
+            },
+            new ReferenceItem {
+                Name = "Hallownest_Seal_Sale",
+                PreviewName = "Hallownest Seal Sale",
+                Pool = MoreLocationsPool
+            },
+            new ReferenceItem {
+                Name = "King's_Idol_Sale",
+                PreviewName = "King's Idol Sale",
+                Pool = MoreLocationsPool
+            },
+            new ReferenceItem {
+                Name = "Arcane_Egg_Sale",
+                PreviewName = "Arcane Egg Sale",
+                Pool = MoreLocationsPool
+            },
+        };
+
         private class MoreDoorItem
         {
             public MoreDoorKey Key;
@@ -277,11 +346,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             public string UIItemName;
             public MoreDoorGate Location;
         }
-        private class MoreDoorGate
-        {
-            public string Name;
-            public string SceneName;
-        }
+        private class MoreDoorGate : BasicLocation { }
         private static List<ReferenceItem> MoreDoorsItemImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
             LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
@@ -443,6 +508,23 @@ namespace HK_Rando_4_Log_Display.FileReader
             }
             ).ToList();
 
+        private static List<ReferenceItem> ExtraRandoItemImport() =>
+            new()
+            {
+                new ReferenceItem
+                {
+                    Name = "Progressive_Left_Cloak",
+                    PreviewName = "Progressive Left Cloak",
+                    Pool = SkillPool,
+                },
+                new ReferenceItem
+                {
+                    Name = "Progressive_Right_Cloak",
+                    PreviewName = "Progressive Right Cloak",
+                    Pool = SkillPool,
+                },
+            };
+
         private static List<ReferenceItem> DarknessItemImport() =>
             new()
             {
@@ -469,6 +551,43 @@ namespace HK_Rando_4_Log_Display.FileReader
                     Pool = BreakablePool
                 };
             }).ToList();
+
+        private class GrassItem
+        {
+            public string UsrName;
+            public int Id;
+            public string SceneName;
+        }
+        private static List<ReferenceItem> GrassRandoItemImport() =>
+            // https://github.com/StormZillaa/HollowKnightGrassRando
+            LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
+            .Select(x =>
+            {
+                var cleanedName = Regex.Replace(x.UsrName, @"[^\w\s]", "");
+                return new ReferenceItem
+                {
+                    Name = $"{cleanedName}{x.Id - 1}",
+                    PreviewName = "Grass",
+                    Pool = GrassPool
+                };
+            }).ToList();
+
+        private static List<ReferenceItem> UnidentifiedItems() =>
+            new()
+            {
+                new ReferenceItem
+                {
+                    Name = "chandelierItem",
+                    PreviewName = "WK Chandelier Cut",
+                    Pool = "Useless"
+                },
+                new ReferenceItem
+                {
+                    Name = "Bardoon_Butt_Smack",
+                    PreviewName = "Bardoon Butt Smack",
+                    Pool = "Useless"
+                },
+            };
 
         private void LoadReferenceLocations()
         {
@@ -525,6 +644,18 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new RoomImport { SceneName = "> Multiworld", MapArea = "> Multiworld", TitledArea = "> Multiworld" },
                 new RoomImport { SceneName = "> Hunter's Notes", MapArea = "> Hunter's Notes", TitledArea = "> Hunter's Notes" },
                 new RoomImport { SceneName = "> Journal Entry", MapArea = "> Journal Entry", TitledArea = "> Journal Entry" },
+                
+                new RoomImport { SceneName = "Dream_01_False_Knight", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "Dream_02_Mage_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "Dream_Backer_Shrine", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "Dream_Nailcollection", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Broken_Vessel", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Ghost_Marmu", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Ghost_Marmu_V", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Hornet_2", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Lost_Kin", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Mega_Moss_Charger", MapArea = "> Grass", TitledArea = "> Grass" },
+                new RoomImport { SceneName = "GG_Traitor_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
             }).ToList();
 
         private static Dictionary<string, string> GetSceneDescriptionsFromFile() =>
@@ -591,11 +722,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Concat(RandoPlusLocationImport())
                 .Concat(LeverLocationImport())
 
+                //dpinela
+                .Concat(Colo3LocationImport())
+
                 //homothetyhk
                 .Concat(BenchLocationImport())
 
                 //BadMagic100
                 .Concat(TRJRLocationImport())
+                .Concat(MoreLocationsLocationImport())
 
                 //dplochcoder
                 .Concat(MoreDoorsLocationImport())
@@ -609,6 +744,12 @@ namespace HK_Rando_4_Log_Display.FileReader
                 //Bentechy66
                 .Concat(BreakableWallsLocationImport())
 
+                //StormZillaa
+                .Concat(GrassRandoLocationImport())
+
+                // unidentified locations
+                .Concat(UnidentifiedLocationImport())
+
                 .ToList();
         }
 
@@ -618,8 +759,9 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceLocation { Name = "Remote", SceneName = "> Multiworld", Pool = "> Multiworld" },
             };
 
-        private List<ReferenceLocation> RandoPlusLocationImport() =>
-            new()
+        private class GhostLocation : BasicLocation { }
+        private static List<ReferenceLocation> RandoPlusLocationImport() =>
+            new List<ReferenceLocation>()
             {
                 // https://github.com/flibber-hk/HollowKnight.RandoPlus
                 new ReferenceLocation { Name = "Mr_Mushroom-Fungal_Wastes", SceneName = "Fungus2_18", Pool = MrMushroomPool },
@@ -629,16 +771,22 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new ReferenceLocation { Name = "Mr_Mushroom-Ancient_Basin", SceneName = "Abyss_21", Pool = MrMushroomPool },
                 new ReferenceLocation { Name = "Mr_Mushroom-Fog_Canyon", SceneName = "Fungus3_44", Pool = MrMushroomPool },
                 new ReferenceLocation { Name = "Mr_Mushroom-King's_Pass", SceneName = "Tutorial_01", Pool = MrMushroomPool },
+
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_1", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new ReferenceLocation { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith", Pool = "Shop" },
-            };
+            }.Concat(
+                LoadListFile<GhostLocation>(ReferenceRandoPlusGhostLocationsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Name,
+                        SceneName = x.SceneName,
+                        Pool = GhostPool,
+                    })
+            ).ToList();
 
-        private class LeverLocation {
-            public string Name;
-            public string SceneName;
-        }
+        private class LeverLocation : BasicLocation { }
         private static List<ReferenceLocation> LeverLocationImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
             LoadDictionaryFileValues<LeverLocation>(ReferenceRandoLeverLocationsFilePath).Select(x =>
@@ -649,11 +797,18 @@ namespace HK_Rando_4_Log_Display.FileReader
                 Pool = LeverPool,
             }).ToList();
 
-        private class BenchLocation
-        {
-            public string Name;
-            public string SceneName;
-        }
+        private static List<ReferenceLocation> Colo3LocationImport() =>
+            new()
+            {
+                new ReferenceLocation
+                {
+                    Name = "The_Glory_of_Being_a_Fool-Colosseum",
+                    SceneName = "Room_Colosseum_01",
+                    Pool = "Useless",
+                }
+            };
+
+        private class BenchLocation : BasicLocation { }
         private static List<ReferenceLocation> BenchLocationImport() =>
             // https://github.com/homothetyhk/BenchRando
             LoadDictionaryFileValues<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
@@ -694,6 +849,41 @@ namespace HK_Rando_4_Log_Display.FileReader
                         new ReferenceLocation { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry"},
                     })
                 .ToList();
+
+        private static List<ReferenceLocation> MoreLocationsLocationImport() =>
+            new()
+            {
+                new ReferenceLocation
+                {
+                    Name = "Swim",
+                    SceneName = "Crossroads_50",
+                    Pool = MoreLocationsPool,
+                },
+                new ReferenceLocation
+                {
+                    Name = "Stag_Nest_Egg",
+                    SceneName = "Cliffs_03",
+                    Pool = MoreLocationsPool,
+                },
+                new ReferenceLocation
+                {
+                    Name = "Geo_Chest-Above_Baldur_Shell",
+                    SceneName = "Cliffs_03",
+                    Pool = MoreLocationsPool,
+                },
+                new ReferenceLocation
+                {
+                    Name = "Lemm",
+                    SceneName = "Ruins1_05b",
+                    Pool = "Shop",
+                },
+                new ReferenceLocation
+                {
+                    Name = "Junk_Shop",
+                    SceneName = "Room_GG_Shortcut",
+                    Pool = "Shop",
+                },
+            };
 
         private static List<ReferenceLocation> MoreDoorsLocationImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
@@ -870,6 +1060,24 @@ namespace HK_Rando_4_Log_Display.FileReader
                 })
                 .ToList();
 
+        private static List<ReferenceLocation> GrassRandoLocationImport() =>
+            // https://github.com/StormZillaa/HollowKnightGrassRando
+            LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
+                .Select(x => new ReferenceLocation
+                {
+                    Name = $"{Regex.Replace(x.UsrName, @"[^\w\s]", "")}{x.Id - 1}",
+                    SceneName = x.SceneName,
+                    Pool = GrassPool,
+                })
+                .ToList();
+
+        private static List<ReferenceLocation> UnidentifiedLocationImport() =>
+            new()
+            {
+                new ReferenceLocation { Name = "chandelierLocation", SceneName = "Ruins2_03", Pool = "Useless" },
+                new ReferenceLocation { Name = "Bardoon_Butt", SceneName = "Deepnest_East_04", Pool = "Useless" },
+            };
+
         private void LoadReferenceTransitions()
         {
             var transitionImports = GetTransitionImportsFromFile();
@@ -1000,5 +1208,11 @@ namespace HK_Rando_4_Log_Display.FileReader
             using StreamWriter file = File.CreateText(filename);
             new JsonSerializer { Formatting = Formatting.Indented }.Serialize(file, data);
         }
+    }
+
+    public class BasicLocation
+    {
+        public string Name;
+        public string SceneName;
     }
 }
