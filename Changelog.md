@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.3
+
+- Added ExtraRando, GrassRando, MoreLocations and TGOBAFRando
+- Updated RandoPlus
+
 ## v2.0.6.2
 
 - Fix for Hunter's Notes not showing up under correct preview pool
