@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6.2
+# HK Rando 4 Log Display v2.0.6.3
 
 ## Requirements
 
