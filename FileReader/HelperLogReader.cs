@@ -337,12 +337,12 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             if (previewName.Contains("Journal Entry"))
             {
-                return GeneratePreviewItem("Journal Entry");
+                return GeneratePreviewItem("Journal_Entry");
             }
 
             if (previewName.Contains("Hunter's Notes"))
             {
-                return GeneratePreviewItem("Hunter's Notes");
+                return GeneratePreviewItem("Hunter's_Notes");
             }
 
             if (previewName == "Lore")

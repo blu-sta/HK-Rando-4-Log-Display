@@ -1,0 +1,1718 @@
+[
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Gruz_Mother",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGruzMother",
+    "battleSceneName": "GG_Gruz_Mother",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Gruz Mother"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A slumbering god of fertility's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "GruzMother"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "GruzMother"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Vengefly_King",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateVengefly",
+    "battleSceneName": "GG_Vengefly",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Vengefly King"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A vicious god of territories' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "VengeflyKing"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "VengeflyKing"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Brooding_Mawlek",
+    "battleSceneName": "GG_Brooding_Mawlek",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateBroodingMawlek",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Brooding Mawlek"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A lonely god of the nest's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "BroodingMawlek"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "BroodingMawlek"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-False_Knight",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateFalseKnight",
+    "battleSceneName": "GG_False_Knight",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - False Knight"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "An angry god of the downtrodden's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "FalseKnight"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "FalseKnight"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Failed_Champion",
+    "position": "BOTTOM",
+    "dependency": "False_Knight",
+    "isDreamBoss": true,
+    "statueStateName": "statueStateFailedChampion",
+    "battleSceneName": "GG_Failed_Champion",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Failed Champion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A baleful god of regrets' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "FalseKnight"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "FalseKnight"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Hornet_1",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateHornet1",
+    "battleSceneName": "GG_Hornet_1",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Hornet Protector"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A god protector of a fading land's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hornet1"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hornet1"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Hornet_2",
+    "position": "BOTTOM",
+    "dependency": "Hornet_1",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateHornet2",
+    "battleSceneName": "GG_Hornet_2",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Hornet Sentinel"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A god protector of a fading land's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hornet2"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hornet2"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Massive_Moss_Charger",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMegaMossCharger",
+    "battleSceneName": "GG_Mega_Moss_Charger",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Massive Moss Charger"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A restless god of those who band together's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "MassiveMossCharger"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "MassiveMossCharger"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Mantis_Lords",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMantisLords",
+    "battleSceneName": "GG_Mantis_Lords",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Mantis Lords"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Noble sister gods of combat's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "MantisLords"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "MantisLords"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Oblobbles",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateOblobbles",
+    "battleSceneName": "GG_Oblobbles",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Oblobbles"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Lover gods of faith and devotion's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Oblobbles"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Oblobbles"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Grey_Prince_Zote",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGreyPrince",
+    "battleSceneName": "GG_Grey_Prince_Zote",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Grey Prince Zote"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A false god conjured by the lonely's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Zote"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Zote"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Broken_Vessel",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateBrokenVessel",
+    "battleSceneName": "GG_Broken_Vessel",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Broken Vessel"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A broken shell of an empty god's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "BrokenVessel"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "BrokenVessel"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Lost_Kin",
+    "position": "BOTTOM",
+    "dependency": "Broken_Vessel",
+    "isDreamBoss": true,
+    "statueStateName": "statueStateLostKin",
+    "battleSceneName": "GG_Lost_Kin",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Lost Kin"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A lost god of the abyss' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "BrokenVessel"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "BrokenVessel"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Nosk",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateNosk",
+    "battleSceneName": "GG_Nosk",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Nosk"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "An everchanging god of the faceless' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nosk"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nosk"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Flukemarm",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateFlukemarm",
+    "battleSceneName": "GG_Flukemarm",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Flukemarm"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "An alluring god of motherhood's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Flukemarm"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Flukemarm"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Collector",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateCollector",
+    "battleSceneName": "GG_Collector",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - The Collector"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A joyful god of protection's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Collector"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Collector"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Watcher_Knights",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateWatcherKnights",
+    "battleSceneName": "GG_Watcher_Knights",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Watcher Knights"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Sentinel gods of the spire's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "WatcherKnights"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "WatcherKnights"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Soul_Master",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateSoulMaster",
+    "battleSceneName": "GG_Soul_Master",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Soul Master"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A covetous god of soul's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "SoulMaster"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "SoulMaster"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Soul_Tyrant",
+    "position": "TOP",
+    "dependency": "Soul_Master",
+    "isDreamBoss": true,
+    "statueStateName": "statueStateSoulTyrant",
+    "battleSceneName": "GG_Soul_Tyrant",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Soul Tyrant"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A frenzied god of mortality's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "SoulMaster"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "SoulMaster"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-God_Tamer",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGodTamer",
+    "battleSceneName": "GG_God_Tamer",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - God Tamer"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A gallant god of the arena's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "GodTamer"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "GodTamer"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Crystal_Guardian",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateCrystalGuardian1",
+    "battleSceneName": "GG_Crystal_Guardian",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Crystal Guardian"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A shining god of greed's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "CrystalGuardian"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "CrystalGuardian"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Enraged_Guardian",
+    "position": "BOTTOM",
+    "dependency": "Crystal_Guardian",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateCrystalGuardian2",
+    "battleSceneName": "GG_Crystal_Guardian_2",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Enraged Guardian"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A shining god of greed's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "CrystalGuardian"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "CrystalGuardian"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Uumuu",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateUumuu",
+    "battleSceneName": "GG_Uumuu",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Uumuu"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "An uncanny god of knowledge's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Uumuu"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Uumuu"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Dung_Defender",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateDungDefender",
+    "battleSceneName": "GG_Dung_Defender",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Dung Defender"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A kindly god of bravery and honour's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "DungDefender"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "DungDefender"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-White_Defender",
+    "position": "TOP",
+    "dependency": "Dung_Defender",
+    "isDreamBoss": true,
+    "statueStateName": "statueStateWhiteDefender",
+    "battleSceneName": "GG_White_Defender",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - White Defender"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A kindly god of bravery and honour's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "DungDefender"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "DungDefender"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Hive_Knight",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateHiveKnight",
+    "battleSceneName": "GG_Hive_Knight",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Hive Knight"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A watchful god of duty's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "HiveKnight"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "HiveKnight"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Traitor_Lord",
+    "position": "BOTTOM",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateTraitorLord",
+    "battleSceneName": "GG_Traitor_Lord",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Traitor Lord"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A treacherous god of anger's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "TraitorLord"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "TraitorLord"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Grimm",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGrimm",
+    "battleSceneName": "GG_Grimm",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Troupe Master Grimm"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A travelling god of the troupe's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Grimm"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Grimm"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Nightmare_King",
+    "position": "TOP",
+    "dependency": "Grimm",
+    "isDreamBoss": true,
+    "statueStateName": "statueStateNightmareGrimm",
+    "battleSceneName": "GG_Grimm_Nightmare",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Nightmare King Grimm"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A god of nightmare's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Grimm"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Grimm"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Pure_Vessel",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateHollowKnight",
+    "battleSceneName": "GG_Hollow_Knight",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Pure Vessel"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A mighty god of nothingness' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "PureVessel"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "PureVessel"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Elder_Hu",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateElderHu",
+    "battleSceneName": "GG_Ghost_Hu",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Elder Hu"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of travellers and sages' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "ElderHu"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "ElderHu"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Galien",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGalien",
+    "battleSceneName": "GG_Ghost_Galien",
+    "pantheonID": 3,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Galien"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of heroic hearts' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Galien"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Galien"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Markoth",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMarkoth",
+    "battleSceneName": "GG_Ghost_Markoth",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Markoth"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of meditation and isolation's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Markoth"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Markoth"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Marmu",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMarmu",
+    "battleSceneName": "GG_Ghost_Marmu",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Marmu"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of gardens' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Marmu"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Marmu"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-No_Eyes",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateNoEyes",
+    "battleSceneName": "GG_Ghost_No_Eyes",
+    "pantheonID": 4,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - No Eyes"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of fear and relief's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "NoEyes"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "NoEyes"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Xero",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateXero",
+    "battleSceneName": "GG_Ghost_Xero",
+    "pantheonID": 2,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Xero"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of faith and betrayal's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Xero"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Xero"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Gorb",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateGorb",
+    "battleSceneName": "GG_Ghost_Gorb",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Gorb"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A dreamborn god of the beyond's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Gorb"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Gorb"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Radiance",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateRadiance",
+    "battleSceneName": "GG_Radiance",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Absolute Radiance"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A forgotten god of light's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Radiance"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Radiance"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Sly",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateSly",
+    "battleSceneName": "GG_Sly",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Sly"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A cunning god of opportunity's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Sly"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Sly"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Nailmaster_Brothers",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateNailmasters",
+    "battleSceneName": "GG_Nailmasters",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Oro & Mato"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Loyal brothers of the nail's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Brothers"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Brothers"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Soul_Warrior",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMageKnight",
+    "battleSceneName": "GG_Mage_Knight",
+    "pantheonID": 1,
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Soul Warrior"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A haunted god of the sanctum's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "SoulWarrior"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "SoulWarrior"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Paintmaster_Sheo",
+    "position": "TOP",
+    "isDreamBoss": false,
+    "statueStateName": "statueStatePaintmaster",
+    "battleSceneName": "GG_Painter",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Paintmaster Sheo"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A talented god of artists and creators' mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Sheo"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Sheo"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Winged_Nosk",
+    "position": "BOTTOM",
+    "dependency": "Nosk",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateNoskHornet",
+    "battleSceneName": "GG_Nosk_Hornet",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Winged Nosk"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "A deceptive god assuming a protector's form's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "WingedNosk"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "WingedNosk"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.StatueItem, GodhomeRandomizer",
+    "name": "Statue_Mark-Sisters_of_Battle",
+    "position": "BOTTOM",
+    "dependency": "Mantis_Lords",
+    "isDreamBoss": false,
+    "statueStateName": "statueStateMantisLordsExtra",
+    "battleSceneName": "GG_Mantis_Lords_V",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Statue Mark - Sisters of Battle"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Revered gods of a proud tribe's mark."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Sisters"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Statue Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Sisters"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  }
+]

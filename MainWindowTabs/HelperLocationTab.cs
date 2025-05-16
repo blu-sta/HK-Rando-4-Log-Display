@@ -16,6 +16,7 @@ namespace HK_Rando_4_Log_Display
     public partial class MainWindow
     {
         private readonly BoolWrapper _expandCountables = new(true);
+        private readonly BoolWrapper _expandAdditionalCountables = new(true);
         private readonly BoolWrapper _expandPreviewedLocationSection = new();
         private readonly HashSet<string> ExpandedPreviewedLocationPools = new();
         private readonly BoolWrapper _expandPreviewedItemSection = new();
@@ -87,7 +88,7 @@ namespace HK_Rando_4_Log_Display
 
         private void GetMajorCountables()
         {
-            var objectGrid = new Grid
+            var countableGrid = new Grid
             {
                 Margin = GenerateStandardThickness()
             };
@@ -99,8 +100,8 @@ namespace HK_Rando_4_Log_Display
             {
                 Width = new GridLength(1, GridUnitType.Star)
             };
-            objectGrid.ColumnDefinitions.Add(colDef1);
-            objectGrid.ColumnDefinitions.Add(colDef2);
+            countableGrid.ColumnDefinitions.Add(colDef1);
+            countableGrid.ColumnDefinitions.Add(colDef2);
 
             var trackedItemsByPool = _trackerLogReader.GetItemsByPool();
             var trackedItemsByPoolWithoutMultiWorldItems = trackedItemsByPool
@@ -183,6 +184,8 @@ namespace HK_Rando_4_Log_Display
                 majorCountables.Add("Vanilla Stag Nest obtained");
             }
 
+            
+            
             // True Ending Items
             var teCountables = new List<string>();
             var curatedItemsByPool = _trackerLogReader.GetCuratedItemsByPool();
@@ -210,24 +213,64 @@ namespace HK_Rando_4_Log_Display
                 }
             }
 
-            if (!majorCountables.Any() && !teCountables.Any())
+            if (majorCountables.Any() || teCountables.Any())
             {
-                return;
+                var countableStacker = GenerateStackPanel();
+                majorCountables.ForEach(x => countableStacker.Children.Add(new TextBlock { Text = x }));
+                Grid.SetColumn(countableStacker, 0);
+                Grid.SetRow(countableStacker, 0);
+                countableGrid.Children.Add(countableStacker);
+
+                var teStacker = GenerateStackPanel();
+                teCountables.ForEach(x => teStacker.Children.Add(new TextBlock { Text = x }));
+                Grid.SetColumn(teStacker, 1);
+                Grid.SetRow(teStacker, 0);
+                countableGrid.Children.Add(teStacker);
+
+                HelperLocationsList.Items.Add(GenerateExpanderWithContent("Countables", countableGrid, _expandCountables));
             }
 
-            var countableStacker = GenerateStackPanel();
-            majorCountables.ForEach(x => countableStacker.Children.Add(new TextBlock { Text = x }));
-            Grid.SetColumn(countableStacker, 0);
-            Grid.SetRow(countableStacker, 0);
-            objectGrid.Children.Add(countableStacker);
+            var additionalCountables = new List<string>();
 
-            var teStacker = GenerateStackPanel();
-            teCountables.ForEach(x => teStacker.Children.Add(new TextBlock { Text = x }));
-            Grid.SetColumn(teStacker, 1);
-            Grid.SetRow(teStacker, 0);
-            objectGrid.Children.Add(teStacker);
+            // Godhome shop countables
+            var statueMarkCount = GetItemCount(trackedItemsByPoolWithoutMultiWorldItems, "Statue Mark");
+            if (statueMarkCount != null)
+            {
+                additionalCountables.Add("== Godhome Shop ==");
+                additionalCountables.Add($"Statue Marks: {statueMarkCount}");
+            }
 
-            HelperLocationsList.Items.Add(GenerateExpanderWithContent("Countables", objectGrid, _expandCountables));
+            // Myla shop countables
+            var wfcps = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Breakable WFCPs").Value?.Select(x => x.Item.Name).GroupBy(x => x.Split("-")[0]).OrderBy(x => x.Key).ToList();
+            if (wfcps.Any())
+            {
+                additionalCountables.Add("== Myla Shop ==");
+                wfcps.ForEach(group =>
+                {
+                    additionalCountables.Add($"{group.Key.WithoutUnderscores()}s: {group.Count()}");
+                });
+            }
+
+            if(additionalCountables.Any())
+            {
+                var additionalCountableGrid = new Grid
+                {
+                    Margin = GenerateStandardThickness()
+                };
+                additionalCountableGrid.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Auto)
+                });
+
+                var additionalCountableStacker = GenerateStackPanel();
+                additionalCountables.ForEach(x => additionalCountableStacker.Children.Add(new TextBlock { Text = x }));
+                Grid.SetColumn(additionalCountableStacker, 0);
+                Grid.SetRow(additionalCountableStacker, 0);
+                additionalCountableGrid.Children.Add(additionalCountableStacker);
+
+                HelperLocationsList.Items.Add(GenerateExpanderWithContent("Additional Countables", additionalCountableGrid, _expandAdditionalCountables));
+            }
+
         }
 
         private static int? GetItemCount(Dictionary<string, List<ItemWithLocation>> pooledItems, string itemPool) =>
@@ -299,7 +342,7 @@ namespace HK_Rando_4_Log_Display
 
                     if (locationPool == "Shop")
                     {
-                        var shopExpander = GenerateExpanderWithContent(location, GenerateAutoStarGrid(itemsWithCosts), ExpandedPreviewedLocationPools);
+                        var shopExpander = GenerateExpanderWithContent(location.WithoutUnderscores(), GenerateAutoStarGrid(itemsWithCosts), ExpandedPreviewedLocationPools);
                         locationStacker.Children.Add(shopExpander);
                     }
                     else

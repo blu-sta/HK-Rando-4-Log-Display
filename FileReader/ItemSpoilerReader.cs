@@ -180,6 +180,16 @@ namespace HK_Rando_4_Log_Display.FileReader
                     return $"Requires Simple Key";
                 }
 
+                if (x.Contains("STATUEMARKS"))
+                {
+                    return $"{Regex.Match(x, "\\d+").Value} Statue Marks";
+                }
+
+                if (x.Contains("GrassRando.Rando.Costs.BreakableLogicCost"))
+                {
+                    return "Grass Rando Logic";
+                }
+
                 if (x.Contains("LogicEnemyKillCost") ||
                     x.Contains("BLUGGSACS") ||
                     x.Contains("CRYSTALGUARDIANS") ||
@@ -188,7 +198,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                     x.Contains("GRUZMOTHERS") ||
                     x.Contains("HORNETS") ||
                     x.Contains("KINGSMOULDS") ||
-                    x.Contains("VENGEFLYKINGS"))
+                    x.Contains("VENGEFLYKINGS") ||
+                    x.Contains("GRIMMKINNOVICES") ||
+                    x.Contains("GRIMMKINMASTERS") ||
+                    x.Contains("GRIMMKINNIGHTMARES"))
                 {
                     return $"Kill {Regex.Match(x, "\\d+").Value}";
                 }

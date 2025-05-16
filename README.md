@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6.3
+# HK Rando 4 Log Display v2.0.6.4
 
 ## Requirements
 
@@ -11,11 +11,17 @@ It was written for Windows and may require .NET 5 to be installed in order to wo
 In addition to the default Randomiser, the following mods are also supported:
 - [BenchRando](https://github.com/homothetyhk/BenchRando)
 - [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer)
+  - [WFCP Fork](https://github.com/nerthul11/BreakableWallRandomizer)
 - [DarknessRandomizer](https://github.com/dplochcoder/HollowKnight.DarknessRandomizer)
 - [ExtraRando](https://github.com/Korzer420/ExtraRando)
+- [Fishing](https://github.com/dpinela/Fishing)
+- [FlowerQuest](https://github.com/nerthul11/FlowerRandomizer)
+- [GodhomeRando](https://github.com/nerthul11/GodhomeRandomizer)
 - [GrassRando](https://github.com/StormZillaa/HollowKnightGrassRando)
+  - [Grass Shop Fork](https://github.com/ManicJamie/HollowKnightGrassRando)
 - [LoreMaster](https://github.com/Korzer420/LoreMaster)
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
+- [MilliGolf](https://github.com/TheMathGeek314/MilliGolf)
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
 - [MoreLocations](https://github.com/BadMagic100/MoreLocations)
 - [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld)

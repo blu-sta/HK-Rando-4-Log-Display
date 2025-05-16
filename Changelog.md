@@ -1,5 +1,11 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.4
+- Added BreakableWFCP (replaces Breakable Walls), GodhomeRando (Statue Marks only), MilliGolf, Fishing, Flower Quest
+- Updated ExtraRando (Hot Springs, Colo Tickets), GrassRando (Grass Shop only)
+- Added counters for WFCPs (Myla shop) and Statue Marks (Godhome shop)
+- Various QOL fixes
+
 ## v2.0.6.3
 
 - Added ExtraRando, GrassRando, MoreLocations and TGOBAFRando

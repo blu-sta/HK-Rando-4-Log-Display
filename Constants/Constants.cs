@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.6.3";
+        public static readonly string AppVersion = "v2.0.6.4";
 
         public enum RoomGrouping
         {
@@ -157,6 +157,21 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static string ReferenceBreakableWallsFilePath =>
             GetReferenceFilepath(@"BreakableWalls\breakable_walls.json");
+
+        public static string ReferenceBreakableWFCPFilePath =>
+            GetReferenceFilepath(@"BreakableWFCP\BreakableWallObjects.json");
+
+        public static string ReferenceBindingItemsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\BindingItems.json");
+
+        public static string ReferenceBindingLocationsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\BindingLocations.json");
+
+        public static string ReferenceStatueItemsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\StatueItems.json");
+
+        public static string ReferenceStatueLocationsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\StatueLocations.json");
 
         public static string ReferenceGrassRandoFilePath =>
             GetReferenceFilepath(@"GrassRando\GrassLog.json");

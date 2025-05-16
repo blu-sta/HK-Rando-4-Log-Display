@@ -1,0 +1,1363 @@
+[
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Completion",
+    "pantheonID": 1,
+    "bindingType": "Completion",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Completion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Hollow Knight."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Complete"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Complete"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pantheon of the Mustard - Completion",
+              "Pantheon of the Monster - Completion",
+              "Pantheon of the Mobster - Completion",
+              "Partheon of the Master - Completion"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Nail_Binding",
+    "pantheonID": 1,
+    "bindingType": "Nail",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Nail"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No cost too great."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nail"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nail"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Shell_Binding",
+    "pantheonID": 1,
+    "bindingType": "Shell",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Shell"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No will to break."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Shell"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Shell"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Charms_Binding",
+    "pantheonID": 1,
+    "bindingType": "Charms",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Charms"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No voice to cry suffering."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Charms"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Charms"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Soul_Binding",
+    "pantheonID": 1,
+    "bindingType": "Soul",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Soul"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No mind to think."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Soul"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Soul"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-All_Bindings",
+    "pantheonID": 1,
+    "bindingType": "AllAtOnce",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - All Bindings"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Born of God and Void."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "AllAtOnce"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "AllAtOnce"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Master-Hitless",
+    "pantheonID": 1,
+    "bindingType": "Hitless",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Master - Hitless"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Vessel."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hitless"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hitless"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Completion",
+    "pantheonID": 2,
+    "bindingType": "Completion",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Completion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Hollow Knight."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Complete"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Complete"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pantheon of the Arrtist - Completion",
+              "Pantheon of the Art1st - Completion",
+              "Pantheon of the Dentist - Completion",
+              "Partheon of the Artist - Completion"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Nail_Binding",
+    "pantheonID": 2,
+    "bindingType": "Nail",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Nail"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No cost too great."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nail"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nail"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Shell_Binding",
+    "pantheonID": 2,
+    "bindingType": "Shell",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Shell"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No will to break."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Shell"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Shell"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Charms_Binding",
+    "pantheonID": 2,
+    "bindingType": "Charms",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Charms"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No voice to cry suffering."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Charms"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Charms"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Soul_Binding",
+    "pantheonID": 2,
+    "bindingType": "Soul",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Soul"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No mind to think."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Soul"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Soul"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-All_Bindings",
+    "pantheonID": 2,
+    "bindingType": "AllAtOnce",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - All Bindings"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Born of God and Void."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "AllAtOnce"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "AllAtOnce"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Artist-Hitless",
+    "pantheonID": 2,
+    "bindingType": "Hitless",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Artist - Hitless"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Vessel."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hitless"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hitless"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Completion",
+    "pantheonID": 3,
+    "bindingType": "Completion",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Completion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Hollow Knight."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Complete"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Complete"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pantheon of the Sagge - Completion",
+              "Pantheon of the Saage - Completion",
+              "Pantheon of the Saint - Completion",
+              "Partheon of the Sage - Completion"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Nail_Binding",
+    "pantheonID": 3,
+    "bindingType": "Nail",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Nail"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No cost too great."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nail"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nail"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Shell_Binding",
+    "pantheonID": 3,
+    "bindingType": "Shell",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Shell"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No will to break."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Shell"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Shell"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Charms_Binding",
+    "pantheonID": 3,
+    "bindingType": "Charms",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Charms"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No voice to cry suffering."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Charms"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Charms"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Soul_Binding",
+    "pantheonID": 3,
+    "bindingType": "Soul",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Soul"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No mind to think."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Soul"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Soul"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-All_Bindings",
+    "pantheonID": 3,
+    "bindingType": "AllAtOnce",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - All Bindings"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Born of God and Void."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "AllAtOnce"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "AllAtOnce"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Sage-Hitless",
+    "pantheonID": 3,
+    "bindingType": "Hitless",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Sage - Hitless"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Vessel."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hitless"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hitless"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Completion",
+    "pantheonID": 4,
+    "bindingType": "Completion",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Completion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Hollow Knight."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Complete"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Complete"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pantheon of the Night - Completion",
+              "Pantheon of the Knigth - Completion",
+              "Pantheon of the King - Completion",
+              "Partheon of the Knight - Completion"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Nail_Binding",
+    "pantheonID": 4,
+    "bindingType": "Nail",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Nail"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No cost too great."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nail"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nail"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Shell_Binding",
+    "pantheonID": 4,
+    "bindingType": "Shell",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Shell"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No will to break."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Shell"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Shell"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Charms_Binding",
+    "pantheonID": 4,
+    "bindingType": "Charms",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Charms"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No voice to cry suffering."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Charms"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Charms"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Soul_Binding",
+    "pantheonID": 4,
+    "bindingType": "Soul",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Soul"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No mind to think."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Soul"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Soul"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-All_Bindings",
+    "pantheonID": 4,
+    "bindingType": "AllAtOnce",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - All Bindings"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Born of God and Void."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "AllAtOnce"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "AllAtOnce"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Knight-Hitless",
+    "pantheonID": 4,
+    "bindingType": "Hitless",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of the Knight - Hitless"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Vessel."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hitless"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hitless"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Completion",
+    "pantheonID": 5,
+    "bindingType": "Completion",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Completion"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Hollow Knight."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Complete"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Complete"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pantheon of Halloween - Completion",
+              "Pantheon of Halolwnest - Completion",
+              "Pantheon of Hollownest - Completion",
+              "Partheon of Hallownest - Completion"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Nail_Binding",
+    "pantheonID": 5,
+    "bindingType": "Nail",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Nail"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No cost too great."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Nail"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Nail"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Shell_Binding",
+    "pantheonID": 5,
+    "bindingType": "Shell",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Shell"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No will to break."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Shell"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Shell"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Charms_Binding",
+    "pantheonID": 5,
+    "bindingType": "Charms",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Charms"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No voice to cry suffering."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Charms"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Charms"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Soul_Binding",
+    "pantheonID": 5,
+    "bindingType": "Soul",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Soul"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "No mind to think."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Soul"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Soul"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-All_Bindings",
+    "pantheonID": 5,
+    "bindingType": "AllAtOnce",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - All Bindings"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Born of God and Void."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "AllAtOnce"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "AllAtOnce"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "GodhomeRandomizer.IC.BindingItem, GodhomeRandomizer",
+    "name": "Pantheon_Hallownest-Hitless",
+    "pantheonID": 5,
+    "bindingType": "Hitless",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pantheon of Hallownest - Hitless"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "You are the Vessel."
+      },
+      "sprite": {
+        "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+        "Key": "Hitless"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "GodhomeRandomizer",
+          "PoolGroup": "Pantheon Marks",
+          "PinSprite": {
+            "$type": "GodhomeRandomizer.IC.GodhomeSprite, GodhomeRandomizer",
+            "Key": "Hitless"
+          }
+        }
+      }
+    ],
+    "obtainState": "Unobtained"
+  }
+]
+  

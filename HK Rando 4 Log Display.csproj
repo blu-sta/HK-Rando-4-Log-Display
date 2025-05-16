@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>2.0.6.3</Version>
+    <Version>2.0.6.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +32,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\BreakableWalls\breakable_walls.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\BreakableWFCP\BreakableWallObjects.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\GodhomeRando\BindingItems.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\GodhomeRando\BindingLocations.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\GodhomeRando\StatueItems.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\GodhomeRando\StatueLocations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\GrassRando\GrassLog.json">
