@@ -20,8 +20,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(string mwPlayerName, bool useSceneDescription);
         public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(string mwPlayerName, bool useSceneDescription);
         public List<Location> GetLocations(string mwPlayerName);
-        public Dictionary<string, List<LocationPreview>> GetPreviewedLocations();
-        public Dictionary<string, List<LocationPreview>> GetPreviewedItems();
+        public Dictionary<string, List<LocationPreview>> GetPreviewsByLocationPools();
+        public Dictionary<string, List<LocationPreview>> GetPreviewsByItemPools();
+        public List<LocationPreview> GetPreviews();
         public Dictionary<string, List<Transition>> GetTransitionsByTitledArea();
         public Dictionary<string, List<Transition>> GetTransitionsByMapArea();
         public Dictionary<string, List<Transition>> GetTransitionsByRoom(bool useSceneDescription);
@@ -359,11 +360,14 @@ namespace HK_Rando_4_Log_Display.FileReader
             return GeneratePreviewItem("> Unrecognised Items");
         }
 
-        public Dictionary<string, List<LocationPreview>> GetPreviewedLocations() =>
+        public Dictionary<string, List<LocationPreview>> GetPreviewsByLocationPools() =>
             _previewedLocationsWithItems.GroupBy(x => x.Location.Pool).ToDictionary(x => x.Key, x => x.ToList());
 
-        public Dictionary<string, List<LocationPreview>> GetPreviewedItems() =>
+        public Dictionary<string, List<LocationPreview>> GetPreviewsByItemPools() =>
             _previewedLocationsWithItems.GroupBy(x => x.Item.Pool).ToDictionary(x => x.Key, x => x.ToList());
+
+        public List<LocationPreview> GetPreviews() =>
+            _previewedLocationsWithItems;
 
         #endregion
 

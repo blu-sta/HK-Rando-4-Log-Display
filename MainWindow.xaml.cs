@@ -230,8 +230,17 @@ namespace HK_Rando_4_Log_Display
             });
             if (_trackerLogReader.IsFileFound && _itemSpoilerReader.IsFileFound && _helperLogReader.IsFileFound)
             {
-                headerStrings.Add($"Checks found: {_trackerLogReader.GetItems().Count} of {_itemSpoilerReader.GetItems().Count}");
-                headerStrings.Add($"Locations available: {_helperLogReader.GetLocations(null).Count}");
+                var itemsFound = _trackerLogReader.GetItems().Count;
+                var itemsPreviewed = _trackerLogReader.GetItems().Count;
+                var itemsTotal = _itemSpoilerReader.GetItems().Count;
+                headerStrings.Add($"Items found & previewed: {itemsFound + itemsPreviewed} of {itemsTotal}");
+                var locationsFound = _trackerLogReader.GetItems().Select(x => x.Location.Name).ToList();
+                var locationsPreviewed = _helperLogReader.GetPreviews().Select(x => x.Location.Name).ToList();
+                var distinctLocationsFoundAndPreviewed = locationsFound.Concat(locationsPreviewed).Distinct().Count();
+                var distinctLocationsTotal = _itemSpoilerReader.GetItems().Select(x => x.Location.Name).Distinct().Count();
+                headerStrings.Add($"Locations found & previewed: {distinctLocationsFoundAndPreviewed - 1} of {distinctLocationsTotal - 1}"); // Remove one from each to ignore START
+                var availableLocations = _helperLogReader.GetLocations(null).Count;
+                headerStrings.Add($"Locations available: {availableLocations}");
             }
             
             UpdateUX(() => Header.Text = string.Join("\n", headerStrings));

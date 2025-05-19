@@ -33,8 +33,8 @@ namespace HK_Rando_4_Log_Display
             {
                 HelperLocationsList.Items.Clear();
                 GetMajorCountables();
-                UpdatePreviewedLocations(_helperLogReader.GetPreviewedLocations());
-                UpdatePreviewedItems(_helperLogReader.GetPreviewedItems());
+                UpdatePreviewedLocations(_helperLogReader.GetPreviewsByLocationPools());
+                UpdatePreviewedItems(_helperLogReader.GetPreviewsByItemPools());
 
                 var helperLocationGrouping = (RoomGrouping)_appSettings.SelectedHelperLocationGrouping;
                 var helperLocationOrdering = (Sorting)_appSettings.SelectedHelperLocationOrder;
@@ -194,8 +194,9 @@ namespace HK_Rando_4_Log_Display
             var dreamerCount = trueEndingItems.Count(x => x.Item.Pool == "Dreamer");
             var dreamNails = curatedItemsByPool.FirstOrDefault(x => x.Key == "Dream Nails").Value ?? new List<ItemWithLocation>();
             var dreamNailCount = dreamNails.Count;
-            
-            if (fragmentCount > 0 || dreamerCount > 0 || dreamNailCount > 0)
+            var hollowKnightChains = trueEndingItems.Count(x => x.Item.Pool == "Access Keys");
+
+            if (fragmentCount > 0 || dreamerCount > 0 || dreamNailCount > 0 || hollowKnightChains > 0)
             {
                 teCountables.Add($"True Ending Items:");
 
@@ -210,6 +211,10 @@ namespace HK_Rando_4_Log_Display
                 if (dreamNailCount > 0)
                 {
                     teCountables.Add($"{dreamNailCount}/1 dream nails");
+                }
+                if (hollowKnightChains > 0)
+                {
+                    teCountables.Add($"{hollowKnightChains}/4 HK chains");
                 }
             }
 

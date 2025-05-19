@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6.5
+# HK Rando 4 Log Display v2.0.6.6
 
 ## Requirements
 
@@ -9,6 +9,7 @@ It was written for Windows and may require .NET 5 to be installed in order to wo
 ## Compatibility
 
 In addition to the default Randomiser, the following mods are also supported:
+- [AccessRando](https://github.com/nerthul11/AccessRandomizer)
 - [BenchRando](https://github.com/homothetyhk/BenchRando)
 - [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer)
   - [WFCP Fork](https://github.com/nerthul11/BreakableWallRandomizer)
@@ -23,6 +24,7 @@ In addition to the default Randomiser, the following mods are also supported:
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
 - [MilliGolf](https://github.com/TheMathGeek314/MilliGolf)
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
+  - [Miner's Key](https://github.com/dplochcoder/HollowKnight.ScatteredAndLost)
 - [MoreLocations](https://github.com/BadMagic100/MoreLocations)
 - [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld)
 - [RainbowEggs](https://github.com/dpinela/RainbowEggs)

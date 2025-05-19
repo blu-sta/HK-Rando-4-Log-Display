@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.0.6.5";
+        public static readonly string AppVersion = "v2.0.6.6";
 
         public enum RoomGrouping
         {
@@ -169,6 +169,12 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static string ReferenceStatueItemsFilePath =>
             GetReferenceFilepath(@"GodhomeRando\StatueItems.json");
+
+        public static string AccessRandoKeyItemsFilePath =>
+            GetReferenceFilepath(@"AccessRando\KeyItems.json");
+
+        public static string AccessRandoPassItemsFilePath =>
+            GetReferenceFilepath(@"AccessRando\PassItems.json");
 
         public static string ReferenceStatueLocationsFilePath =>
             GetReferenceFilepath(@"GodhomeRando\StatueLocations.json");

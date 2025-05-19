@@ -264,10 +264,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 "Kingsoul",
                 "Void_Heart"
             };
+            var hollowKnightChains = new[]
+            {
+                "Hollow_Knight_Chain",
+            };
             var trackedItems = new[] {
                 GetItems(dreamers),
                 GetItems(dupeDreamer),
-                GetItems(fragments)
+                GetItems(fragments),
+                GetItems(hollowKnightChains),
             }.SelectMany(x => x).ToList();
             return new KeyValuePair<string, List<ItemWithLocation>>(poolName, trackedItems);
         }

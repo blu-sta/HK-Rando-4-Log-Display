@@ -1,0 +1,251 @@
+﻿[
+  {
+    "$type": "AccessRandomizer.IC.KeyItem, AccessRandomizer",
+    "name": "Graveyard_Key",
+    "doorScene": "Town",
+    "keyName": "GraveyardKey",
+    "objectName": "Jiji Door",
+    "fsmName": "Conversation Control",
+    "fsmState": "Key?",
+    "fsmTrueEvent": "KEY",
+    "fsmFalseEvent": "NOKEY",
+    "dialogueName": "JIJI_DOOR",
+    "previewWord": "ghostly",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Graveyard Key"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "It looks strangely familiar, like if it's watching you."
+      },
+      "sprite": {
+        "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+        "Key": "GraveyardKey"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "AccessRandomizer",
+          "PoolGroup": "Keys",
+          "PinSprite": {
+            "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+            "Key": "GraveyardKey"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Graweyard Key",
+              "Graveyard Keey",
+              "Graveyarrd Key"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "AccessRandomizer.IC.KeyItem, AccessRandomizer",
+    "name": "Waterways_Key",
+    "doorScene": "Ruins1_05b",
+    "keyName": "WaterwaysKey",
+    "objectName": "Waterways Machine",
+    "fsmName": "Conversation Control",
+    "fsmState": "Key?",
+    "fsmTrueEvent": "KEY",
+    "fsmFalseEvent": "NOKEY",
+    "dialogueName": "WATERWAY_DOOR",
+    "previewWord": "rusty",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Waterways Key"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "It smells of rust and dung."
+      },
+      "sprite": {
+        "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+        "Key": "WaterwaysKey"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "AccessRandomizer",
+          "PoolGroup": "Keys",
+          "PinSprite": {
+            "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+            "Key": "WaterwaysKey"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Water Key",
+              "Watervays Key",
+              "Walterways Key"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "AccessRandomizer.IC.KeyItem, AccessRandomizer",
+    "name": "Pleasure_Key",
+    "doorScene": "Ruins2_04",
+    "keyName": "PleasureKey",
+    "objectName": "Inspect",
+    "fsmName": "Conversation Control",
+    "fsmState": "Got Key?",
+    "fsmTrueEvent": "YES",
+    "fsmFalseEvent": "NO",
+    "dialogueName": "BATH_HOUSE",
+    "previewWord": "regal",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Pleasure Key"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Only for VIP members."
+      },
+      "sprite": {
+        "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+        "Key": "PleasureKey"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "AccessRandomizer",
+          "PoolGroup": "Keys",
+          "PinSprite": {
+            "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+            "Key": "PleasureKey"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Pleashure Key",
+              "Preasule Key",
+              "P1easure Key",
+              "NSFW 18+ Real Key"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  },
+  {
+    "$type": "AccessRandomizer.IC.KeyItem, AccessRandomizer",
+    "name": "Coffin_Key",
+    "doorScene": "GG_Waterways",
+    "keyName": "CoffinKey",
+    "objectName": "Coffin",
+    "fsmName": "Conversation Control",
+    "fsmState": "Key?",
+    "fsmTrueEvent": "KEY",
+    "fsmFalseEvent": "NOKEY",
+    "dialogueName": "GODSEEKER_COFFIN",
+    "previewWord": "very old",
+    "UIDef": {
+      "$type": "ItemChanger.UIDefs.MsgUIDef, ItemChanger",
+      "name": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "Coffin Key"
+      },
+      "shopDesc": {
+        "$type": "ItemChanger.BoxedString, ItemChanger",
+        "Value": "It looks like it'd fit in a very old lock."
+      },
+      "sprite": {
+        "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+        "Key": "CoffinKey"
+      }
+    },
+    "tags": [
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Message": "RandoSupplementalMetadata",
+        "Properties": {
+          "ModSource": "AccessRandomizer",
+          "PoolGroup": "Keys",
+          "PinSprite": {
+            "$type": "AccessRandomizer.IC.AccessSprite, AccessRandomizer",
+            "Key": "CoffinKey"
+          }
+        }
+      },
+      {
+        "$type": "ItemChanger.Tags.InteropTag, ItemChanger",
+        "Properties": {
+          "CanMimic": {
+            "$type": "ItemChanger.BoxedBool, ItemChanger",
+            "Value": true
+          },
+          "MimicNames": {
+            "$type": "System.String[], mscorlib",
+            "$values": [
+              "Cofin Key",
+              "Coff1n Key",
+              "Koffing Key"
+            ]
+          }
+        },
+        "Message": "CurseData",
+        "Loaded": true
+      }
+    ],
+    "obtainState": "Unobtained"
+  }
+]

@@ -1,5 +1,13 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.6
+- Added AccessRando
+- Added Miner's Key to MoreDoors from ScatteredAndLost
+- Added Hollow Knight Chains to TE countable list
+- Updated check and location counters to:
+  - Remove location duplications (shops on both preview and found lists)
+  - Ignore START location
+
 ## v2.0.6.5
 - Fixed issue with helper log that prevented loading without any WFCPs
 - Added check and location counters in header

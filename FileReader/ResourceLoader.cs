@@ -61,6 +61,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string GhostPool = "DreamGhost";
         private const string StatueMarkPool = "Statue Mark";
         private const string MilliGolfPool = "MilliGolf";
+        private const string AccessKeyPool = "Key - Access";
 
         public ResourceLoader()
         {
@@ -113,6 +114,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 // nerthul11
                 .Concat(BreakableWFCPItemImport())
                 .Concat(GodhomeRandoItemImport())
+                .Concat(AccessRandoItemImport())
 
                 // StormZillaa
                 .Concat(GrassRandoItemImport())
@@ -356,7 +358,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 Name = x.Key.ItemName,
                 PreviewName = x.Key.UIItemName,
                 Pool = MoreDoorsPool,
-            }).ToList();
+            })
+            .Append(new ReferenceItem
+            {
+                // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
+                Name = "MoreDoors-Miner's_Key",
+                PreviewName = "Miner's Key",
+                Pool = MoreDoorsPool,
+            })
+            .ToList();
 
         private static List<ReferenceItem> LostArtifactsItemImport() =>
             new ()
@@ -582,6 +592,19 @@ namespace HK_Rando_4_Log_Display.FileReader
             })
             .ToList();
 
+        private static List<ReferenceItem> AccessRandoItemImport() =>
+            // https://github.com/nerthul11/AccessRandomizer
+            LoadListFile<BasicItem>(AccessRandoKeyItemsFilePath)
+            .Concat(LoadListFile<BasicItem>(AccessRandoPassItemsFilePath))
+            .Concat(new[] { "Bretta_Key", "Glade_Key", "Hollow_Knight_Chain", "Mantis_Respect", "Mapper_Key", "Relic_Key", "Sly_Key", "Trap_Bench", "Zote_Key" }.Select(x => new BasicItem { Name = x }))
+                .Select(x => new ReferenceItem
+                {
+                    Name = x.Name,
+                    PreviewName = x.Name.WithoutUnderscores(),
+                    Pool = AccessKeyPool
+                })
+                .ToList();
+
         private class GrassItem
         {
             public string UsrName;
@@ -684,6 +707,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static List<RoomImport> GetRoomImportsFromFile() =>
             LoadDictionaryFileValues<RoomImport>(ReferenceRoomsFilePath).Concat(new List<RoomImport>
             {
+                new () { SceneName = "Room_Final_Boss_Core", MapArea = "Forgotten Crossroads", TitledArea = "Forgotten Crossroads" },
                 new () { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
                 new () { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
                 new () { SceneName = "Room_Final_Boss_Atrium", MapArea = "Black Egg Temple", TitledArea = "Black Egg Temple" },
@@ -800,7 +824,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                 // nerthul11
                 .Concat(BreakableWFCPLocationImport())
                 .Concat(GodhomeRandoLocationImport())
-                .Concat (FlowerQuestLocationImport())
+                .Concat(FlowerQuestLocationImport())
+                .Concat(AccessRandoLocationImport())
 
                 // StormZillaa
                 .Concat(GrassRandoLocationImport())
@@ -966,7 +991,15 @@ namespace HK_Rando_4_Log_Display.FileReader
                 Name = x.Key.Location.Name,
                 SceneName = x.Key.Location.SceneName,
                 Pool = MoreDoorsPool,
-            }).ToList();
+            })
+            .Append(new ReferenceLocation
+            {
+                // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
+                Name = "MoreDoors-Miner's_Key-Mushroom_Roller-Bretta",
+                SceneName = "Fungus2_23",
+                Pool = MoreDoorsPool,
+            })
+            .ToList();
 
         private static List<ReferenceLocation> LostArtifactsLocationImport() =>
             new ()
@@ -1196,6 +1229,26 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Flower_Quest-Pain", SceneName = "White_Palace_20", Pool = "Flower Quest"},
             };
 
+        // AccessRandoLocationImport
+        private static List<ReferenceLocation> AccessRandoLocationImport() =>
+            // https://github.com/nerthul11/AccessRandomizer
+            new()
+            {
+                new () { Name = "Bretta_Key", SceneName = "Fungus2_23", Pool = AccessKeyPool },
+                new () { Name = "Hollow_Knight_Chain-1", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
+                new () { Name = "Hollow_Knight_Chain-2", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
+                new () { Name = "Hollow_Knight_Chain-3", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
+                new () { Name = "Hollow_Knight_Chain-4", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
+                new () { Name = "Mantis_Respect", SceneName = "Fungus2_15", Pool = AccessKeyPool },
+                new () { Name = "Mapper_Key", SceneName = "Crossroads_33", Pool = AccessKeyPool },
+                new () { Name = "Relic_Key", SceneName = "Waterways_01", Pool = AccessKeyPool },
+                new () { Name = "Sly_Key", SceneName = "Crossroads_04", Pool = AccessKeyPool },
+                new () { Name = "Split_Elevator_Pass", SceneName = "Ruins2_10b", Pool = AccessKeyPool },
+                new () { Name = "Split_Tram_Pass", SceneName = "Deepnest_26b", Pool = AccessKeyPool },
+                new () { Name = "Trap_Bench", SceneName = "Deepnest_Spider_Town", Pool = AccessKeyPool },
+                new () { Name = "Zote_Key", SceneName = "Deepnest_33", Pool = AccessKeyPool },
+            };
+
         private static List<ReferenceLocation> GrassRandoLocationImport() =>
             // https://github.com/StormZillaa/HollowKnightGrassRando
             LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
@@ -1368,9 +1421,13 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
     }
 
-    public class BasicLocation
+    public class BasicItem
     {
         public string Name;
+    }
+
+    public class BasicLocation : BasicItem
+    {
         public string SceneName;
     }
 }
