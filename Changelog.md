@@ -1,5 +1,9 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.5
+- Fixed issue with helper log that prevented loading without any WFCPs
+- Added check and location counters in header
+
 ## v2.0.6.4
 - Added BreakableWFCP (replaces Breakable Walls), GodhomeRando (Statue Marks only), MilliGolf, Fishing, Flower Quest
 - Updated ExtraRando (Hot Springs, Colo Tickets), GrassRando (Grass Shop only)

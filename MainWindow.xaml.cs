@@ -228,6 +228,11 @@ namespace HK_Rando_4_Log_Display
                     headerStrings.Add($"{filename} not loaded correctly");
                 }
             });
+            if (_trackerLogReader.IsFileFound && _itemSpoilerReader.IsFileFound && _helperLogReader.IsFileFound)
+            {
+                headerStrings.Add($"Checks found: {_trackerLogReader.GetItems().Count} of {_itemSpoilerReader.GetItems().Count}");
+                headerStrings.Add($"Locations available: {_helperLogReader.GetLocations(null).Count}");
+            }
             
             UpdateUX(() => Header.Text = string.Join("\n", headerStrings));
         }

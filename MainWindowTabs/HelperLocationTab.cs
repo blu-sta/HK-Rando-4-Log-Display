@@ -242,7 +242,7 @@ namespace HK_Rando_4_Log_Display
 
             // Myla shop countables
             var wfcps = trackedItemsByPoolWithoutMultiWorldItems.FirstOrDefault(x => x.Key == "Breakable WFCPs").Value?.Select(x => x.Item.Name).GroupBy(x => x.Split("-")[0]).OrderBy(x => x.Key).ToList();
-            if (wfcps.Any())
+            if (wfcps != null && wfcps.Any())
             {
                 additionalCountables.Add("== Myla Shop ==");
                 wfcps.ForEach(group =>
