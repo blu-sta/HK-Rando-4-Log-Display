@@ -110,16 +110,16 @@ namespace HK_Rando_4_Log_Display
             return GenerateAutoStarGrid(transitionKvps);
         }
 
-        private static string TransitionStringBuilder(Transition x)
+        private string TransitionStringBuilder(Transition x)
         {
             var s = new StringBuilder();
 
             if (x.IsOutOfLogic)
                 s.Append('*');
 
-            s.Append(x.Name.WithoutUnderscores());
+            s.Append(_showHelperTransitionSceneDescriptions ? $"{x.SceneDescription}[{x.DoorName}]" : x.Name);
 
-            return s.ToString();
+            return s.ToString().WithoutUnderscores();
         }
 
         #region Events

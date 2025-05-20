@@ -4,7 +4,7 @@
   "Room_shop": "Sly Shop",
   "Room_Sly_Storeroom": "Sly Basement",
   "Room_Town_Stag_Station": "Dirtmouth Stag",
-  "Room_Mapper": "Iselda Shop",
+  "Room_mapper": "Iselda Shop",
   "Room_Bretta": "Bretta House",
   "Room_Bretta_Basement": "Bretta Basement",
   "Room_Ouiji": "Jiji Shop",
@@ -391,5 +391,7 @@
   "GG_Blue_Room": "GG Lifeblood",
   "GG_Land_Of_Storms": "GG Land of Storms",
   "GG_Mighty_Zote": "GG Eternal Ordeal",
-  "GG_Unlock_Wastes": "GG Godtuner"
+  "GG_Unlock_Wastes": "GG Godtuner",
+
+  "Town/Fungus3_23": "Dirtmouth/Traitor Lord"
 }

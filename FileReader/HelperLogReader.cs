@@ -129,7 +129,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                         Name = locationName,
                         Pool = locationDetails?.Pool ?? locationFallbackValue,
                         SceneName = locationDetails?.SceneName ?? locationFallbackValue,
-                        SceneDescription = locationDetails?.SceneDescription ?? locationFallbackValue,
+                        SceneDescription = locationDetails?.SceneDescription ?? locationDetails?.SceneName ?? locationFallbackValue,
                         MapArea = locationDetails?.MapArea ?? locationFallbackValue,
                         TitledArea = locationDetails?.TitledArea ?? locationFallbackValue,
                         IsOutOfLogic = isOutOfLogic,
@@ -175,19 +175,19 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public Dictionary<string, List<Location>> GetLocationsByRoom(string mwPlayerName,bool useSceneDescription) =>
             _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
-                .GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+                .GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                 .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByTitledArea(string mwPlayerName, bool useSceneDescription) =>
             _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
                 .GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
-                    y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+                    y.GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                         .ToDictionary(x => x.Key, x => x.ToList()));
 
         public Dictionary<string, Dictionary<string, List<Location>>> GetLocationsByRoomByMapArea(string mwPlayerName, bool useSceneDescription) =>
             _helperLogLocations.Values.Where(x => x.MWPlayerName == mwPlayerName)
                 .GroupBy(x => x.MapArea).OrderBy(x => x.Key).ToDictionary(y => y.Key, y => 
-                    y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+                    y.GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                         .ToDictionary(x => x.Key, x => x.ToList()));
 
         public List<Location> GetLocations(string mwPlayerName) =>
@@ -421,17 +421,17 @@ namespace HK_Rando_4_Log_Display.FileReader
             _helperLogTransitions.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, List<Transition>> GetTransitionsByRoom(bool useSceneDescription) =>
-            _helperLogTransitions.Values.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+            _helperLogTransitions.Values.GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                 .OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.ToList());
 
         public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByMapArea(bool useSceneDescription) =>
             _helperLogTransitions.Values.GroupBy(x => x.MapArea).OrderBy(x => x.Key)
-                .ToDictionary(y => y.Key, y => y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+                .ToDictionary(y => y.Key, y => y.GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                 .ToDictionary(x => x.Key, x => x.ToList()));
 
         public Dictionary<string, Dictionary<string, List<Transition>>> GetTransitionsByRoomByTitledArea(bool useSceneDescription) =>
             _helperLogTransitions.Values.GroupBy(x => x.TitledArea).OrderBy(x => x.Key)
-                .ToDictionary(y => y.Key, y => y.GroupBy(x => useSceneDescription ? x.SceneDescription : x.SceneName)
+                .ToDictionary(y => y.Key, y => y.GroupBy(x => useSceneDescription ? $"{x.SceneDescription} [{x.SceneName}]" : x.SceneName)
                 .ToDictionary(x => x.Key, x => x.ToList()));
 
         public List<Transition> GetTransitions() =>

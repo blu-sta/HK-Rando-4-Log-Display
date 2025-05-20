@@ -115,20 +115,23 @@ namespace HK_Rando_4_Log_Display
         {
             var s = new StringBuilder();
 
+            var destination = _showTrackerTransitionSceneDescriptions ? $"{x.Destination.SceneDescription}[{x.Destination.DoorName}]" : x.Destination.Name;
+            var source = _showTrackerTransitionSceneDescriptions ? $"{x.Source.SceneDescription}[{x.Source.DoorName}]" : x.Source.Name;
+
             if (_useTrackerTransitionsDestination)
             {
-                s.Append(x.Destination.Name.WithoutUnderscores());
+                s.Append(destination);
                 s.Append(" <-- ");
-                s.Append(x.Source.Name.WithoutUnderscores());
+                s.Append(source);
             }
             else
             {
-                s.Append(x.Source.Name.WithoutUnderscores());
+                s.Append(source);
                 s.Append(" --> ");
-                s.Append(x.Destination.Name.WithoutUnderscores());
+                s.Append(destination);
             }
 
-            return s.ToString();
+            return s.ToString().WithoutUnderscores();
         }
 
         #region Events

@@ -18,6 +18,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<ReferenceTransition> ReferenceTransitions { get; }
         public List<LocationImport> DeadLocations { get; }
         public List<TransitionImport> DeadTransitions { get; }
+        public List<string> ScenesWithoutDescriptions { get; }
         public Dictionary<string, Location> GetHelperLogLocations();
         public Dictionary<string, Transition> GetHelperLogTransitions();
         public Dictionary<string, ItemWithLocation> GetTrackerLogItems();
@@ -41,6 +42,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public List<LocationImport> DeadLocations { get; private set; } = new ();
         public List<TransitionImport> DeadTransitions { get; private set; } = new ();
+        public List<string> ScenesWithoutDescriptions { get; private set; } = new ();
 
         private const string MrMushroomPool = "Mr Mushroom";
         private const string SkillUpgradePool = "Skill Upgrade";
@@ -699,6 +701,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
             var sceneNames = roomImports.Select(x => x.SceneName).ToList();
             DeadLocations = locationImports.Concat(customImports).Where(location => !sceneNames.Contains(location.SceneName)).ToList();
+            ScenesWithoutDescriptions = ReferenceLocations.Where(x => x.SceneName == x.SceneDescription).Select(x => x.SceneName).Distinct().ToList();
         }
 
         private static List<LocationImport> GetLocationImportsFromFile() =>

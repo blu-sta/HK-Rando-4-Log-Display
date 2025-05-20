@@ -1,5 +1,14 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.7
+- Updated room description displays on all tabs
+  - Expanders will now show the room code as well as the description
+  - Transistions will now show descriptions with doors
+- Separated available locations into in-logic and out-of-logic location counts
+- Use scene name as backup description before location fallback value
+- Added recent error logs to zip package
+- #Debug: Added display for listing scenes without descriptions
+
 ## v2.0.6.6
 - Added AccessRando
 - Added Miner's Key to MoreDoors from ScatteredAndLost

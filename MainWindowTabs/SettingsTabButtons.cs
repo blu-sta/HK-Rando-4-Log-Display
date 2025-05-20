@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO.Compression;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 
@@ -32,10 +33,16 @@ namespace HK_Rando_4_Log_Display
             CopyFileIfExists(TransitionSpoilerLogPath, $@"{tempFolderPath}\TransitionSpoilerLog.json");
             CopyFileIfExists(SeedSettingsPath, $@"{tempFolderPath}\settings.txt");
 
-            CopyFileIfExists(HelperLogTransitionsFilename, $@"{tempFolderPath}\{HelperLogTransitionsFilename}");
-            CopyFileIfExists(HelperLogLocationsFilename, $@"{tempFolderPath}\{HelperLogLocationsFilename}");
-            CopyFileIfExists(TrackerLogTransitionsFilename, $@"{tempFolderPath}\{TrackerLogTransitionsFilename}");
-            CopyFileIfExists(TrackerLogItemsFilename, $@"{tempFolderPath}\{TrackerLogItemsFilename}");
+            new[] {
+                HelperLogTransitionsFilename,
+                HelperLogLocationsFilename,
+                TrackerLogTransitionsFilename,
+                TrackerLogItemsFilename,
+            }
+            .Concat(Directory.GetFiles(".", $"error_{now:yyyy_MM}*.log"))
+            .ToList()
+            .ForEach(filename => CopyFileIfExists(filename, $@"{tempFolderPath}\{filename}"));
+            
 
             ZipFile.CreateFromDirectory(tempFolderPath, zipFileName);
 

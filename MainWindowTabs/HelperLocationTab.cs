@@ -83,6 +83,8 @@ namespace HK_Rando_4_Log_Display
                     HelperLocationsList.Items.Add(GenerateExpanderWithContent("Dead Locations", GenerateAutoStarGrid(_resourceLoader.DeadLocations.Select(x => new KeyValuePair<string, string>(x.SceneName, x.Name)).ToList()), new BoolWrapper(true)));
                 if (_resourceLoader.DeadTransitions.Any())
                     HelperLocationsList.Items.Add(GenerateExpanderWithContent("Dead Transitions", GenerateAutoStarGrid(_resourceLoader.DeadTransitions.Select(x => new KeyValuePair<string, string>(x.SceneName, x.DoorName)).ToList()), new BoolWrapper(true)));
+                if (_resourceLoader.ScenesWithoutDescriptions.Any())
+                    HelperLocationsList.Items.Add(GenerateExpanderWithContent("Scenes without Descriptions", GenerateAutoStarGrid(_resourceLoader.ScenesWithoutDescriptions.Select(x => new KeyValuePair<string, string>(x,"")).ToList()), new BoolWrapper(true)));
             });
         }
 
@@ -184,8 +186,6 @@ namespace HK_Rando_4_Log_Display
                 majorCountables.Add("Vanilla Stag Nest obtained");
             }
 
-            
-            
             // True Ending Items
             var teCountables = new List<string>();
             var curatedItemsByPool = _trackerLogReader.GetCuratedItemsByPool();

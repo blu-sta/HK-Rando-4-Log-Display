@@ -697,7 +697,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static string GetTransitionKey(bool useDestination, bool useSceneDescription, TransitionWithDestination x)
         {
             var transition = useDestination ? x.Destination : x.Source;
-            return useSceneDescription ? transition.SceneDescription : transition.SceneName;
+            return useSceneDescription ? $"{transition.SceneDescription} [{transition.SceneName}]" : transition.SceneName;
         }
 
         public List<TransitionWithDestination> GetTransitions() =>

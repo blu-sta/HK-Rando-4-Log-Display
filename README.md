@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.0.6.6
+# HK Rando 4 Log Display v2.0.6.7
 
 ## Requirements
 
@@ -47,7 +47,11 @@ The `Predict` button in the MultiWorld window will attempt to identify players f
 
 ### Top bar
 Shows the mode and seed \
-Also displays randomiser files that cannot be found or fail to load
+Also displays randomiser files that cannot be found or fail to load \
+Also displays counts for the following:
+- Items found and previewed
+- Locations found and previewed
+- Locations available in (and out) of logic
 
 ### Helper Tab - Locations
 
@@ -145,7 +149,7 @@ Found at the bottom of the settings tabs \
 These buttons allow for easily managing information related to the current randomiser playthrough \
 `Copy Seed`: Copies current seed to clipboard \
 `Copy Shareable Settings`: Copies settings used to set menu selections \
-`Zip log files`: Creates and opens a timestamped zip file containing the log files for the current seed, including current state of the application, to provide for troubleshooting and bug reports
+`Zip log files`: Creates and opens a timestamped zip file containing the log files for the current seed, including current state of the application and recent error logs, to provide for troubleshooting and bug reports
 
 ### Settings Tab - Seed Settings
 

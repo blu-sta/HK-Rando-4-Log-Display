@@ -230,19 +230,21 @@ namespace HK_Rando_4_Log_Display
             });
             if (_trackerLogReader.IsFileFound && _itemSpoilerReader.IsFileFound && _helperLogReader.IsFileFound)
             {
-                var itemsFound = _trackerLogReader.GetItems().Count;
-                var itemsPreviewed = _trackerLogReader.GetItems().Count;
-                var itemsTotal = _itemSpoilerReader.GetItems().Count;
-                headerStrings.Add($"Items found & previewed: {itemsFound + itemsPreviewed} of {itemsTotal}");
+                var itemsFoundCount = _trackerLogReader.GetItems().Count;
+                var itemsPreviewedCount = _trackerLogReader.GetItems().Count;
+                var allItemsCount = _itemSpoilerReader.GetItems().Count;
+                headerStrings.Add($"Items found & previewed: {itemsFoundCount + itemsPreviewedCount} of {allItemsCount}");
                 var locationsFound = _trackerLogReader.GetItems().Select(x => x.Location.Name).ToList();
                 var locationsPreviewed = _helperLogReader.GetPreviews().Select(x => x.Location.Name).ToList();
-                var distinctLocationsFoundAndPreviewed = locationsFound.Concat(locationsPreviewed).Distinct().Count();
-                var distinctLocationsTotal = _itemSpoilerReader.GetItems().Select(x => x.Location.Name).Distinct().Count();
-                headerStrings.Add($"Locations found & previewed: {distinctLocationsFoundAndPreviewed - 1} of {distinctLocationsTotal - 1}"); // Remove one from each to ignore START
-                var availableLocations = _helperLogReader.GetLocations(null).Count;
-                headerStrings.Add($"Locations available: {availableLocations}");
+                var distinctLocationsFoundAndPreviewedCount = locationsFound.Concat(locationsPreviewed).Distinct().Count();
+                var allDistinctLocationsCount = _itemSpoilerReader.GetItems().Select(x => x.Location.Name).Distinct().Count();
+                headerStrings.Add($"Locations found & previewed: {distinctLocationsFoundAndPreviewedCount - 1} of {allDistinctLocationsCount - 1}"); // Remove one from each to ignore START
+                var availableLocations = _helperLogReader.GetLocations(null);
+                var inLogicLocationsCount = availableLocations.Count(x => !x.IsOutOfLogic);
+                var outOfLogicLocationsCount = availableLocations.Count(x => x.IsOutOfLogic);
+                headerStrings.Add($"Locations available: {inLogicLocationsCount}{(outOfLogicLocationsCount > 0 ? $" (+{outOfLogicLocationsCount})" : "")}");
             }
-            
+
             UpdateUX(() => Header.Text = string.Join("\n", headerStrings));
         }
 
