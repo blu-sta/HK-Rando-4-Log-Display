@@ -1,5 +1,8 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.8
+- Fixed items found and previewed count
+
 ## v2.0.6.7
 - Updated room description displays on all tabs
   - Expanders will now show the room code as well as the description

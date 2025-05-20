@@ -231,7 +231,7 @@ namespace HK_Rando_4_Log_Display
             if (_trackerLogReader.IsFileFound && _itemSpoilerReader.IsFileFound && _helperLogReader.IsFileFound)
             {
                 var itemsFoundCount = _trackerLogReader.GetItems().Count;
-                var itemsPreviewedCount = _trackerLogReader.GetItems().Count;
+                var itemsPreviewedCount = _helperLogReader.GetPreviews().Count;
                 var allItemsCount = _itemSpoilerReader.GetItems().Count;
                 headerStrings.Add($"Items found & previewed: {itemsFoundCount + itemsPreviewedCount} of {allItemsCount}");
                 var locationsFound = _trackerLogReader.GetItems().Select(x => x.Location.Name).ToList();
