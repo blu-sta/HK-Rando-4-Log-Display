@@ -194,7 +194,7 @@ namespace HK_Rando_4_Log_Display
             var dreamerCount = trueEndingItems.Count(x => x.Item.Pool == "Dreamer");
             var dreamNails = curatedItemsByPool.FirstOrDefault(x => x.Key == "Dream Nails").Value ?? new List<ItemWithLocation>();
             var dreamNailCount = dreamNails.Count;
-            var hollowKnightChains = trueEndingItems.Count(x => x.Item.Pool == "Access Keys");
+            var hollowKnightChains = trueEndingItems.Count(x => x.Item.Pool == "Key - Access");
 
             if (fragmentCount > 0 || dreamerCount > 0 || dreamNailCount > 0 || hollowKnightChains > 0)
             {

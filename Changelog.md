@@ -1,5 +1,10 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.0.6.9
+- Fixed HK Chains not appearing in TE counters
+- Removed starting items from items found counter
+- Resolved issue with deployed version of application
+
 ## v2.0.6.8
 - Fixed items found and previewed count
 
@@ -16,13 +21,14 @@
 - Added AccessRando
 - Added Miner's Key to MoreDoors from ScatteredAndLost
 - Added Hollow Knight Chains to TE countable list
-- Updated check and location counters to:
-  - Remove location duplications (shops on both preview and found lists)
-  - Ignore START location
+- Updated item and location counters:
+  - Added items previewed to items found
+  - Removed location duplicates (e.g. now only counts shops once)
+  - Ignore Start location
 
 ## v2.0.6.5
 - Fixed issue with helper log that prevented loading without any WFCPs
-- Added check and location counters in header
+- Added item and location counters in header
 
 ## v2.0.6.4
 - Added BreakableWFCP (replaces Breakable Walls), GodhomeRando (Statue Marks only), MilliGolf, Fishing, Flower Quest

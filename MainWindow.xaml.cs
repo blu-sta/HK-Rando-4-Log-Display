@@ -230,15 +230,15 @@ namespace HK_Rando_4_Log_Display
             });
             if (_trackerLogReader.IsFileFound && _itemSpoilerReader.IsFileFound && _helperLogReader.IsFileFound)
             {
-                var itemsFoundCount = _trackerLogReader.GetItems().Count;
+                var itemsFoundCount = _trackerLogReader.GetItems().Where(x => x.Location.Name != "Start").Count();
                 var itemsPreviewedCount = _helperLogReader.GetPreviews().Count;
-                var allItemsCount = _itemSpoilerReader.GetItems().Count;
+                var allItemsCount = _itemSpoilerReader.GetItems().Where(x => x.Location.Name != "Start").Count();
                 headerStrings.Add($"Items found & previewed: {itemsFoundCount + itemsPreviewedCount} of {allItemsCount}");
-                var locationsFound = _trackerLogReader.GetItems().Select(x => x.Location.Name).ToList();
+                var locationsFound = _trackerLogReader.GetItems().Where(x => x.Location.Name != "Start").Select(x => x.Location.Name).ToList();
                 var locationsPreviewed = _helperLogReader.GetPreviews().Select(x => x.Location.Name).ToList();
                 var distinctLocationsFoundAndPreviewedCount = locationsFound.Concat(locationsPreviewed).Distinct().Count();
-                var allDistinctLocationsCount = _itemSpoilerReader.GetItems().Select(x => x.Location.Name).Distinct().Count();
-                headerStrings.Add($"Locations found & previewed: {distinctLocationsFoundAndPreviewedCount - 1} of {allDistinctLocationsCount - 1}"); // Remove one from each to ignore START
+                var allDistinctLocationsCount = _itemSpoilerReader.GetItems().Where(x => x.Location.Name != "Start").Select(x => x.Location.Name).Distinct().Count();
+                headerStrings.Add($"Locations found & previewed: {distinctLocationsFoundAndPreviewedCount} of {allDistinctLocationsCount}");
                 var availableLocations = _helperLogReader.GetLocations(null);
                 var inLogicLocationsCount = availableLocations.Count(x => !x.IsOutOfLogic);
                 var outOfLogicLocationsCount = availableLocations.Count(x => x.IsOutOfLogic);
