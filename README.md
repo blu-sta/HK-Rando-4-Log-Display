@@ -1,10 +1,11 @@
-# HK Rando 4 Log Display v2.0.6.9
+# HK Rando 4 Log Display v2.1.0.0
 
 ## Requirements
 
 This application is standalone, and does not need to be in any Hollow Knight folder \
 I leave all the files in a folder in Downloads, and then have a shortcut on the Desktop \
-It was written for Windows and may require .NET 5 to be installed in order to work
+It was written for Windows and may require .NET 5 to be installed in order to work. \
+I have started work on something that I hope will allow for wider use of the Log Display...
 
 ## Compatibility
 
@@ -38,7 +39,7 @@ In addition to the default Randomiser, the following mods are also supported:
 
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
-#### MultiWorld Note
+### MultiWorld
 [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld/) support has been vastly improved as of v2.0.5 \
 Please use the `MultiWorld` button to enter player names \
 The `Predict` button in the MultiWorld window will attempt to identify players from the Item Spoiler Log

@@ -1,5 +1,13 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.1.0.0
+Summary of changes since last release version:
+- Added support for more randomisers
+- Updated support for existing randomisers
+- Additional counters on Helper tab
+- Included HK Chains as necessary for True Ending
+- Updated display of room descriptions
+
 ## v2.0.6.9
 - Fixed HK Chains not appearing in TE counters
 - Removed starting items from items found counter
