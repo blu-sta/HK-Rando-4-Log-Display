@@ -14,6 +14,7 @@ namespace HK_Rando_4_Log_Display
         {
             AddButtonsToGrid(HelperLocationGroupingOptions, HelperLocationGroupOptions);
             AddButtonsToGrid(HelperLocationOrderingOptions, HelperLocationOrderOptions);
+            AddButtonsToGrid(HelperLocationOutOfLogicOrderingOptions, HelperLocationOutOfLogicOrderOptions);
             AddButtonsToGrid(HelperTransitionGroupingOptions, HelperTransitionGroupOptions);
             AddButtonsToGrid(HelperTransitionOrderingOptions, HelperTransitionOrderOptions);
 
@@ -93,6 +94,10 @@ namespace HK_Rando_4_Log_Display
                     _appSettings.SelectedHelperLocationOrder = Array.FindIndex(HelperLocationOrderingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(HelperLocationOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOrder));
                     break;
+                case nameof(HelperLocationOutOfLogicOrderOptions):
+                    _appSettings.SelectedHelperLocationOutOfLogicOrder = Array.FindIndex(HelperLocationOutOfLogicOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperLocationOutOfLogicOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOutOfLogicOrder));
+                    break;
                 case nameof(HelperTransitionGroupOptions):
                     _appSettings.SelectedHelperTransitionGrouping = Array.FindIndex(HelperTransitionGroupingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(HelperTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionGrouping));
@@ -142,6 +147,7 @@ namespace HK_Rando_4_Log_Display
         {
             UpdateUX(() => SetActiveButton(HelperLocationGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationGrouping));
             UpdateUX(() => SetActiveButton(HelperLocationOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOrder));
+            UpdateUX(() => SetActiveButton(HelperLocationOutOfLogicOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOutOfLogicOrder));
             UpdateUX(() => SetActiveButton(HelperTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionGrouping));
             UpdateUX(() => SetActiveButton(HelperTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOrder));
             UpdateUX(() => SetActiveButton(TrackerItemGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerItemGrouping));

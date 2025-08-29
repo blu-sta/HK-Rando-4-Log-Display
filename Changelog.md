@@ -1,5 +1,8 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.1.0.1
+- Added button for splitting and hiding Out of Logic locations on Helper tab
+
 ## v2.1.0.0
 Summary of changes since last release version:
 - Added support for more randomisers

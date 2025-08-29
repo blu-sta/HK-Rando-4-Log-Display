@@ -1,11 +1,12 @@
-# HK Rando 4 Log Display v2.1.0.0
+# HK Rando 4 Log Display v2.1.0.1
 
 ## Requirements
 
 This application is standalone, and does not need to be in any Hollow Knight folder \
-I leave all the files in a folder in Downloads, and then have a shortcut on the Desktop \
-It was written for Windows and may require .NET 5 to be installed in order to work. \
-I have started work on something that I hope will allow for wider use of the Log Display...
+Note: It does need the Reference folder (included in the zip file) to identify items and locations correctly. \
+I leave all the unzipped files in a folder in Downloads, and then have a shortcut on the Desktop \
+It was written for Windows and may require .NET 5/8 to be installed in order to work, depending on the downloaded version. \
+I have started work on something that I hope will allow for wider use of the Log Display, including on other OS's.
 
 ## Compatibility
 

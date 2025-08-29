@@ -4,6 +4,7 @@
     {
         public int SelectedHelperLocationGrouping { get; set; } = 0;
         public int SelectedHelperLocationOrder { get; set; } = 1;
+        public int SelectedHelperLocationOutOfLogicOrder { get; set; } = 0;
         public int SelectedHelperTransitionGrouping { get; set; } = 0;
         public int SelectedHelperTransitionOrder { get; set; } = 1;
         public int SelectedTrackerItemGrouping { get; set; } = 0;

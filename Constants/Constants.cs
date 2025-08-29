@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.1.0.0";
+        public static readonly string AppVersion = "v2.1.0.1";
 
         public enum RoomGrouping
         {
@@ -45,6 +45,16 @@ namespace HK_Rando_4_Log_Display.Constants
             Time = 1,
         }
 
+        public enum OutOfLogicSorting
+        {
+            [EnumMember(Value = "Show")]
+            Show = 0,
+            [EnumMember(Value = "Split")]
+            Split = 1,
+            [EnumMember(Value = "Hide")]
+            Hide = 2,
+        }
+
         public enum SpoilerSorting
         {
             [EnumMember(Value = "Alphabetical")]
@@ -65,6 +75,7 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static readonly string[] HelperLocationGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperLocationOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] HelperLocationOutOfLogicOrderingOptions = Enum.GetValues(typeof(OutOfLogicSorting)).Cast<OutOfLogicSorting>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperTransitionOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
 

@@ -1314,6 +1314,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
                 appSettings.SelectedHelperLocationGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperLocationGrouping") ?? appSettings.SelectedHelperLocationGrouping, HelperLocationGroupingOptions.Length - 1);
                 appSettings.SelectedHelperLocationOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperLocationOrder") ?? appSettings.SelectedHelperLocationOrder, HelperLocationOrderingOptions.Length - 1);
+                appSettings.SelectedHelperLocationOutOfLogicOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperLocationOutOfLogicOrder") ?? appSettings.SelectedHelperLocationOutOfLogicOrder, HelperLocationOutOfLogicOrderingOptions.Length - 1);
                 appSettings.SelectedHelperTransitionGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperTransitionGrouping") ?? appSettings.SelectedHelperTransitionGrouping, HelperTransitionGroupingOptions.Length - 1);
                 appSettings.SelectedHelperTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedHelperTransitionOrder") ?? appSettings.SelectedHelperTransitionOrder, HelperTransitionOrderingOptions.Length - 1);
                 appSettings.SelectedTrackerItemGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerItemGrouping") ?? appSettings.SelectedTrackerItemGrouping, TrackerItemGroupingOptions.Length - 1);
