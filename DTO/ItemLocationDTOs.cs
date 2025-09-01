@@ -11,7 +11,18 @@ namespace HK_Rando_4_Log_Display.DTO
 
     public class SpoilerItemWithLocation : ItemWithLocation
     {
+        public SpoilerItemWithLocation() { }
+
         public string Cost { get; set; }
+        public bool IsObtained { get; set; }
+
+        public SpoilerItemWithLocation(SpoilerItemWithLocation other)
+        {
+            Item = other.Item;
+            Location = other.Location;
+            Cost = other.Cost;
+            IsObtained = other.IsObtained;
+        }
     }
     
     public class ItemWithLocation

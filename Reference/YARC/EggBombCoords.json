@@ -1,0 +1,268 @@
+[
+  {
+    "name": "Egg_Bomb-Map_Right",
+    "scene": "Fungus3_25b",
+    "objectName": "Jelly Egg Bomb (1)",
+    "x": 46.13799,
+    "y": 14.6531
+  },
+  {
+    "name": "Egg_Bomb-Map_Left",
+    "scene": "Fungus3_25b",
+    "objectName": "Jelly Egg Bomb",
+    "x": 27.7421,
+    "y": 14.69
+  },
+  {
+    "name": "Egg_Bomb-Tall_Room_Left",
+    "scene": "Fungus3_26",
+    "objectName": "Jelly Egg Bomb",
+    "x": 22.31,
+    "y": 58.68449
+  },
+  {
+    "name": "Egg_Bomb-Tall_Room_Right",
+    "scene": "Fungus3_26",
+    "objectName": "Jelly Egg Bomb (1)",
+    "x": 25.09464,
+    "y": 58.6659
+  },
+  {
+    "name": "Egg_Bomb-Notch_Corner_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (7)",
+    "x": 56.96,
+    "y": 35.74
+  },
+  {
+    "name": "Egg_Bomb-Notch_Corner_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (6)",
+    "x": 70.81,
+    "y": 30.58
+  },
+  {
+    "name": "Egg_Bomb-Notch_End",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (30)",
+    "x": 26.66,
+    "y": 13.277
+  },
+  {
+    "name": "Egg_Bomb-Notch_Entrance",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb",
+    "x": 64.87,
+    "y": 12.67
+  },
+  {
+    "name": "Egg_Bomb-Notch_Exit",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (3)",
+    "x": 42.34396,
+    "y": 15.76361
+  },
+  {
+    "name": "Egg_Bomb-Notch_Left_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (23)",
+    "x": 2.76,
+    "y": 23.86
+  },
+  {
+    "name": "Egg_Bomb-Notch_Left_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (22)",
+    "x": 5.31,
+    "y": 27.79
+  },
+  {
+    "name": "Egg_Bomb-Notch_Lower_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (2)",
+    "x": 28.16,
+    "y": 7.19
+  },
+  {
+    "name": "Egg_Bomb-Notch_Lower_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (1)",
+    "x": 32.01,
+    "y": 4.6
+  },
+  {
+    "name": "Egg_Bomb-Notch_Lower_3",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (14)",
+    "x": 33.38,
+    "y": 4.69
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (32)",
+    "x": 9.87,
+    "y": 19.79
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (24)",
+    "x": 14,
+    "y": 19.66
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_3",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (25)",
+    "x": 14.09,
+    "y": 23.12
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_4",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (26)",
+    "x": 19.95,
+    "y": 23.34
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_5",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (27)",
+    "x": 21.18,
+    "y": 19.56
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_6",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (28)",
+    "x": 24.52,
+    "y": 19.56
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_7",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (29)",
+    "x": 27.02,
+    "y": 22.86
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_8",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (11)",
+    "x": 32.38,
+    "y": 18.92
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_9",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (21)",
+    "x": 34.03,
+    "y": 22.03
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_10",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (10)",
+    "x": 35.67,
+    "y": 20.68
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_11",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (33)",
+    "x": 36.93,
+    "y": 22.11
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_13",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (31)",
+    "x": 40.77,
+    "y": 24.06
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_14",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (8)",
+    "x": 42.07,
+    "y": 25.82
+  },
+  {
+    "name": "Egg_Bomb-Notch_Middle_12",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (9)",
+    "x": 42.12,
+    "y": 20.68
+  },
+  {
+    "name": "Egg_Bomb-Notch_Right_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (4)",
+    "x": 53.38,
+    "y": 19.27
+  },
+  {
+    "name": "Egg_Bomb-Notch_Right_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (5)",
+    "x": 49.55,
+    "y": 24.03
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_1",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (20)",
+    "x": 8.89,
+    "y": 34.17
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_2",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (19)",
+    "x": 8.92,
+    "y": 30.71
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_3",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (18)",
+    "x": 15.39,
+    "y": 30.73
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_4",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (17)",
+    "x": 18.42,
+    "y": 33.51
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_5",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (16)",
+    "x": 21.55,
+    "y": 34.53
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_6",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (15)",
+    "x": 24.2,
+    "y": 30.83
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_7",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (12)",
+    "x": 36.56,
+    "y": 32.59
+  },
+  {
+    "name": "Egg_Bomb-Notch_Upper_8",
+    "scene": "Fungus3_28",
+    "objectName": "Jelly Egg Bomb (13)",
+    "x": 45.86,
+    "y": 29.64
+  }
+]

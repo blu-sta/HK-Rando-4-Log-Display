@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Hive_Platform-Lower_East",
+    "scene": "Hive_03_c",
+    "objectName": "hive_plat_brk_04",
+    "x": 103.5711,
+    "y": 87.34354
+  },
+  {
+    "name": "Hive_Platform-Lower_North",
+    "scene": "Hive_03_c",
+    "objectName": "hive_plat_brk_02 (1)",
+    "x": 99.3415,
+    "y": 95.18385
+  },
+  {
+    "name": "Hive_Platform-Lower_South",
+    "scene": "Hive_03_c",
+    "objectName": "hive_plat_brk_02",
+    "x": 77.53,
+    "y": 70.97
+  },
+  {
+    "name": "Hive_Platform-Lower_West",
+    "scene": "Hive_03_c",
+    "objectName": "hive_plat_brk_03 (1)",
+    "x": 75.43,
+    "y": 86.66
+  },
+  {
+    "name": "Hive_Platform-Upper_Right",
+    "scene": "Hive_03",
+    "objectName": "hive_plat_brk_02 (2)",
+    "x": 97.6863,
+    "y": 124.7836
+  },
+  {
+    "name": "Hive_Platform-Upper_Left",
+    "scene": "Hive_03",
+    "objectName": "hive_plat_brk_04 (1)",
+    "x": 73.88383,
+    "y": 117.0794
+  },
+  {
+    "name": "Hive_Platform-East_Middle",
+    "scene": "Hive_04",
+    "objectName": "hive_plat_brk_03 (2)",
+    "x": 172.4622,
+    "y": 100.8932
+  },
+  {
+    "name": "Hive_Platform-East_Right",
+    "scene": "Hive_04",
+    "objectName": "hive_plat_brk_02 (4)",
+    "x": 192.23,
+    "y": 98.23
+  }
+]

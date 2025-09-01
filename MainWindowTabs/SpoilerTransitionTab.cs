@@ -15,7 +15,7 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedSpoilerTrackedRoomsWithTransitions = new();
         private readonly HashSet<string> ExpandedSpoilerTrackedZonesWithTransitions = new();
         private bool _useSpoilerTransitionsDestination = false;
-        private bool _showSpoilerTransitionTraversed = true;
+        private bool _showSpoilerTransitionTraversed = true; // TODO: Replace with SpoilerObtainedDisplay.Hide
         private bool _showSpoilerTransitionSceneDescriptions = false;
 
         private void UpdateSpoilerTransitionsTab()
@@ -73,7 +73,7 @@ namespace HK_Rando_4_Log_Display
                 {
                     roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedSpoilerTrackedRoomsWithTransitions, ordering, trackedTransitions));
                 });
-                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions);
+                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions); // TODO: Add traversed counter
                 SpoilerTransitionsList.Items.Add(areaExpander);
             }
         }
@@ -88,6 +88,7 @@ namespace HK_Rando_4_Log_Display
             };
             var transitionsGrid = GetSpoilerTransitionsGrid(orderedTransitions, trackedTransitions);
             SpoilerTransitionsList.Items.Add(transitionsGrid);
+            // TODO: Add traversed counter
         }
 
         private Expander GetSpoilerZoneWithTransitionsExpander(KeyValuePair<string, List<TransitionWithDestination>> zoneWithTransitions, HashSet<string> expandedHashset, SpoilerSorting ordering, List<TransitionWithDestination> trackedTransitions)
@@ -100,7 +101,7 @@ namespace HK_Rando_4_Log_Display
                 _ => zoneWithTransitions.Value.OrderBy(x => _useSpoilerTransitionsDestination ? x.Destination.Name : x.Source.Name).ToList(),
             };
             var transitionsGrid = GetSpoilerTransitionsGrid(orderedTransitions, trackedTransitions);
-            return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset);
+            return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset);   // TODO: Added traversed counter
         }
 
         private Grid GetSpoilerTransitionsGrid(List<TransitionWithDestination> transitions, List<TransitionWithDestination> trackedTransitions)

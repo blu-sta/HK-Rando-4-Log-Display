@@ -64,6 +64,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         private const string StatueMarkPool = "Statue Mark";
         private const string MilliGolfPool = "MilliGolf";
         private const string AccessKeyPool = "Key - Access";
+        private const string VendorRandoPool = "Vendor";
+        private const string YARCBomb = "YARC Bomb";
+        private const string YARCPlatform = "YARC Platform";
 
         public ResourceLoader()
         {
@@ -75,59 +78,62 @@ namespace HK_Rando_4_Log_Display.FileReader
         private void LoadReferenceItems()
         {
             var itemImports = GetItemImportsFromFile();
-            ReferenceItems = itemImports.Select(x => new ReferenceItem
-            {
-                Name = x.Name,
-                PreviewName = GetItemPreviewName(x),
-                Pool = x.Pool
-            })
+            ReferenceItems = [
+                .. itemImports.Select(x => new ReferenceItem
+                {
+                    Name = x.Name,
+                    PreviewName = GetItemPreviewName(x),
+                    Pool = x.Pool
+                }),
+
                 // flibber-hk
-                .Concat(RandoPlusItemImport())
-                .Concat(SkillUpgradeItemImport())
-                .Concat(FungalCityGateKeyItemImport())
-                .Concat(LeverItemImport())
+                .. RandoPlusItemImport(),
+                .. SkillUpgradeItemImport(),
+                .. FungalCityGateKeyItemImport(),
+                .. LeverItemImport(),
 
                 // dpinela
-                .Concat(TranscendenceItemImport())
-                .Concat(RainbowEggItemImport())
-                .Concat(Colo3ItemImport())
+                .. TranscendenceItemImport(),
+                .. RainbowEggItemImport(),
+                .. Colo3ItemImport(),
 
                 // homothetyhk
-                .Concat(BenchItemImport())
+                .. BenchItemImport(),
 
                 // BadMagic100
-                .Concat(TRJRItemImport())
-                .Concat(MoreLocationsItemImport())
+                .. TRJRItemImport(),
+                .. MoreLocationsItemImport(),
 
                 // dplochcoder
-                .Concat(MoreDoorsItemImport())
-                .Concat(DarknessItemImport())
+                .. MoreDoorsItemImport(),
+                .. DarknessItemImport(),
 
                 // Hoo-Knows
-                .Concat(LostArtifactsItemImport())
+                .. LostArtifactsItemImport(),
 
                 // Korzer420
-                .Concat(LoreMasterItemImport(itemImports.Where(x => x.Pool == "Lore").ToList()))
-                .Concat(ExtraRandoItemImport())
+                .. LoreMasterItemImport([.. itemImports.Where(x => x.Pool == "Lore")]),
+                .. ExtraRandoItemImport(),
 
                 // Bentechy66
-                .Concat(BreakableWallsItemImport())
+                .. BreakableWallsItemImport(),
 
                 // nerthul11
-                .Concat(BreakableWFCPItemImport())
-                .Concat(GodhomeRandoItemImport())
-                .Concat(AccessRandoItemImport())
+                .. BreakableWFCPItemImport(),
+                .. GodhomeRandoItemImport(),
+                .. AccessRandoItemImport(),
 
                 // StormZillaa
-                .Concat(GrassRandoItemImport())
+                .. GrassRandoItemImport(),
 
                 // TheMathGeek314
-                .Concat(MilliGolfItemImport())
+                .. MilliGolfItemImport(),
+                .. VendorRandoItemImport(),
+                .. YARCItemImport(),
 
                 // unidentified items
-                .Concat(UnidentifiedItems())
-
-                .ToList();
+                .. UnidentifiedItems(),
+            ];
         }
 
         private static string GetItemPreviewName(ItemImport x)
@@ -143,17 +149,16 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<ItemImport> GetItemImportsFromFile() =>
-            LoadDictionaryFileValues<ItemImport>(ReferenceItemsFilePath).Concat(new List<ItemImport>
-            {
+            [
+                .. LoadDictionaryFileValues<ItemImport>(ReferenceItemsFilePath),
                 new () { Name = "White_Fragment", Pool = "Charm" },
                 new () { Name = "Kingsoul", Pool = "Charm" },
                 new () { Name = "Grimmchild", Pool = "Charm" },
-            }).ToList();
+            ];
 
         private static List<ReferenceItem> RandoPlusItemImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandoPlus
-            new ()
-            {
+            [
                 new () { Name = "Mr_Mushroom_Level_Up", PreviewName = "Mr Mushroom Level Up", Pool = MrMushroomPool },
                 new () { Name = "Nail_Upgrade", PreviewName = "Nail Upgrade", Pool = SkillPool },
                 new () { Name = "Not_Isma's_Tear", PreviewName = "Not Isma's Tear", Pool = SkillPool },
@@ -187,12 +192,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Ghost_Essence-Hex", PreviewName = "Ghost_Essence-Hex", Pool = GhostPool },
                 new () { Name = "Ghost_Essence-Thistlewind", PreviewName = "Ghost_Essence-Thistlewind", Pool = GhostPool },
                 new () { Name = "Ghost_Essence-Boss", PreviewName = "Ghost_Essence-Boss", Pool = GhostPool },
-            };
+            ];
 
         private static List<ReferenceItem> SkillUpgradeItemImport() =>
             // https://github.com/flibber-hk/HollowKnight.SkillUpgrades
-            new ()
-            {
+            [
                 new () { Name = "DirectionalDash", PreviewName = "Directional Dash", Pool = SkillUpgradePool },
                 new () { Name = "DownwardFireball", PreviewName = "Downward Fireball", Pool = SkillUpgradePool },
                 new () { Name = "ExtraAirDash", PreviewName = "Extra Air Dash", Pool = SkillUpgradePool },
@@ -203,33 +207,36 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "VerticalSuperdash", PreviewName = "Vertical Superdash", Pool = SkillUpgradePool },
                 new () { Name = "WallClimb", PreviewName = "Wall Climb", Pool = SkillUpgradePool },
                 new () { Name = "WingsGlide", PreviewName = "Wings Glide", Pool = SkillUpgradePool },
-            };
+            ];
 
         private static List<ReferenceItem> FungalCityGateKeyItemImport() =>
             // https://github.com/flibber-hk/HollowKnight.ReopenCityDoor
-            new() { new() { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key", Pool = "Key" } };
+            [
+                new() { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key", Pool = "Key" },
+            ];
 
         private class LeverItem
         {
             public string Key;
             public string Text;
         }
+
         private static List<ReferenceItem> LeverItemImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
-            LoadListFile<LeverItem>(ReferenceRandoLeverItemsFilePath)
-                .Where(x => x.Key.StartsWith("LEVERNAME"))
-                .Select(x => new ReferenceItem
-                {
-                    Name = x.Key.Replace("LEVERNAME.", ""),
-                    PreviewName = x.Text,
-                    Pool = LeverPool,
-                })
-                .ToList();
+            [
+                .. LoadListFile<LeverItem>(ReferenceRandoLeverItemsFilePath)
+                    .Where(x => x.Key.StartsWith("LEVERNAME"))
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Key.Replace("LEVERNAME.", ""),
+                        PreviewName = x.Text,
+                        Pool = LeverPool,
+                    }),
+            ];
 
         private static List<ReferenceItem> TranscendenceItemImport() =>
             // https://github.com/dpinela/Transcendence
-            new ()
-            {
+            [
                 new () { Name = "Marissa's_Audience", PreviewName = "Marissa's Audience", Pool = TranscendencePool },
                 new () { Name = "Lemm's_Strength", PreviewName = "Lemm's Strength", Pool = TranscendencePool },
                 new () { Name = "Snail_Slash", PreviewName = "Snail Slash", Pool = TranscendencePool },
@@ -245,12 +252,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Chaos_Orb", PreviewName = "Chaos Orb", Pool = TranscendencePool },
                 new () { Name = "Antigravity_Amulet", PreviewName = "Antigravity Amulet", Pool = TranscendencePool },
                 new () { Name = "Vespa's_Vengeance", PreviewName = "Vespa's Vengeance", Pool = TranscendencePool },
-            };
+            ];
 
         private static List<ReferenceItem> RainbowEggItemImport() =>
             // https://github.com/dpinela/RainbowEggs
-            new ()
-            {
+            [
                 new () { Name = "Red_Egg", PreviewName = "Red Egg", Pool = EggPool },
                 new () { Name = "Orange_Egg", PreviewName = "Orange Egg", Pool = EggPool },
                 new () { Name = "Yellow_Egg", PreviewName = "Yellow Egg", Pool = EggPool },
@@ -262,99 +268,107 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Trans_Egg", PreviewName = "Trans Egg", Pool = EggPool },
                 new () { Name = "Rainbow_Egg", PreviewName = "Rainbow Egg", Pool = EggPool },
                 new () { Name = "Arcane_Eg", PreviewName = "Arcane Eg", Pool = EggPool },
-            };
+            ];
 
         private static List<ReferenceItem> Colo3ItemImport() =>
             // https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer
-            new() { new() { Name = "The_Glory_of_Being_a_Fool", PreviewName = "The Glory of Being a Fool", Pool = "Useless" } };
+            [
+                new() { Name = "The_Glory_of_Being_a_Fool", PreviewName = "The Glory of Being a Fool", Pool = "Useless" },
+            ];
 
         private class BenchItem
         {
             public string Key;
             public string Value;
         }
+
         private static List<ReferenceItem> BenchItemImport() =>
             // https://github.com/homothetyhk/BenchRando
-            LoadListFile<BenchItem>(ReferenceBenchRandoItemsFilePath)
-                .Where(x => x.Key.StartsWith("BENCHNAME"))
-                .Select(x => new ReferenceItem
-                {
-                    Name = x.Key.Replace("BENCHNAME.", ""),
-                    PreviewName = x.Value,
-                    Pool = BenchPool,
-                })
-                .ToList();
+            [
+                .. LoadListFile<BenchItem>(ReferenceBenchRandoItemsFilePath)
+                    .Where(x => x.Key.StartsWith("BENCHNAME"))
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Key.Replace("BENCHNAME.", ""),
+                        PreviewName = x.Value,
+                        Pool = BenchPool,
+                    }),
+            ];
 
         private class TRJRImport
         {
             public string IcName;
         }
+
         private static List<ReferenceItem> TRJRItemImport() =>
             // https://github.com/BadMagic100/TheRealJournalRando
-            LoadListFile<TRJRImport>(TRJRFilePath)
-                .SelectMany(x =>
-                {
-                    var previewName = x.IcName.Replace("_", " ");
-                    return new List<ReferenceItem>
+            [
+                .. LoadListFile<TRJRImport>(TRJRFilePath)
+                    .SelectMany(x =>
                     {
-                        new () {
-                            Name = $"Journal_Entry-{x.IcName}",
-                            PreviewName = $"{previewName} Journal Entry",
-                            Pool = JournalEntryPool,
-                        },
-                        new () {
-                            Name = $"Hunter's_Notes-{x.IcName}",
-                            PreviewName = $"{previewName} Hunter's Notes",
-                            Pool = HuntersNotesPool,
-                        },
-                    };
-                })
-                .Append(new () { Name = "Hunter's_Mark", PreviewName = "Hunter's Mark", Pool = JournalEntryPool })
-                .ToList();
+                        var previewName = x.IcName.Replace("_", " ");
+                        return new List<ReferenceItem>
+                        {
+                            new () {
+                                Name = $"Journal_Entry-{x.IcName}",
+                                PreviewName = $"{previewName} Journal Entry",
+                                Pool = JournalEntryPool,
+                            },
+                            new () {
+                                Name = $"Hunter's_Notes-{x.IcName}",
+                                PreviewName = $"{previewName} Hunter's Notes",
+                                Pool = HuntersNotesPool,
+                            },
+                        };
+                    }),
+                new () { Name = "Hunter's_Mark", PreviewName = "Hunter's Mark", Pool = JournalEntryPool },
+            ];
 
         private static List<ReferenceItem> MoreLocationsItemImport() =>
             // https://github.com/BadMagic100/MoreLocations
-            new()
-            {
+            [
                 new () { Name = "Wanderer's_Journal_Sale", PreviewName = "Wanderer's Journal Sale", Pool = MoreLocationsPool },
                 new () { Name = "Hallownest_Seal_Sale", PreviewName = "Hallownest Seal Sale", Pool = MoreLocationsPool },
                 new () { Name = "King's_Idol_Sale", PreviewName = "King's Idol Sale", Pool = MoreLocationsPool },
                 new () { Name = "Arcane_Egg_Sale", PreviewName = "Arcane Egg Sale", Pool = MoreLocationsPool },
-            };
+            ];
 
         private class MoreDoorItem
         {
             public MoreDoorKey Key;
         }
+
         private class MoreDoorKey
         {
             public string ItemName;
             public string UIItemName;
             public MoreDoorGate Location;
         }
+
         private class MoreDoorGate : BasicLocation { }
+
         private static List<ReferenceItem> MoreDoorsItemImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
-            LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
-            new ReferenceItem
-            {
-                Name = x.Key.ItemName,
-                PreviewName = x.Key.UIItemName,
-                Pool = MoreDoorsPool,
-            })
-            .Append(new ReferenceItem
-            {
-                // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
-                Name = "MoreDoors-Miner's_Key",
-                PreviewName = "Miner's Key",
-                Pool = MoreDoorsPool,
-            })
-            .ToList();
+            [
+                .. LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath)
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Key.ItemName,
+                        PreviewName = x.Key.UIItemName,
+                        Pool = MoreDoorsPool,
+                    }),
+                new ReferenceItem
+                {
+                    // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
+                    Name = "MoreDoors-Miner's_Key",
+                    PreviewName = "Miner's Key",
+                    Pool = MoreDoorsPool,
+                },
+            ];
 
         private static List<ReferenceItem> LostArtifactsItemImport() =>
             // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
-            new ()
-            {
+            [
                 new () { Name = "TravelersGarment", PreviewName = "Travelers Garment", Pool = LostArtifactPool },
                 new () { Name = "PavingStone", PreviewName = "Paving Stone", Pool = LostArtifactPool },
                 new () { Name = "LushMoss", PreviewName = "Lush Moss", Pool = LostArtifactPool },
@@ -376,136 +390,135 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "VoidEmblem", PreviewName = "Void Emblem", Pool = LostArtifactPool },
                 new () { Name = "AttunedJewel", PreviewName = "Attuned Jewel", Pool = LostArtifactPool },
                 new () { Name = "HiddenMemento", PreviewName = "Hidden Memento", Pool = LostArtifactPool },
-            };
+            ];
 
         private static List<ReferenceItem> LoreMasterItemImport(List<ItemImport> defaultLorePoolItems) =>
             // https://github.com/Korzer420/LoreMaster/
-            new List<ReferenceItem>()
-            {
-                new () { Name = "Magical_Key", PreviewName = "Magical Key" },
-                new () { Name = "Dream_Medallion", PreviewName = "Dream Medallion" },
-                new () { Name = "Silksong_Journal", PreviewName = "Silksong Journal?" },
-                new () { Name = "Silver_Hallownest_Seal", PreviewName = "Silver Seal" },
-                new () { Name = "Bronze_King_Idol", PreviewName = "Bronze King's Idol" },
-                new () { Name = "Golden_Arcane_Egg", PreviewName = "Golden Arcane Egg" },
-                new () { Name = "Lore_Tablet-Stag_Egg_Inspect", PreviewName = "Stag Adoption" },
-                new () { Name = "Lore_Tablet-Record_Bela", PreviewName = "Lore Tablet Record Bela" },
+            [
+                .. new List<ReferenceItem> {
+                    new () { Name = "Magical_Key", PreviewName = "Magical Key" },
+                    new () { Name = "Dream_Medallion", PreviewName = "Dream Medallion" },
+                    new () { Name = "Silksong_Journal", PreviewName = "Silksong Journal?" },
+                    new () { Name = "Silver_Hallownest_Seal", PreviewName = "Silver Seal" },
+                    new () { Name = "Bronze_King_Idol", PreviewName = "Bronze King's Idol" },
+                    new () { Name = "Golden_Arcane_Egg", PreviewName = "Golden Arcane Egg" },
+                    new () { Name = "Lore_Tablet-Stag_Egg_Inspect", PreviewName = "Stag Adoption" },
+                    new () { Name = "Lore_Tablet-Record_Bela", PreviewName = "Lore Tablet Record Bela" },
 
-                new () { Name = "Read_Ability", PreviewName = "Reading" },
-                new () { Name = "Listen_Ability", PreviewName = "Listening" },
-                new () { Name = "Lore_Page", PreviewName = "Lore Page" },
-                new () { Name = "Lore_Page_Control", PreviewName = "Lore Control" },
-                new () { Name = "Cleansing_Scroll", PreviewName = "Cleansing Scroll" },
-                new () { Name = "Joker_Scroll", PreviewName = "Knowledge Scroll" },
-                new () { Name = "Cleansing_Scroll_Double", PreviewName = "Cleansing Scroll Pack" },
+                    new () { Name = "Read_Ability", PreviewName = "Reading" },
+                    new () { Name = "Listen_Ability", PreviewName = "Listening" },
+                    new () { Name = "Lore_Page", PreviewName = "Lore Page" },
+                    new () { Name = "Lore_Page_Control", PreviewName = "Lore Control" },
+                    new () { Name = "Cleansing_Scroll", PreviewName = "Cleansing Scroll" },
+                    new () { Name = "Joker_Scroll", PreviewName = "Knowledge Scroll" },
+                    new () { Name = "Cleansing_Scroll_Double", PreviewName = "Cleansing Scroll Pack" },
 
-                new () { Name = "Lemm_Order", PreviewName = "Lemm's Order" },
-                new () { Name = "Traitor_Grave", PreviewName = "Traitor Grave" },
+                    new () { Name = "Lemm_Order", PreviewName = "Lemm's Order" },
+                    new () { Name = "Traitor_Grave", PreviewName = "Traitor Grave" },
 
-                new () { Name = "Dialogue-Bretta_Diary", PreviewName = "Bretta Diary" },
-                new () { Name = "Dialogue-Bardoon", PreviewName = "Bardoon" },
-                new () { Name = "Dialogue-Vespa", PreviewName = "Vespa" },
-                new () { Name = "Dialogue-Mask_Maker", PreviewName = "Mask Maker" },
-                new () { Name = "Dialogue-Midwife", PreviewName = "Midwife" },
-                new () { Name = "Dialogue-Gravedigger", PreviewName = "Gravedigger" },
-                new () { Name = "Dialogue-Poggy", PreviewName = "Poggy" },
-                new () { Name = "Dialogue-Joni", PreviewName = "Joni" },
-                new () { Name = "Dialogue-Myla", PreviewName = "Myla" },
-                new () { Name = "Dialogue-Emilitia", PreviewName = "Emilitia" },
-                new () { Name = "Dialogue-Willoh", PreviewName = "Willoh" },
-                new () { Name = "Dialogue-Moss_Prophet", PreviewName = "Moss Prophet" },
-                new () { Name = "Dialogue-Fluke_Hermit", PreviewName = "Fluke Hermit" },
-                new () { Name = "Dialogue-Queen", PreviewName = "Queen" },
-                new () { Name = "Dialogue-Marissa", PreviewName = "Marissa" },
-                new () { Name = "Dialogue-Grasshopper", PreviewName = "Grasshopper" },
-                new () { Name = "Dialogue-Dung_Defender", PreviewName = "Dung Defender" },
-                new () { Name = "Dialogue-Menderbug_Diary", PreviewName = "Menderbug Diary" },
+                    new () { Name = "Dialogue-Bretta_Diary", PreviewName = "Bretta Diary" },
+                    new () { Name = "Dialogue-Bardoon", PreviewName = "Bardoon" },
+                    new () { Name = "Dialogue-Vespa", PreviewName = "Vespa" },
+                    new () { Name = "Dialogue-Mask_Maker", PreviewName = "Mask Maker" },
+                    new () { Name = "Dialogue-Midwife", PreviewName = "Midwife" },
+                    new () { Name = "Dialogue-Gravedigger", PreviewName = "Gravedigger" },
+                    new () { Name = "Dialogue-Poggy", PreviewName = "Poggy" },
+                    new () { Name = "Dialogue-Joni", PreviewName = "Joni" },
+                    new () { Name = "Dialogue-Myla", PreviewName = "Myla" },
+                    new () { Name = "Dialogue-Emilitia", PreviewName = "Emilitia" },
+                    new () { Name = "Dialogue-Willoh", PreviewName = "Willoh" },
+                    new () { Name = "Dialogue-Moss_Prophet", PreviewName = "Moss Prophet" },
+                    new () { Name = "Dialogue-Fluke_Hermit", PreviewName = "Fluke Hermit" },
+                    new () { Name = "Dialogue-Queen", PreviewName = "Queen" },
+                    new () { Name = "Dialogue-Marissa", PreviewName = "Marissa" },
+                    new () { Name = "Dialogue-Grasshopper", PreviewName = "Grasshopper" },
+                    new () { Name = "Dialogue-Dung_Defender", PreviewName = "Dung Defender" },
+                    new () { Name = "Dialogue-Menderbug_Diary", PreviewName = "Menderbug Diary" },
 
-                new () { Name = "Inspect-Elder_Hu", PreviewName = "Elder Hu" },
-                new () { Name = "Inspect-Xero", PreviewName = "Xero" },
-                new () { Name = "Inspect-Galien", PreviewName = "Galien" },
-                new () { Name = "Inspect-Marmu", PreviewName = "Marmu" },
-                new () { Name = "Inspect-Gorb", PreviewName = "Gorb" },
-                new () { Name = "Inspect-Markoth", PreviewName = "Markoth" },
-                new () { Name = "Inspect-No_Eyes", PreviewName = "No Eyes" },
+                    new () { Name = "Inspect-Elder_Hu", PreviewName = "Elder Hu" },
+                    new () { Name = "Inspect-Xero", PreviewName = "Xero" },
+                    new () { Name = "Inspect-Galien", PreviewName = "Galien" },
+                    new () { Name = "Inspect-Marmu", PreviewName = "Marmu" },
+                    new () { Name = "Inspect-Gorb", PreviewName = "Gorb" },
+                    new () { Name = "Inspect-Markoth", PreviewName = "Markoth" },
+                    new () { Name = "Inspect-No_Eyes", PreviewName = "No Eyes" },
 
-                new () { Name = "Dream_Dialogue-Aspid_Queen", PreviewName = "Aspid Queen" },
-                new () { Name = "Dream_Dialogue-Mine_Golem", PreviewName = "Mine Golem" },
-                new () { Name = "Dream_Dialogue-Hopper_Dummy", PreviewName = "Hopper Dummy" },
-                new () { Name = "Dream_Dialogue-Ancient_Nailsmith_Golem", PreviewName = "Ancient Nailsmith Golem" },
-                new () { Name = "Dream_Dialogue-Shriek_Statue", PreviewName = "Shriek Statue" },
-                new () { Name = "Dream_Dialogue-Shade_Golem_Normal", PreviewName = "Shade Golem Normal" },
-                new () { Name = "Dream_Dialogue-Shade_Golem_Void", PreviewName = "Shade Golem Void" },
-                new () { Name = "Dream_Dialogue-Overgrown_Shaman", PreviewName = "Overgrown Shaman" },
-                new () { Name = "Dream_Dialogue-Crystalized_Shaman", PreviewName = "Crystalized Shaman" },
-                new () { Name = "Dream_Dialogue-Shroom_King", PreviewName = "Shroom King" },
-                new () { Name = "Dream_Dialogue-Dryya", PreviewName = "Dryya" },
-                new () { Name = "Dream_Dialogue-Isma", PreviewName = "Isma" },
-                new () { Name = "Dream_Dialogue-Radiance_Statue", PreviewName = "Radiance Statue" },
-                new () { Name = "Dream_Dialogue-Dashmaster_Statue", PreviewName = "Dashmaster Statue" },
-                new () { Name = "Dream_Dialogue-Snail_Shaman_Tomb", PreviewName = "Snail Shaman Tomb" },
-                new () { Name = "Dream_Dialogue-Pale_King", PreviewName = "Pale King" },
-                new () { Name = "Dream_Dialogue-Grimm_Summoner", PreviewName = "Grimm Summoner" },
-                new () { Name = "Dream_Dialogue-Kings_Mould", PreviewName = "Kings Mould" },
-                new () { Name = "Dream_Dialogue-Dream_Shield_Statue", PreviewName = "Dream Shield Statue" },
+                    new () { Name = "Dream_Dialogue-Aspid_Queen", PreviewName = "Aspid Queen" },
+                    new () { Name = "Dream_Dialogue-Mine_Golem", PreviewName = "Mine Golem" },
+                    new () { Name = "Dream_Dialogue-Hopper_Dummy", PreviewName = "Hopper Dummy" },
+                    new () { Name = "Dream_Dialogue-Ancient_Nailsmith_Golem", PreviewName = "Ancient Nailsmith Golem" },
+                    new () { Name = "Dream_Dialogue-Shriek_Statue", PreviewName = "Shriek Statue" },
+                    new () { Name = "Dream_Dialogue-Shade_Golem_Normal", PreviewName = "Shade Golem Normal" },
+                    new () { Name = "Dream_Dialogue-Shade_Golem_Void", PreviewName = "Shade Golem Void" },
+                    new () { Name = "Dream_Dialogue-Overgrown_Shaman", PreviewName = "Overgrown Shaman" },
+                    new () { Name = "Dream_Dialogue-Crystalized_Shaman", PreviewName = "Crystalized Shaman" },
+                    new () { Name = "Dream_Dialogue-Shroom_King", PreviewName = "Shroom King" },
+                    new () { Name = "Dream_Dialogue-Dryya", PreviewName = "Dryya" },
+                    new () { Name = "Dream_Dialogue-Isma", PreviewName = "Isma" },
+                    new () { Name = "Dream_Dialogue-Radiance_Statue", PreviewName = "Radiance Statue" },
+                    new () { Name = "Dream_Dialogue-Dashmaster_Statue", PreviewName = "Dashmaster Statue" },
+                    new () { Name = "Dream_Dialogue-Snail_Shaman_Tomb", PreviewName = "Snail Shaman Tomb" },
+                    new () { Name = "Dream_Dialogue-Pale_King", PreviewName = "Pale King" },
+                    new () { Name = "Dream_Dialogue-Grimm_Summoner", PreviewName = "Grimm Summoner" },
+                    new () { Name = "Dream_Dialogue-Kings_Mould", PreviewName = "Kings Mould" },
+                    new () { Name = "Dream_Dialogue-Dream_Shield_Statue", PreviewName = "Dream Shield Statue" },
 
-                new () { Name = "Inscription-City_Fountain", PreviewName = "City Fountain" },
-                new () { Name = "Inscription-Dreamer_Tablet", PreviewName = "Dreamer Tablet" },
+                    new () { Name = "Inscription-City_Fountain", PreviewName = "City Fountain" },
+                    new () { Name = "Inscription-Dreamer_Tablet", PreviewName = "Dreamer Tablet" },
 
-                new () { Name = "Inspect-Beast_Den_Altar", PreviewName = "Beast Den Altar" },
-                new () { Name = "Inspect-Weaver_Seal", PreviewName = "Weaver Seal" },
-                new () { Name = "Inspect-Grimm_Machine", PreviewName = "Grimm Machine" },
-                new () { Name = "Inspect-Garden_Golem", PreviewName = "Garden Golem" },
-                new () { Name = "Inspect-Grub_Seal", PreviewName = "Grub Seal" },
-                new () { Name = "Inspect-White_Palace_Nursery", PreviewName = "White Palace Nursery" },
-                new () { Name = "Inspect-Grimm_Summoner_Corpse", PreviewName = "Grimm Summoner Corpse" },
+                    new () { Name = "Inspect-Beast_Den_Altar", PreviewName = "Beast Den Altar" },
+                    new () { Name = "Inspect-Weaver_Seal", PreviewName = "Weaver Seal" },
+                    new () { Name = "Inspect-Grimm_Machine", PreviewName = "Grimm Machine" },
+                    new () { Name = "Inspect-Garden_Golem", PreviewName = "Garden Golem" },
+                    new () { Name = "Inspect-Grub_Seal", PreviewName = "Grub Seal" },
+                    new () { Name = "Inspect-White_Palace_Nursery", PreviewName = "White Palace Nursery" },
+                    new () { Name = "Inspect-Grimm_Summoner_Corpse", PreviewName = "Grimm Summoner Corpse" },
 
-                new () { Name = "Dialogue-Quirrel_Crossroads", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Greenpath", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Queen_Station", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Mantis_Village", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_City", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Deepnest", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Peaks", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Outside_Archive", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Archive", PreviewName = "Quirrel" },
-                new () { Name = "Dialogue-Quirrel_Blue_Lake", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Crossroads", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Greenpath", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Queen_Station", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Mantis_Village", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_City", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Deepnest", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Peaks", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Outside_Archive", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Archive", PreviewName = "Quirrel" },
+                    new () { Name = "Dialogue-Quirrel_Blue_Lake", PreviewName = "Quirrel" },
 
-                new () { Name = "Dialogue-Cloth_Fungal_Wastes", PreviewName = "Cloth" },
-                new () { Name = "Dialogue-Cloth_Basin", PreviewName = "Cloth" },
-                new () { Name = "Dialogue-Cloth_Deepnest", PreviewName = "Cloth" },
-                new () { Name = "Dialogue-Cloth_Garden", PreviewName = "Cloth" },
-                new () { Name = "Dialogue-Cloth_Ghost", PreviewName = "Cloth" },
+                    new () { Name = "Dialogue-Cloth_Fungal_Wastes", PreviewName = "Cloth" },
+                    new () { Name = "Dialogue-Cloth_Basin", PreviewName = "Cloth" },
+                    new () { Name = "Dialogue-Cloth_Deepnest", PreviewName = "Cloth" },
+                    new () { Name = "Dialogue-Cloth_Garden", PreviewName = "Cloth" },
+                    new () { Name = "Dialogue-Cloth_Ghost", PreviewName = "Cloth" },
 
-                new () { Name = "Dialogue-Tiso_Dirtmouth", PreviewName = "Tiso" },
-                new () { Name = "Dialogue-Tiso_Crossroads", PreviewName = "Tiso" },
-                new () { Name = "Dialogue-Tiso_Blue_Lake", PreviewName = "Tiso" },
-                new () { Name = "Dialogue-Tiso_Colosseum", PreviewName = "Tiso" },
-                new () { Name = "Dream_Dialogue-Tiso_Corpse", PreviewName = "Tiso" },
+                    new () { Name = "Dialogue-Tiso_Dirtmouth", PreviewName = "Tiso" },
+                    new () { Name = "Dialogue-Tiso_Crossroads", PreviewName = "Tiso" },
+                    new () { Name = "Dialogue-Tiso_Blue_Lake", PreviewName = "Tiso" },
+                    new () { Name = "Dialogue-Tiso_Colosseum", PreviewName = "Tiso" },
+                    new () { Name = "Dream_Dialogue-Tiso_Corpse", PreviewName = "Tiso" },
 
-                new () { Name = "Dialogue-Zote_Greenpath", PreviewName = "Zote" },
-                new () { Name = "Dialogue-Zote_Dirtmouth_Intro", PreviewName = "Zote" },
-                new () { Name = "Dialogue-Zote_City", PreviewName = "Zote" },
-                new () { Name = "Dialogue-Zote_Deepnest", PreviewName = "Zote" },
-                new () { Name = "Dialogue-Zote_Colosseum", PreviewName = "Zote" },
-                new () { Name = "Dialogue-Zote_Dirtmouth_After_Colosseum", PreviewName = "Zote" },
-            }.Concat(defaultLorePoolItems.Select(x => new ReferenceItem
-            {
-                Name = $"{x.Name}_Empowered",
-                PreviewName = $"{x.Name}_Empowered".WithoutUnderscores(),
-            }))
-            .Select(x => new ReferenceItem
-            {
-                Name = x.Name,
-                PreviewName = x.PreviewName,
-                Pool = $"Lore Master - {(x.Name.Contains("-") ? x.Name.Split('-')[0] : "Other")}",
-            }
-            ).ToList();
+                    new () { Name = "Dialogue-Zote_Greenpath", PreviewName = "Zote" },
+                    new () { Name = "Dialogue-Zote_Dirtmouth_Intro", PreviewName = "Zote" },
+                    new () { Name = "Dialogue-Zote_City", PreviewName = "Zote" },
+                    new () { Name = "Dialogue-Zote_Deepnest", PreviewName = "Zote" },
+                    new () { Name = "Dialogue-Zote_Colosseum", PreviewName = "Zote" },
+                    new () { Name = "Dialogue-Zote_Dirtmouth_After_Colosseum", PreviewName = "Zote" },
+                }.Concat(defaultLorePoolItems.Select(x => new ReferenceItem
+                    {
+                        Name = $"{x.Name}_Empowered",
+                        PreviewName = $"{x.Name}_Empowered".WithoutUnderscores(),
+                    })
+                ).Select(x => new ReferenceItem
+                    {
+                        Name = x.Name,
+                        PreviewName = x.PreviewName,
+                        Pool = $"Lore Master - {(x.Name.Contains("-") ? x.Name.Split('-')[0] : "Other")}",
+                    }),
+            ];
 
         private static List<ReferenceItem> ExtraRandoItemImport() =>
             // https://github.com/Korzer420/ExtraRando
-            new()
-            {
+            [
                 // Split Shade Cloak
                 new () { Name = "Progressive_Left_Cloak", PreviewName = "Progressive Left Cloak", Pool = SkillPool },
                 new () { Name = "Progressive_Right_Cloak", PreviewName = "Progressive Right Cloak", Pool = SkillPool },
@@ -520,83 +533,94 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Colo_Ticket-Bronze", PreviewName = "Colo Ticket - Bronze", Pool = "Colo" },
                 new () { Name = "Colo_Ticket-Silver", PreviewName = "Colo Ticket - Silver", Pool = "Colo" },
                 new () { Name = "Colo_Ticket-Gold", PreviewName = "Colo Ticket - Gold", Pool = "Colo" },
-            };
+            ];
 
         private static List<ReferenceItem> DarknessItemImport() =>
             // https://github.com/dplochcoder/HollowKnight.DarknessRandomizer
-            new ()
-            {
+            [
                 new () { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)", Pool = "Key" },
                 new () { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard", Pool = "Key" },
-            };
+            ];
 
         private class BreakableWall
         {
             public string NiceName;
             public string SceneName;
         }
+
         private static List<ReferenceItem> BreakableWallsItemImport() =>
             // https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer
-            LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
-            .Select(x =>
-            {
-                var cleanedName = Regex.Replace(x.NiceName, @"[^\w\s]", "");
-                return new ReferenceItem
-                {
-                    Name = cleanedName,
-                    PreviewName = cleanedName,
-                    Pool = BreakablePool,
-                };
-            }).ToList();
+            [
+                .. LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
+                    .Select(x =>
+                    {
+                        var cleanedName = Regex.Replace(x.NiceName, @"[^\w\s]", "");
+                        return new ReferenceItem
+                        {
+                            Name = cleanedName,
+                            PreviewName = cleanedName,
+                            Pool = BreakablePool,
+                        };
+                    }),
+            ];
 
         private class BreakableWFCP : BasicLocation { }
+
         private static List<ReferenceItem> BreakableWFCPItemImport() =>
             // https://github.com/nerthul11/BreakableWallRandomizer
-            LoadListFile<BreakableWFCP>(ReferenceBreakableWFCPFilePath)
-            .Select(x => new ReferenceItem
-            {
-                Name = x.Name,
-                PreviewName = x.Name.Replace("-", " - ").WithoutUnderscores(),
-                Pool = BreakableWFCPPool,
-            }).ToList();
+            [
+                .. LoadListFile<BreakableWFCP>(ReferenceBreakableWFCPFilePath)
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Name,
+                        PreviewName = x.Name.Replace("-", " - ").WithoutUnderscores(),
+                        Pool = BreakableWFCPPool,
+                    }),
+            ];
 
         private class StatueItem
         {
             public string Name;
         }
+
         private static List<ReferenceItem> GodhomeRandoItemImport() =>
             // https://github.com/nerthul11/GodhomeRandomizer
-            LoadListFile<StatueItem>(ReferenceStatueItemsFilePath)
-            .Select(x => new ReferenceItem
-            {
-                Name = x.Name,
-                PreviewName = x.Name.Replace("-", " - ").WithoutUnderscores(),
-                Pool = StatueMarkPool,
-            })
-            .ToList();
+            [
+                .. LoadListFile<StatueItem>(ReferenceStatueItemsFilePath)
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Name,
+                        PreviewName = x.Name.Replace("-", " - ").WithoutUnderscores(),
+                        Pool = StatueMarkPool,
+                    }),
+            ];
 
         private static List<ReferenceItem> AccessRandoItemImport() =>
             // https://github.com/nerthul11/AccessRandomizer
-            LoadListFile<BasicItem>(AccessRandoKeyItemsFilePath)
-            .Concat(LoadListFile<BasicItem>(AccessRandoPassItemsFilePath))
-            .Concat(new[] {
-                "Bretta_Key",
-                "Glade_Key",
-                "Hollow_Knight_Chain",
-                "Mantis_Respect",
-                "Mapper_Key",
-                "Relic_Key",
-                "Sly_Key",
-                "Trap_Bench",
-                "Zote_Key",
-            }.Select(x => new BasicItem { Name = x }))
-            .Select(x => new ReferenceItem
-            {
-                Name = x.Name,
-                PreviewName = x.Name.WithoutUnderscores(),
-                Pool = AccessKeyPool,
-            })
-            .ToList();
+            [
+                .. LoadListFile<BasicItem>(AccessRandoKeyItemsFilePath)
+                    .Concat(LoadListFile<BasicItem>(AccessRandoPassItemsFilePath))
+                    .Concat(accessRandoAdditionalItems.Select(x => new BasicItem { Name = x }))
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Name,
+                        PreviewName = x.Name.WithoutUnderscores(),
+                        Pool = AccessKeyPool,
+                    }),
+            ];
+
+        private static readonly List<string> accessRandoAdditionalItems =
+        [
+            "Bretta_Key",
+            "Glade_Key",
+            "Hollow_Knight_Chain",
+            "Mantis_Respect",
+            "Mapper_Key",
+            "Relic_Key",
+            "Sly_Key",
+            "Trap_Bench",
+            "Zote_Key",
+        ];
 
         private class GrassItem
         {
@@ -604,22 +628,25 @@ namespace HK_Rando_4_Log_Display.FileReader
             public int Id;
             public string SceneName;
         }
+
         private static List<ReferenceItem> GrassRandoItemImport() =>
             // https://github.com/StormZillaa/HollowKnightGrassRando
-            LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
-            .Select(x =>
-            {
-                var cleanedName = Regex.Replace(x.UsrName, @"[^\w\s]", "");
-                return new ReferenceItem
-                {
-                    Name = $"{cleanedName}{x.Id - 1}",
-                    PreviewName = "Grass",
-                    Pool = GrassPool,
-                };
-            }).ToList();
+            [
+                .. LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
+                    .Select(x =>
+                    {
+                        var cleanedName = Regex.Replace(x.UsrName, @"[^\w\s]", "");
+                        return new ReferenceItem
+                        {
+                            Name = $"{cleanedName}{x.Id - 1}",
+                            PreviewName = "Grass",
+                            Pool = GrassPool,
+                        };
+                    }),
+            ];
 
-        private static readonly List<BasicLocation> MilliGolfLocationList = new ()
-        {
+        private static readonly List<BasicLocation> MilliGolfLocationList =
+        [
             new BasicLocation { Name = "Dirtmouth", SceneName = "Town"},
             new BasicLocation { Name = "Crossroads", SceneName = "Crossroads_07"},
             new BasicLocation { Name = "Grounds", SceneName = "RestingGrounds_05"},
@@ -638,19 +665,51 @@ namespace HK_Rando_4_Log_Display.FileReader
             new BasicLocation { Name = "Deepnest", SceneName = "Deepnest_35"},
             new BasicLocation { Name = "Peak", SceneName = "Mines_23"},
             new BasicLocation { Name = "Palace", SceneName = "White_Palace_19"},
-        };
+        ];
 
         private static List<ReferenceItem> MilliGolfItemImport() =>
             // https://github.com/TheMathGeek314/MilliGolf
-            MilliGolfLocationList.SelectMany(x => new List<ReferenceItem>
-            {
-                new () { Name = $"Course_Access-{x.Name}", PreviewName = $"Course Access - {x.Name}", Pool = MilliGolfPool },
-                new () { Name = $"Course_Completion-{x.Name}", PreviewName = $"Course Completion - {x.Name}", Pool = MilliGolfPool },
-            })
-            .ToList();
+            [
+                .. MilliGolfLocationList.SelectMany(x => new List<ReferenceItem>
+                    {
+                        new () { Name = $"Course_Access-{x.Name}", PreviewName = $"Course Access - {x.Name}", Pool = MilliGolfPool },
+                        new () { Name = $"Course_Completion-{x.Name}", PreviewName = $"Course Completion - {x.Name}", Pool = MilliGolfPool },
+                    }),
+            ];
+
+        private static List<ReferenceItem> VendorRandoItemImport() =>
+            // https://github.com/TheMathGeek314/VendorRando
+            [
+                new () { Name = "Vr_Sly_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Salubra_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Iselda_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Leggy_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Lemm_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+            ];
+
+        private static List<ReferenceItem> YARCItemImport() =>
+            // https://github.com/TheMathGeek314/YetAnotherRandoConnection
+            [
+                .. LoadListFile<YARCLocation>(YARCHivePlatFilePath).Concat(LoadListFile<YARCLocation>(YARCVineFilePath))
+                    .Select(x => new ReferenceItem
+                    {
+                        Name = x.Name,
+                        PreviewName = x.Name.WithoutUnderscores(),
+                        Pool = YARCPlatform
+                    }),
+                new () { Name = "Chain-Storerooms", PreviewName = "Chain-Storerooms", Pool = YARCPlatform },
+                new () { Name = "Essence_Orb", PreviewName = "Essence Orb", Pool = "Dream Orb" },
+                new () { Name = "Soul_Jar", PreviewName = "Soul Jar", Pool = "Soul" },
+                new () { Name = "Jelly_Egg_Bomb", PreviewName = "Jelly Egg Bomb", Pool = YARCBomb },
+                new () { Name = "Lurien's_Telescope", PreviewName = "Lurien's Telescope", Pool = "Useless" },
+                new () { Name = "Scarecrow", PreviewName = "Scarecrow", Pool = "Useless" },
+            ];
+
 
         private static List<ReferenceItem> UnidentifiedItems() =>
-            new() { new() { Name = "Chandelier-Watcher_Knights", PreviewName = "Chandelier-Watcher Knights", Pool = "Useless" } };
+            [
+                new() { Name = "Chandelier-Watcher_Knights", PreviewName = "Chandelier-Watcher Knights", Pool = "Useless" },
+            ];
 
         private void LoadReferenceLocations()
         {
@@ -659,76 +718,81 @@ namespace HK_Rando_4_Log_Display.FileReader
             var sceneDescriptions = GetSceneDescriptionsFromFile();
             var customImports = GetCustomImports();
 
-            ReferenceLocations = locationImports.Join(
-                roomImports,
-                location => location.SceneName,
-                room => room.SceneName,
-                (location, room) => new ReferenceLocation
-                {
-                    Name = location.Name,
-                    SceneName = location.SceneName,
-                    MapArea = room.MapArea,
-                    TitledArea = room.TitledArea,
-                    Pool = GetReferenceLocationPool(location.Name),
-                    SceneDescription = sceneDescriptions.TryGetValue(location.SceneName, out var sceneDescription) ? sceneDescription : location.SceneName,
-                })
-                .Concat(customImports.Join(
-                    roomImports,
-                    customLocation => customLocation.SceneName,
-                    room => room.SceneName,
-                    (customLocation, room) => new ReferenceLocation
-                    {
-                        Name = customLocation.Name,
-                        SceneName = customLocation.SceneName,
-                        MapArea = room.MapArea,
-                        TitledArea = room.TitledArea,
-                        Pool = customLocation.Pool,
-                        SceneDescription = sceneDescriptions.TryGetValue(customLocation.SceneName, out var sceneDescription) ? sceneDescription : customLocation.SceneName,
-                    })
-                ).ToList();
+            ReferenceLocations =
+            [
+                .. locationImports.Join(
+                                roomImports,
+                                location => location.SceneName,
+                                room => room.SceneName,
+                                (location, room) => new ReferenceLocation
+                                {
+                                    Name = location.Name,
+                                    SceneName = location.SceneName,
+                                    MapArea = room.MapArea,
+                                    TitledArea = room.TitledArea,
+                                    Pool = GetReferenceLocationPool(location.Name),
+                                    SceneDescription = sceneDescriptions.TryGetValue(location.SceneName, out var sceneDescription) ? sceneDescription : location.SceneName,
+                                }),
+                .. customImports.Join(
+                        roomImports,
+                        customLocation => customLocation.SceneName,
+                        room => room.SceneName,
+                        (customLocation, room) => new ReferenceLocation
+                        {
+                            Name = customLocation.Name,
+                            SceneName = customLocation.SceneName,
+                            MapArea = room.MapArea,
+                            TitledArea = room.TitledArea,
+                            Pool = customLocation.Pool,
+                            SceneDescription = sceneDescriptions.TryGetValue(customLocation.SceneName, out var sceneDescription) ? sceneDescription : customLocation.SceneName,
+                        }),
+            ];
 
             var sceneNames = roomImports.Select(x => x.SceneName).ToList();
-            DeadLocations = locationImports.Concat(customImports).Where(location => !sceneNames.Contains(location.SceneName)).ToList();
-            ScenesWithoutDescriptions = ReferenceLocations.Where(x => x.SceneName == x.SceneDescription).Select(x => x.SceneName).Distinct().ToList();
+            DeadLocations = [.. locationImports.Concat(customImports).Where(location => !sceneNames.Contains(location.SceneName))];
+            ScenesWithoutDescriptions = [.. ReferenceLocations.Where(x => x.SceneName == x.SceneDescription).Select(x => x.SceneName).Distinct()];
         }
 
         private static List<LocationImport> GetLocationImportsFromFile() =>
             LoadDictionaryFileValues<LocationImport>(ReferenceLocationsFilePath);
 
         private static List<RoomImport> GetRoomImportsFromFile() =>
-            LoadDictionaryFileValues<RoomImport>(ReferenceRoomsFilePath).Concat(new List<RoomImport>
-            {
-                new () { SceneName = "Room_Final_Boss_Core", MapArea = "Forgotten Crossroads", TitledArea = "Forgotten Crossroads" },
-                new () { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
-                new () { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
-                new () { SceneName = "Room_Final_Boss_Atrium", MapArea = "Black Egg Temple", TitledArea = "Black Egg Temple" },
-                new () { SceneName = "GG_Atrium", MapArea = "Godhome", TitledArea = "Godhome" },
-                new () { SceneName = "GG_Atrium_Roof", MapArea = "Godhome", TitledArea = "Godhome" },
-                new () { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
-                new () { SceneName = "GG_Unlock_Wastes", MapArea = "Godhome", TitledArea = "Godhome" },
-                new () { SceneName = "Town/Fungus3_23", MapArea = "Dirthmouth/Queen's Garden", TitledArea = "Dirthmouth/Queen's Garden" },
-                new () { SceneName = "> Multiworld", MapArea = "> Multiworld", TitledArea = "> Multiworld" },
-                new () { SceneName = "> Hunter's Notes", MapArea = "> Hunter's Notes", TitledArea = "> Hunter's Notes" },
-                new () { SceneName = "> Journal Entry", MapArea = "> Journal Entry", TitledArea = "> Journal Entry" },
+            [
+                .. LoadDictionaryFileValues<RoomImport>(ReferenceRoomsFilePath),
+                .. new List<RoomImport>
+                    {
+                        new () { SceneName = "Room_Final_Boss_Core", MapArea = "Forgotten Crossroads", TitledArea = "Forgotten Crossroads" },
+                        new () { SceneName = "Room_Tram_RG", MapArea = "Tram", TitledArea = "Tram" },
+                        new () { SceneName = "Room_Tram", MapArea = "Tram", TitledArea = "Tram" },
+                        new () { SceneName = "Room_Final_Boss_Atrium", MapArea = "Black Egg Temple", TitledArea = "Black Egg Temple" },
+                        new () { SceneName = "GG_Atrium", MapArea = "Godhome", TitledArea = "Godhome" },
+                        new () { SceneName = "GG_Atrium_Roof", MapArea = "Godhome", TitledArea = "Godhome" },
+                        new () { SceneName = "GG_Workshop", MapArea = "Godhome", TitledArea = "Godhome" },
+                        new () { SceneName = "GG_Unlock_Wastes", MapArea = "Godhome", TitledArea = "Godhome" },
+                        new () { SceneName = "Town/Fungus3_23", MapArea = "Dirthmouth/Queen's Garden", TitledArea = "Dirthmouth/Queen's Garden" },
+                        new () { SceneName = "> Multiworld", MapArea = "> Multiworld", TitledArea = "> Multiworld" },
+                        new () { SceneName = "> Hunter's Notes", MapArea = "> Hunter's Notes", TitledArea = "> Hunter's Notes" },
+                        new () { SceneName = "> Journal Entry", MapArea = "> Journal Entry", TitledArea = "> Journal Entry" },
                 
-                new () { SceneName = "Dream_01_False_Knight", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "Dream_02_Mage_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "Dream_Backer_Shrine", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "Dream_Nailcollection", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Broken_Vessel", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Ghost_Marmu", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Ghost_Marmu_V", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Hornet_2", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Lost_Kin", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Mega_Moss_Charger", MapArea = "> Grass", TitledArea = "> Grass" },
-                new () { SceneName = "GG_Traitor_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
-            }).ToList();
+                        new () { SceneName = "Dream_01_False_Knight", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "Dream_02_Mage_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "Dream_Backer_Shrine", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "Dream_Nailcollection", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Broken_Vessel", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Ghost_Marmu", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Ghost_Marmu_V", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Hornet_2", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Lost_Kin", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Mega_Moss_Charger", MapArea = "> Grass", TitledArea = "> Grass" },
+                        new () { SceneName = "GG_Traitor_Lord", MapArea = "> Grass", TitledArea = "> Grass" },
+                    },
+            ];
 
         private static Dictionary<string, string> GetSceneDescriptionsFromFile() =>
             LoadDictionaryFile<string>(ReferenceSceneDescriptionFilePath);
 
-        private readonly string[] ShopLocations = new[]
-        {
+        private static readonly List<string> ShopLocations =
+        [
             "Sly",
             "Sly_(Key)",
             "Iselda",
@@ -738,7 +802,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             "Grubfather",
             "Seer",
             "Egg_Shop",
-        };
+        ];
 
         private string GetReferenceLocationPool(string locationName)
         {
@@ -780,68 +844,70 @@ namespace HK_Rando_4_Log_Display.FileReader
         }
 
         private static List<ReferenceLocation> GetCustomImports() =>
-            new List<ReferenceLocation>()
-                .Concat(MultiWorldImport())
+            [
+                .. MultiWorldImport(),
 
                 // flibber-hk
-                .Concat(RandoPlusLocationImport())
-                .Concat(LeverLocationImport())
+                .. RandoPlusLocationImport(),
+                .. LeverLocationImport(),
 
                 // dpinela
-                .Concat(Colo3LocationImport())
-                .Concat(FishingLocationImport())
+                .. Colo3LocationImport(),
+                .. FishingLocationImport(),
 
                 // homothetyhk
-                .Concat(BenchLocationImport())
+                .. BenchLocationImport(),
 
                 // BadMagic100
-                .Concat(TRJRLocationImport())
-                .Concat(MoreLocationsLocationImport())
+                .. TRJRLocationImport(),
+                .. MoreLocationsLocationImport(),
 
                 // dplochcoder
-                .Concat(MoreDoorsLocationImport())
+                .. MoreDoorsLocationImport(),
 
                 // Hoo-Knows
-                .Concat(LostArtifactsLocationImport())
+                .. LostArtifactsLocationImport(),
 
                 // Korzer420
-                .Concat(LoreMasterLocationImport())
-                .Concat(ExtraRandoLocationImport())
+                .. LoreMasterLocationImport(),
+                .. ExtraRandoLocationImport(),
 
                 // Bentechy66
-                .Concat(BreakableWallsLocationImport())
+                .. BreakableWallsLocationImport(),
 
                 // nerthul11
-                .Concat(BreakableWFCPLocationImport())
-                .Concat(GodhomeRandoLocationImport())
-                .Concat(FlowerQuestLocationImport())
-                .Concat(AccessRandoLocationImport())
+                .. BreakableWFCPLocationImport(),
+                .. GodhomeRandoLocationImport(),
+                .. FlowerQuestLocationImport(),
+                .. AccessRandoLocationImport(),
 
                 // StormZillaa
-                .Concat(GrassRandoLocationImport())
+                .. GrassRandoLocationImport(),
 
                 // ManicJamie
-                .Concat(GrassRandoForkLocationImport())
+                .. GrassRandoForkLocationImport(),
 
                 // TheMathGeek314
-                .Concat(MilliGolfLocationImport())
+                .. MilliGolfLocationImport(),
+                .. VendorRandoLocationImport(),
+                .. YARCLocationImport(),
 
                 // IronLucario2012
-                .Concat(MaskMakerNotchLocationImport())
+                .. MaskMakerNotchLocationImport(),
 
                 // unidentified locations
-                .Concat(UnidentifiedLocationImport())
-
-                .ToList();
+                .. UnidentifiedLocationImport(),
+            ];
 
         private static List<ReferenceLocation> MultiWorldImport() =>
-            new() { new() { Name = "Remote", SceneName = "> Multiworld", Pool = "> Multiworld" } };
+            [
+                new() { Name = "Remote", SceneName = "> Multiworld", Pool = "> Multiworld" },
+            ];
 
         private class GhostLocation : BasicLocation { }
         private static List<ReferenceLocation> RandoPlusLocationImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandoPlus
-            new List<ReferenceLocation>()
-            {
+            [
                 new () { Name = "Mr_Mushroom-Fungal_Wastes", SceneName = "Fungus2_18", Pool = MrMushroomPool },
                 new () { Name = "Mr_Mushroom-Kingdom's_Edge", SceneName = "Deepnest_East_01", Pool = MrMushroomPool },
                 new () { Name = "Mr_Mushroom-Deepnest", SceneName = "Deepnest_40", Pool = MrMushroomPool },
@@ -854,35 +920,38 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Nailsmith_Upgrade_2", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new () { Name = "Nailsmith_Upgrade_3", SceneName = "Room_nailsmith", Pool = "Shop" },
                 new () { Name = "Nailsmith_Upgrade_4", SceneName = "Room_nailsmith", Pool = "Shop" },
-            }.Concat(
-                LoadListFile<GhostLocation>(ReferenceRandoPlusGhostLocationsFilePath)
+
+                .. LoadListFile<GhostLocation>(ReferenceRandoPlusGhostLocationsFilePath)
                 .Select(x => new ReferenceLocation
                 {
                     Name = x.Name,
                     SceneName = x.SceneName,
                     Pool = GhostPool,
-                }))
-            .ToList();
+                }),
+            ];
 
         private class LeverLocation : BasicLocation { }
         private static List<ReferenceLocation> LeverLocationImport() =>
             // https://github.com/flibber-hk/HollowKnight.RandomizableLevers
-            LoadDictionaryFileValues<LeverLocation>(ReferenceRandoLeverLocationsFilePath).Select(x =>
-            new ReferenceLocation
-            {
-                Name = x.Name,
-                SceneName = x.SceneName,
-                Pool = LeverPool,
-            }).ToList();
+            [
+                .. LoadDictionaryFileValues<LeverLocation>(ReferenceRandoLeverLocationsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Name,
+                        SceneName = x.SceneName,
+                        Pool = LeverPool,
+                    }),
+            ];
 
         private static List<ReferenceLocation> Colo3LocationImport() =>
             // https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer
-            new() { new() { Name = "The_Glory_of_Being_a_Fool-Colosseum", SceneName = "Room_Colosseum_01", Pool = "Colo" } };
+            [
+                new() { Name = "The_Glory_of_Being_a_Fool-Colosseum", SceneName = "Room_Colosseum_01", Pool = "Colo" },
+            ];
 
         private static List<ReferenceLocation> FishingLocationImport() =>
             // https://github.com/dpinela/Fishing
-            new()
-            {
+            [
                 new () { Name = "Fishing_Spot-Lake_of_Unn", SceneName = "Fungus1_26", Pool = "Fishing" },
                 new () { Name = "Fishing_Spot-Distant_Village", SceneName = "Deepnest_10", Pool = "Fishing" },
                 new () { Name = "Fishing_Spot-West_Lake_Shore", SceneName = "Crossroads_50", Pool = "Fishing" },
@@ -894,72 +963,73 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Fishing_Spot-Godhome_Atrium", SceneName = "GG_Atrium", Pool = "Fishing" },
                 new () { Name = "Fishing_Spot-Junk_Pit", SceneName = "GG_Waterways", Pool = "Fishing" },
                 new () { Name = "Fishing_Spot-Pale_Lurker", SceneName = "GG_Lurker", Pool = "Fishing" },
-            };
+            ];
 
         private class BenchLocation : BasicLocation { }
         private static List<ReferenceLocation> BenchLocationImport() =>
             // https://github.com/homothetyhk/BenchRando
-            LoadDictionaryFileValues<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
-                .Select(x => new ReferenceLocation
-                {
-                    Name = x.Name,
-                    SceneName = x.SceneName,
-                    Pool = BenchPool,
-                })
-                .ToList();
+            [
+                .. LoadDictionaryFileValues<BenchLocation>(ReferenceBenchRandoLocationsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Name,
+                        SceneName = x.SceneName,
+                        Pool = BenchPool,
+                    }),
+            ];
 
         private static List<ReferenceLocation> TRJRLocationImport() =>
             // https://github.com/BadMagic100/TheRealJournalRando
-            LoadListFile<TRJRImport>(TRJRFilePath)
-                .SelectMany(x => new List<ReferenceLocation>
-                {
-                    new () {
-                        Name = $"Journal_Entry-{x.IcName}",
-                        SceneName = "> Journal Entry",
-                        Pool = JournalEntryPool,
-                    },
-                    new () {
-                        Name = $"Hunter's_Notes-{x.IcName}",
-                        SceneName = "> Hunter's Notes",
-                        Pool = HuntersNotesPool,
-                    },
-                })
-                .Append(new () { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry" })
-                .ToList();
+            [
+                .. LoadListFile<TRJRImport>(TRJRFilePath)
+                    .SelectMany(x => new List<ReferenceLocation>
+                    {
+                        new () {
+                            Name = $"Journal_Entry-{x.IcName}",
+                            SceneName = "> Journal Entry",
+                            Pool = JournalEntryPool,
+                        },
+                        new () {
+                            Name = $"Hunter's_Notes-{x.IcName}",
+                            SceneName = "> Hunter's Notes",
+                            Pool = HuntersNotesPool,
+                        },
+                    }),
+                new () { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry" },
+            ];
 
         private static List<ReferenceLocation> MoreLocationsLocationImport() =>
             // https://github.com/BadMagic100/MoreLocations
-            new()
-            {
+            [
                 new () { Name = "Swim", SceneName = "Crossroads_50", Pool = MoreLocationsPool },
                 new () { Name = "Stag_Nest_Egg", SceneName = "Cliffs_03", Pool = MoreLocationsPool },
                 new () { Name = "Geo_Chest-Above_Baldur_Shell", SceneName = "Cliffs_03", Pool = MoreLocationsPool },
                 new () { Name = "Lemm", SceneName = "Ruins1_05b", Pool = "Shop" },
                 new () { Name = "Junk_Shop", SceneName = "Room_GG_Shortcut", Pool = "Shop" },
-            };
+            ];
 
         private static List<ReferenceLocation> MoreDoorsLocationImport() =>
             // https://github.com/dplochcoder/HollowKnight.MoreDoors
-            LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath).Select(x =>
-            new ReferenceLocation
-            {
-                Name = x.Key.Location.Name,
-                SceneName = x.Key.Location.SceneName,
-                Pool = MoreDoorsPool,
-            })
-            .Append(new ReferenceLocation
-            {
-                // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
-                Name = "MoreDoors-Miner's_Key-Mushroom_Roller-Bretta",
-                SceneName = "Fungus2_23",
-                Pool = MoreDoorsPool,
-            })
-            .ToList();
+            [
+                .. LoadDictionaryFileValues<MoreDoorItem>(ReferenceMoreDoorsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Key.Location.Name,
+                        SceneName = x.Key.Location.SceneName,
+                        Pool = MoreDoorsPool,
+                    }),
+                new ReferenceLocation
+                {
+                    // https://github.com/dplochcoder/HollowKnight.ScatteredAndLost
+                    Name = "MoreDoors-Miner's_Key-Mushroom_Roller-Bretta",
+                    SceneName = "Fungus2_23",
+                    Pool = MoreDoorsPool,
+                },
+            ];
 
         private static List<ReferenceLocation> LostArtifactsLocationImport() =>
             // https://github.com/Hoo-Knows/HollowKnight.LostArtifacts
-            new ()
-            {
+            [
                 new () { Name = "AttunedJewel", SceneName = "GG_Workshop", Pool = LostArtifactPool },
                 new () { Name = "BeastShell", SceneName = "Room_Colosseum_01", Pool = LostArtifactPool },
                 new () { Name = "Buzzsaw", SceneName = "White_Palace_08", Pool = LostArtifactPool },
@@ -981,12 +1051,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "VoidEmblem", SceneName = "Abyss_09", Pool = LostArtifactPool },
                 new () { Name = "WeaverSilk", SceneName = "Deepnest_45_v02", Pool = LostArtifactPool },
                 new () { Name = "WyrmAsh", SceneName = "Deepnest_East_12", Pool = LostArtifactPool },
-            };
+            ];
 
         private static List<ReferenceLocation> LoreMasterLocationImport() =>
             // https://github.com/Korzer420/LoreMaster/
-            new ()
-            {
+            [
                 new () { Name = "Bretta_Diary", SceneName = "Room_Bretta", Pool = LoreMasterPool },
                 new () { Name = "Bardoon", SceneName = "Deepnest_East_04", Pool = LoreMasterPool },
                 new () { Name = "Vespa", SceneName = "Hive_05", Pool = LoreMasterPool },
@@ -1108,12 +1177,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Treasure-Resting_Grounds", SceneName="RestingGrounds_08", Pool = LoreMasterPool },
                 new () { Name = "Treasure-Queens_Garden", SceneName="Fungus3_04", Pool = LoreMasterPool },
                 new () { Name = "Treasure-White_Palace", SceneName="White_Palace_01", Pool = LoreMasterPool },
-            };
+            ];
 
         private static List<ReferenceLocation> ExtraRandoLocationImport() =>
             // https://github.com/Korzer420/ExtraRando
-            new()
-            {
+            [
                 // Bardoons Butt
                 new () { Name = "Bardoon_Butt", SceneName = "Deepnest_East_04", Pool = "Useless" },
                 
@@ -1124,48 +1192,50 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Lower_Godhome-Hot_Spring", SceneName = "GG_Atrium", Pool = "Hot Spring" },
                 new () { Name = "Upper_Godhome-Hot_Spring", SceneName = "GG_Atrium_Roof", Pool = "Hot Spring" },
                 new () { Name = "Crossroads-Hot_Spring", SceneName = "Crossroads_30", Pool = "Hot Spring" },
-            };
+            ];
 
         private static List<ReferenceLocation> BreakableWallsLocationImport() =>
             // https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer
-            LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
-                .Select(x => new ReferenceLocation
-                {
-                    Name = Regex.Replace(x.NiceName, @"[^\w\s]", ""),
-                    SceneName = x.SceneName,
-                    Pool = BreakablePool,
-                })
-                .ToList();
+            [
+                .. LoadListFile<BreakableWall>(ReferenceBreakableWallsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = Regex.Replace(x.NiceName, @"[^\w\s]", ""),
+                        SceneName = x.SceneName,
+                        Pool = BreakablePool,
+                    }),
+            ];
 
         private static List<ReferenceLocation> BreakableWFCPLocationImport() =>
             // https://github.com/nerthul11/BreakableWallRandomizer
-            LoadListFile<BreakableWFCP>(ReferenceBreakableWFCPFilePath)
-                .Select(x => new ReferenceLocation
-                {
-                    Name = x.Name,
-                    SceneName = x.SceneName,
-                    Pool = BreakableWFCPPool,
-                })
-                .Append(new () { Name = "Myla_Shop", SceneName = "Crossroads_45", Pool = "Shop" })
-                .ToList();
+            [
+                .. LoadListFile<BreakableWFCP>(ReferenceBreakableWFCPFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Name,
+                        SceneName = x.SceneName,
+                        Pool = BreakableWFCPPool,
+                    }),
+                new () { Name = "Myla_Shop", SceneName = "Crossroads_45", Pool = "Shop" },
+            ];
 
         private class StatueLocation : BasicLocation { }
         private static List<ReferenceLocation> GodhomeRandoLocationImport() =>
             // https://github.com/nerthul11/GodhomeRandomizer
-            LoadListFile<StatueLocation>(ReferenceStatueLocationsFilePath)
-                .Select(x => new ReferenceLocation
-                {
-                    Name = x.Name,
-                    SceneName = x.SceneName,
-                    Pool = $"{StatueMarkPool} [{x.Name.Split("-")[0].Split("_")[0]}]",
-                })
-                .Append(new () { Name = "Godhome_Shop", SceneName = "GG_Unlock_Wastes", Pool = "Shop" })
-            .ToList();
+            [
+                .. LoadListFile<StatueLocation>(ReferenceStatueLocationsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = x.Name,
+                        SceneName = x.SceneName,
+                        Pool = $"{StatueMarkPool} [{x.Name.Split("-")[0].Split("_")[0]}]",
+                    }),
+                new () { Name = "Godhome_Shop", SceneName = "GG_Unlock_Wastes", Pool = "Shop" },
+            ];
 
         private static List<ReferenceLocation> FlowerQuestLocationImport() =>
             // https://github.com/nerthul11/FlowerRandomizer
-            new()
-            {
+            [
                 // Vanilla NPCs
                 new () { Name = "Flower_Quest-Elderbug", SceneName = "Town", Pool = "Flower Quest"},
                 new () { Name = "Flower_Quest-Oro", SceneName = "Room_nailmaster_03", Pool = "Flower Quest"},
@@ -1182,12 +1252,11 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Flower_Quest-Radiance", SceneName = "Mines_34", Pool = "Flower Quest"},
                 new () { Name = "Flower_Quest-Pale_King", SceneName = "White_Palace_09", Pool = "Flower Quest"},
                 new () { Name = "Flower_Quest-Pain", SceneName = "White_Palace_20", Pool = "Flower Quest"},
-            };
+            ];
 
         private static List<ReferenceLocation> AccessRandoLocationImport() =>
             // https://github.com/nerthul11/AccessRandomizer
-            new()
-            {
+            [
                 new () { Name = "Bretta_Key", SceneName = "Fungus2_23", Pool = AccessKeyPool },
                 new () { Name = "Hollow_Knight_Chain-1", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
                 new () { Name = "Hollow_Knight_Chain-2", SceneName = "Room_Final_Boss_Core", Pool = AccessKeyPool },
@@ -1201,44 +1270,113 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Split_Tram_Pass", SceneName = "Deepnest_26b", Pool = AccessKeyPool },
                 new () { Name = "Trap_Bench", SceneName = "Deepnest_Spider_Town", Pool = AccessKeyPool },
                 new () { Name = "Zote_Key", SceneName = "Deepnest_33", Pool = AccessKeyPool },
-            };
+            ];
 
         private static List<ReferenceLocation> GrassRandoLocationImport() =>
             // https://github.com/StormZillaa/HollowKnightGrassRando
-            LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
-                .Select(x => new ReferenceLocation
-                {
-                    Name = $"{Regex.Replace(x.UsrName, @"[^\w\s]", "")}{x.Id - 1}",
-                    SceneName = x.SceneName,
-                    Pool = GrassPool,
-                })
-                .ToList();
+            [
+                .. LoadListFile<GrassItem>(ReferenceGrassRandoFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = $"{Regex.Replace(x.UsrName, @"[^\w\s]", "")}{x.Id - 1}",
+                        SceneName = x.SceneName,
+                        Pool = GrassPool,
+                    }),
+            ];
 
         private static List<ReferenceLocation> GrassRandoForkLocationImport() =>
             // https://github.com/ManicJamie/HollowKnightGrassRando
-            new() { new() { Name = "Grass_Shop", SceneName = "Room_Slug_Shrine", Pool = "Shop" } };
+            [
+                new() { Name = "Grass_Shop", SceneName = "Room_Slug_Shrine", Pool = "Shop" },
+            ];
 
         private static List<ReferenceLocation> MilliGolfLocationImport() =>
             // https://github.com/TheMathGeek314/MilliGolf
-            MilliGolfLocationList.Select(x => new ReferenceLocation
-            {
-                Name = $"Milligolf_Course-{x.Name}",
-                SceneName = x.SceneName,
-                Pool = MilliGolfPool,
-            })
-            .ToList();
+            [
+                .. MilliGolfLocationList
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = $"Milligolf_Course-{x.Name}",
+                        SceneName = x.SceneName,
+                        Pool = MilliGolfPool,
+                    }),
+            ];
+
+        private static List<ReferenceLocation> VendorRandoLocationImport() =>
+            // https://github.com/TheMathGeek314/VendorRando
+            [
+                new () { Name = "Vr_Sly", SceneName = "Room_shop", Pool = VendorRandoPool },
+                new () { Name = "Vr_Salubra", SceneName = "Room_Charm_Shop", Pool = VendorRandoPool },
+                new () { Name = "Vr_Iselda", SceneName = "Room_mapper", Pool = VendorRandoPool },
+                new () { Name = "Vr_Leg_Eater", SceneName = "Fungus2_26", Pool = VendorRandoPool },
+                new () { Name = "Vr_Lemm", SceneName = "Ruins1_05b", Pool = VendorRandoPool },
+            ];
+
+        private static Dictionary<string, string> YARCOrbLocations => new()
+        {
+            { "AncestralMound", "Crossroads_ShamanTemple" },    // Whispering_Root-Ancestral_Mound
+            { "City", "Ruins1_17" },                            // Whispering_Root-City
+            { "Crossroads", "Crossroads_07" },                  // Whispering_Root-Crossroads
+            { "CrystalPeak", "Mines_23" },                      // Whispering_Root-Crystal_Peak
+            { "Deepnest", "Deepnest_39" },                      // Whispering_Root-Deepnest
+            { "FungalWastes_Canyon", "Fungus2_33" },            // Whispering_Root-Leg_Eater
+            { "FungalWastes_Village", "Fungus2_17" },           // Whispering_Root-Mantis_Village
+            { "Greenpath", "Fungus1_13" },                      // Whispering_Root-Greenpath
+            { "Hive", "Hive_02" },                              // Whispering_Root-Hive
+            { "HowlingCliffs", "Cliffs_01" },                   // Whispering_Root-Howling_Cliffs
+            { "KingdomsEdge", "Deepnest_East_07" },             // Whispering_Root-Kingdoms_Edge
+            { "QueensGardens", "Fungus3_11" },                  // Whispering_Root-Queens_Gardens
+            { "RestingGrounds", "RestingGrounds_05" },          // Whispering_Root-Resting_Grounds
+            { "SpiritsGlade", "RestingGrounds_08" },            // Whispering_Root-Spirits_Glade
+            { "Waterways", "Abyss_01" },                        // Whispering_Root-Waterways
+        };
+
+        private class YARCDreamOrb
+        {
+            public string Area;
+            public int Num;
+        }
+
+        private class YARCLocation
+        {
+            public string Name;
+            public string Scene;
+        }
+
+        private static List<ReferenceLocation> YARCLocationImport() =>
+            // https://github.com/TheMathGeek314/YetAnotherRandoConnection
+            [
+                .. LoadListFile<YARCDreamOrb>(YARCDreamOrbsFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = $"DreamOrb_{x.Area}_{x.Num}",
+                        SceneName = YARCOrbLocations.TryGetValue(x.Area, out var sceneName) ? sceneName : "Unknown",
+                        Pool = "Dream Orb",
+                    }),
+                .. new Dictionary<string, List<YARCLocation>>() {
+                    {"Soul", LoadListFile<YARCLocation>(YARCJarFilePath)},
+                    {YARCBomb, LoadListFile<YARCLocation>(YARCEggBombFilePath)}, 
+                    {YARCPlatform, LoadListFile<YARCLocation>(YARCHivePlatFilePath).Concat(LoadListFile<YARCLocation>(YARCVineFilePath)).ToList() },
+                }
+                    .Select(x => x.Value.Select(y => new ReferenceLocation {  Name = y.Name, SceneName = y.Scene, Pool = x.Key}))
+                    .SelectMany(x => x),
+
+                new() { Name = "Chain-Storerooms", SceneName = "Ruins1_28", Pool = YARCPlatform },
+                new() { Name = "Lurien's_Telescope", SceneName = "Ruins2_Watcher_Room", Pool = "Useless" },
+                new() { Name = "Scarecrow", SceneName = "Deepnest_East_16", Pool = "Useless" },
+            ];
 
         private static List<ReferenceLocation> MaskMakerNotchLocationImport() =>
             // https://github.com/IronLucario2012/MaskMakerNotchesMod
-            Enumerable.Range(0, 6).Select(x => new ReferenceLocation { Name = $"MMNotchLoc{x}", SceneName = "Room_Mask_Maker", Pool = "MMNotch" })
-                .ToList();
+            [
+                .. Enumerable.Range(0, 6).Select(x => new ReferenceLocation { Name = $"MMNotchLoc{x}", SceneName = "Room_Mask_Maker", Pool = "MMNotch" }),
+            ];
 
         private static List<ReferenceLocation> UnidentifiedLocationImport() =>
-            new ()
-            {
+            [
                 new () { Name = "Chandelier-Watcher_Knights", SceneName = "Ruins2_03", Pool = "Useless" },
                 new () { Name = "chandelierLocation", SceneName = "Ruins2_03", Pool = "Useless" },
-            };
+            ];
 
         private void LoadReferenceTransitions()
         {
@@ -1246,46 +1384,46 @@ namespace HK_Rando_4_Log_Display.FileReader
             var roomImports = GetRoomImportsFromFile();
             var sceneDescriptions = GetSceneDescriptionsFromFile();
 
-            ReferenceTransitions = transitionImports.Join(
-                roomImports,
-                transition => transition.SceneName,
-                room => room.SceneName,
-                (transition, room) => new ReferenceTransition
-                {
-                    DoorName = transition.DoorName,
-                    SceneName = transition.SceneName,
-                    MapArea = room.MapArea,
-                    TitledArea = room.TitledArea,
-                    SceneDescription = sceneDescriptions.TryGetValue(transition.SceneName, out var sceneDescription) ? sceneDescription : transition.SceneName,
-                }).ToList();
+            ReferenceTransitions = [
+                .. transitionImports.Join(
+                    roomImports,
+                    transition => transition.SceneName,
+                    room => room.SceneName,
+                    (transition, room) => new ReferenceTransition
+                    {
+                        DoorName = transition.DoorName,
+                        SceneName = transition.SceneName,
+                        MapArea = room.MapArea,
+                        TitledArea = room.TitledArea,
+                        SceneDescription = sceneDescriptions.TryGetValue(transition.SceneName, out var sceneDescription) ? sceneDescription : transition.SceneName,
+                    }),
+            ];
 
             var sceneNames = roomImports.Select(x => x.SceneName).ToList();
-            DeadTransitions = transitionImports.Where(transition => !sceneNames.Contains(transition.SceneName)).ToList();
+            DeadTransitions = [.. transitionImports.Where(transition => !sceneNames.Contains(transition.SceneName))];
         }
 
         private static List<TransitionImport> GetTransitionImportsFromFile() =>
-            LoadDictionaryFileValues<TransitionImport>(ReferenceTransitionsFilePath)
-                .Concat(new[]
-                {
-                    new TransitionImport { SceneName = "Fungus2_08", DoorName = "right_RCD"},
-                    new TransitionImport { SceneName = "Crossroads_49b", DoorName = "left_RCD"},
-                })
-                .ToList();
+            [
+                .. LoadDictionaryFileValues<TransitionImport>(ReferenceTransitionsFilePath),
+                new TransitionImport { SceneName = "Fungus2_08", DoorName = "right_RCD"},
+                new TransitionImport { SceneName = "Crossroads_49b", DoorName = "left_RCD"},
+            ];
 
         private static List<T> LoadDictionaryFileValues<T>(string filePath) =>
             File.Exists(filePath)
                 ? DeserializeFile<Dictionary<string, T>>(filePath).Values.ToList()
-                : new List<T>();
+                : [];
 
         private static Dictionary<string, T> LoadDictionaryFile<T>(string filePath) =>
             File.Exists(filePath)
                 ? DeserializeFile<Dictionary<string, T>>(filePath)
-                : new Dictionary<string, T>();
+                : [];
 
         private static List<T> LoadListFile<T>(string filePath) =>
             File.Exists(filePath)
                 ? DeserializeFile<T[]>(filePath).ToList()
-                : new List<T>();
+                : [];
 
         public Dictionary<string, Location> GetHelperLogLocations() =>
             GetDictionaryDataFromFileOrDefault<Location>(HelperLogLocationsFilename);
@@ -1302,7 +1440,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         public static Dictionary<string, T> GetDictionaryDataFromFileOrDefault<T>(string filename) =>
             File.Exists(filename)
                 ? DeserializeFile<Dictionary<string, T>>(filename)
-                : new Dictionary<string, T>();
+                : [];
 
         public AppSettings GetAppSettings()
         {
@@ -1323,6 +1461,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 appSettings.SelectedTrackerTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedTrackerTransitionOrder") ?? appSettings.SelectedTrackerTransitionOrder, TrackerTransitionOrderingOptions.Length - 1);
                 appSettings.SelectedSpoilerItemGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerItemGrouping") ?? appSettings.SelectedSpoilerItemGrouping, SpoilerItemGroupingOptions.Length - 1);
                 appSettings.SelectedSpoilerItemOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerItemOrder") ?? appSettings.SelectedSpoilerItemOrder, SpoilerItemOrderingOptions.Length - 1);
+                appSettings.SelectedSpoilerObtainedDisplay = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerObtainedDisplay") ?? appSettings.SelectedSpoilerObtainedDisplay, SpoilerObtainedDisplayOptions.Length - 1);
                 appSettings.SelectedSpoilerTransitionGrouping = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerTransitionGrouping") ?? appSettings.SelectedSpoilerTransitionGrouping, SpoilerTransitionGroupingOptions.Length - 1);
                 appSettings.SelectedSpoilerTransitionOrder = Math.Min(GetValueFromAppSettings(appSettingsData, "SelectedSpoilerTransitionOrder") ?? appSettings.SelectedSpoilerTransitionOrder, SpoilerTransitionOrderingOptions.Length - 1);
             }

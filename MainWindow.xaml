@@ -241,7 +241,7 @@
                                         <Button Grid.Column="1" Grid.Row="1" x:Name="Spoiler_Item_Collapse_Button" Click="Spoiler_Item_Collapse_Click">
                                             <TextBlock Text="Collapse All" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
                                         </Button>
-                                        <Button Grid.Column="2" Grid.Row="0" x:Name="Spoiler_Item_Obtained_Button" Click="Spoiler_Item_Obtained_Click" Content="Obtained Button" />
+                                        <Button Grid.Column="2" Grid.Row="0" x:Name="Spoiler_Item_Obtained_Button" Click="Spoiler_Item_Obtained_Display_Click" Content="Obtained Button" />
                                         <Button Grid.Column="2" Grid.Row="1" x:Name="Spoiler_Item_ShowRoom_Button" Click="Spoiler_Item_ShowRoom_Click" Content="Show Room" />
                                     </Grid>
                                     <ScrollViewer Grid.Row="1" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" HorizontalScrollBarVisibility="Auto">
@@ -344,6 +344,8 @@
                                             <Grid x:Name="SpoilerItemGroupOptions" />
                                             <TextBlock Text="Item Order"/>
                                             <Grid x:Name="SpoilerItemOrderOptions" />
+                                            <TextBlock Text="Display Obtained"/>
+                                            <Grid x:Name="SpoilerObtainedDisplaySettingsOptions" />
                                             <TextBlock Text="Transition Grouping"/>
                                             <Grid x:Name="SpoilerTransitionGroupOptions" />
                                             <TextBlock Text="Transition Order"/>

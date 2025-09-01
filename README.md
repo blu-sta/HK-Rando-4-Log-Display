@@ -1,4 +1,5 @@
-# HK Rando 4 Log Display v2.1.0.1
+
+# HK Rando 4 Log Display v2.1.0.2
 
 ## Requirements
 
@@ -7,6 +8,16 @@ Note: It does need the Reference folder (included in the zip file) to identify i
 I leave all the unzipped files in a folder in Downloads, and then have a shortcut on the Desktop \
 It was written for Windows and may require .NET 5/8 to be installed in order to work, depending on the downloaded version. \
 I have started work on something that I hope will allow for wider use of the Log Display, including on other OS's.
+
+## What's New since v2.1.0.0
+- This section, to summarise the changes for those who don't want to read the change logs
+- New buttons
+    - The Helper tabs can now separate and hide Out-of-Logic checks
+    - The Spoiler tabs can now hide obtained items (in case you only wanted to know where items you missed were)
+- Additional rando support
+    - VendorRando and 
+    - YetAnotherRandoConnection
+- Obtained counters on Spoiler tabs
 
 ## Compatibility
 
@@ -37,6 +48,8 @@ In addition to the default Randomiser, the following mods are also supported:
 - [TheGloryOfBeingAFoolRandomizer](https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer)
 - [TheRealJournalRando](https://github.com/BadMagic100/TheRealJournalRando)
 - [Transcendence](https://github.com/dpinela/Transcendence)
+- [VendorRando](https://github.com/TheMathGeek314/VendorRando)
+- [YetAnotherRandoConnection](https://github.com/TheMathGeek314/YetAnotherRandoConnection)
 
 Other mods may work without requiring an update, although might have limited functionality or missing information
 
@@ -61,6 +74,7 @@ Also displays counts for the following:
 `Group` toggles how locations are grouped together \
 Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or None \
 `Sort` toggles whether locations are ordered alphabetically or order of appearance in the logs  \
+`Out of Logic` cycles between showing, splitting (separating) and hiding Out of Logic checks \
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
 `Time` will show or hide the time the location appeared in the log \
 `Room` will toggle between showing the in-game room code and an alternate description of the room \
@@ -128,7 +142,7 @@ Does not record if transitions were traversed outside of logic.
 #### Buttons
 
 `Group`, `Sort`, `Expand All` and `Collapse All` function the same as in **Tracker Tab - Items** \
-`Obtained` replaces `Time` to show or hide a strikethrough for each item obtained
+`Obtained` can mark (with ~~strikethrough~~) obtained items, hide obtained items, or ignore the obtained state
 
 #### Sections
 
@@ -139,7 +153,7 @@ Does not record if transitions were traversed outside of logic.
 #### Buttons
 
 `Group`, `Sort`, `Focus`, `Expand All`, `Collapse All` and `Room` function the same as in **Tracker Tab - Transitions** \
-`Traversed` replaces `Time` to show or hide a strikethrough for each transition traversed
+`Traversed` can mark (with ~~strikethrough~~) traversed transitions, hide traversed transitions, or ignore the traversed state
 
 #### Sections
 
@@ -159,8 +173,8 @@ Expanders for showing the current settings of the seed
 
 ### Settings Tab - App Settings
 
-Buttons to compare and set the state of Grouping and Sorting for each tab
-Current state is highlighted
+Buttons to compare and set the state of the Helper, Tracker and Spoiler tabs
+Current states are highlighted
 
 ### Bottom Bar
 
@@ -172,12 +186,20 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
+- Out of Logic Transition split & hide on Helper Transition Tab
+- Traversed ignore/mark/hide on Spoiler Transition Tab
+- Group by "Location Pools" on Helper Item Tab (i.e. Rando Vanilla tracking support)
+- Group by "All Location Map Areas" option for Tracker & Spoiler Item tabs
+- Notify user when expected reference data is missing
 
 ## Reporting Issues and Feature Requests
 
 If something goes wrong while using this application, \
 or you would like something added or improved, \
-please contact `@blu.sta#9997` on Discord
+please contact `@blu.sta` on Discord \
+It is a lot easier to add support for new Randos and resolve problems \
+if a zip of the log files is provided with your support request \
+See also: `Settings tab` > `Zip log files` above
 
 ## Appreciation
 
@@ -187,12 +209,6 @@ And a special thanks to **ColetteMSLP** and **wataniyob**, both of whom constant
 ## Reference material
 
 Files found in the **Reference** folder can be updated manually if you do not wish to wait for a patch update \
-`_sceneDescriptions.json` is a file with a list of room codes with descriptions that can be updated as you see fit \
-Please note that items already logged for a rando run will not be updated immediately, and if the schema changes the import may break
-
-Base RandomizerMod files: [link](https://github.com/homothetyhk/RandomizerMod/tree/master/RandomizerMod/Resources/Data) \
-\(Note: items.json has been modified to adjust item pools to be more convenient\) \
-BenchRando files: [link](https://github.com/homothetyhk/BenchRando/tree/master/BenchRando/Resources)\
-BreakableWalls files: [link](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer/tree/main/Resources)\
-MoreDoors files: [link](https://github.com/dplochcoder/HollowKnight.MoreDoors/tree/main/MoreDoors/Resources/Data)\
-RandomizableLevers files: [link](https://github.com/flibber-hk/HollowKnight.RandomizableLevers/tree/main/RandomizableLevers/Resources)
+Please note that if you are partway through a rando run, the items already logged will not update immediately \
+and if the schema changes the import may break functionality \
+Additionally, `_sceneDescriptions.json` is a file with a list of room codes with descriptions that can be updated as you see fit

@@ -13,6 +13,7 @@
         public int SelectedTrackerTransitionOrder { get; set; } = 1;
         public int SelectedSpoilerItemGrouping { get; set; } = 0;
         public int SelectedSpoilerItemOrder { get; set; } = 1;
+        public int SelectedSpoilerObtainedDisplay { get; set; } = 1;
         public int SelectedSpoilerTransitionGrouping { get; set; } = 0;
         public int SelectedSpoilerTransitionOrder { get; set; } = 0;
     }

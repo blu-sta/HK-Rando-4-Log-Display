@@ -1,0 +1,107 @@
+[
+  {
+    "placement": "Soul_Jar-Shade_Soul",
+    "scene": "Ruins1_31",
+    "objectName": "Ruins Vial Empty",
+    "x": 61.04,
+    "y": 57.28
+  },
+  {
+    "placement": "Soul_Jar-Entrance_Middle",
+    "scene": "Ruins1_23",
+    "objectName": "Ruins Vial Empty (1)",
+    "x": 45.96,
+    "y": 39.37881
+  },
+  {
+    "placement": "Soul_Jar-Entrance_Upper",
+    "scene": "Ruins1_23",
+    "objectName": "Ruins Vial Empty",
+    "x": 13.08,
+    "y": 59.33
+  },
+  {
+    "placement": "Soul_Jar-Entrance_Lower",
+    "scene": "Ruins1_23",
+    "objectName": "Ruins Vial Empty (2)",
+    "x": 46.05,
+    "y": 20.32
+  },
+  {
+    "placement": "Soul_Jar-East_Upper",
+    "scene": "Ruins1_25",
+    "objectName": "Ruins Vial Empty",
+    "x": 4.06,
+    "y": 93.21
+  },
+  {
+    "placement": "Soul_Jar-East_Lower",
+    "scene": "Ruins1_25",
+    "objectName": "Ruins Vial Empty (1)",
+    "x": 2.730997,
+    "y": 17.26632
+  },
+  {
+    "placement": "Soul_Jar-Center_Right",
+    "scene": "Ruins1_30",
+    "objectName": "Ruins Vial Empty",
+    "x": 57.461,
+    "y": 33.26
+  },
+  {
+    "placement": "Soul_Jar-Center_Left_Dupe",
+    "scene": "Ruins1_30",
+    "objectName": "Ruins Light Stand",
+    "x": 15.47312,
+    "y": 25.9221
+  },
+  {
+    "placement": "Soul_Jar-Center_Left",
+    "scene": "Ruins1_30",
+    "objectName": "Ruins Vial Empty (1)",
+    "x": 9.63,
+    "y": 25.2
+  },
+  {
+    "placement": "Soul_Jar-Soul_Master_Dupe_2",
+    "scene": "Ruins1_24",
+    "objectName": "Ruins Vial Empty",
+    "x": 50.99,
+    "y": 30.14
+  },
+  {
+    "placement": "Soul_Jar-Soul_Master_Dupe",
+    "scene": "Ruins1_24",
+    "objectName": "Ruins Vial Empty (1)",
+    "x": 60.492,
+    "y": 30.11
+  },
+  {
+    "placement": "Soul_Jar-Soul_Master",
+    "scene": "Ruins1_24",
+    "objectName": "Ruins Soul Vial",
+    "x": 62.31,
+    "y": 30.59
+  },
+  {
+    "placement": "Soul_Jar-West",
+    "scene": "Ruins1_32",
+    "objectName": "Ruins Vial Empty (4)",
+    "x": 39.02,
+    "y": 109.3
+  },
+  {
+    "placement": "Soul_Jar-Lighthouse",
+    "scene": "Abyss_Lighthouse_room",
+    "objectName": "Ruins Soul Vial",
+    "x": 13.76,
+    "y": 8.4705
+  },
+  {
+    "placement": "Soul_Jar-Lighthouse_Dupe",
+    "scene": "Abyss_Lighthouse_room",
+    "objectName": "Ruins Vial Empty",
+    "x": 24.9882,
+    "y": 6.8492
+  }
+]

@@ -25,6 +25,7 @@ namespace HK_Rando_4_Log_Display
 
             AddButtonsToGrid(SpoilerItemGroupingOptions, SpoilerItemGroupOptions);
             AddButtonsToGrid(SpoilerItemOrderingOptions, SpoilerItemOrderOptions);
+            AddButtonsToGrid(SpoilerObtainedDisplayOptions, SpoilerObtainedDisplaySettingsOptions);
             AddButtonsToGrid(SpoilerTransitionGroupingOptions, SpoilerTransitionGroupOptions);
             AddButtonsToGrid(SpoilerTransitionOrderingOptions, SpoilerTransitionOrderOptions);
         }
@@ -132,6 +133,10 @@ namespace HK_Rando_4_Log_Display
                     _appSettings.SelectedSpoilerItemOrder = Array.FindIndex(SpoilerItemOrderingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(SpoilerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemOrder));
                     break;
+                case nameof(SpoilerObtainedDisplaySettingsOptions):
+                    _appSettings.SelectedSpoilerObtainedDisplay = Array.FindIndex(SpoilerObtainedDisplayOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerObtainedDisplaySettingsOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerObtainedDisplay));
+                    break;
                 case nameof(SpoilerTransitionGroupOptions):
                     _appSettings.SelectedSpoilerTransitionGrouping = Array.FindIndex(SpoilerTransitionGroupingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(SpoilerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionGrouping));
@@ -156,6 +161,7 @@ namespace HK_Rando_4_Log_Display
             UpdateUX(() => SetActiveButton(TrackerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerTransitionOrder));
             UpdateUX(() => SetActiveButton(SpoilerItemGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemGrouping));
             UpdateUX(() => SetActiveButton(SpoilerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerItemOrder));
+            UpdateUX(() => SetActiveButton(SpoilerObtainedDisplaySettingsOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerObtainedDisplay));
             UpdateUX(() => SetActiveButton(SpoilerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionGrouping));
             UpdateUX(() => SetActiveButton(SpoilerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionOrder));
         }

@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.1.0.1";
+        public static readonly string AppVersion = "v2.1.0.2";
 
         public enum RoomGrouping
         {
@@ -63,6 +63,16 @@ namespace HK_Rando_4_Log_Display.Constants
             SeedDefault = 1,
         }
 
+        public enum SpoilerObtainedDisplay
+        {
+            [EnumMember(Value = "Ignore")]
+            Ignore = 0,
+            [EnumMember(Value = "Mark")]
+            Mark = 1,
+            [EnumMember(Value = "Hide")]
+            Hide = 2,
+        }
+
         public enum ShowLocationRoom
         {
             [EnumMember(Value = "None")]
@@ -87,6 +97,7 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static readonly string[] SpoilerItemGroupingOptions = Enum.GetValues(typeof(PoolGrouping)).Cast<PoolGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerItemOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] SpoilerObtainedDisplayOptions = Enum.GetValues(typeof(SpoilerObtainedDisplay)).Cast<SpoilerObtainedDisplay>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerShowLocationRoomOptions = Enum.GetValues(typeof(ShowLocationRoom)).Cast<ShowLocationRoom>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
@@ -192,6 +203,21 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static string ReferenceGrassRandoFilePath =>
             GetReferenceFilepath(@"GrassRando\GrassLog.json");
+
+        public static string YARCDreamOrbsFilePath =>
+            GetReferenceFilepath(@"YARC\DreamOrbCoords.json");
+
+        public static string YARCEggBombFilePath =>
+            GetReferenceFilepath(@"YARC\EggBombCoords.json");
+
+        public static string YARCHivePlatFilePath =>
+            GetReferenceFilepath(@"YARC\HivePlatCoords.json");
+
+        public static string YARCJarFilePath =>
+            GetReferenceFilepath(@"YARC\JarCoords.json");
+
+        public static string YARCVineFilePath =>
+            GetReferenceFilepath(@"YARC\VineCoords.json");
 
         #endregion
 

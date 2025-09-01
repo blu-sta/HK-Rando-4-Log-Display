@@ -18,6 +18,8 @@ namespace HK_Rando_4_Log_Display
         private bool _showHelperTransitionsTime = true;
         private bool _showHelperTransitionSceneDescriptions = false;
 
+        // TODO: OutOfLogicSorting.Split & OutOfLogicSorting.Hide
+
         private void UpdateHelperTransitionsTab()
         {
             UpdateUX(() =>

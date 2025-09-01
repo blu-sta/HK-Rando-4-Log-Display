@@ -1,7 +1,17 @@
 # HK Rando 4 Log Display Changelog
 
+## v2.1.0.2
+- Added VendorRando and YetAnotherRandoConnection support
+- Added obtained counters on Spoiler Item tab
+- Updated options for displaying obtained items on Spoiler tab
+  - "Hide" has become "Ignore", i.e. obtained status is ignored
+  - "Show" has become "Mark", i.e. adds a ~~strikethrough~~
+  - The new version of "Hide" now removes obtained items from display
+  - If all items/transitions are obtained and hidden, the section will now read "All obtained"
+- TODO: Add similar features to Helper and Spoiler Transition tabs
+
 ## v2.1.0.1
-- Added button for splitting and hiding Out of Logic locations on Helper tab
+- Added button for splitting and hiding Out of Logic locations on Helper Item tab
 
 ## v2.1.0.0
 Summary of changes since last release version:

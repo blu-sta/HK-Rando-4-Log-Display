@@ -1,0 +1,2894 @@
+[
+  {
+    "area": "AncestralMound",
+    "num": 1,
+    "x": 15.55,
+    "y": 53.85
+  },
+  {
+    "area": "AncestralMound",
+    "num": 2,
+    "x": 28.88,
+    "y": 47.4
+  },
+  {
+    "area": "AncestralMound",
+    "num": 3,
+    "x": 35.86,
+    "y": 47.4
+  },
+  {
+    "area": "AncestralMound",
+    "num": 4,
+    "x": 40,
+    "y": 39.6
+  },
+  {
+    "area": "AncestralMound",
+    "num": 5,
+    "x": 57.38,
+    "y": 39.6
+  },
+  {
+    "area": "AncestralMound",
+    "num": 6,
+    "x": 53.96,
+    "y": 47.21
+  },
+  {
+    "area": "AncestralMound",
+    "num": 7,
+    "x": 60.41,
+    "y": 51.36
+  },
+  {
+    "area": "AncestralMound",
+    "num": 8,
+    "x": 67.81,
+    "y": 51.36
+  },
+  {
+    "area": "AncestralMound",
+    "num": 9,
+    "x": 73.9,
+    "y": 51.4
+  },
+  {
+    "area": "AncestralMound",
+    "num": 10,
+    "x": 78.83,
+    "y": 48.1
+  },
+  {
+    "area": "AncestralMound",
+    "num": 11,
+    "x": 77.22,
+    "y": 39.45
+  },
+  {
+    "area": "AncestralMound",
+    "num": 12,
+    "x": 76.31,
+    "y": 32.55
+  },
+  {
+    "area": "AncestralMound",
+    "num": 13,
+    "x": 76.31,
+    "y": 27.12
+  },
+  {
+    "area": "AncestralMound",
+    "num": 14,
+    "x": 82.7,
+    "y": 30.19
+  },
+  {
+    "area": "AncestralMound",
+    "num": 15,
+    "x": 91.81,
+    "y": 34.92
+  },
+  {
+    "area": "AncestralMound",
+    "num": 16,
+    "x": 91.81,
+    "y": 29.86
+  },
+  {
+    "area": "AncestralMound",
+    "num": 17,
+    "x": 100.18,
+    "y": 32.08
+  },
+  {
+    "area": "AncestralMound",
+    "num": 18,
+    "x": 100.17,
+    "y": 48.44
+  },
+  {
+    "area": "AncestralMound",
+    "num": 19,
+    "x": 106.18,
+    "y": 48.44
+  },
+  {
+    "area": "AncestralMound",
+    "num": 20,
+    "x": 112.45,
+    "y": 48.44
+  },
+  {
+    "area": "AncestralMound",
+    "num": 21,
+    "x": 119.41,
+    "y": 48.44
+  },
+  {
+    "area": "AncestralMound",
+    "num": 22,
+    "x": 113.33,
+    "y": 40.51
+  },
+  {
+    "area": "AncestralMound",
+    "num": 23,
+    "x": 127.52,
+    "y": 38.94
+  },
+  {
+    "area": "AncestralMound",
+    "num": 24,
+    "x": 134.41,
+    "y": 35.2
+  },
+  {
+    "area": "AncestralMound",
+    "num": 25,
+    "x": 131.89,
+    "y": 32.64
+  },
+  {
+    "area": "AncestralMound",
+    "num": 26,
+    "x": 137.59,
+    "y": 21.11
+  },
+  {
+    "area": "AncestralMound",
+    "num": 27,
+    "x": 115.6,
+    "y": 24.64
+  },
+  {
+    "area": "AncestralMound",
+    "num": 28,
+    "x": 103.01,
+    "y": 24.64
+  },
+  {
+    "area": "AncestralMound",
+    "num": 29,
+    "x": 45.94,
+    "y": 27.88
+  },
+  {
+    "area": "AncestralMound",
+    "num": 30,
+    "x": 45.94,
+    "y": 22.31
+  },
+  {
+    "area": "AncestralMound",
+    "num": 31,
+    "x": 45.94,
+    "y": 16.86
+  },
+  {
+    "area": "AncestralMound",
+    "num": 32,
+    "x": 86.99,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 33,
+    "x": 86.99,
+    "y": 11.06
+  },
+  {
+    "area": "AncestralMound",
+    "num": 34,
+    "x": 93.95,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 35,
+    "x": 100.96,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 36,
+    "x": 107.86,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 37,
+    "x": 115.32,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 38,
+    "x": 122.31,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 39,
+    "x": 129.11,
+    "y": 14.3
+  },
+  {
+    "area": "AncestralMound",
+    "num": 40,
+    "x": 73.99,
+    "y": 8.62
+  },
+  {
+    "area": "AncestralMound",
+    "num": 41,
+    "x": 58.29,
+    "y": 8.62
+  },
+  {
+    "area": "AncestralMound",
+    "num": 42,
+    "x": 27.63,
+    "y": 36.34
+  },
+  {
+    "area": "City",
+    "num": 1,
+    "x": 19.65,
+    "y": 17.83665
+  },
+  {
+    "area": "City",
+    "num": 2,
+    "x": 24.3,
+    "y": 27.68
+  },
+  {
+    "area": "City",
+    "num": 3,
+    "x": 24.3,
+    "y": 32.67
+  },
+  {
+    "area": "City",
+    "num": 4,
+    "x": 24.3,
+    "y": 37.06
+  },
+  {
+    "area": "City",
+    "num": 5,
+    "x": 24.3,
+    "y": 42.4
+  },
+  {
+    "area": "City",
+    "num": 6,
+    "x": 24.3,
+    "y": 51.14
+  },
+  {
+    "area": "City",
+    "num": 7,
+    "x": 24.3,
+    "y": 55.53
+  },
+  {
+    "area": "City",
+    "num": 8,
+    "x": 24.3,
+    "y": 60.42
+  },
+  {
+    "area": "City",
+    "num": 9,
+    "x": 15.42,
+    "y": 44.56
+  },
+  {
+    "area": "City",
+    "num": 10,
+    "x": 15.42,
+    "y": 37.64
+  },
+  {
+    "area": "City",
+    "num": 11,
+    "x": 15.42,
+    "y": 26.59
+  },
+  {
+    "area": "City",
+    "num": 12,
+    "x": 34.77,
+    "y": 23.58
+  },
+  {
+    "area": "City",
+    "num": 13,
+    "x": 45.87,
+    "y": 42.21
+  },
+  {
+    "area": "City",
+    "num": 14,
+    "x": 34.77,
+    "y": 42.71
+  },
+  {
+    "area": "City",
+    "num": 15,
+    "x": 45.87,
+    "y": 49.61
+  },
+  {
+    "area": "City",
+    "num": 16,
+    "x": 45.87,
+    "y": 31.93
+  },
+  {
+    "area": "City",
+    "num": 17,
+    "x": 45.87,
+    "y": 23.31
+  },
+  {
+    "area": "City",
+    "num": 18,
+    "x": 34.64,
+    "y": 14.43
+  },
+  {
+    "area": "City",
+    "num": 19,
+    "x": 41.52,
+    "y": 52.4
+  },
+  {
+    "area": "City",
+    "num": 20,
+    "x": 59.41,
+    "y": 50.86
+  },
+  {
+    "area": "City",
+    "num": 21,
+    "x": 73.71,
+    "y": 50.86
+  },
+  {
+    "area": "City",
+    "num": 22,
+    "x": 82.71,
+    "y": 50.86
+  },
+  {
+    "area": "City",
+    "num": 23,
+    "x": 82.71,
+    "y": 38.78
+  },
+  {
+    "area": "City",
+    "num": 24,
+    "x": 74.62,
+    "y": 38.78
+  },
+  {
+    "area": "City",
+    "num": 25,
+    "x": 59.75,
+    "y": 38.78
+  },
+  {
+    "area": "City",
+    "num": 26,
+    "x": 8.6,
+    "y": 52.72
+  },
+  {
+    "area": "City",
+    "num": 27,
+    "x": 5.66,
+    "y": 44.95
+  },
+  {
+    "area": "City",
+    "num": 28,
+    "x": 5.66,
+    "y": 39.52
+  },
+  {
+    "area": "Crossroads",
+    "num": 1,
+    "x": 34.56883,
+    "y": 103.7115
+  },
+  {
+    "area": "Crossroads",
+    "num": 2,
+    "x": 34.56883,
+    "y": 87.27
+  },
+  {
+    "area": "Crossroads",
+    "num": 3,
+    "x": 28.11,
+    "y": 87.27
+  },
+  {
+    "area": "Crossroads",
+    "num": 4,
+    "x": 21.87,
+    "y": 87.27
+  },
+  {
+    "area": "Crossroads",
+    "num": 5,
+    "x": 10.68,
+    "y": 74.28
+  },
+  {
+    "area": "Crossroads",
+    "num": 6,
+    "x": 5.68,
+    "y": 71.39
+  },
+  {
+    "area": "Crossroads",
+    "num": 7,
+    "x": 10.68,
+    "y": 68.09
+  },
+  {
+    "area": "Crossroads",
+    "num": 8,
+    "x": 18.79,
+    "y": 61.07
+  },
+  {
+    "area": "Crossroads",
+    "num": 9,
+    "x": 33.76,
+    "y": 58.78
+  },
+  {
+    "area": "Crossroads",
+    "num": 10,
+    "x": 33.71,
+    "y": 49.79
+  },
+  {
+    "area": "Crossroads",
+    "num": 11,
+    "x": 31.68,
+    "y": 40.23
+  },
+  {
+    "area": "Crossroads",
+    "num": 12,
+    "x": 26.58,
+    "y": 45.5
+  },
+  {
+    "area": "Crossroads",
+    "num": 13,
+    "x": 33.8,
+    "y": 32.42
+  },
+  {
+    "area": "Crossroads",
+    "num": 14,
+    "x": 28.9,
+    "y": 28.85
+  },
+  {
+    "area": "Crossroads",
+    "num": 15,
+    "x": 20.73,
+    "y": 23.71
+  },
+  {
+    "area": "Crossroads",
+    "num": 16,
+    "x": 26.36,
+    "y": 20.87
+  },
+  {
+    "area": "Crossroads",
+    "num": 17,
+    "x": 26.69,
+    "y": 12.6
+  },
+  {
+    "area": "Crossroads",
+    "num": 18,
+    "x": 12.17,
+    "y": 36
+  },
+  {
+    "area": "Crossroads",
+    "num": 19,
+    "x": 6.53,
+    "y": 29.43
+  },
+  {
+    "area": "Crossroads",
+    "num": 20,
+    "x": 6.53,
+    "y": 24.26
+  },
+  {
+    "area": "Crossroads",
+    "num": 21,
+    "x": 10.7,
+    "y": 21.71
+  },
+  {
+    "area": "Crossroads",
+    "num": 22,
+    "x": 15.47,
+    "y": 78.87
+  },
+  {
+    "area": "Crossroads",
+    "num": 23,
+    "x": 10.69,
+    "y": 59.58
+  },
+  {
+    "area": "Crossroads",
+    "num": 24,
+    "x": 6.76,
+    "y": 55.12
+  },
+  {
+    "area": "Crossroads",
+    "num": 25,
+    "x": 6.76,
+    "y": 50.43
+  },
+  {
+    "area": "Crossroads",
+    "num": 26,
+    "x": 6.76,
+    "y": 45.38
+  },
+  {
+    "area": "Crossroads",
+    "num": 27,
+    "x": 15.65,
+    "y": 87.27
+  },
+  {
+    "area": "Crossroads",
+    "num": 28,
+    "x": 29.17,
+    "y": 103.7115
+  },
+  {
+    "area": "Crossroads",
+    "num": 29,
+    "x": 23.38,
+    "y": 103.7115
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 1,
+    "x": 80.36471,
+    "y": 10.37922
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 2,
+    "x": 78.64,
+    "y": 20.76
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 3,
+    "x": 90.57,
+    "y": 21.05
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 4,
+    "x": 65.95,
+    "y": 11.35
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 5,
+    "x": 59.35,
+    "y": 10.03
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 6,
+    "x": 36.8,
+    "y": 9.28
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 7,
+    "x": 23.89,
+    "y": 6.53
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 8,
+    "x": 14.42,
+    "y": 11.29
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 9,
+    "x": 14.42,
+    "y": 20.53
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 10,
+    "x": 24,
+    "y": 27.13
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 11,
+    "x": 36.68,
+    "y": 25.18
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 12,
+    "x": 54.41,
+    "y": 31.09
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 13,
+    "x": 67.84,
+    "y": 25.01
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 14,
+    "x": 102.67,
+    "y": 25.01
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 15,
+    "x": 114.09,
+    "y": 20.05
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 16,
+    "x": 122.18,
+    "y": 22.32
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 17,
+    "x": 149.38,
+    "y": 24.84
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 18,
+    "x": 153.74,
+    "y": 24.84
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 19,
+    "x": 131.25,
+    "y": 27.82
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 20,
+    "x": 151.77,
+    "y": 20.17
+  },
+  {
+    "area": "CrystalPeak",
+    "num": 21,
+    "x": 129.91,
+    "y": 10.04
+  },
+  {
+    "area": "Deepnest",
+    "num": 1,
+    "x": 34.10768,
+    "y": 37.77765
+  },
+  {
+    "area": "Deepnest",
+    "num": 2,
+    "x": 34.10768,
+    "y": 44.17
+  },
+  {
+    "area": "Deepnest",
+    "num": 3,
+    "x": 34.10768,
+    "y": 49.93
+  },
+  {
+    "area": "Deepnest",
+    "num": 4,
+    "x": 34.10768,
+    "y": 56.72
+  },
+  {
+    "area": "Deepnest",
+    "num": 5,
+    "x": 44.95,
+    "y": 56.72
+  },
+  {
+    "area": "Deepnest",
+    "num": 6,
+    "x": 55.35,
+    "y": 55.86
+  },
+  {
+    "area": "Deepnest",
+    "num": 7,
+    "x": 61.32,
+    "y": 55.86
+  },
+  {
+    "area": "Deepnest",
+    "num": 8,
+    "x": 65.59,
+    "y": 58.62
+  },
+  {
+    "area": "Deepnest",
+    "num": 9,
+    "x": 70.81,
+    "y": 61.83
+  },
+  {
+    "area": "Deepnest",
+    "num": 10,
+    "x": 81.7,
+    "y": 61.58
+  },
+  {
+    "area": "Deepnest",
+    "num": 11,
+    "x": 93.27,
+    "y": 61.58
+  },
+  {
+    "area": "Deepnest",
+    "num": 12,
+    "x": 101.12,
+    "y": 64.88
+  },
+  {
+    "area": "Deepnest",
+    "num": 13,
+    "x": 75.14,
+    "y": 36.9
+  },
+  {
+    "area": "Deepnest",
+    "num": 14,
+    "x": 58.5,
+    "y": 52.44
+  },
+  {
+    "area": "Deepnest",
+    "num": 15,
+    "x": 75.14,
+    "y": 32
+  },
+  {
+    "area": "Deepnest",
+    "num": 16,
+    "x": 75.14,
+    "y": 26.57
+  },
+  {
+    "area": "Deepnest",
+    "num": 17,
+    "x": 45.73,
+    "y": 22.95
+  },
+  {
+    "area": "Deepnest",
+    "num": 18,
+    "x": 52.91,
+    "y": 22.81
+  },
+  {
+    "area": "Deepnest",
+    "num": 19,
+    "x": 93.47,
+    "y": 22.81
+  },
+  {
+    "area": "Deepnest",
+    "num": 20,
+    "x": 101.4,
+    "y": 22.81
+  },
+  {
+    "area": "Deepnest",
+    "num": 21,
+    "x": 70.12,
+    "y": 22.81
+  },
+  {
+    "area": "Deepnest",
+    "num": 22,
+    "x": 45.62,
+    "y": 37.13
+  },
+  {
+    "area": "Deepnest",
+    "num": 23,
+    "x": 58.96,
+    "y": 37.13
+  },
+  {
+    "area": "Deepnest",
+    "num": 24,
+    "x": 110.29,
+    "y": 18.74
+  },
+  {
+    "area": "Deepnest",
+    "num": 25,
+    "x": 118.03,
+    "y": 18.74
+  },
+  {
+    "area": "Deepnest",
+    "num": 26,
+    "x": 120.75,
+    "y": 16.33
+  },
+  {
+    "area": "Deepnest",
+    "num": 27,
+    "x": 126.85,
+    "y": 22.48
+  },
+  {
+    "area": "Deepnest",
+    "num": 28,
+    "x": 136.88,
+    "y": 22.7
+  },
+  {
+    "area": "Deepnest",
+    "num": 29,
+    "x": 115.92,
+    "y": 34.01
+  },
+  {
+    "area": "Deepnest",
+    "num": 30,
+    "x": 121.11,
+    "y": 38.91
+  },
+  {
+    "area": "Deepnest",
+    "num": 31,
+    "x": 110.02,
+    "y": 14.13
+  },
+  {
+    "area": "Deepnest",
+    "num": 32,
+    "x": 106.99,
+    "y": 9.23
+  },
+  {
+    "area": "Deepnest",
+    "num": 33,
+    "x": 98.2,
+    "y": 5.77
+  },
+  {
+    "area": "Deepnest",
+    "num": 34,
+    "x": 91,
+    "y": 5.77
+  },
+  {
+    "area": "Deepnest",
+    "num": 35,
+    "x": 84.37,
+    "y": 5.77
+  },
+  {
+    "area": "Deepnest",
+    "num": 36,
+    "x": 73.71,
+    "y": 8.36
+  },
+  {
+    "area": "Deepnest",
+    "num": 37,
+    "x": 128.1,
+    "y": 36.6
+  },
+  {
+    "area": "Deepnest",
+    "num": 38,
+    "x": 148.94,
+    "y": 19.86
+  },
+  {
+    "area": "Deepnest",
+    "num": 39,
+    "x": 161.4,
+    "y": 23.25
+  },
+  {
+    "area": "Deepnest",
+    "num": 40,
+    "x": 171.67,
+    "y": 23.25
+  },
+  {
+    "area": "Deepnest",
+    "num": 41,
+    "x": 180.5,
+    "y": 21.16
+  },
+  {
+    "area": "Deepnest",
+    "num": 42,
+    "x": 188.57,
+    "y": 16.08
+  },
+  {
+    "area": "Deepnest",
+    "num": 43,
+    "x": 188.57,
+    "y": 6.02
+  },
+  {
+    "area": "Deepnest",
+    "num": 44,
+    "x": 176.27,
+    "y": 6.02
+  },
+  {
+    "area": "Deepnest",
+    "num": 45,
+    "x": 165.52,
+    "y": 6.02
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 1,
+    "x": 44.62939,
+    "y": 12.13526
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 2,
+    "x": 26.25,
+    "y": 12.04
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 3,
+    "x": 36.04,
+    "y": 21.45
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 4,
+    "x": 42.79,
+    "y": 26.61
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 5,
+    "x": 35.36,
+    "y": 31.53
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 6,
+    "x": 30.01,
+    "y": 37.85
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 7,
+    "x": 41.01,
+    "y": 37.95
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 8,
+    "x": 35.51,
+    "y": 45.16
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 9,
+    "x": 37.49,
+    "y": 53.64
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 10,
+    "x": 27.47,
+    "y": 61.35
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 11,
+    "x": 39.36,
+    "y": 63.44
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 12,
+    "x": 33.3,
+    "y": 63.83
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 13,
+    "x": 32.81,
+    "y": 54.39
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 14,
+    "x": 10.9,
+    "y": 66.7
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 15,
+    "x": 41.65,
+    "y": 48.52
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 16,
+    "x": 35.62,
+    "y": 41.4
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 17,
+    "x": 29.34,
+    "y": 21.96
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 18,
+    "x": 32.69,
+    "y": 16.43
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 19,
+    "x": 26.8,
+    "y": 42.8
+  },
+  {
+    "area": "FungalWastes_Canyon",
+    "num": 20,
+    "x": 43.02,
+    "y": 57.24
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 1,
+    "x": 26.35516,
+    "y": 9.663826
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 2,
+    "x": 26.35516,
+    "y": 13.76
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 3,
+    "x": 26.35516,
+    "y": 17.98
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 4,
+    "x": 38.4,
+    "y": 13.88
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 5,
+    "x": 38.4,
+    "y": 18.04
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 6,
+    "x": 38.4,
+    "y": 22.69
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 7,
+    "x": 35.46,
+    "y": 27.52
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 8,
+    "x": 17.12,
+    "y": 15.6
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 9,
+    "x": 17.12,
+    "y": 11.14
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 10,
+    "x": 10.94,
+    "y": 28.57
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 11,
+    "x": 10.94,
+    "y": 24.66
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 12,
+    "x": 20.6,
+    "y": 24.66
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 13,
+    "x": 20.6,
+    "y": 28.45
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 14,
+    "x": 20.83,
+    "y": 38.49
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 15,
+    "x": 20.83,
+    "y": 35.05
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 16,
+    "x": 16.51,
+    "y": 32.42
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 17,
+    "x": 4.67,
+    "y": 21.65
+  },
+  {
+    "area": "FungalWastes_Village",
+    "num": 18,
+    "x": 24.82,
+    "y": 28.45
+  },
+  {
+    "area": "Greenpath",
+    "num": 1,
+    "x": 35.32847,
+    "y": 24.16376
+  },
+  {
+    "area": "Greenpath",
+    "num": 2,
+    "x": 41.49,
+    "y": 24.16376
+  },
+  {
+    "area": "Greenpath",
+    "num": 3,
+    "x": 65.8,
+    "y": 23.85
+  },
+  {
+    "area": "Greenpath",
+    "num": 4,
+    "x": 47.5,
+    "y": 21.04
+  },
+  {
+    "area": "Greenpath",
+    "num": 5,
+    "x": 47.5,
+    "y": 13.97
+  },
+  {
+    "area": "Greenpath",
+    "num": 6,
+    "x": 61.43,
+    "y": 13.97
+  },
+  {
+    "area": "Greenpath",
+    "num": 7,
+    "x": 66.42,
+    "y": 28.1
+  },
+  {
+    "area": "Greenpath",
+    "num": 8,
+    "x": 66.42,
+    "y": 33.46
+  },
+  {
+    "area": "Greenpath",
+    "num": 9,
+    "x": 71.49,
+    "y": 19.93
+  },
+  {
+    "area": "Greenpath",
+    "num": 10,
+    "x": 71.49,
+    "y": 16.14
+  },
+  {
+    "area": "Greenpath",
+    "num": 11,
+    "x": 78.71,
+    "y": 10.93
+  },
+  {
+    "area": "Greenpath",
+    "num": 12,
+    "x": 82.85,
+    "y": 8.94
+  },
+  {
+    "area": "Greenpath",
+    "num": 13,
+    "x": 87.83,
+    "y": 10.88
+  },
+  {
+    "area": "Greenpath",
+    "num": 14,
+    "x": 92.7,
+    "y": 8.94
+  },
+  {
+    "area": "Greenpath",
+    "num": 15,
+    "x": 73.88,
+    "y": 8.94
+  },
+  {
+    "area": "Greenpath",
+    "num": 16,
+    "x": 97.02,
+    "y": 15.4
+  },
+  {
+    "area": "Greenpath",
+    "num": 17,
+    "x": 97.02,
+    "y": 19.55
+  },
+  {
+    "area": "Greenpath",
+    "num": 18,
+    "x": 97.02,
+    "y": 23.77
+  },
+  {
+    "area": "Greenpath",
+    "num": 19,
+    "x": 107.71,
+    "y": 22.3
+  },
+  {
+    "area": "Greenpath",
+    "num": 20,
+    "x": 107.71,
+    "y": 26.12
+  },
+  {
+    "area": "Greenpath",
+    "num": 21,
+    "x": 107.71,
+    "y": 18.07
+  },
+  {
+    "area": "Greenpath",
+    "num": 22,
+    "x": 111.24,
+    "y": 11.17
+  },
+  {
+    "area": "Greenpath",
+    "num": 23,
+    "x": 116.85,
+    "y": 8.66
+  },
+  {
+    "area": "Greenpath",
+    "num": 24,
+    "x": 121.89,
+    "y": 11.11
+  },
+  {
+    "area": "Greenpath",
+    "num": 25,
+    "x": 125.56,
+    "y": 8.66
+  },
+  {
+    "area": "Greenpath",
+    "num": 26,
+    "x": 128.69,
+    "y": 11.11
+  },
+  {
+    "area": "Greenpath",
+    "num": 27,
+    "x": 132.42,
+    "y": 8.66
+  },
+  {
+    "area": "Greenpath",
+    "num": 28,
+    "x": 140.16,
+    "y": 8.66
+  },
+  {
+    "area": "Greenpath",
+    "num": 29,
+    "x": 136.49,
+    "y": 11.11
+  },
+  {
+    "area": "Greenpath",
+    "num": 30,
+    "x": 155.07,
+    "y": 8.38
+  },
+  {
+    "area": "Greenpath",
+    "num": 31,
+    "x": 158.59,
+    "y": 10.67
+  },
+  {
+    "area": "Greenpath",
+    "num": 32,
+    "x": 166.8,
+    "y": 10.67
+  },
+  {
+    "area": "Greenpath",
+    "num": 33,
+    "x": 163.28,
+    "y": 8.38
+  },
+  {
+    "area": "Greenpath",
+    "num": 34,
+    "x": 146.81,
+    "y": 14.74
+  },
+  {
+    "area": "Greenpath",
+    "num": 35,
+    "x": 152,
+    "y": 18.7
+  },
+  {
+    "area": "Greenpath",
+    "num": 36,
+    "x": 158.96,
+    "y": 23.2
+  },
+  {
+    "area": "Greenpath",
+    "num": 37,
+    "x": 173.14,
+    "y": 10.62
+  },
+  {
+    "area": "Greenpath",
+    "num": 38,
+    "x": 193.11,
+    "y": 8.72
+  },
+  {
+    "area": "Greenpath",
+    "num": 39,
+    "x": 193.11,
+    "y": 11.35
+  },
+  {
+    "area": "Greenpath",
+    "num": 40,
+    "x": 198.59,
+    "y": 11.35
+  },
+  {
+    "area": "Greenpath",
+    "num": 41,
+    "x": 198.59,
+    "y": 8.72
+  },
+  {
+    "area": "Greenpath",
+    "num": 42,
+    "x": 206.44,
+    "y": 20.32
+  },
+  {
+    "area": "Greenpath",
+    "num": 43,
+    "x": 130.42,
+    "y": 29.4
+  },
+  {
+    "area": "Greenpath",
+    "num": 44,
+    "x": 130.42,
+    "y": 37.33
+  },
+  {
+    "area": "Hive",
+    "num": 2,
+    "x": 176.5361,
+    "y": 25.91689
+  },
+  {
+    "area": "Hive",
+    "num": 3,
+    "x": 182.9,
+    "y": 25.91689
+  },
+  {
+    "area": "Hive",
+    "num": 5,
+    "x": 182.9,
+    "y": 33.89
+  },
+  {
+    "area": "Hive",
+    "num": 7,
+    "x": 165.1303,
+    "y": 42.7464
+  },
+  {
+    "area": "Hive",
+    "num": 8,
+    "x": 173.5665,
+    "y": 50.1953
+  },
+  {
+    "area": "Hive",
+    "num": 9,
+    "x": 183.7526,
+    "y": 51.81072
+  },
+  {
+    "area": "Hive",
+    "num": 10,
+    "x": 180.7012,
+    "y": 54.95182
+  },
+  {
+    "area": "Hive",
+    "num": 12,
+    "x": 188.8232,
+    "y": 56.88
+  },
+  {
+    "area": "Hive",
+    "num": 13,
+    "x": 188.8232,
+    "y": 62.18
+  },
+  {
+    "area": "Hive",
+    "num": 14,
+    "x": 188.8232,
+    "y": 68.06
+  },
+  {
+    "area": "Hive",
+    "num": 15,
+    "x": 184.1564,
+    "y": 68.95746
+  },
+  {
+    "area": "Hive",
+    "num": 16,
+    "x": 174.0152,
+    "y": 64.78428
+  },
+  {
+    "area": "Hive",
+    "num": 17,
+    "x": 161.4824,
+    "y": 35.94822
+  },
+  {
+    "area": "Hive",
+    "num": 18,
+    "x": 189.2048,
+    "y": 29.16937
+  },
+  {
+    "area": "Hive",
+    "num": 19,
+    "x": 189.2048,
+    "y": 33.97
+  },
+  {
+    "area": "Hive",
+    "num": 20,
+    "x": 189.2048,
+    "y": 38.39776
+  },
+  {
+    "area": "Hive",
+    "num": 21,
+    "x": 175.0566,
+    "y": 33.75731
+  },
+  {
+    "area": "Hive",
+    "num": 22,
+    "x": 161.4824,
+    "y": 40.05
+  },
+  {
+    "area": "Hive",
+    "num": 23,
+    "x": 175.0122,
+    "y": 43.58218
+  },
+  {
+    "area": "Hive",
+    "num": 24,
+    "x": 179.191,
+    "y": 46.18783
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 3,
+    "x": 58.71,
+    "y": 20.59
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 4,
+    "x": 69.61,
+    "y": 25.15
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 5,
+    "x": 112.5523,
+    "y": 23.68431
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 7,
+    "x": 105.67,
+    "y": 30.68
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 9,
+    "x": 95.12,
+    "y": 34.14
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 10,
+    "x": 80.64,
+    "y": 36.33
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 12,
+    "x": 77.06,
+    "y": 43.72
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 14,
+    "x": 60.5,
+    "y": 39.68
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 15,
+    "x": 69.5,
+    "y": 49.31
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 16,
+    "x": 62,
+    "y": 51.85
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 17,
+    "x": 67.13,
+    "y": 61.6
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 18,
+    "x": 84.55,
+    "y": 53.06
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 19,
+    "x": 95.49,
+    "y": 53.06
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 20,
+    "x": 105.34,
+    "y": 55.08
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 23,
+    "x": 76.52,
+    "y": 64.06
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 25,
+    "x": 55.28,
+    "y": 64.88
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 26,
+    "x": 62.68,
+    "y": 70.22
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 27,
+    "x": 69.19,
+    "y": 73.99
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 28,
+    "x": 86.52,
+    "y": 73.99
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 29,
+    "x": 94.81,
+    "y": 75.98
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 30,
+    "x": 120.5,
+    "y": 73.92
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 31,
+    "x": 113.24,
+    "y": 70.97
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 32,
+    "x": 96.32,
+    "y": 84.81
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 34,
+    "x": 84.53,
+    "y": 81.8
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 36,
+    "x": 67.75,
+    "y": 81.73
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 37,
+    "x": 57.06,
+    "y": 84.74
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 39,
+    "x": 67.82,
+    "y": 90.7
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 40,
+    "x": 72.96,
+    "y": 98.58
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 42,
+    "x": 114.42,
+    "y": 91.98
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 43,
+    "x": 99.71,
+    "y": 91.98
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 46,
+    "x": 94.34,
+    "y": 104.83
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 48,
+    "x": 81.89,
+    "y": 104.83
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 49,
+    "x": 73.91,
+    "y": 106.79
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 51,
+    "x": 51.52,
+    "y": 108.89
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 53,
+    "x": 39.61,
+    "y": 113.42
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 54,
+    "x": 49.96,
+    "y": 115.86
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 56,
+    "x": 41.91,
+    "y": 127.23
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 57,
+    "x": 48.67,
+    "y": 129.53
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 58,
+    "x": 62.61,
+    "y": 127.97
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 59,
+    "x": 67.21,
+    "y": 138.25
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 60,
+    "x": 107.68,
+    "y": 129.21
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 62,
+    "x": 98.08,
+    "y": 132.83
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 64,
+    "x": 87.72,
+    "y": 140.76
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 65,
+    "x": 78.82,
+    "y": 138.88
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 67,
+    "x": 105.83,
+    "y": 118.77
+  },
+  {
+    "area": "HowlingCliffs",
+    "num": 68,
+    "x": 97.5,
+    "y": 144.34
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 1,
+    "x": 42.86427,
+    "y": 15.09182
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 2,
+    "x": 36.08,
+    "y": 17.07
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 3,
+    "x": 36.08,
+    "y": 26.67
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 4,
+    "x": 47.3,
+    "y": 25.17
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 5,
+    "x": 76.17,
+    "y": 31.32
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 6,
+    "x": 70.72,
+    "y": 31.32
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 7,
+    "x": 51.97,
+    "y": 31.61
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 8,
+    "x": 46.04,
+    "y": 36.24
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 9,
+    "x": 41.55,
+    "y": 41.16
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 10,
+    "x": 43.58,
+    "y": 49.55
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 11,
+    "x": 38.22,
+    "y": 49.55
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 12,
+    "x": 48.79,
+    "y": 44.12
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 13,
+    "x": 19.12,
+    "y": 54.83
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 14,
+    "x": 25.51,
+    "y": 54.83
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 15,
+    "x": 7.86,
+    "y": 58.98
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 16,
+    "x": 5.55,
+    "y": 67.15
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 17,
+    "x": 5.62,
+    "y": 85.46
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 18,
+    "x": 5.62,
+    "y": 80.32
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 19,
+    "x": 5.62,
+    "y": 74.41
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 20,
+    "x": 14.55,
+    "y": 88.34
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 21,
+    "x": 22.15,
+    "y": 92.98
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 22,
+    "x": 17.86,
+    "y": 97.97
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 23,
+    "x": 9.42,
+    "y": 107.26
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 24,
+    "x": 14.56,
+    "y": 113.87
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 25,
+    "x": 9.42,
+    "y": 113.87
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 26,
+    "x": 8.16,
+    "y": 123.65
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 27,
+    "x": 3.8,
+    "y": 121.26
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 28,
+    "x": 3.8,
+    "y": 117.6
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 29,
+    "x": 15.26,
+    "y": 126.39
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 30,
+    "x": 18.57,
+    "y": 128.92
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 31,
+    "x": 27.5,
+    "y": 130.54
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 32,
+    "x": 39.95,
+    "y": 129.56
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 33,
+    "x": 49.24,
+    "y": 128.08
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 34,
+    "x": 64.01,
+    "y": 125.69
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 35,
+    "x": 69.92,
+    "y": 125.69
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 36,
+    "x": 80.05,
+    "y": 122.24
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 37,
+    "x": 70.77,
+    "y": 132.16
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 38,
+    "x": 65.14,
+    "y": 132.16
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 40,
+    "x": 68.73,
+    "y": 144.25
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 41,
+    "x": 68.73,
+    "y": 151.85
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 42,
+    "x": 68.73,
+    "y": 155.72
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 43,
+    "x": 62.12,
+    "y": 155.72
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 44,
+    "x": 62.12,
+    "y": 152.2
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 45,
+    "x": 70.53,
+    "y": 161.86
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 46,
+    "x": 81.44,
+    "y": 165.89
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 47,
+    "x": 59.89,
+    "y": 161.86
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 48,
+    "x": 48.99,
+    "y": 157.88
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 49,
+    "x": 39.56,
+    "y": 158.57
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 50,
+    "x": 33.94,
+    "y": 164.54
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 51,
+    "x": 27.8,
+    "y": 151.91
+  },
+  {
+    "area": "KingdomsEdge",
+    "num": 52,
+    "x": 55.77,
+    "y": 133.09
+  },
+  {
+    "area": "QueensGardens",
+    "num": 1,
+    "x": 40.84216,
+    "y": 8.415421
+  },
+  {
+    "area": "QueensGardens",
+    "num": 2,
+    "x": 44.59,
+    "y": 16.03
+  },
+  {
+    "area": "QueensGardens",
+    "num": 3,
+    "x": 44.59,
+    "y": 20.78
+  },
+  {
+    "area": "QueensGardens",
+    "num": 4,
+    "x": 40.82,
+    "y": 29.26
+  },
+  {
+    "area": "QueensGardens",
+    "num": 5,
+    "x": 34.45,
+    "y": 32.46
+  },
+  {
+    "area": "QueensGardens",
+    "num": 6,
+    "x": 40.82,
+    "y": 33.23
+  },
+  {
+    "area": "QueensGardens",
+    "num": 7,
+    "x": 40.82,
+    "y": 46.5
+  },
+  {
+    "area": "QueensGardens",
+    "num": 8,
+    "x": 38.3,
+    "y": 51.21
+  },
+  {
+    "area": "QueensGardens",
+    "num": 9,
+    "x": 40.77,
+    "y": 55.79
+  },
+  {
+    "area": "QueensGardens",
+    "num": 10,
+    "x": 38.25,
+    "y": 60.58
+  },
+  {
+    "area": "QueensGardens",
+    "num": 11,
+    "x": 33.34,
+    "y": 65.54
+  },
+  {
+    "area": "QueensGardens",
+    "num": 12,
+    "x": 28.6,
+    "y": 65.54
+  },
+  {
+    "area": "QueensGardens",
+    "num": 13,
+    "x": 20.31,
+    "y": 56.85
+  },
+  {
+    "area": "QueensGardens",
+    "num": 14,
+    "x": 20.31,
+    "y": 51.81
+  },
+  {
+    "area": "QueensGardens",
+    "num": 15,
+    "x": 20.31,
+    "y": 47.69
+  },
+  {
+    "area": "QueensGardens",
+    "num": 16,
+    "x": 20.31,
+    "y": 43.66
+  },
+  {
+    "area": "QueensGardens",
+    "num": 17,
+    "x": 22.46,
+    "y": 40.59
+  },
+  {
+    "area": "QueensGardens",
+    "num": 18,
+    "x": 22.46,
+    "y": 35.17
+  },
+  {
+    "area": "QueensGardens",
+    "num": 19,
+    "x": 25.67,
+    "y": 27.57
+  },
+  {
+    "area": "QueensGardens",
+    "num": 20,
+    "x": 18.54,
+    "y": 28.56
+  },
+  {
+    "area": "QueensGardens",
+    "num": 21,
+    "x": 36.01,
+    "y": 23.98
+  },
+  {
+    "area": "QueensGardens",
+    "num": 22,
+    "x": 10.04,
+    "y": 28.89
+  },
+  {
+    "area": "QueensGardens",
+    "num": 23,
+    "x": 4.85,
+    "y": 16.97
+  },
+  {
+    "area": "QueensGardens",
+    "num": 24,
+    "x": 9.98,
+    "y": 18.74
+  },
+  {
+    "area": "QueensGardens",
+    "num": 25,
+    "x": 9.98,
+    "y": 13
+  },
+  {
+    "area": "QueensGardens",
+    "num": 26,
+    "x": 18.55,
+    "y": 24.06
+  },
+  {
+    "area": "QueensGardens",
+    "num": 27,
+    "x": 18.55,
+    "y": 19.83
+  },
+  {
+    "area": "QueensGardens",
+    "num": 28,
+    "x": 22.54,
+    "y": 14.65
+  },
+  {
+    "area": "QueensGardens",
+    "num": 29,
+    "x": 34.45,
+    "y": 37.17
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 1,
+    "x": 5.32698,
+    "y": 34.76
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 2,
+    "x": 26.61,
+    "y": 34.76
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 3,
+    "x": 26.61,
+    "y": 44.65
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 4,
+    "x": 5.32698,
+    "y": 44.65
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 5,
+    "x": 5.32698,
+    "y": 64.61
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 6,
+    "x": 26.61,
+    "y": 64.61
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 7,
+    "x": 26.61,
+    "y": 24.71
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 8,
+    "x": 5.32698,
+    "y": 24.71
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 9,
+    "x": 5.32698,
+    "y": 14.75
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 10,
+    "x": 26.61,
+    "y": 14.75
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 11,
+    "x": 16.03,
+    "y": 41.78
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 12,
+    "x": 34.36,
+    "y": 6.5
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 13,
+    "x": 5.32698,
+    "y": 54.68
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 14,
+    "x": 16.01,
+    "y": 52.31
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 15,
+    "x": 16.02,
+    "y": 32.32
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 16,
+    "x": 16.01,
+    "y": 62.38
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 17,
+    "x": 16.01,
+    "y": 80.03
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 18,
+    "x": 16.02,
+    "y": 21.54
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 19,
+    "x": 12.68,
+    "y": 10.2
+  },
+  {
+    "area": "RestingGrounds",
+    "num": 20,
+    "x": 26.94,
+    "y": 75.71
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 1,
+    "x": 139.3749,
+    "y": 58.11602
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 2,
+    "x": 109.55,
+    "y": 56.54
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 3,
+    "x": 120.55,
+    "y": 52.62
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 4,
+    "x": 120.55,
+    "y": 46.27
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 5,
+    "x": 120.55,
+    "y": 39.92
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 6,
+    "x": 120.55,
+    "y": 26.26
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 7,
+    "x": 116.34,
+    "y": 14.71
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 8,
+    "x": 105.49,
+    "y": 17.98
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 9,
+    "x": 93,
+    "y": 17.91
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 10,
+    "x": 79.58,
+    "y": 21.33
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 11,
+    "x": 88.87,
+    "y": 28.77
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 12,
+    "x": 97.61,
+    "y": 28.57
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 13,
+    "x": 78.64,
+    "y": 34.54
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 14,
+    "x": 58.89,
+    "y": 33.95
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 15,
+    "x": 49.32,
+    "y": 36.22
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 16,
+    "x": 49.32,
+    "y": 31.11
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 17,
+    "x": 49.32,
+    "y": 25.78
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 18,
+    "x": 56.92,
+    "y": 23.26
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 19,
+    "x": 56.92,
+    "y": 18.44
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 20,
+    "x": 56.92,
+    "y": 13.12
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 21,
+    "x": 62.84,
+    "y": 5.87
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 22,
+    "x": 78.57,
+    "y": 5.48
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 23,
+    "x": 91.35,
+    "y": 5.35
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 24,
+    "x": 101.87,
+    "y": 5.54
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 25,
+    "x": 42.01,
+    "y": 33.69
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 26,
+    "x": 24.32,
+    "y": 33.69
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 27,
+    "x": 15.86,
+    "y": 42.71
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 28,
+    "x": 15.86,
+    "y": 48.45
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 29,
+    "x": 15.86,
+    "y": 58.66
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 30,
+    "x": 50.03,
+    "y": 59.5
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 31,
+    "x": 50.03,
+    "y": 53.66
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 32,
+    "x": 50.03,
+    "y": 47.46
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 33,
+    "x": 90.2,
+    "y": 56.62
+  },
+  {
+    "area": "SpiritsGlade",
+    "num": 34,
+    "x": 74.03,
+    "y": 56.82
+  },
+  {
+    "area": "Waterways",
+    "num": 1,
+    "x": 6.33,
+    "y": 22.64
+  },
+  {
+    "area": "Waterways",
+    "num": 2,
+    "x": 6.33,
+    "y": 28.96
+  },
+  {
+    "area": "Waterways",
+    "num": 3,
+    "x": 20.03,
+    "y": 23.79
+  },
+  {
+    "area": "Waterways",
+    "num": 4,
+    "x": 25.27,
+    "y": 45.06
+  },
+  {
+    "area": "Waterways",
+    "num": 5,
+    "x": 14.5,
+    "y": 62.17
+  },
+  {
+    "area": "Waterways",
+    "num": 6,
+    "x": 14.5,
+    "y": 56.6
+  },
+  {
+    "area": "Waterways",
+    "num": 7,
+    "x": 14.5,
+    "y": 50.19
+  },
+  {
+    "area": "Waterways",
+    "num": 8,
+    "x": 19.89,
+    "y": 29.34
+  },
+  {
+    "area": "Waterways",
+    "num": 9,
+    "x": 14.43,
+    "y": 38.9
+  },
+  {
+    "area": "Waterways",
+    "num": 10,
+    "x": 5.97,
+    "y": 56.72
+  },
+  {
+    "area": "Waterways",
+    "num": 11,
+    "x": 18.35,
+    "y": 64.95
+  },
+  {
+    "area": "Waterways",
+    "num": 12,
+    "x": 18.35,
+    "y": 69.52
+  },
+  {
+    "area": "Waterways",
+    "num": 13,
+    "x": 26.16,
+    "y": 74.81
+  },
+  {
+    "area": "Waterways",
+    "num": 14,
+    "x": 11.98,
+    "y": 81.79
+  },
+  {
+    "area": "Waterways",
+    "num": 15,
+    "x": 11.98,
+    "y": 86.52
+  },
+  {
+    "area": "Waterways",
+    "num": 16,
+    "x": 11.98,
+    "y": 91.97
+  },
+  {
+    "area": "Waterways",
+    "num": 17,
+    "x": 18.81,
+    "y": 91.97
+  },
+  {
+    "area": "Waterways",
+    "num": 18,
+    "x": 24.09,
+    "y": 101.18
+  },
+  {
+    "area": "Waterways",
+    "num": 19,
+    "x": 7.65,
+    "y": 99
+  },
+  {
+    "area": "Waterways",
+    "num": 20,
+    "x": 12.79,
+    "y": 109.91
+  },
+  {
+    "area": "Waterways",
+    "num": 21,
+    "x": 15.38,
+    "y": 114.04
+  },
+  {
+    "area": "Waterways",
+    "num": 22,
+    "x": 5.05,
+    "y": 116.89
+  },
+  {
+    "area": "Waterways",
+    "num": 23,
+    "x": 5.05,
+    "y": 124.29
+  },
+  {
+    "area": "Waterways",
+    "num": 24,
+    "x": 11.71,
+    "y": 130.34
+  },
+  {
+    "area": "Waterways",
+    "num": 25,
+    "x": 7.83,
+    "y": 137.35
+  },
+  {
+    "area": "Waterways",
+    "num": 26,
+    "x": 7.83,
+    "y": 141.08
+  },
+  {
+    "area": "Waterways",
+    "num": 27,
+    "x": 11.71,
+    "y": 127.47
+  },
+  {
+    "area": "Waterways",
+    "num": 28,
+    "x": 12.19,
+    "y": 150.46
+  },
+  {
+    "area": "Waterways",
+    "num": 29,
+    "x": 12.19,
+    "y": 154.78
+  },
+  {
+    "area": "Waterways",
+    "num": 30,
+    "x": 20.13,
+    "y": 159.63
+  },
+  {
+    "area": "Waterways",
+    "num": 31,
+    "x": 24.09,
+    "y": 113.12
+  },
+  {
+    "area": "Waterways",
+    "num": 32,
+    "x": 4.84,
+    "y": 150.46
+  },
+  {
+    "area": "Waterways",
+    "num": 33,
+    "x": 4.84,
+    "y": 154.88
+  },
+  {
+    "area": "Waterways",
+    "num": 34,
+    "x": 15.04,
+    "y": 141.08
+  },
+  {
+    "area": "Waterways",
+    "num": 35,
+    "x": 15.04,
+    "y": 137.31
+  }
+]

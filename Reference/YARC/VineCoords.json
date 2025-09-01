@@ -1,0 +1,135 @@
+[
+  {
+    "scene": "Fungus1_22",
+    "parent": "Vine Platform (1)",
+    "name": "Vine-Stag_Journal",
+    "x": 31.09,
+    "y": 107.64
+  },
+  {
+    "scene": "Fungus1_22",
+    "parent": "Vine Platform",
+    "name": "Vine-Stag_Lower",
+    "x": 5.52,
+    "y": 48.84
+  },
+  {
+    "scene": "Fungus1_09",
+    "parent": "Vine Platform",
+    "name": "Vine-Durandas",
+    "x": 243.128,
+    "y": 22.13
+  },
+  {
+    "scene": "Fungus1_14",
+    "parent": "Vine Platform",
+    "name": "Vine-Thorns",
+    "x": 73.52,
+    "y": 7.6
+  },
+  {
+    "scene": "Fungus1_21",
+    "parent": "Vine Platform (2)",
+    "name": "Vine-Moss_Knight",
+    "x": 72.53,
+    "y": 13.96
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (3)",
+    "name": "Vine-Cornifer_Upper",
+    "x": 100.79,
+    "y": 21.22
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (4)",
+    "name": "Vine-Cornifer_Spikes",
+    "x": 116.59,
+    "y": 21.71
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (1)",
+    "name": "Vine-Cornifer_Left_2",
+    "x": 34.19,
+    "y": 13.01
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (6)",
+    "name": "Vine-Cornifer_Grub",
+    "x": 141.14,
+    "y": 20.26
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform",
+    "name": "Vine-Cornifer_Left_1",
+    "x": 22.23323,
+    "y": 7.694076
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (2)",
+    "name": "Vine-Cornifer_Shortcut",
+    "x": 88.57862,
+    "y": 9.187588
+  },
+  {
+    "scene": "Fungus1_06",
+    "parent": "Vine Platform (5)",
+    "name": "Vine-Cornifer_Left_3",
+    "x": 61.10612,
+    "y": 9.015874
+  },
+  {
+    "scene": "Fungus1_07",
+    "parent": "Vine Platform (2)",
+    "name": "Vine-Hunter_Middle",
+    "x": 33.88272,
+    "y": 28.69837
+  },
+  {
+    "scene": "Fungus1_07",
+    "parent": "Vine Platform (3)",
+    "name": "Vine-Hunter_Lower",
+    "x": 43.07,
+    "y": 17.16054
+  },
+  {
+    "scene": "Fungus1_07",
+    "parent": "Vine Platform",
+    "name": "Vine-Hunter_Left",
+    "x": 7.2,
+    "y": 47.05
+  },
+  {
+    "scene": "Fungus1_07",
+    "parent": "Vine Platform (1)",
+    "name": "Vine-Hunter_Upper",
+    "x": 43.125,
+    "y": 46.36968
+  },
+  {
+    "scene": "Fungus1_13",
+    "parent": "Vine Platform (1)",
+    "name": "Vine-Root_Right",
+    "x": 61.63,
+    "y": 18.78
+  },
+  {
+    "scene": "Fungus1_13",
+    "parent": "Vine Platform (2)",
+    "name": "Vine-Root_Left",
+    "x": 47.63,
+    "y": 17.13
+  },
+  {
+    "scene": "Fungus1_13",
+    "parent": "Vine Platform",
+    "name": "Vine-Vessel_Fragment",
+    "x": 130.4947,
+    "y": 33.66
+  }
+]
