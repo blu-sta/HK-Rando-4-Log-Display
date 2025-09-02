@@ -4,20 +4,25 @@
 ## Requirements
 
 This application is standalone, and does not need to be in any Hollow Knight folder \
-Note: It does need the Reference folder (included in the zip file) to identify items and locations correctly. \
+Please note, it does need the Reference folder (included in the zip file) to identify items and locations correctly. \
 I leave all the unzipped files in a folder in Downloads, and then have a shortcut on the Desktop \
-It was written for Windows and may require .NET 5/8 to be installed in order to work, depending on the downloaded version. \
-I have started work on something that I hope will allow for wider use of the Log Display, including on other OS's.
+NOTE: This was written for Windows and may require .NET 8 to be installed separately in order to work. \
+If this stopped working for you since v2.1.0.0, you may still need a .NET 5 version. \
+If this is the case, please reach out to let me know, and I'll restore support for that version.
 
-## What's New since v2.1.0.0
+I have also been working on something that I hope will allow for wider use of the Log Display on more operating systems.
+
+## What's New?
 - This section, to summarise the changes for those who don't want to read the change logs
-- New buttons
-    - The Helper tabs can now separate and hide Out-of-Logic checks
-    - The Spoiler tabs can now hide obtained items (in case you only wanted to know where items you missed were)
-- Additional rando support
-    - VendorRando and 
+- Recently added rando support:
+    - VendorRando 
     - YetAnotherRandoConnection
-- Obtained counters on Spoiler tabs
+- New buttons
+    - The Helper item tab can now separate and hide Out of Logic checks
+        - Also coming to Helper transition tab to separate and hide Out of Logic transitions soon<sup>TM</sup>
+    - The Spoiler item tab can now hide obtained items, to make it easier to find where Right_Mothwing_Cloak was located
+        - Also coming to Spoiler transition tab for hiding traversed transitions soon<sup>TM</sup>
+- Obtained item counters on Spoiler item tab
 
 ## Compatibility
 
@@ -78,7 +83,7 @@ Options include Map Areas, Titled Map Areas, Rooms in Map/Titled Areas, Rooms or
 `Expand All` and `Collapse All` can be used to expand/collapse all groups \
 `Time` will show or hide the time the location appeared in the log \
 `Room` will toggle between showing the in-game room code and an alternate description of the room \
-**Note**: Alternate descriptions can be personalised by editting the `_sceneDescriptions.json` file
+**Note**: Alternate descriptions can be personalised by editing the `_sceneDescriptions.json` file
 
 #### Sections
 `Countables`: Tracks count of items that could be required for other checks or True Ending \
@@ -153,7 +158,7 @@ Does not record if transitions were traversed outside of logic.
 #### Buttons
 
 `Group`, `Sort`, `Focus`, `Expand All`, `Collapse All` and `Room` function the same as in **Tracker Tab - Transitions** \
-`Traversed` can mark (with ~~strikethrough~~) traversed transitions, hide traversed transitions, or ignore the traversed state
+`Traversed` can mark (with ~~strikethrough~~) traversed transitions, hide traversed transitions, or ignore the traversed state (coming soon<sup>TM</sup>)
 
 #### Sections
 
@@ -186,7 +191,7 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
-- Out of Logic Transition split & hide on Helper Transition Tab
+- Out of Logic Transition show/split/hide on Helper Transition Tab
 - Traversed ignore/mark/hide on Spoiler Transition Tab
 - Group by "Location Pools" on Helper Item Tab (i.e. Rando Vanilla tracking support)
 - Group by "All Location Map Areas" option for Tracker & Spoiler Item tabs

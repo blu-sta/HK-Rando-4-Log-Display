@@ -1,16 +1,18 @@
 # HK Rando 4 Log Display Changelog
 
-## v2.1.0.2
+## v2.1.0.x
+
+### v2.1.0.2
 - Added VendorRando and YetAnotherRandoConnection support
 - Added obtained counters on Spoiler Item tab
-- Updated options for displaying obtained items on Spoiler tab
+- Updated options for displaying obtained items on Spoiler Item tab
   - "Hide" has become "Ignore", i.e. obtained status is ignored
   - "Show" has become "Mark", i.e. adds a ~~strikethrough~~
   - The new version of "Hide" now removes obtained items from display
   - If all items/transitions are obtained and hidden, the section will now read "All obtained"
 - TODO: Add similar features to Helper and Spoiler Transition tabs
 
-## v2.1.0.1
+### v2.1.0.1
 - Added button for splitting and hiding Out of Logic locations on Helper Item tab
 
 ## v2.1.0.0
@@ -20,16 +22,17 @@ Summary of changes since last release version:
 - Additional counters on Helper tab
 - Included HK Chains as necessary for True Ending
 - Updated display of room descriptions
+- Moved to .NET 8 (this version is the last one intended to support .NET 5)
 
-## v2.0.6.9
+### v2.0.6.9
 - Fixed HK Chains not appearing in TE counters
 - Removed starting items from items found counter
 - Resolved issue with deployed version of application
 
-## v2.0.6.8
+### v2.0.6.8
 - Fixed items found and previewed count
 
-## v2.0.6.7
+### v2.0.6.7
 - Updated room description displays on all tabs
   - Expanders will now show the room code as well as the description
   - Transistions will now show descriptions with doors
@@ -38,7 +41,7 @@ Summary of changes since last release version:
 - Added recent error logs to zip package
 - #Debug: Added display for listing scenes without descriptions
 
-## v2.0.6.6
+### v2.0.6.6
 - Added AccessRando
 - Added Miner's Key to MoreDoors from ScatteredAndLost
 - Added Hollow Knight Chains to TE countable list
@@ -47,27 +50,27 @@ Summary of changes since last release version:
   - Removed location duplicates (e.g. now only counts shops once)
   - Ignore Start location
 
-## v2.0.6.5
+### v2.0.6.5
 - Fixed issue with helper log that prevented loading without any WFCPs
 - Added item and location counters in header
 
-## v2.0.6.4
+### v2.0.6.4
 - Added BreakableWFCP (replaces Breakable Walls), GodhomeRando (Statue Marks only), MilliGolf, Fishing, Flower Quest
 - Updated ExtraRando (Hot Springs, Colo Tickets), GrassRando (Grass Shop only)
 - Added counters for WFCPs (Myla shop) and Statue Marks (Godhome shop)
 - Various QOL fixes
 
-## v2.0.6.3
+### v2.0.6.3
 
 - Added ExtraRando, GrassRando, MoreLocations and TGOBAFRando
 - Updated RandoPlus
 
-## v2.0.6.2
+### v2.0.6.2
 
 - Fix for Hunter's Notes not showing up under correct preview pool
 - Updated Breakable Walls
 
-## v2.0.6.1
+### v2.0.6.1
 
 - Possible fix for Journal Entries not showing up under correct preview pool
 
