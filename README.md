@@ -1,5 +1,4 @@
-
-# HK Rando 4 Log Display v2.1.0.2
+# HK Rando 4 Log Display v2.1.0.3
 
 ## Requirements
 
@@ -15,14 +14,19 @@ I have also been working on something that I hope will allow for wider use of th
 ## What's New?
 - This section, to summarise the changes for those who don't want to read the change logs
 - Recently added rando support:
+    - CombatRando (Notch fragments)
+    - GrassRandoV2 (New grass location names)
+    - LoreRando (Shrine of Believers)
+    - Scattered and Lost (Bretta Hearts)
     - VendorRando 
     - YetAnotherRandoConnection
 - New buttons
     - The Helper item tab can now separate and hide Out of Logic checks
-        - Also coming to Helper transition tab to separate and hide Out of Logic transitions soon<sup>TM</sup>
+    - The Helper transition tab can now separate and hide Out of Logic transitions
     - The Spoiler item tab can now hide obtained items, to make it easier to find where Right_Mothwing_Cloak was located
-        - Also coming to Spoiler transition tab for hiding traversed transitions soon<sup>TM</sup>
+    - The Spoiler transition tab can now hide traversed transitions, to make it easier to find where Room_shop[left1] was located
 - Obtained item counters on Spoiler item tab
+- Traversed transition counters on Spoiler transition tab
 
 ## Compatibility
 
@@ -31,24 +35,25 @@ In addition to the default Randomiser, the following mods are also supported:
 - [BenchRando](https://github.com/homothetyhk/BenchRando)
 - [BreakableWallRandomizer](https://github.com/Bentechy66/HollowKnight.BreakableWallRandomizer)
   - [WFCP Fork](https://github.com/nerthul11/BreakableWallRandomizer)
+- [CombatRando](https://github.com/nerthul11/CombatRandomizer)
 - [DarknessRandomizer](https://github.com/dplochcoder/HollowKnight.DarknessRandomizer)
 - [ExtraRando](https://github.com/Korzer420/ExtraRando)
 - [Fishing](https://github.com/dpinela/Fishing)
 - [FlowerQuest](https://github.com/nerthul11/FlowerRandomizer)
 - [GodhomeRando](https://github.com/nerthul11/GodhomeRandomizer)
 - [GrassRando](https://github.com/StormZillaa/HollowKnightGrassRando)
-  - [Grass Shop Fork](https://github.com/ManicJamie/HollowKnightGrassRando)
+- [GrassRandoV2](https://github.com/ManicJamie/HollowKnight.GrassRando)
 - [LoreMaster](https://github.com/Korzer420/LoreMaster)
 - [LostArtifacts](https://github.com/Hoo-Knows/HollowKnight.LostArtifacts)
 - [MilliGolf](https://github.com/TheMathGeek314/MilliGolf)
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
-  - [Miner's Key](https://github.com/dplochcoder/HollowKnight.ScatteredAndLost)
 - [MoreLocations](https://github.com/BadMagic100/MoreLocations)
 - [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld)
 - [RainbowEggs](https://github.com/dpinela/RainbowEggs)
 - [RandomizableLevers](https://github.com/flibber-hk/HollowKnight.RandomizableLevers)
 - [RandoPlus](https://github.com/flibber-hk/HollowKnight.RandoPlus)
 - [ReopenCityDoor](https://github.com/flibber-hk/HollowKnight.ReopenCityDoor)
+- [ScatteredAndLost](https://github.com/dplochcoder/HollowKnight.ScatteredAndLost)
 - [SkillUpgrades](https://github.com/flibber-hk/HollowKnight.SkillUpgrades)
 - [TheGloryOfBeingAFoolRandomizer](https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer)
 - [TheRealJournalRando](https://github.com/BadMagic100/TheRealJournalRando)
@@ -158,7 +163,7 @@ Does not record if transitions were traversed outside of logic.
 #### Buttons
 
 `Group`, `Sort`, `Focus`, `Expand All`, `Collapse All` and `Room` function the same as in **Tracker Tab - Transitions** \
-`Traversed` can mark (with ~~strikethrough~~) traversed transitions, hide traversed transitions, or ignore the traversed state (coming soon<sup>TM</sup>)
+`Traversed` can mark (with ~~strikethrough~~) traversed transitions, hide traversed transitions, or ignore the traversed state
 
 #### Sections
 
@@ -191,8 +196,6 @@ Also shows the current version number in the right corner
 ## Future Plans
 
 - Configuration of Curated list (pool selection, charm selection)
-- Out of Logic Transition show/split/hide on Helper Transition Tab
-- Traversed ignore/mark/hide on Spoiler Transition Tab
 - Group by "Location Pools" on Helper Item Tab (i.e. Rando Vanilla tracking support)
 - Group by "All Location Map Areas" option for Tracker & Spoiler Item tabs
 - Notify user when expected reference data is missing

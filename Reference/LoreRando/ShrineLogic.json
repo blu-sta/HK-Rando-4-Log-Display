@@ -1,0 +1,86 @@
+[
+  {
+    "name": "All_Grubs-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY)"
+  },
+  {
+    "name": "Drown-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + ((Ruins1_03[top1]/ | Ruins1_03[left1]/ | Ruins1_03[right1]/) | Ruins1_27[left1]/ + Ruins1_27[right1]/)"
+  },
+  {
+    "name": "Flower-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (LISTEN ? ANY) + Room_Mansion[left1]/ + Town/ + Room_Queen[left1]/ + Room_nailmaster_03[left1]/"
+  },
+  {
+    "name": "Full_Stag-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + STAGS>9"
+  },
+  {
+    "name": "Genocide-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + DREAMNAIL + Town/ + Cliffs_05[left1]/ + (Ruins_Elevator[left1]/ | Ruins_Elevator[left2]/) + Hive_05[left1]/ + Defeated_Hive_Knight + (Fungus1_24[left1]/ + (LEFTCLAW | RIGHTCLAW | WINGS)) + (Ruins_Bathhouse[door1]/ | Ruins_Bathhouse[right1]/) + RestingGrounds_08[left1]/ + LEFTCLAW + RIGHTCLAW + RIGHTDASH + WINGS"
+  },
+  {
+    "name": "Geo-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (LISTEN ? ANY) + Can_Replenish_Geo + Room_mapper[left1]/ + Room_shop[left1]/ + Room_Charm_Shop[left1]/"
+  },
+  {
+    "name": "Half_Grubs-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY)"
+  },
+  {
+    "name": "Herrah-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + Herrah"
+  },
+  {
+    "name": "Longest_Nail-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + $EQUIPPEDCHARM[Mark_of_Pride] + $EQUIPPEDCHARM[Longnail]"
+  },
+  {
+    "name": "Lurien-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + Lurien"
+  },
+  {
+    "name": "Menderbug-Shrine",
+    "logic": "Access_Shrine/ + (READ ? ANY) + Crossroads_01[top1] + SPELLS>1 + LEFTDASH + RIGHTDASH"
+  },
+  {
+    "name": "Monomon-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + Monomon"
+  },
+  {
+    "name": "Myla-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (LISTEN ? ANY) + (Crossroads_45[left1]/ | Crossroads_45[right1]/) + LEFTSUPERDASH + RIGHTSUPERDASH"
+  },
+  {
+    "name": "Nailsmith-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (LISTEN ? ANY) + PALEORE>5 + Room_nailsmith[left1]/ + Can_Replenish_Geo + Room_nailmaster_02[left1]/"
+  },
+  {
+    "name": "Respect_Elder-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (Room_nailmaster[left1]/ | Room_nailmaster_02[left1]/ | Room_nailmaster_03[left1]/)"
+  },
+  {
+    "name": "Scammed-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + (LISTEN ? ANY) + Fungus3_35[right1]/ + Can_Replenish_Geo"
+  },
+  {
+    "name": "Shade_Kill-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY)"
+  },
+  {
+    "name": "Shaman-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + SPELLS>5 + QUAKE>1 + FIREBALL>1 + SCREAM>1 + (LISTEN ? ANY) + Crossroads_ShamanTemple[left1]/"
+  },
+  {
+    "name": "Slug_In_Tub-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY) + FOCUS + $EQUIPPEDCHARM[Shape_of_Unn] + (Crossroads_30[left1]/ | (Ruins_Bathhouse[door1]/ | Ruins_Bathhouse[right1]/) | Deepnest_30[left1]/ | ((Room_Colosseum_02[top1]/ | Room_Colosseum_02[top2]/) + (BREAKABLE_RoomColosseum02_BreakableWallSilhouette ? ANY)))"
+  },
+  {
+    "name": "Zote-Shrine",
+    "logic": "Access_Shrine + (READ ? ANY)"
+  },
+  {
+    "name": "Deep_Dive-Shrine",
+    "logic": "Access_Shrine/ + (READ ? ANY) + Town[left1] + QUAKE + RIGHTSUPERDASH + $CASTSPELL[1,1]"
+  }
+]

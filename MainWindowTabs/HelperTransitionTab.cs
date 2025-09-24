@@ -18,51 +18,46 @@ namespace HK_Rando_4_Log_Display
         private bool _showHelperTransitionsTime = true;
         private bool _showHelperTransitionSceneDescriptions = false;
 
-        // TODO: OutOfLogicSorting.Split & OutOfLogicSorting.Hide
-
         private void UpdateHelperTransitionsTab()
         {
             UpdateUX(() =>
             {
                 HelperTransitionsList.Items.Clear();
 
-                var helperTransitionGrouping = (RoomGrouping)_appSettings.SelectedHelperTransitionGrouping;
-                var helperTransitionOrdering = (Sorting)_appSettings.SelectedHelperTransitionOrder;
-
-                switch (helperTransitionGrouping)
+                switch ((RoomGrouping)_appSettings.SelectedHelperTransitionGrouping)
                 {
                     case RoomGrouping.MapArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByMapArea(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByMapArea());
                         break;
                     case RoomGrouping.TitleArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByTitledArea(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByTitledArea());
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByMapArea(_showHelperTransitionSceneDescriptions), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByMapArea(_showHelperTransitionSceneDescriptions));
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByTitledArea(_showHelperTransitionSceneDescriptions), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoomByTitledArea(_showHelperTransitionSceneDescriptions));
                         break;
                     case RoomGrouping.Room:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoom(_showHelperTransitionSceneDescriptions), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitionsByRoom(_showHelperTransitionSceneDescriptions));
                         break;
                     case RoomGrouping.None:
                     default:
-                        UpdateHelperTransitions(_helperLogReader.GetTransitions(), helperTransitionOrdering);
+                        UpdateHelperTransitions(_helperLogReader.GetTransitions());
                         break;
                 };
             });
         }
 
-        private void UpdateHelperTransitions(Dictionary<string, List<Transition>> transitionsByArea, Sorting ordering)
+        private void UpdateHelperTransitions(Dictionary<string, List<Transition>> transitionsByArea)
         {
             foreach (var area in transitionsByArea)
             {
-                HelperTransitionsList.Items.Add(GetZoneWithTransitionsExpander(area, ExpandedZonesWithTransitions, ordering));
+                HelperTransitionsList.Items.Add(GetZoneWithTransitionsExpander(area, ExpandedZonesWithTransitions));
             }
         }
 
-        private void UpdateHelperTransitions(Dictionary<string, Dictionary<string, List<Transition>>> transitionsByRoomByArea, Sorting ordering)
+        private void UpdateHelperTransitions(Dictionary<string, Dictionary<string, List<Transition>>> transitionsByRoomByArea)
         {
             foreach (var area in transitionsByRoomByArea)
             {
@@ -71,33 +66,67 @@ namespace HK_Rando_4_Log_Display
                 var roomsWithTransitions = area.Value.OrderBy(x => x.Key).ToList();
                 roomsWithTransitions.ForEach(roomWithTransitions =>
                 {
-                    roomStacker.Children.Add(GetZoneWithTransitionsExpander(roomWithTransitions, ExpandedRoomsWithTransitions, ordering));
+                    roomStacker.Children.Add(GetZoneWithTransitionsExpander(roomWithTransitions, ExpandedRoomsWithTransitions));
                 });
                 var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedZonesWithTransitions, $"[Rooms: {roomsWithTransitions.Count} / Transitions: {roomsWithTransitions.Sum(x => x.Value.Count)}]");
                 HelperTransitionsList.Items.Add(areaExpander);
             }
         }
 
-        private void UpdateHelperTransitions(List<Transition> transitions, Sorting ordering)
+        private void UpdateHelperTransitions(List<Transition> transitions)
         {
-            var orderedTransitions = ordering switch
-            {
-                Sorting.Alpha => transitions.OrderBy(x => x.Name).ToList(),
-                Sorting.Time => transitions.OrderBy(x => x.TimeAdded).ToList(),
-                _ => transitions.OrderBy(x => x.Name).ToList(),
-            };
+            var ordering = (Sorting)_appSettings.SelectedHelperTransitionOrder;
+            var orderedTransitions =
+                (OutOfLogicSorting)_appSettings.SelectedHelperTransitionOutOfLogicOrder switch
+                {
+                    OutOfLogicSorting.Split => ordering switch
+                    {
+                        Sorting.Time => transitions.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.TimeAdded).ToList(),
+                        // Sorting.Alpha
+                        _ => transitions.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.Name).ToList(),
+                    },
+                    OutOfLogicSorting.Hide => ordering switch
+                    {
+                        Sorting.Time => transitions.Where(x => !x.IsOutOfLogic).OrderBy(x => x.TimeAdded).ToList(),
+                        // Sorting.Alpha
+                        _ => transitions.Where(x => !x.IsOutOfLogic).OrderBy(x => x.Name).ToList(),
+                    },
+                    // OutOfLogicSorting.Show
+                    _ => ordering switch
+                    {
+                        Sorting.Time => transitions.OrderBy(x => x.TimeAdded).ToList(),
+                        // Sorting.Alpha
+                        _ => transitions.OrderBy(x => x.Name).ToList(),
+                    },
+                };
             var transitionsGrid = GetTransitionsGrid(orderedTransitions);
             HelperTransitionsList.Items.Add(transitionsGrid);
         }
 
-        private Expander GetZoneWithTransitionsExpander(KeyValuePair<string, List<Transition>> zoneWithTransitions, HashSet<string> expandedHashset, Sorting ordering)
+        private Expander GetZoneWithTransitionsExpander(KeyValuePair<string, List<Transition>> zoneWithTransitions, HashSet<string> expandedHashset)
         {
             var zoneName = zoneWithTransitions.Key.WithoutUnderscores();
-            var orderedTransitions = ordering switch
+            var ordering = (Sorting)_appSettings.SelectedHelperTransitionOrder;
+            var orderedTransitions = (OutOfLogicSorting)_appSettings.SelectedHelperTransitionOutOfLogicOrder switch
             {
-                Sorting.Alpha => zoneWithTransitions.Value.OrderBy(x => x.Name).ToList(),
-                Sorting.Time => zoneWithTransitions.Value.OrderBy(x => x.TimeAdded).ToList(),
-                _ => zoneWithTransitions.Value.OrderBy(x => x.Name).ToList(),
+                OutOfLogicSorting.Split => ordering switch
+                {
+                    Sorting.Time => zoneWithTransitions.Value.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.TimeAdded).ToList(),
+                    // Sorting.Alpha
+                    _ => zoneWithTransitions.Value.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.Name).ToList(),
+                },
+                OutOfLogicSorting.Hide => ordering switch
+                {
+                    Sorting.Time => zoneWithTransitions.Value.Where(x => !x.IsOutOfLogic).OrderBy(x => x.TimeAdded).ToList(),
+                    // Sorting.Alpha
+                    _ => zoneWithTransitions.Value.Where(x => !x.IsOutOfLogic).OrderBy(x => x.Name).ToList(),
+                },
+                _ => ordering switch
+                {
+                    Sorting.Time => zoneWithTransitions.Value.OrderBy(x => x.TimeAdded).ToList(),
+                    // Sorting.Alpha
+                    _ => zoneWithTransitions.Value.OrderBy(x => x.Name).ToList(),
+                },
             };
             var transitionsGrid = GetTransitionsGrid(orderedTransitions);
             return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset, $"[Transitions: {orderedTransitions.Count}]");
@@ -130,6 +159,7 @@ namespace HK_Rando_4_Log_Display
         {
             Helper_Transition_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {HelperTransitionGroupingOptions[_appSettings.SelectedHelperTransitionGrouping]}");
             Helper_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {HelperTransitionOrderingOptions[_appSettings.SelectedHelperTransitionOrder]}");
+            Helper_Transition_OutOfLogic_SortBy_Button.Content = GenerateButtonTextBlock($"Out of Logic: {HelperTransitionOutOfLogicOrderingOptions[_appSettings.SelectedHelperTransitionOutOfLogicOrder]}");
             Helper_Transition_Time_Button.Content = GenerateButtonTextBlock(_showHelperTransitionsTime ? "Time: Show" : "Time: Hide");
             Helper_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showHelperTransitionSceneDescriptions ? "Room: Desc." : "Room: Code");
         }
@@ -143,6 +173,12 @@ namespace HK_Rando_4_Log_Display
         private void Helper_Transition_SortBy_Click(object sender, RoutedEventArgs e)
         {
             _appSettings.SelectedHelperTransitionOrder = (_appSettings.SelectedHelperTransitionOrder + 1) % HelperTransitionOrderingOptions.Length;
+            Dispatcher.Invoke(() => UpdateTabs());
+        }
+
+        private void Helper_Transition_OutOfLogic_SortBy_Click(object sender, RoutedEventArgs e)
+        {
+            _appSettings.SelectedHelperTransitionOutOfLogicOrder = (_appSettings.SelectedHelperTransitionOutOfLogicOrder + 1) % HelperTransitionOutOfLogicOrderingOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 

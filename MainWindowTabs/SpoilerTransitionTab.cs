@@ -15,7 +15,6 @@ namespace HK_Rando_4_Log_Display
         private readonly HashSet<string> ExpandedSpoilerTrackedRoomsWithTransitions = new();
         private readonly HashSet<string> ExpandedSpoilerTrackedZonesWithTransitions = new();
         private bool _useSpoilerTransitionsDestination = false;
-        private bool _showSpoilerTransitionTraversed = true; // TODO: Replace with SpoilerObtainedDisplay.Hide
         private bool _showSpoilerTransitionSceneDescriptions = false;
 
         private void UpdateSpoilerTransitionsTab()
@@ -24,103 +23,133 @@ namespace HK_Rando_4_Log_Display
             {
                 SpoilerTransitionsList.Items.Clear();
 
-                var spoilerTransitionGrouping = (RoomGrouping)_appSettings.SelectedSpoilerTransitionGrouping;
-                var spoilerTransitionOrdering = (SpoilerSorting)_appSettings.SelectedSpoilerTransitionOrder;
-
                 var trackedTransitions = _trackerLogReader.GetTransitions();
 
-                switch (spoilerTransitionGrouping)
+                switch ((RoomGrouping)_appSettings.SelectedSpoilerTransitionGrouping)
                 {
                     case RoomGrouping.MapArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByMapArea(_useSpoilerTransitionsDestination), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByMapArea(_useSpoilerTransitionsDestination), trackedTransitions);
                         break;
                     case RoomGrouping.TitleArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByTitledArea(_useSpoilerTransitionsDestination), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByTitledArea(_useSpoilerTransitionsDestination), trackedTransitions);
                         break;
                     case RoomGrouping.RoomMapArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByMapArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByMapArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), trackedTransitions);
                         break;
                     case RoomGrouping.RoomTitleArea:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByTitledArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoomByTitledArea(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), trackedTransitions);
                         break;
                     case RoomGrouping.Room:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoom(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitionsByRoom(_useSpoilerTransitionsDestination, _showSpoilerTransitionSceneDescriptions), trackedTransitions);
                         break;
                     case RoomGrouping.None:
                     default:
-                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitions(), spoilerTransitionOrdering, trackedTransitions);
+                        UpdateSpoilerTransitions(_transitionSpoilerReader.GetTransitions(), trackedTransitions);
                         break;
                 };
             });
         }
 
-        private void UpdateSpoilerTransitions(Dictionary<string, List<TransitionWithDestination>> transitionsByArea, SpoilerSorting ordering, List<TransitionWithDestination> trackedTransitions)
+        private void UpdateSpoilerTransitions(Dictionary<string, List<TransitionWithDestination>> transitionsByArea, List<TransitionWithDestination> trackedTransitions)
         {
             foreach (var area in transitionsByArea)
             {
-                SpoilerTransitionsList.Items.Add(GetSpoilerZoneWithTransitionsExpander(area, ExpandedSpoilerTrackedZonesWithTransitions, ordering, trackedTransitions));
+                SpoilerTransitionsList.Items.Add(GetSpoilerZoneWithTransitionsExpander(area, ExpandedSpoilerTrackedZonesWithTransitions, trackedTransitions));
             }
         }
 
-        private void UpdateSpoilerTransitions(Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> transitionsByRoomByArea, SpoilerSorting ordering, List<TransitionWithDestination> trackedTransitions)
+        private void UpdateSpoilerTransitions(Dictionary<string, Dictionary<string, List<TransitionWithDestination>>> transitionsByRoomByArea, List<TransitionWithDestination> trackedTransitions)
         {
             foreach (var area in transitionsByRoomByArea)
             {
                 var roomStacker = GenerateStackPanel();
                 var areaName = area.Key.WithoutUnderscores();
-                var roomsWithTransitions = area.Value.OrderBy(x => x.Key).ToList();
+                var roomsWithTransitions = area.Value
+                    .ToDictionary(
+                        x => x.Key,
+                        x => GetSpoilerTransitionsWithTracking(x.Value, trackedTransitions)
+                    )
+                    .OrderBy(x => x.Key).ToList();
+
+                var transitionCount = roomsWithTransitions.Sum(x => x.Value.Count);
+                var traversedCount = roomsWithTransitions.Sum(x => x.Value.Count(y => y.IsTraversed));
+                
                 roomsWithTransitions.ForEach(roomWithTransitions =>
                 {
-                    roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedSpoilerTrackedRoomsWithTransitions, ordering, trackedTransitions));
+                    roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedSpoilerTrackedRoomsWithTransitions, []));
                 });
-                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions); // TODO: Add traversed counter
+                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions, $"[Traversed: {traversedCount}/{transitionCount}]"); // TODO: Add traversed counter
                 SpoilerTransitionsList.Items.Add(areaExpander);
             }
         }
 
-        private void UpdateSpoilerTransitions(List<TransitionWithDestination> transitions, SpoilerSorting ordering, List<TransitionWithDestination> trackedTransitions)
+        private void UpdateSpoilerTransitions(List<TransitionWithDestination> transitions, List<TransitionWithDestination> trackedTransitions)
         {
-            var orderedTransitions = ordering switch
+            var orderedTransitions = (SpoilerSorting)_appSettings.SelectedSpoilerTransitionOrder switch
             {
-                SpoilerSorting.Alpha => transitions.OrderBy(x => _useSpoilerTransitionsDestination ? x.Destination.Name : x.Source.Name).ToList(),
                 SpoilerSorting.SeedDefault => transitions.ToList(),
+                // SpoilerSorting.Alpha
                 _ => transitions.OrderBy(x => _useSpoilerTransitionsDestination ? x.Destination.Name : x.Source.Name).ToList(),
             };
-            var transitionsGrid = GetSpoilerTransitionsGrid(orderedTransitions, trackedTransitions);
+            var spoilerTransitionsWithTracking = GetSpoilerTransitionsWithTracking(orderedTransitions, trackedTransitions);
+            var transitionCount = spoilerTransitionsWithTracking.Count;
+            var traversedCount = spoilerTransitionsWithTracking.Count(x => x.IsTraversed);
+            var transitionsGrid = GetSpoilerTransitionsGrid(spoilerTransitionsWithTracking);
             SpoilerTransitionsList.Items.Add(transitionsGrid);
-            // TODO: Add traversed counter
+            if ((SpoilerObtainedOrTraversedDisplay)_appSettings.SelectedSpoilerTraversedDisplay == SpoilerObtainedOrTraversedDisplay.Hide
+                && traversedCount > 0
+                && traversedCount != transitionCount)
+            {
+                SpoilerItemsList.Items.Add(GenerateAutoStarGrid([new KeyValuePair<string, string>($"+{traversedCount} traversed", "")]));
+            }
         }
 
-        private Expander GetSpoilerZoneWithTransitionsExpander(KeyValuePair<string, List<TransitionWithDestination>> zoneWithTransitions, HashSet<string> expandedHashset, SpoilerSorting ordering, List<TransitionWithDestination> trackedTransitions)
+        private Expander GetSpoilerZoneWithTransitionsExpander(KeyValuePair<string, List<TransitionWithDestination>> zoneWithTransitions, HashSet<string> expandedHashset, List<TransitionWithDestination> trackedTransitions)
         {
             var zoneName = zoneWithTransitions.Key.WithoutUnderscores();
-            var orderedTransitions = ordering switch
+            var orderedTransitions = (SpoilerSorting)_appSettings.SelectedSpoilerTransitionOrder switch
             {
-                SpoilerSorting.Alpha => zoneWithTransitions.Value.OrderBy(x => _useSpoilerTransitionsDestination ? x.Destination.Name : x.Source.Name).ToList(),
                 SpoilerSorting.SeedDefault => zoneWithTransitions.Value.ToList(),
+                // SpoilerSorting.Alpha
                 _ => zoneWithTransitions.Value.OrderBy(x => _useSpoilerTransitionsDestination ? x.Destination.Name : x.Source.Name).ToList(),
             };
-            var transitionsGrid = GetSpoilerTransitionsGrid(orderedTransitions, trackedTransitions);
-            return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset);   // TODO: Added traversed counter
+            var spoilerTransitionsWithTracking = GetSpoilerTransitionsWithTracking(orderedTransitions, trackedTransitions);
+            var transitionCount = spoilerTransitionsWithTracking.Count;
+            var traversedCount = spoilerTransitionsWithTracking.Count(x => x.IsTraversed);
+            var transitionsGrid = GetSpoilerTransitionsGrid(spoilerTransitionsWithTracking);
+            return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset, $"[Traversed: {traversedCount}/{transitionCount}]");
         }
 
-        private Grid GetSpoilerTransitionsGrid(List<TransitionWithDestination> transitions, List<TransitionWithDestination> trackedTransitions)
-        {
-            var transitionKvps = transitions.Select(x =>
-            {
-                var sourceName = x.Source.Name;
-                var destinationName = x.Destination.Name;
-                var isTracked = _showSpoilerTransitionTraversed && IsTrackedTransition(sourceName, destinationName, trackedTransitions);
-                return new KeyValuePair<string, string>(
-                    $"{(isTracked ? "<s>" : "")}{SpoilerTransitionStringBuilder(x)}",
-                    $""
-                );
-            }).ToList();
-            return GenerateAutoStarGrid(transitionKvps);
-        }
+        private List<TransitionWithDestination> GetSpoilerTransitionsWithTracking(List<TransitionWithDestination> spoilerTransitions, List<TransitionWithDestination> trackedTransitions) =>
+            [
+                .. spoilerTransitions
+                    .Select(x => IsTrackedTransition(x.Source.Name, x.Destination.Name, trackedTransitions)
+                        ? new TransitionWithDestination (x) { IsTraversed = true }
+                        : x),
+            ];
 
         private static bool IsTrackedTransition(string sourceName, string destinationName, List<TransitionWithDestination> trackedTransitions) =>
             trackedTransitions.Any(y => y.Source.Name == sourceName && y.Destination.Name == destinationName);
+
+        private Grid GetSpoilerTransitionsGrid(List<TransitionWithDestination> transitions)
+        {
+            var traversedDisplayMode = (SpoilerObtainedOrTraversedDisplay)_appSettings.SelectedSpoilerTraversedDisplay;
+            var transitionKvps = transitions.Where(x => traversedDisplayMode != SpoilerObtainedOrTraversedDisplay.Hide || !x.IsTraversed).Select(x =>
+            {
+                var isStrikethrough = traversedDisplayMode == SpoilerObtainedOrTraversedDisplay.Mark && x.IsTraversed;
+                return new KeyValuePair<string, string>(
+                    $"{(isStrikethrough ? "<s>" : "")}{SpoilerTransitionStringBuilder(x)}",
+                    $""
+                );
+            }).ToList();
+
+            if (transitionKvps.Count == 0)
+            {
+                transitionKvps.Add(new KeyValuePair<string, string>("All traversed", ""));
+            }
+
+            return GenerateAutoStarGrid(transitionKvps);
+        }
 
         private string SpoilerTransitionStringBuilder(TransitionWithDestination x)
         {
@@ -152,7 +181,7 @@ namespace HK_Rando_4_Log_Display
             Spoiler_Transition_GroupBy_Button.Content = GenerateButtonTextBlock($"Group: {SpoilerTransitionGroupingOptions[_appSettings.SelectedSpoilerTransitionGrouping]}");
             Spoiler_Transition_SortBy_Button.Content = GenerateButtonTextBlock($"Sort: {SpoilerTransitionOrderingOptions[_appSettings.SelectedSpoilerTransitionOrder]}");
             Spoiler_Transition_SourceDestination_Button.Content = GenerateButtonTextBlock(_useSpoilerTransitionsDestination ? "Focus: Destination" : "Focus: Source");
-            Spoiler_Transition_Traversed_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionTraversed ? "Traversed: Show" : "Traversed: Hide");
+            Spoiler_Transition_Traversed_Button.Content = GenerateButtonTextBlock($"Traversed: {SpoilerTraversedDisplayOptions[_appSettings.SelectedSpoilerTraversedDisplay]}");
             Spoiler_Transition_RoomDisplay_Button.Content = GenerateButtonTextBlock(_showSpoilerTransitionSceneDescriptions ? "Room: Desc." : "Room: Code");
         }
 
@@ -168,9 +197,9 @@ namespace HK_Rando_4_Log_Display
             Dispatcher.Invoke(() => UpdateTabs());
         }
 
-        private void Spoiler_Transition_Traversed_Click(object sender, RoutedEventArgs e)
+        private void Spoiler_Transition_Traversed_Display_Click(object sender, RoutedEventArgs e)
         {
-            _showSpoilerTransitionTraversed = !_showSpoilerTransitionTraversed;
+            _appSettings.SelectedSpoilerTraversedDisplay = (_appSettings.SelectedSpoilerTraversedDisplay + 1) % SpoilerTraversedDisplayOptions.Length;
             Dispatcher.Invoke(() => UpdateTabs());
         }
 

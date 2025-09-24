@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>2.1.0.2</Version>
+    <Version>2.1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,6 +55,9 @@
     <None Update="Reference\GodhomeRando\StatueLocations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Reference\GrassRandoV2\Locations.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Reference\GrassRando\GrassLog.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -62,6 +65,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\locations.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\LoreRando\ShrineLogic.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\MoreDoors\doors.json">

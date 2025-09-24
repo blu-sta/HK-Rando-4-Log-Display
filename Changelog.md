@@ -2,6 +2,22 @@
 
 ## v2.1.0.x
 
+### v2.1.0.3
+- Added Rando support
+  - CombatRando (Notch fragments)
+  - GrassRandoV2 (New grass location names)
+  - LoreRando (Shrine of Believers)
+  - Scattered and Lost (Bretta Hearts)
+- Added Show/Split/Hide button for displaying Out of Logic transitions on Helper transition tab
+- Updated Ignore/Mark/Hide button for displaying traversed transitions on Spoiler transition tab
+- Fixed references for MilliGolf and YARC Soul Jars
+- Added YARC Dream Orbs to essence count
+- Fixed some preview costs
+- Added debugging tools for missing reference files
+- Adjusted button positioning logic in settings to allow for options other than 2, 3, 4 or 6 buttons
+- Added missing room descriptions
+- Updated reference files
+
 ### v2.1.0.2
 - Added VendorRando and YetAnotherRandoConnection support
 - Added obtained counters on Spoiler Item tab
@@ -10,7 +26,6 @@
   - "Show" has become "Mark", i.e. adds a ~~strikethrough~~
   - The new version of "Hide" now removes obtained items from display
   - If all items/transitions are obtained and hidden, the section will now read "All obtained"
-- TODO: Add similar features to Helper and Spoiler Transition tabs
 
 ### v2.1.0.1
 - Added button for splitting and hiding Out of Logic locations on Helper Item tab

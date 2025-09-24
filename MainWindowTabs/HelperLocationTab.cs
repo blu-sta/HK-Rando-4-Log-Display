@@ -414,22 +414,23 @@ namespace HK_Rando_4_Log_Display
 
         private void UpdateHelperLocations(string mwPlayerName, List<Location> locations)
         {
+            var ordering = (Sorting)_appSettings.SelectedHelperLocationOrder;
             var orderedLocations = (OutOfLogicSorting)_appSettings.SelectedHelperLocationOutOfLogicOrder switch
             {
-                OutOfLogicSorting.Split => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                OutOfLogicSorting.Split => ordering switch
                 {
                     Sorting.Time => locations.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                     // Sorting.Alpha
                     _ => locations.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.Name).ToList(),
                 },
-                OutOfLogicSorting.Hide => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                OutOfLogicSorting.Hide => ordering switch
                 {
                     Sorting.Time => locations.Where(x => !x.IsOutOfLogic).OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                     // Sorting.Alpha
                     _ => locations.Where(x => !x.IsOutOfLogic).OrderBy(x => x.Name).ToList(),
                 },
                 // OutOfLogicSorting.Show
-                _ => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                _ => ordering switch
                 {
                     Sorting.Time => locations.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                     // Sorting.Alpha
@@ -444,24 +445,24 @@ namespace HK_Rando_4_Log_Display
         private Expander GetZoneWithLocationsExpander(string mwPlayerName, KeyValuePair<string, List<Location>> zoneWithLocations, HashSet<string> expandedHashset)
         {
             var zoneName = zoneWithLocations.Key.WithoutUnderscores();
-            var outOfLogicOrdering = (OutOfLogicSorting)_appSettings.SelectedHelperLocationOutOfLogicOrder;
+            var ordering = (Sorting)_appSettings.SelectedHelperLocationOrder;
             var orderedLocations =
                 (OutOfLogicSorting)_appSettings.SelectedHelperLocationOutOfLogicOrder switch
                 {
-                    OutOfLogicSorting.Split => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                    OutOfLogicSorting.Split => ordering switch
                     {
                         Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                         // Sorting.Alpha
                         _ => zoneWithLocations.Value.OrderBy(x => x.IsOutOfLogic).ThenBy(x => x.Name).ToList(),
                     },
-                    OutOfLogicSorting.Hide => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                    OutOfLogicSorting.Hide => ordering switch
                     {
                         Sorting.Time => zoneWithLocations.Value.Where(x => !x.IsOutOfLogic).OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                         // Sorting.Alpha
                         _ => zoneWithLocations.Value.Where(x => !x.IsOutOfLogic).OrderBy(x => x.Name).ToList(),
                     },
                     // OutOfLogicSorting.Show
-                    _ => (Sorting)_appSettings.SelectedHelperLocationOrder switch
+                    _ => ordering switch
                     {
                         Sorting.Time => zoneWithLocations.Value.OrderBy(x => x.TimeAdded).ThenBy(x => x.Name).ToList(),
                         // Sorting.Alpha

@@ -262,7 +262,7 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         private static string UpdateItemLine(Location previewLocation, string itemLine)
         {
-            if (previewLocation.Name == "Salubra")
+            if (previewLocation.Name == "Salubra" || previewLocation.Name == "Junk_Shop")
             {
                 return itemLine.Replace("Once you own", "Need").Replace(", I'll gladly sell it to you.", "");
             }

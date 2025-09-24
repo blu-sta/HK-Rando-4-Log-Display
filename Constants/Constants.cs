@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.1.0.2";
+        public static readonly string AppVersion = "v2.1.0.3";
 
         public enum RoomGrouping
         {
@@ -63,7 +63,7 @@ namespace HK_Rando_4_Log_Display.Constants
             SeedDefault = 1,
         }
 
-        public enum SpoilerObtainedDisplay
+        public enum SpoilerObtainedOrTraversedDisplay
         {
             [EnumMember(Value = "Ignore")]
             Ignore = 0,
@@ -88,6 +88,7 @@ namespace HK_Rando_4_Log_Display.Constants
         public static readonly string[] HelperLocationOutOfLogicOrderingOptions = Enum.GetValues(typeof(OutOfLogicSorting)).Cast<OutOfLogicSorting>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] HelperTransitionOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] HelperTransitionOutOfLogicOrderingOptions = Enum.GetValues(typeof(OutOfLogicSorting)).Cast<OutOfLogicSorting>().Select(GetEnumMemberValue).ToArray();
 
         public static readonly string[] TrackerItemGroupingOptions = Enum.GetValues(typeof(PoolGrouping)).Cast<PoolGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] TrackerItemOrderingOptions = Enum.GetValues(typeof(Sorting)).Cast<Sorting>().Select(GetEnumMemberValue).ToArray();
@@ -97,10 +98,11 @@ namespace HK_Rando_4_Log_Display.Constants
 
         public static readonly string[] SpoilerItemGroupingOptions = Enum.GetValues(typeof(PoolGrouping)).Cast<PoolGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerItemOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
-        public static readonly string[] SpoilerObtainedDisplayOptions = Enum.GetValues(typeof(SpoilerObtainedDisplay)).Cast<SpoilerObtainedDisplay>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] SpoilerObtainedDisplayOptions = Enum.GetValues(typeof(SpoilerObtainedOrTraversedDisplay)).Cast<SpoilerObtainedOrTraversedDisplay>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerShowLocationRoomOptions = Enum.GetValues(typeof(ShowLocationRoom)).Cast<ShowLocationRoom>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionGroupingOptions = Enum.GetValues(typeof(RoomGrouping)).Cast<RoomGrouping>().Select(GetEnumMemberValue).ToArray();
         public static readonly string[] SpoilerTransitionOrderingOptions = Enum.GetValues(typeof(SpoilerSorting)).Cast<SpoilerSorting>().Select(GetEnumMemberValue).ToArray();
+        public static readonly string[] SpoilerTraversedDisplayOptions = Enum.GetValues(typeof(SpoilerObtainedOrTraversedDisplay)).Cast<SpoilerObtainedOrTraversedDisplay>().Select(GetEnumMemberValue).ToArray();
 
         private static string GetEnumMemberValue<T>(T value) where T : struct, IConvertible =>
             typeof(T)
@@ -158,66 +160,71 @@ namespace HK_Rando_4_Log_Display.Constants
 
         #region Mod References
 
-        public static string ReferenceMoreDoorsFilePath =>
-            GetReferenceFilepath(@"MoreDoors\doors.json");
-
-        public static string ReferenceRandoLeverItemsFilePath =>
-            GetReferenceFilepath(@"RandomizableLevers\languagedata.json");
-        public static string ReferenceRandoLeverLocationsFilePath =>
-            GetReferenceFilepath(@"RandomizableLevers\leverlocations.json");
-
-        public static string ReferenceBenchRandoItemsFilePath =>
-            GetReferenceFilepath(@"BenchRando\language.json");
-        public static string ReferenceBenchRandoLocationsFilePath =>
-            GetReferenceFilepath(@"BenchRando\benches.json");
-
-        public static string ReferenceRandoPlusGhostLocationsFilePath =>
-            GetReferenceFilepath(@"RandoPlus\ghostdata.json");
-
+        // BadMagic100
         public static string TRJRFilePath =>
             GetReferenceFilepath(@"TRJR\journalData.json");
 
-        public static string ReferenceBreakableWallsFilePath =>
+        // Bentechy66
+        public static string BreakableWallsFilePath =>
             GetReferenceFilepath(@"BreakableWalls\breakable_walls.json");
 
-        public static string ReferenceBreakableWFCPFilePath =>
+        // dplochcoder
+        public static string MoreDoorsFilePath =>
+            GetReferenceFilepath(@"MoreDoors\doors.json");
+
+        // flibber-hk
+        public static string RandoPlusGhostLocationsFilePath =>
+            GetReferenceFilepath(@"RandoPlus\ghostdata.json");
+        public static string RandoLeverItemsFilePath =>
+            GetReferenceFilepath(@"RandomizableLevers\languagedata.json");
+        public static string RandoLeverLocationsFilePath =>
+            GetReferenceFilepath(@"RandomizableLevers\leverlocations.json");
+
+        // homothetyhk
+        public static string BenchRandoItemsFilePath =>
+            GetReferenceFilepath(@"BenchRando\language.json");
+        public static string BenchRandoLocationsFilePath =>
+            GetReferenceFilepath(@"BenchRando\benches.json");
+
+        // Korzer420
+        public static string LoreRandoShrineLocationsFilePath =>
+            GetReferenceFilepath(@"LoreRando\ShrineLogic.json");
+
+        // ManicJamie
+        public static string GrassRandoV2FilePath =>
+            GetReferenceFilepath(@"GrassRandoV2\Locations.json");
+
+        // nerthul11
+        public static string BreakableWFCPFilePath =>
             GetReferenceFilepath(@"BreakableWFCP\BreakableWallObjects.json");
-
-        public static string ReferenceBindingItemsFilePath =>
-            GetReferenceFilepath(@"GodhomeRando\BindingItems.json");
-
-        public static string ReferenceBindingLocationsFilePath =>
-            GetReferenceFilepath(@"GodhomeRando\BindingLocations.json");
-
-        public static string ReferenceStatueItemsFilePath =>
+        public static string StatueItemsFilePath =>
             GetReferenceFilepath(@"GodhomeRando\StatueItems.json");
-
+        public static string StatueLocationsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\StatueLocations.json");
+        public static string BindingItemsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\BindingItems.json"); // TODO: Bindings not used
+        public static string BindingLocationsFilePath =>
+            GetReferenceFilepath(@"GodhomeRando\BindingLocations.json"); // TODO: Bindings not used
         public static string AccessRandoKeyItemsFilePath =>
             GetReferenceFilepath(@"AccessRando\KeyItems.json");
-
         public static string AccessRandoPassItemsFilePath =>
             GetReferenceFilepath(@"AccessRando\PassItems.json");
 
-        public static string ReferenceStatueLocationsFilePath =>
-            GetReferenceFilepath(@"GodhomeRando\StatueLocations.json");
-
-        public static string ReferenceGrassRandoFilePath =>
+        // StormZillaa
+        public static string GrassRandoFilePath =>
             GetReferenceFilepath(@"GrassRando\GrassLog.json");
 
-        public static string YARCDreamOrbsFilePath =>
-            GetReferenceFilepath(@"YARC\DreamOrbCoords.json");
-
-        public static string YARCEggBombFilePath =>
-            GetReferenceFilepath(@"YARC\EggBombCoords.json");
-
+        // TheMathGeek314
         public static string YARCHivePlatFilePath =>
             GetReferenceFilepath(@"YARC\HivePlatCoords.json");
-
-        public static string YARCJarFilePath =>
-            GetReferenceFilepath(@"YARC\JarCoords.json");
-
         public static string YARCVineFilePath =>
             GetReferenceFilepath(@"YARC\VineCoords.json");
+        public static string YARCDreamOrbsFilePath =>
+            GetReferenceFilepath(@"YARC\DreamOrbCoords.json");
+        public static string YARCJarFilePath =>
+            GetReferenceFilepath(@"YARC\JarCoords.json");
+        public static string YARCEggBombFilePath =>
+            GetReferenceFilepath(@"YARC\EggBombCoords.json");
 
         #endregion
 

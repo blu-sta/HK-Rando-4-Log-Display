@@ -4,24 +4,81 @@
     "UpperCaseName": "ARCHIVE",
     "UIName": "Archive",
     "Door": {
-      "Sprite": "Acid",
-      "NoKeyDesc": "A heavy brass door, with green-tinted windows.",
-      "KeyDesc": "The teacher's studies are waiting to be read.<br>Insert the Archive Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Canyon"
+      },
       "LeftLocation": {
         "SceneName": "Fungus3_26",
         "GateName": "left3",
+        "NoKeyDesc": "A sturdy door overflowing with literature, entirely illegible.",
+        "KeyDesc": "The teacher's research must pass on.<br>Insert the Archive Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 11.6
+        "X": 3.6,
+        "Y": 11.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus3_27",
         "GateName": "right1",
+        "NoKeyDesc": "A sturdy door overflowing with literature, entirely illegible.",
+        "KeyDesc": "The knowledge must be spread.<br>Insert the Archive Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 73.9,
-        "Y": 10.6
+        "X": 71.9,
+        "Y": 10.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_27",
+          "ObjectName": "fog_canyon_plants_0000_6 (4)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_27",
+          "ObjectName": "fung_FG_hanging_01 169 (4)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_27",
+          "ObjectName": "fung_FG_hanging_01 169 (3)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_27",
+          "ObjectName": "fung_vine_cut",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_26",
+          "ObjectName": "fog_canyon_plants_0000_6 (5)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Archive_Key",
@@ -29,7 +86,10 @@
       "ShopDesc": "I'm pretty sure there are words on this, yes these are definitely words.",
       "InvDesc": "An ornate key embroidered in scientific inscryption, though it's barely comprehensible.",
       "UsedInvDesc": "So many layers of protection, but they must be undone.",
-      "Sprite": "Archive",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Archive"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -46,7 +106,7 @@
           "objectName": "Jellyfish (5)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Archive_Key-Ooma-Canyon_Charm_Notch",
+          "name": "MoreDoors-Ooma-Canyon_Charm_Notch",
           "sceneName": "Fungus3_28",
           "flingType": "Everywhere",
           "tags": null
@@ -58,12 +118,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Archive_Key-Ooma-Canyon_Charm_Notch",
+          "name": "MoreDoors-Ooma-Canyon_Charm_Notch",
           "sceneName": "Fungus3_28",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Archive_Key-Ooma-Canyon_Charm_Notch",
+        "name": "MoreDoors-Ooma-Canyon_Charm_Notch",
         "sceneName": "Fungus3_28",
         "flingType": "Everywhere",
         "tags": null
@@ -78,24 +138,57 @@
     "UpperCaseName": "BARDOON",
     "UIName": "Bardoon's",
     "Door": {
-      "Sprite": "City",
-      "NoKeyDesc": "An ashen door glazed with primal acid.",
-      "KeyDesc": "The gateway to more primal aspids creaks open.<br>Insert Bardoon's Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Edge"
+      },
       "LeftLocation": {
         "SceneName": "Deepnest_East_04",
         "GateName": "left2",
+        "NoKeyDesc": "An old door glazed with primal acid.",
+        "KeyDesc": "The rumble of foolery echoes in the distance.<br>Insert Bardoon's Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 95.6
+        "X": 4.6,
+        "Y": 95.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Deepnest_East_07",
         "GateName": "right1",
+        "NoKeyDesc": "An old door glazed with primal acid.",
+        "KeyDesc": "The wyrm of old slumbers.<br>Insert Bardoon's Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 88.9,
-        "Y": 66.6
+        "X": 82.9,
+        "Y": 66.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Deepnest_East_07",
+          "ObjectName": "white_ash_scenery_0000_1 (24)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Bardoon's_Key",
@@ -103,7 +196,10 @@
       "ShopDesc": "He seems nice but his neighbors are just the worst.",
       "InvDesc": "A key of olden times, of ancient wisdom. It is peppered with ash.",
       "UsedInvDesc": "The way of the fool has been opened.",
-      "Sprite": "Bardoon",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Bardoon"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -120,7 +216,7 @@
           "objectName": "Giant Hopper (2)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Bardoon's_Key-Great_Hopper-Left_of_Nailmaster_Oro",
+          "name": "MoreDoors-Great_Hopper-Left_of_Nailmaster_Oro",
           "sceneName": "Deepnest_East_06",
           "flingType": "Everywhere",
           "tags": null
@@ -132,12 +228,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Bardoon's_Key-Great_Hopper-Left_of_Nailmaster_Oro",
+          "name": "MoreDoors-Great_Hopper-Left_of_Nailmaster_Oro",
           "sceneName": "Deepnest_East_06",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Bardoon's_Key-Great_Hopper-Left_of_Nailmaster_Oro",
+        "name": "MoreDoors-Great_Hopper-Left_of_Nailmaster_Oro",
         "sceneName": "Deepnest_East_06",
         "flingType": "Everywhere",
         "tags": null
@@ -152,24 +248,57 @@
     "UpperCaseName": "BROKEN",
     "UIName": "Broken",
     "Door": {
-      "Sprite": "Abyssal",
-      "NoKeyDesc": "A decaying door haunted by the lost.",
-      "KeyDesc": "A kindred spirit's cries for help echo from within.<br>Insert the Broken Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Abyssal"
+      },
       "LeftLocation": {
         "SceneName": "Abyss_18",
         "GateName": "left1",
+        "NoKeyDesc": "A decaying door haunted by the lost.",
+        "KeyDesc": "A kindred spirit's cries for help echo from within.<br>Insert the Broken Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 14.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 19.6
+        "X": 6.1,
+        "Y": 19.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Abyss_19",
         "GateName": "right1",
+        "NoKeyDesc": "A prison door of discarded corpses.",
+        "KeyDesc": "Emptiness and regret echo beyond.<br>Insert the Broken Key?",
+        "Masks": [
+          {
+            "Width": 20.0,
+            "Height": 10.0,
+            "OffsetX": -1.1,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 158.9,
-        "Y": 33.6
+        "X": 150.1,
+        "Y": 33.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Abyss_18",
+          "ObjectName": "palace_root2 (6)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Broken_Key",
@@ -177,7 +306,10 @@
       "ShopDesc": "Broken? It looks completely functional to me.",
       "InvDesc": "A dark key dripping with infection. It looks like it's asking you for help.",
       "UsedInvDesc": "Finally bested, a lost soul slumbers in peace.",
-      "Sprite": "Broken",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Broken"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -194,7 +326,7 @@
           "objectName": "Lesser Mawlek (2)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Broken_Key-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
+          "name": "MoreDoors-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
           "sceneName": "Abyss_17",
           "flingType": "Everywhere",
           "tags": null
@@ -206,12 +338,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Broken_Key-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
+          "name": "MoreDoors-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
           "sceneName": "Abyss_17",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Broken_Key-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
+        "name": "MoreDoors-Lesser_Mawlek-Basin_Cloth_by_Tram_Door",
         "sceneName": "Abyss_17",
         "flingType": "Everywhere",
         "tags": null
@@ -226,24 +358,69 @@
     "UpperCaseName": "BURIEDGEO",
     "UIName": "Buried Geo",
     "Door": {
-      "Sprite": "Abyssal",
-      "NoKeyDesc": "An old, stone vestibule. It smells of ancient treasure.",
-      "KeyDesc": "The treasure is both far and near.<br>Insert the Buried Geo Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Edge"
+      },
       "LeftLocation": {
         "SceneName": "Deepnest_East_16",
         "GateName": "left1",
+        "NoKeyDesc": "An abandoned door, it smells of straw and hoppers.",
+        "KeyDesc": "The keeper awaits, his stories more precious than any 'strength'.<br>Insert the Buried Geo Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 6.6
+        "X": 6.6,
+        "Y": 6.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Deepnest_East_06",
         "GateName": "right1",
+        "NoKeyDesc": "An old, stone vestibule. It smells of ancient treasure.",
+        "KeyDesc": "The treasure is both far and near.<br>Insert the Buried Geo Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 9.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 349.9,
-        "Y": 17.6
+        "X": 346.9,
+        "Y": 17.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Deepnest_East_06",
+          "ObjectName": "white_ash_scenery_0000_1 (26)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Deepnest_East_16",
+          "ObjectName": "bone_deep_0104_b (1)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Deepnest_East_16",
+          "ObjectName": "white_ash_scenery_0005_6 (7)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Buried_Geo_Key",
@@ -251,7 +428,10 @@
       "ShopDesc": "I better be charging more than 420 for this.",
       "InvDesc": "A heavy key beset with an ornate rock. It smells of greed, and betrayal.",
       "UsedInvDesc": "The treasure is yours now, may none blame you for it.",
-      "Sprite": "BuriedGeo",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.BuriedGeo"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -268,7 +448,7 @@
           "objectName": "Super Spitter (4)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Buried_Geo_Key-Primal_Aspid-Edge_Whispering_Root-Top_Left",
+          "name": "MoreDoors-Primal_Aspid-Edge_Whispering_Root-Top_Left",
           "sceneName": "Deepnest_East_07",
           "flingType": "DirectDeposit",
           "tags": null
@@ -280,12 +460,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Buried_Geo_Key-Primal_Aspid-Edge_Whispering_Root-Top_Left",
+          "name": "MoreDoors-Primal_Aspid-Edge_Whispering_Root-Top_Left",
           "sceneName": "Deepnest_East_07",
           "flingType": "StraightUp",
           "tags": null
         },
-        "name": "MoreDoors-Buried_Geo_Key-Primal_Aspid-Edge_Whispering_Root-Top_Left",
+        "name": "MoreDoors-Primal_Aspid-Edge_Whispering_Root-Top_Left",
         "sceneName": "Deepnest_East_07",
         "flingType": "Everywhere",
         "tags": null
@@ -300,32 +480,54 @@
     "UpperCaseName": "CANYON",
     "UIName": "Canyon",
     "Door": {
-      "Sprite": "Canyon",
-      "NoKeyDesc": "A quiet door of forgotten peace. It tingles a little.",
-      "KeyDesc": "The pilgrim's way begins to open.<br>Insert the Canyon Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Canyon"
+      },
       "LeftLocation": {
         "SceneName": "Fungus2_01",
         "GateName": "left1",
+        "NoKeyDesc": "A door of repose and study. It's a little slimy.",
+        "KeyDesc": "The merchant awaits in her crooked corner.<br>Insert the Canyon Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 43.6
+        "X": 1.6,
+        "Y": 43.5,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus3_02",
         "GateName": "right2",
+        "NoKeyDesc": "A grand door, etched with the tales of a distant, forgotten city.",
+        "KeyDesc": "The pilgrim's way unfolds.<br>Insert the Canyon Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 29.9,
-        "Y": 5.6
+        "X": 24.2,
+        "Y": 5.5,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Canyon_Key",
       "UIItemName": "Canyon Key",
       "ShopDesc": "Ow! Why is this so receptive to static?",
-      "InvDesc": "A bright key with hints of green under a gelatinous coating.",
+      "InvDesc": "An ornate key with a faint glow. An aura of enlightenment.",
       "UsedInvDesc": "The Pilgrim's Way has been opened.",
-      "Sprite": "Canyon",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Canyon"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -342,7 +544,7 @@
           "objectName": "Zombie Fungus A",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Canyon_Key-Fungified_Husk-Fungal_Below_Cornifer",
+          "name": "MoreDoors-Fungified_Husk-Fungal_Below_Cornifer",
           "sceneName": "Fungus2_18",
           "flingType": "Everywhere",
           "tags": null
@@ -354,12 +556,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Canyon_Key-Fungified_Husk-Fungal_Below_Cornifer",
+          "name": "MoreDoors-Fungified_Husk-Fungal_Below_Cornifer",
           "sceneName": "Fungus2_18",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Canyon_Key-Fungified_Husk-Fungal_Below_Cornifer",
+        "name": "MoreDoors-Fungified_Husk-Fungal_Below_Cornifer",
         "sceneName": "Fungus2_18",
         "flingType": "Everywhere",
         "tags": null
@@ -374,32 +576,54 @@
     "UpperCaseName": "CORE",
     "UIName": "Core",
     "Door": {
-      "Sprite": "Mushroom",
-      "NoKeyDesc": "A spongy door overgrown with rich fungus.",
-      "KeyDesc": "The depths of the wastes cry WAH.<br>Insert the Core Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Fungal"
+      },
       "LeftLocation": {
         "SceneName": "Fungus2_17",
         "GateName": "left1",
+        "NoKeyDesc": "A spongy door overgrown with rich fungus.",
+        "KeyDesc": "The depths of the wastes cry WAH.<br>Insert the Core Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 35.6
+        "Y": 35.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus2_29",
         "GateName": "right1",
+        "NoKeyDesc": "A dim door, smothered in aged, overgrown fungus.",
+        "KeyDesc": "The bobble of spores echoes beyond.<br>Insert the Core Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 92.9,
-        "Y": 33.6
+        "X": 87.4,
+        "Y": 33.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Core_Key",
       "UIItemName": "Core Key",
       "ShopDesc": "Please get rid of this, it's got something growing on it.",
-      "InvDesc": "It's overgrown with a rich fungus, and emits a powerful aroma.",
-      "UsedInvDesc": "The heart of the wastes has been opened, yet only darkness lies beneath.",
-      "Sprite": "Core",
+      "InvDesc": "It is overgrown with a rich fungus, and emits a powerful aroma.",
+      "UsedInvDesc": "The heart of the wastes has been opened.",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Core"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -417,7 +641,7 @@
           "enemyObj": null,
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Core_Key-Mantis_Vault_Guardian",
+          "name": "MoreDoors-Mantis_Vault_Guardian",
           "sceneName": "Fungus2_31",
           "flingType": "Everywhere",
           "tags": null
@@ -429,12 +653,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Core_Key-Mantis_Vault_Guardian",
+          "name": "MoreDoors-Mantis_Vault_Guardian",
           "sceneName": "Fungus2_31",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Core_Key-Mantis_Vault_Guardian",
+        "name": "MoreDoors-Mantis_Vault_Guardian",
         "sceneName": "Fungus2_31",
         "flingType": "Everywhere",
         "tags": null
@@ -449,24 +673,56 @@
     "UpperCaseName": "CROWN",
     "UIName": "Crown",
     "Door": {
-      "Sprite": "Crystal",
-      "NoKeyDesc": "A crystalline door shining with a forgotten light.",
-      "KeyDesc": "This is as high as you'll go.<br>Insert the Crown Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Crystal"
+      },
       "LeftLocation": {
         "SceneName": "Mines_23",
         "GateName": "left1",
+        "NoKeyDesc": "A crystalline door shining with a forgotten light.",
+        "KeyDesc": "The pilgrimage complete, to dirt we must return.<br>Insert the Crown Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 14.6
+        "X": 3.1,
+        "Y": 14.2,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Mines_20",
         "GateName": "right1",
+        "NoKeyDesc": "A crystalline door shining with a forgotten light.",
+        "KeyDesc": "The forgotten one screams from afar, beckoning higher.<br>Insert the Crown Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 73.9,
-        "Y": 197.6
+        "X": 73.2,
+        "Y": 197.2,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Mines_20",
+          "ObjectName": "mine_crystal_06 (5)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Mines_20",
+          "ObjectName": "mine_crystal_06 (9)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Crown_Key",
@@ -474,7 +730,10 @@
       "ShopDesc": "Goodness, this one is shiny. Where could it have come from?",
       "InvDesc": "Crowned with sharp crystals, it gleams with a forgotten light.",
       "UsedInvDesc": "Damned are those who forsake their creator.",
-      "Sprite": "Crown",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Crown"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -491,14 +750,13 @@
           "objectName": "Crystal Flyer (2)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Crown_Key-Crystal_Hunter-Crystallized_Mound",
+          "name": "MoreDoors-Crystal_Hunter-Crystallized_Mound",
           "sceneName": "Mines_35",
           "flingType": "DirectDeposit",
           "tags": [
             {
               "$type": "ItemChanger.Tags.ShinyFlingTag, ItemChanger",
-              "fling": "Down",
-              "Loaded": false
+              "fling": "Down"
             }
           ]
         },
@@ -509,12 +767,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Crown_Key-Crystal_Hunter-Crystallized_Mound",
+          "name": "MoreDoors-Crystal_Hunter-Crystallized_Mound",
           "sceneName": "Mines_35",
           "flingType": "StraightUp",
           "tags": null
         },
-        "name": "MoreDoors-Crown_Key-Crystal_Hunter-Crystallized_Mound",
+        "name": "MoreDoors-Crystal_Hunter-Crystallized_Mound",
         "sceneName": "Mines_35",
         "flingType": "Everywhere",
         "tags": null
@@ -533,23 +791,35 @@
     "UpperCaseName": "DARKNEST",
     "UIName": "Dark Nest",
     "Door": {
-      "Sprite": "Deepnest",
-      "NoKeyDesc": "A shell-encrusted door infested with spiders.",
-      "KeyDesc": "The skittering never stops.<br>Insert the Dark Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Deepnest"
+      },
       "LeftLocation": {
         "SceneName": "Deepnest_34",
         "GateName": "left1",
+        "NoKeyDesc": "A cobblestone door armored in silk.",
+        "KeyDesc": "The skittering never stops.<br>Insert the Dark Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": true,
         "X": 1.1,
-        "Y": 17.6
+        "Y": 17.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Deepnest_39",
         "GateName": "right1",
+        "NoKeyDesc": "A cobblestone door armored in silk.",
+        "KeyDesc": "The skittering never stops.<br>Insert the Dark Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": true,
         "X": 208.9,
-        "Y": 9.6
+        "Y": 9.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -558,7 +828,10 @@
       "ShopDesc": "I swear I can't even see this thing without my Lumaflies, it's so black.'",
       "InvDesc": "It's dark, thorny, and wrapped in webs. Something out there is angry it's been lost.",
       "UsedInvDesc": "You can still hear the skitters, even this far away.",
-      "Sprite": "Darknest",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Darknest"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -575,7 +848,7 @@
           "objectName": "Centipede Hatcher (7)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Dark_Nest_Key-Carver_Hatcher-Next_to_Tram_Pass",
+          "name": "MoreDoors-Carver_Hatcher-Next_to_Tram_Pass",
           "sceneName": "Deepnest_26b",
           "flingType": "Everywhere",
           "tags": null
@@ -587,12 +860,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Dark_Nest_Key-Carver_Hatcher-Next_to_Tram_Pass",
+          "name": "MoreDoors-Carver_Hatcher-Next_to_Tram_Pass",
           "sceneName": "Deepnest_26b",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Dark_Nest_Key-Carver_Hatcher-Next_to_Tram_Pass",
+        "name": "MoreDoors-Carver_Hatcher-Next_to_Tram_Pass",
         "sceneName": "Deepnest_26b",
         "flingType": "Everywhere",
         "tags": null
@@ -607,24 +880,49 @@
     "UpperCaseName": "FALSE",
     "UIName": "False",
     "Door": {
-      "Sprite": "False",
-      "NoKeyDesc": "It looks like it's a locked door but you're not so sure.",
-      "KeyDesc": "The hardest challenge in the game awaits you.<br>Insert the False Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.False"
+      },
       "LeftLocation": {
         "SceneName": "Crossroads_03",
         "GateName": "left1",
+        "NoKeyDesc": "It looks like it's a locked door but you're not so sure.",
+        "KeyDesc": "The hardest challenge in the game awaits you.<br>Insert the False Key?",
+        "Masks": null,
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
-        "X": 2.1,
-        "Y": 33.6
+        "X": 2.6,
+        "Y": 33.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Crossroads_21",
         "GateName": "right1",
+        "NoKeyDesc": "A rather superfluous door which seems to guard nothing.",
+        "KeyDesc": "Give him time to retrain, he'll be ready.<br>Insert the False Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 98.9,
-        "Y": 16.6
+        "X": 97.9,
+        "Y": 16.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "MoreDoors.IC.SpriteDimmer, MoreDoors",
+          "SceneName": "Crossroads_03",
+          "TargetGameObject": "cd_room_beam_glow",
+          "AlphaMultiplier": 0.35
+        },
+        {
+          "$type": "MoreDoors.IC.SpriteDimmer, MoreDoors",
+          "SceneName": "Crossroads_03",
+          "TargetGameObject": "cd_room_beam_glow (1)",
+          "AlphaMultiplier": 0.15
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-False_Key",
@@ -632,7 +930,10 @@
       "ShopDesc": "I think this is to protect him, not you.",
       "InvDesc": "It looks like a key at first, but you can see it's just a casing for a tiny key inside.",
       "UsedInvDesc": "If only they possessed the strength they longed for.",
-      "Sprite": "False",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.False"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -649,7 +950,7 @@
           "objectName": "Zombie Guard",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-False_Key-Husk_Guard-Crossroads_Guarded_Grub",
+          "name": "MoreDoors-Husk_Guard-Crossroads_Guarded_Grub",
           "sceneName": "Crossroads_48",
           "flingType": "Everywhere",
           "tags": null
@@ -661,12 +962,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-False_Key-Husk_Guard-Crossroads_Guarded_Grub",
+          "name": "MoreDoors-Husk_Guard-Crossroads_Guarded_Grub",
           "sceneName": "Crossroads_48",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-False_Key-Husk_Guard-Crossroads_Guarded_Grub",
+        "name": "MoreDoors-Husk_Guard-Crossroads_Guarded_Grub",
         "sceneName": "Crossroads_48",
         "flingType": "Everywhere",
         "tags": null
@@ -681,32 +982,54 @@
     "UpperCaseName": "FLOODED_STAG",
     "UIName": "Flooded Stag",
     "Door": {
-      "Sprite": "Water",
-      "NoKeyDesc": "A cold stone door, dripping with water.",
-      "KeyDesc": "You can feel the power of buoyancy calling out to you.<br>Insert the Flooded Stag Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.FloodedStag"
+      },
       "LeftLocation": {
         "SceneName": "Ruins2_07",
         "GateName": "left1",
+        "NoKeyDesc": "A cold, forgotten door, moist in the shadows.",
+        "KeyDesc": "The echo of the songstress calls from afar.<br>Insert the Flooded Stag Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 8.6
+        "X": 6.1,
+        "Y": 8.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Ruins2_06",
         "GateName": "right2",
+        "NoKeyDesc": "A cold stone door, endlessly dripping.",
+        "KeyDesc": "You can feel the power of buoyancy calling out to you.<br>Insert the Flooded Stag Key?",
+        "Masks": null,
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
         "X": 53.9,
-        "Y": 7.6
+        "Y": 7.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Flooded_Stag_Key",
       "UIItemName": "Flooded Stag Key",
-      "ShopDesc": "I don't think this protects anything, just a bunch of water?",
+      "ShopDesc": "I don't think this protects anything, just a defunct station?",
       "InvDesc": "A wet, stone key, ever dripping. It rings of forgotten love.",
       "UsedInvDesc": "The secret cellar of the city has been opened.",
-      "Sprite": "FloodedStag",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.FloodedStag"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -723,7 +1046,7 @@
           "objectName": "Great Shield Zombie",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Flooded_Stag_Key-Greater_Husk_Sentry-City_Guarded_Grub",
+          "name": "MoreDoors-Greater_Husk_Sentry-City_Guarded_Grub",
           "sceneName": "Ruins_House_01",
           "flingType": "Everywhere",
           "tags": null
@@ -735,12 +1058,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Flooded_Stag_Key-Greater_Husk_Sentry-City_Guarded_Grub",
+          "name": "MoreDoors-Greater_Husk_Sentry-City_Guarded_Grub",
           "sceneName": "Ruins_House_01",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Flooded_Stag_Key-Greater_Husk_Sentry-City_Guarded_Grub",
+        "name": "MoreDoors-Greater_Husk_Sentry-City_Guarded_Grub",
         "sceneName": "Ruins_House_01",
         "flingType": "Everywhere",
         "tags": null
@@ -759,23 +1082,35 @@
     "UpperCaseName": "FOUNTAIN",
     "UIName": "Fountain",
     "Door": {
-      "Sprite": "City",
-      "NoKeyDesc": "An ornate door, bespeckled in expensive relics.",
-      "KeyDesc": "Rain flows intricately between the carvings.<br>Insert the Fountain Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.City"
+      },
       "LeftLocation": {
         "SceneName": "Ruins1_27",
         "GateName": "left1",
+        "NoKeyDesc": "An ornate door, bespeckled with a collector's wealth.",
+        "KeyDesc": "Finally, something to do with all those relics.<br>Insert the Fountain Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 7.6
+        "Y": 7.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Ruins1_05b",
         "GateName": "right1",
+        "NoKeyDesc": "An ornate door, bespeckled with a collector's wealth.",
+        "KeyDesc": "Rain flows intricately between the carvings.<br>Insert the Fountain Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 63.9,
-        "Y": 8.6
+        "Y": 8.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -784,7 +1119,10 @@
       "ShopDesc": "Is it destiny you seek, or geo?  Are they different?",
       "InvDesc": "A shiny, cast key adorned with a replica Hallownest Seal. Probably valuable to collectors.",
       "UsedInvDesc": "May his sacrifice never be forgotten.",
-      "Sprite": "Fountain",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Fountain"
+      },
       "Location": {
         "$type": "MoreDoors.IC.ShinyEnemyLocation, MoreDoors",
         "HintShinyScale": 1.5,
@@ -793,7 +1131,7 @@
         "objectName": "Mage Blob 2 (3)",
         "removeGeo": false,
         "forceShiny": false,
-        "name": "MoreDoors-Fountain_Key-Mistake-Soul_Master_Return",
+        "name": "MoreDoors-Mistake-Soul_Master_Return",
         "sceneName": "Ruins1_30",
         "flingType": "Everywhere",
         "tags": null
@@ -812,23 +1150,49 @@
     "UpperCaseName": "FRAGILE",
     "UIName": "Fragile",
     "Door": {
-      "Sprite": "Mushroom",
-      "NoKeyDesc": "A spongy door reinforced with shards of old charms.",
-      "KeyDesc": "Mind your legs.<br>Insert the Fragile Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Fungal"
+      },
       "LeftLocation": {
         "SceneName": "Fungus2_26",
         "GateName": "left1",
+        "NoKeyDesc": "A spongy door reinforced with shards of old charms.",
+        "KeyDesc": "At last, he'll be free to fulfill his destiny.<br>Insert the Fragile Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 14.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 9.6
+        "X": 5.9,
+        "Y": 9.5,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus2_06",
         "GateName": "right1",
+        "NoKeyDesc": "A spongy door reinforced with shards of old charms.",
+        "KeyDesc": "Mind your legs.<br>Insert the Fragile Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
-        "X": 34.9,
-        "Y": 60.6
+        "X": 31.6,
+        "Y": 60.5,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -837,7 +1201,10 @@
       "ShopDesc": "Don't let the Better Bugsness Bureau know about this.",
       "InvDesc": "It glistens with gold, brighter than it should be. Don't break it.",
       "UsedInvDesc": "He is free now to fulfill his destiny. Was it worth it?",
-      "Sprite": "Fragile",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Fragile"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -854,7 +1221,7 @@
           "objectName": "Mushroom Brawler 1",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Fragile_Key-Shrumal_Ogre_1-Fungal_Charm_Notch",
+          "name": "MoreDoors-Shrumal_Ogre_1-Fungal_Charm_Notch",
           "sceneName": "Fungus2_05",
           "flingType": "Everywhere",
           "tags": null
@@ -866,12 +1233,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Fragile_Key-Shrumal_Ogre_1-Fungal_Charm_Notch",
+          "name": "MoreDoors-Shrumal_Ogre_1-Fungal_Charm_Notch",
           "sceneName": "Fungus2_05",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Fragile_Key-Shrumal_Ogre_1-Fungal_Charm_Notch",
+        "name": "MoreDoors-Shrumal_Ogre_1-Fungal_Charm_Notch",
         "sceneName": "Fungus2_05",
         "flingType": "Everywhere",
         "tags": null
@@ -886,23 +1253,49 @@
     "UpperCaseName": "FUNGAL",
     "UIName": "Fungal",
     "Door": {
-      "Sprite": "Mushroom",
-      "NoKeyDesc": "This door has, like, so many mushrooms on it.",
-      "KeyDesc": "The pilgrim's way expands.<br>Insert the Fungal Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Fungal"
+      },
       "LeftLocation": {
         "SceneName": "Fungus2_07",
         "GateName": "left1",
+        "NoKeyDesc": "The fungus grows ever onwards, without memory.",
+        "KeyDesc": "An ascension to normalcy awaits.<br>Insert the Fungal Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 15.6
+        "X": 2.4,
+        "Y": 15.5,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus2_06",
         "GateName": "right2",
+        "NoKeyDesc": "The fungus grows ever onwards, without memory.",
+        "KeyDesc": "The pilgrim's way expands.<br>Insert the Fungal Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 34.9,
-        "Y": 11.6
+        "X": 32.2,
+        "Y": 11.5,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -911,7 +1304,10 @@
       "ShopDesc": "Chop 'em, sautee 'em, stick 'em in a stew.",
       "InvDesc": "It smells of mushrooms, and an arid air. The head is soft and spongy.",
       "UsedInvDesc": "The wastes are opened, the Pilgrim's Way expands.",
-      "Sprite": "Fungal",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Fungal"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -928,7 +1324,7 @@
           "objectName": "Mushroom Brawler 2",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Fungal_Key-Shrumal_Ogre_2-Fungal_Charm_Notch",
+          "name": "MoreDoors-Shrumal_Ogre_2-Fungal_Charm_Notch",
           "sceneName": "Fungus2_05",
           "flingType": "Everywhere",
           "tags": null
@@ -940,12 +1336,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Fungal_Key-Shrumal_Ogre_2-Fungal_Charm_Notch",
+          "name": "MoreDoors-Shrumal_Ogre_2-Fungal_Charm_Notch",
           "sceneName": "Fungus2_05",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Fungal_Key-Shrumal_Ogre_2-Fungal_Charm_Notch",
+        "name": "MoreDoors-Shrumal_Ogre_2-Fungal_Charm_Notch",
         "sceneName": "Fungus2_05",
         "flingType": "Everywhere",
         "tags": null
@@ -960,32 +1356,60 @@
     "UpperCaseName": "GARDEN",
     "UIName": "Garden",
     "Door": {
-      "Sprite": "Green",
-      "NoKeyDesc": "A richly green door with just a spritz of acid.",
-      "KeyDesc": "The queen awaits her boy.<br>Insert the Garden Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.GreenChain"
+      },
       "LeftLocation": {
         "SceneName": "Fungus3_34",
         "GateName": "left1",
+        "NoKeyDesc": "A lush door tainted with chains. This is a protected place.",
+        "KeyDesc": "The gardens must be tended.<br>Insert the Garden Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 14.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          },
+          {
+            "Width": 10.0,
+            "Height": 14.0,
+            "OffsetX": -1.65,
+            "OffsetY": 12.0
+          }
+        ],
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 13.6
+        "X": 8.1,
+        "Y": 13.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus3_04",
         "GateName": "right1",
+        "NoKeyDesc": "A thickly grown door, wrapped in chains.",
+        "KeyDesc": "Hopefully you brought acid armor.<br>Insert the Garden Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 38.9,
-        "Y": 58.6
+        "Y": 58.5,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Garden_Key",
       "UIItemName": "Garden Key",
       "ShopDesc": "Interesting to see things so cared for in a kingdom forgotten.",
-      "InvDesc": "A key draped in moss, tainted with infection. Beautiful, but tragic.",
+      "InvDesc": "A key draped in moss, tainted with infection.",
       "UsedInvDesc": "May the sanctity of her garden never be broken.",
-      "Sprite": "Garden",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Garden"
+      },
       "Location": {
         "$type": "MoreDoors.IC.ShinyEnemyLocation, MoreDoors",
         "HintShinyScale": 1.0,
@@ -994,14 +1418,13 @@
         "objectName": "Moss Flyer (4)",
         "removeGeo": false,
         "forceShiny": false,
-        "name": "MoreDoors-Garden_Key-Mossfly-Outside_Overgrown_Mound",
+        "name": "MoreDoors-Mossfly-Outside_Overgrown_Mound",
         "sceneName": "Fungus3_44",
         "flingType": "Everywhere",
         "tags": [
           {
             "$type": "ItemChanger.Tags.ShinyFlingTag, ItemChanger",
-            "fling": "Right",
-            "Loaded": false
+            "fling": "Right"
           }
         ]
       },
@@ -1019,23 +1442,42 @@
     "UpperCaseName": "HEART",
     "UIName": "Heart",
     "Door": {
-      "Sprite": "Crystal",
-      "NoKeyDesc": "A dense, deeply crystallized door. It seems to have a heartbeat.",
-      "KeyDesc": "The heart of the mountain beckons.<br>Insert the Heart Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Crystal"
+      },
       "LeftLocation": {
         "SceneName": "Mines_31",
         "GateName": "left1",
+        "NoKeyDesc": "A crystalline door, ravaged with chips and scratch marks.",
+        "KeyDesc": "What was kept inside is long gone, surely the mountain is safe now.<br>Insert the Heart Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 21.6
+        "X": 1.2,
+        "Y": 21.2,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Mines_20",
         "GateName": "right2",
+        "NoKeyDesc": "A dense, deeply crystallized door. It seems to have a heartbeat.",
+        "KeyDesc": "The heart of the mountain beckons.<br>Insert the Heart Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 73.9,
-        "Y": 65.6
+        "X": 70.5,
+        "Y": 65.2,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -1044,7 +1486,10 @@
       "ShopDesc": "If you hold this up to your ear, you'll realize you don't HAVE ears, dumbdumb.",
       "InvDesc": "It gleams of rich crystal, ornate and intricate. You can feel it beating in your hands.",
       "UsedInvDesc": "The mountain seems less whole for it, but surely it was for good.",
-      "Sprite": "Heart",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Heart"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1072,7 +1517,7 @@
           "objectName": "Zombie Miner 1",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Heart_Key-Husk_Miner-Deep_Focus_Breakable_Wall",
+          "name": "MoreDoors-Husk_Miner-Deep_Focus_Breakable_Wall",
           "sceneName": "Mines_05",
           "flingType": "Everywhere",
           "tags": null
@@ -1084,12 +1529,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Heart_Key-Husk_Miner-Deep_Focus_Breakable_Wall",
+          "name": "MoreDoors-Husk_Miner-Deep_Focus_Breakable_Wall",
           "sceneName": "Mines_05",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Heart_Key-Husk_Miner-Deep_Focus_Breakable_Wall",
+        "name": "MoreDoors-Husk_Miner-Deep_Focus_Breakable_Wall",
         "sceneName": "Mines_05",
         "flingType": "Everywhere",
         "tags": null
@@ -1104,32 +1549,86 @@
     "UpperCaseName": "HIVE",
     "UIName": "Hive",
     "Door": {
-      "Sprite": "Hive",
-      "NoKeyDesc": "It's made of honeycombs, sturdy as stone.",
-      "KeyDesc": "The buzzing resonates with your soul.<br>Insert the Hive Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Hive"
+      },
       "LeftLocation": {
         "SceneName": "Hive_02",
         "GateName": "left2",
+        "NoKeyDesc": "It's made of honeycombs, sturdy as stone.",
+        "KeyDesc": "The buzzing resonates with your soul.<br>Insert the Hive Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 4.9,
+            "OffsetX": 0.0,
+            "OffsetY": -0.5
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 95.1,
-        "Y": 52.6
+        "X": 105.1,
+        "Y": 52.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Hive_01",
         "GateName": "right1",
+        "NoKeyDesc": "The honey obscures a great darkness beyond.",
+        "KeyDesc": "The buzzing finally begins to fade.<br>Insert the Hive Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 118.9,
-        "Y": 52.6
+        "X": 110.9,
+        "Y": 52.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Hive_01",
+          "ObjectName": "hive_scenery_0000_h (29)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Hive_01",
+          "ObjectName": "hive_scenery_0000_h (22)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Hive_02",
+          "ObjectName": "hive_scenery_0033_h (8)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Hive_02",
+          "ObjectName": "hive_scenery_0033_h (7)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Hive_Key",
       "UIItemName": "Hive Key",
       "ShopDesc": "It's technically edible, I wouldn't recommend that though.",
-      "InvDesc": "A reflective key encased in honey, protected by stingers. It is difficult to hold.",
+      "InvDesc": "A crystal of honey glued to an arsenal of stingers. It is difficult to hold.",
       "UsedInvDesc": "They did not welcome you, but the queen understands.",
-      "Sprite": "Hive",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Hive"
+      },
       "Location": {
         "$type": "MoreDoors.IC.ShinyEnemyLocation, MoreDoors",
         "HintShinyScale": 1.0,
@@ -1138,7 +1637,7 @@
         "objectName": "Bee Hatchling Ambient (29)",
         "removeGeo": false,
         "forceShiny": false,
-        "name": "MoreDoors-Hive_Key-Hiveling-Hive_Outside_Grub",
+        "name": "MoreDoors-Hiveling-Hive_Outside_Grub",
         "sceneName": "Hive_03",
         "flingType": "Everywhere",
         "tags": null
@@ -1157,32 +1656,47 @@
     "UpperCaseName": "ISMA",
     "UIName": "Isma's'",
     "Door": {
-      "Sprite": "Acid",
-      "NoKeyDesc": "A bright green door, bubbling with life. Don't touch it, though.",
-      "KeyDesc": "It sizzles with a forgotten life.<br>Insert Isma's Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Acid"
+      },
       "LeftLocation": {
         "SceneName": "Waterways_07",
         "GateName": "left1",
+        "NoKeyDesc": "A bright green door, bubbling with life. Don't touch it, though.",
+        "KeyDesc": "It sizzles with a forgotten life.<br>Insert Isma's Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 22.6
+        "Y": 22.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Abyss_01",
         "GateName": "right2",
+        "NoKeyDesc": "A bright green door, sizzling and rippling.",
+        "KeyDesc": "The flow weakens, aging and drying.<br>Insert Isma's Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 29.5,
-        "Y": 52.6
+        "Y": 52.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Isma's_Key",
       "UIItemName": "Isma's Key",
       "ShopDesc": "Why does this smell like beetle dung?",
-      "InvDesc": "It looks like it should be wet, but it isn't. It glistens with an old life.",
-      "UsedInvDesc": "The grove sizzles on.",
-      "Sprite": "Isma",
+      "InvDesc": "A nucleus of acid in a protective casing. It sparkles from all angles.",
+      "UsedInvDesc": "Life must go on.",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Isma"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1199,7 +1713,7 @@
           "objectName": "Flip Hopper",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Isma's_Key-Pilflip-By_Isma's_Spike_Tunnel",
+          "name": "MoreDoors-Pilflip-By_Isma's_Spike_Tunnel",
           "sceneName": "Waterways_06",
           "flingType": "Everywhere",
           "tags": null
@@ -1211,12 +1725,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Isma's_Key-Pilflip-By_Isma's_Spike_Tunnel",
+          "name": "MoreDoors-Pilflip-By_Isma's_Spike_Tunnel",
           "sceneName": "Waterways_06",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Isma's_Key-Pilflip-By_Isma's_Spike_Tunnel",
+        "name": "MoreDoors-Pilflip-By_Isma's_Spike_Tunnel",
         "sceneName": "Waterways_06",
         "flingType": "Everywhere",
         "tags": null
@@ -1231,24 +1745,57 @@
     "UpperCaseName": "JONI",
     "UIName": "Joni's",
     "Door": {
-      "Sprite": "Joni",
-      "NoKeyDesc": "A robust door overgrown with lifeblood.",
-      "KeyDesc": "You weren't invited, but you're here anyway.<br>Insert Joni's Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Joni"
+      },
       "LeftLocation": {
         "SceneName": "Cliffs_04",
         "GateName": "left1",
+        "NoKeyDesc": "A heavy stone door bespeckled in forbidden fruit.",
+        "KeyDesc": "Doomes is he who partakes of the forbidden.<br>Insert Joni's Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.5,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": true,
-        "X": 1.1,
-        "Y": 45.6
+        "X": 8.6,
+        "Y": 45.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Cliffs_01",
         "GateName": "right2",
+        "NoKeyDesc": "A robust door overgrown with lifeblood.",
+        "KeyDesc": "You weren't invited, but you're here anyway.<br>Insert Joni's Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.5,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 138.9,
-        "Y": 93.6
+        "X": 131.6,
+        "Y": 93.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "MoreDoors.IC.SpriteDimmer, MoreDoors",
+          "SceneName": "Cliffs_04",
+          "TargetGameObject": "cd_room_beam_glow",
+          "AlphaMultiplier": 0.15
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Joni's_Key",
@@ -1256,7 +1803,10 @@
       "ShopDesc": "I feel like I shouldn't have this, so it's at a discount.",
       "InvDesc": "A key adorned with lifeblood, large yet fragile. It guards something dangerous.",
       "UsedInvDesc": "It was not yours to take, but it will be put to good use.",
-      "Sprite": "Joni",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Joni"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1273,7 +1823,7 @@
           "objectName": "Blocker 1",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Joni's_Key-Left_Elder_Baldur-Baldur_Shell",
+          "name": "MoreDoors-Left_Elder_Baldur-Baldur_Shell",
           "sceneName": "Fungus1_28",
           "flingType": "Everywhere",
           "tags": null
@@ -1285,12 +1835,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Joni's_Key-Left_Elder_Baldur-Baldur_Shell",
+          "name": "MoreDoors-Left_Elder_Baldur-Baldur_Shell",
           "sceneName": "Fungus1_28",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Joni's_Key-Left_Elder_Baldur-Baldur_Shell",
+        "name": "MoreDoors-Left_Elder_Baldur-Baldur_Shell",
         "sceneName": "Fungus1_28",
         "flingType": "Everywhere",
         "tags": null
@@ -1305,32 +1855,47 @@
     "UpperCaseName": "JUNK",
     "UIName": "Junk",
     "Door": {
-      "Sprite": "Water",
-      "NoKeyDesc": "A wet, pasty door. You can see larvae growing.",
-      "KeyDesc": "The larvae have grown larger.<br>Insert the Junk Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Junk"
+      },
       "LeftLocation": {
         "SceneName": "Waterways_08",
         "GateName": "left2",
+        "NoKeyDesc": "A creaking door, rusting and rotting. It smells of infestation.",
+        "KeyDesc": "A great shadow looms beyond.<br>Insert the Junk Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 56.6
+        "X": 2.6,
+        "Y": 56.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "GG_Pipeway",
         "GateName": "right1",
+        "NoKeyDesc": "A creaking door, rusting and rotting. It smells of infestation.",
+        "KeyDesc": "An unconscionable chanting grows in the distance.<br>Insert the Junk Key?",
+        "Masks": null,
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
         "X": 147.9,
-        "Y": 6.6
+        "Y": 6.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Junk_Key",
       "UIItemName": "Junk Key",
       "ShopDesc": "It comes with complimentary uncaged Lumaflies.",
-      "InvDesc": "A dirty key embedded with geo, and a hint of larvae. You probably don't want to hang onto this.",
-      "UsedInvDesc": "The real treasure lies in the paths wandered.",
-      "Sprite": "Junk",
+      "InvDesc": "A dirty key embedded with the paltriest of geo, worth less than its weight.",
+      "UsedInvDesc": "...what have you done?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Junk"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1347,7 +1912,7 @@
           "objectName": "Ceiling Dropper (3)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Junk_Key-Belfly-Above_Flukemarm_Totem",
+          "name": "MoreDoors-Belfly-Above_Flukemarm_Totem",
           "sceneName": "Waterways_08",
           "flingType": "Everywhere",
           "tags": null
@@ -1359,12 +1924,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Junk_Key-Belfly-Above_Flukemarm_Totem",
+          "name": "MoreDoors-Belfly-Above_Flukemarm_Totem",
           "sceneName": "Waterways_08",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Junk_Key-Belfly-Above_Flukemarm_Totem",
+        "name": "MoreDoors-Belfly-Above_Flukemarm_Totem",
         "sceneName": "Waterways_08",
         "flingType": "Everywhere",
         "tags": null
@@ -1379,32 +1944,74 @@
     "UpperCaseName": "LAKE",
     "UIName": "Lake",
     "Door": {
-      "Sprite": "Water",
-      "NoKeyDesc": "A wet, quiet door. There is a certain shadow about it.",
-      "KeyDesc": "You sense the sadness of a journey completed.<br>Insert the Lake Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Lake"
+      },
       "LeftLocation": {
         "SceneName": "Crossroads_50",
         "GateName": "left1",
+        "NoKeyDesc": "A large, wet door, lit by refractions from the lake.",
+        "KeyDesc": "An uncomfortably welcoming laughter seeps through the cracks.<br>Insert the Lake Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 46.6
+        "X": 5.3,
+        "Y": 46.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Crossroads_04",
         "GateName": "right1",
+        "NoKeyDesc": "A wet, quiet door. There is a certain shadow about it.",
+        "KeyDesc": "You sense the sadness of a journey completed.<br>Insert the Lake Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 158.9,
-        "Y": 26.6
+        "X": 155.9,
+        "Y": 26.6,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Crossroads_04",
+          "ObjectName": "cd_FG_rock_20 (1)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Crossroads_04",
+          "ObjectName": "roof_FG_rock_07_0003_03",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Lake_Key",
       "UIItemName": "Lake Key",
       "ShopDesc": "Many souls died to use this key, I assume that makes it worth this price.",
-      "InvDesc": "It's a bright blue, always gleaming with some inexplicable light. A true mystery.",
+      "InvDesc": "A shell of blue encases the metal, which seems to always reflect a dancing light.",
       "UsedInvDesc": "What will you do now, that the mystery is solved?",
-      "Sprite": "Lake",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Lake"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1421,7 +2028,7 @@
           "objectName": "Angry Buzzer",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Lake_Key-Infected_Vengefly-Crossroads_Well",
+          "name": "MoreDoors-Infected_Vengefly-Crossroads_Well",
           "sceneName": "Crossroads_01",
           "flingType": "Everywhere",
           "tags": null
@@ -1433,12 +2040,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Lake_Key-Infected_Vengefly-Crossroads_Well",
+          "name": "MoreDoors-Infected_Vengefly-Crossroads_Well",
           "sceneName": "Crossroads_01",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Lake_Key-Infected_Vengefly-Crossroads_Well",
+        "name": "MoreDoors-Infected_Vengefly-Crossroads_Well",
         "sceneName": "Crossroads_01",
         "flingType": "Everywhere",
         "tags": null
@@ -1453,23 +2060,49 @@
     "UpperCaseName": "MANTIS",
     "UIName": "Mantis",
     "Door": {
-      "Sprite": "Mantis",
-      "NoKeyDesc": "A sharp, carefully sculpted door. It smells of honor.",
-      "KeyDesc": "Your challengers await.<br>Insert the Mantis Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Mantis"
+      },
       "LeftLocation": {
         "SceneName": "Fungus2_13",
         "GateName": "left2",
+        "NoKeyDesc": "A sharp, carefully sculpted door. It smells of honor.",
+        "KeyDesc": "Your challengers await.<br>Insert the Mantis Key?",
+        "Masks": [
+          {
+            "Width": 14.0,
+            "Height": 10.0,
+            "OffsetX": -0.75,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 2.5,
-        "Y": 60.6
+        "X": 11.52,
+        "Y": 60.35,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus2_14",
         "GateName": "right1",
+        "NoKeyDesc": "A great door of warrior's pride.",
+        "KeyDesc": "You can come back later, with a sharper nail.<br>Insert the Mantis Key?",
+        "Masks": [
+          {
+            "Width": 20.0,
+            "Height": 11.0,
+            "OffsetX": -1.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 173.9,
-        "Y": 11.6
+        "X": 147.3,
+        "Y": 11.35,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -1478,7 +2111,10 @@
       "ShopDesc": "It unlocks one of the most guarded places in the kingdom.",
       "InvDesc": "Polished, sharp, emblazoned with a proud insignia. A warrior's key.",
       "UsedInvDesc": "Your respect is earned.",
-      "Sprite": "Mantis",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Mantis"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1495,14 +2131,13 @@
           "objectName": "Mantis (3)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Mantis_Key-Mantis_Warrior-Above_Bretta_Bench",
+          "name": "MoreDoors-Mantis_Warrior-Above_Bretta_Bench",
           "sceneName": "Fungus2_13",
           "flingType": "StraightUp",
           "tags": [
             {
               "$type": "ItemChanger.Tags.ShinyFlingTag, ItemChanger",
-              "fling": "Down",
-              "Loaded": false
+              "fling": "Down"
             }
           ]
         },
@@ -1513,12 +2148,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Mantis_Key-Mantis_Warrior-Above_Bretta_Bench",
+          "name": "MoreDoors-Mantis_Warrior-Above_Bretta_Bench",
           "sceneName": "Fungus2_13",
           "flingType": "StraightUp",
           "tags": null
         },
-        "name": "MoreDoors-Mantis_Key-Mantis_Warrior-Above_Bretta_Bench",
+        "name": "MoreDoors-Mantis_Warrior-Above_Bretta_Bench",
         "sceneName": "Fungus2_13",
         "flingType": "Everywhere",
         "tags": null
@@ -1528,37 +2163,148 @@
       "ExtraWorldMapLocations": null
     }
   },
+  "Miner": {
+    "CamelCaseName": "Miner",
+    "UpperCaseName": "MINER",
+    "UIName": "Miner",
+    "Door": {
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Crystal"
+      },
+      "LeftLocation": {
+        "SceneName": "Crossroads_45",
+        "GateName": "left1",
+        "NoKeyDesc": "A crystallized door echoing of light and song.",
+        "KeyDesc": "The purgatorial chaos of transition rando beckons.<br>Insert the Miner's Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
+        "RequiresLantern": false,
+        "X": 1.8,
+        "Y": 10.3,
+        "Decorators": null
+      },
+      "RightLocation": {
+        "SceneName": "Crossroads_14",
+        "GateName": "right2",
+        "NoKeyDesc": "A crystallized door echoing of light and song.",
+        "KeyDesc": "The call of the mines reigns out.<br>Insert the Miner's Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
+        "RequiresLantern": false,
+        "X": 31.2,
+        "Y": 8.3,
+        "Decorators": null
+      },
+      "Mode": "Normal",
+      "Deployers": null
+    },
+    "Key": {
+      "ItemName": "MoreDoors-Miner's_Key",
+      "UIItemName": "Miner's Key'",
+      "ShopDesc": "A precious little soul. Such a shame...",
+      "InvDesc": "A delicate key filled with spirit. It gleams with a twinkle of orange light.",
+      "UsedInvDesc": "Damned are those who prey on innocence.",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Miner"
+      },
+      "Location": {
+        "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
+        "Test": {
+          "$type": "ItemChanger.SDBool, ItemChanger",
+          "id": "Mushroom Roller",
+          "sceneName": "Fungus2_23",
+          "semiPersistent": true
+        },
+        "falseLocation": {
+          "$type": "MoreDoors.IC.ShinyEnemyLocation, MoreDoors",
+          "HintShinyScale": 1.5,
+          "HintShinyX": 0.0,
+          "HintShinyY": 0.0,
+          "objectName": "Mushroom Roller",
+          "removeGeo": false,
+          "forceShiny": false,
+          "name": "MoreDoors-Mushroom_Roller-Bretta",
+          "sceneName": "Fungus2_23",
+          "flingType": "Everywhere",
+          "tags": null
+        },
+        "trueLocation": {
+          "$type": "ItemChanger.Locations.CoordinateLocation, ItemChanger",
+          "x": 25.0,
+          "y": 6.0,
+          "elevation": 0.0,
+          "managed": false,
+          "forceShiny": false,
+          "name": "MoreDoors-Mushroom_Roller-Bretta",
+          "sceneName": "Fungus2_23",
+          "flingType": "Everywhere",
+          "tags": null
+        },
+        "name": "MoreDoors-Mushroom_Roller-Bretta",
+        "sceneName": "Fungus2_23",
+        "flingType": "Everywhere",
+        "tags": null
+      },
+      "Logic": "Fungus2_23[right1]",
+      "WorldMapLocationOverride": null,
+      "ExtraWorldMapLocations": null
+    }
+  },
   "Moss": {
     "CamelCaseName": "Moss",
     "UpperCaseName": "MOSS",
     "UIName": "Moss",
     "Door": {
-      "Sprite": "Green",
-      "NoKeyDesc": "A bright stone door overgrown with moss.",
-      "KeyDesc": "The power of leftslash compels you.<br>Insert the Moss Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.GreenThick"
+      },
       "LeftLocation": {
         "SceneName": "Fungus1_11",
         "GateName": "left1",
+        "NoKeyDesc": "A lush door, smothered in moss. It's almost hidden.",
+        "KeyDesc": "The power of leftslash compels you.<br>Insert the Moss Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 34.6
+        "X": 1.8,
+        "Y": 34.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus1_29",
         "GateName": "right1",
+        "NoKeyDesc": "A lush door, overgrown in moss. It's wiggling, slightly?",
+        "KeyDesc": "The forgotten god awaits.<br>Insert the Moss Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 83.9,
-        "Y": 16.6
+        "X": 79.9,
+        "Y": 16.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Moss_Key",
       "UIItemName": "Moss Key",
       "ShopDesc": "If you look carefully it's actually four little keys pretending to be a big key.",
-      "InvDesc": "A soft green key overgrown with moss and attached leaves, as though camouflaged.",
-      "UsedInvDesc": "The way is opened, yet more awaits on the other side.",
-      "Sprite": "Moss",
+      "InvDesc": "A, bushy key overflowing with leaves, as though camouflaged.",
+      "UsedInvDesc": "You didn't go there without vertical, did you?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Moss"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1575,14 +2321,13 @@
           "objectName": "Moss Knight",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Moss_Key-Moss_Knight-Lake_of_Unn",
+          "name": "MoreDoors-Moss_Knight-Lake_of_Unn",
           "sceneName": "Fungus1_26",
           "flingType": "Everywhere",
           "tags": [
             {
               "$type": "ItemChanger.Tags.ShinyFlingTag, ItemChanger",
-              "fling": "Right",
-              "Loaded": false
+              "fling": "Right"
             }
           ]
         },
@@ -1593,12 +2338,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Moss_Key-Moss_Knight-Lake_of_Unn",
+          "name": "MoreDoors-Moss_Knight-Lake_of_Unn",
           "sceneName": "Fungus1_26",
           "flingType": "StraightUp",
           "tags": null
         },
-        "name": "MoreDoors-Moss_Key-Moss_Knight-Lake_of_Unn",
+        "name": "MoreDoors-Moss_Knight-Lake_of_Unn",
         "sceneName": "Fungus1_26",
         "flingType": "Everywhere",
         "tags": null
@@ -1613,23 +2358,42 @@
     "UpperCaseName": "MOTHWING",
     "UIName": "Mothwing",
     "Door": {
-      "Sprite": "Green",
-      "NoKeyDesc": "It looks like you can't get any closer, ghost.",
-      "KeyDesc": "It looks like you found a way to get closer.<br>Insert the Mothwing Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.GreenChain"
+      },
       "LeftLocation": {
         "SceneName": "Fungus1_21",
         "GateName": "left1",
+        "NoKeyDesc": "It looks like you can't get any closer, ghost.",
+        "KeyDesc": "It looks like you found a way to get closer.<br>Insert the Mothwing Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 15.6
+        "Y": 15.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus1_04",
         "GateName": "right1",
+        "NoKeyDesc": "Are you scared, ghost? You should be.",
+        "KeyDesc": "She'll be stronger next time.<br>Insert the Mothwing Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.5,
+            "OffsetX": 0.5,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 93.9,
-        "Y": 34.6
+        "X": 88.9,
+        "Y": 34.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -1638,7 +2402,10 @@
       "ShopDesc": "You too can unlock your inner SHAAAW",
       "InvDesc": "A sleek key, with a wavy cloak bound to it by silk strands. It always billows away.",
       "UsedInvDesc": "She will be stronger next time. Are you prepared?",
-      "Sprite": "Mothwing",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Mothwing"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1655,7 +2422,7 @@
           "objectName": "Moss Knight B",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Mothwing_Key-Moss_Knight-Greenpath_Life_Blood",
+          "name": "MoreDoors-Moss_Knight-Greenpath_Life_Blood",
           "sceneName": "Fungus1_32",
           "flingType": "Everywhere",
           "tags": null
@@ -1667,12 +2434,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Mothwing_Key-Moss_Knight-Greenpath_Life_Blood",
+          "name": "MoreDoors-Moss_Knight-Greenpath_Life_Blood",
           "sceneName": "Fungus1_32",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Mothwing_Key-Moss_Knight-Greenpath_Life_Blood",
+        "name": "MoreDoors-Moss_Knight-Greenpath_Life_Blood",
         "sceneName": "Fungus1_32",
         "flingType": "Everywhere",
         "tags": null
@@ -1687,23 +2454,35 @@
     "UpperCaseName": "NEST",
     "UIName": "Nest",
     "Door": {
-      "Sprite": "Deepnest",
-      "NoKeyDesc": "A crunchy door laced with spider webs.",
-      "KeyDesc": "You can feel your skin crawling.<br>Insert the Nest Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Deepnest"
+      },
       "LeftLocation": {
         "SceneName": "Deepnest_30",
         "GateName": "left1",
+        "NoKeyDesc": "A crunchy door laced with spider webs.",
+        "KeyDesc": "You can feel your skin crawling.<br>Insert the Nest Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 7.6
+        "Y": 7.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Deepnest_03",
         "GateName": "right1",
+        "NoKeyDesc": "A silken door, trapping in the darkness.",
+        "KeyDesc": "The luscious babble of repose calls from the other side.<br>Insert the Nest Key?",
+        "Masks": null,
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
         "X": 58.9,
-        "Y": 5.6
+        "Y": 5.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -1712,7 +2491,10 @@
       "ShopDesc": "I tried cleaning it but it always seems to have more webs.",
       "InvDesc": "A dark, thorny key. It smells of the depths.",
       "UsedInvDesc": "Greater thorns await within.",
-      "Sprite": "Nest",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Nest"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1738,7 +2520,7 @@
           "objectName": "Moss Knight Fat (2)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Nest_Key-Mossy_Vagabond-Fungal_Prophet",
+          "name": "MoreDoors-Mossy_Vagabond-Fungal_Prophet",
           "sceneName": "Fungus3_39",
           "flingType": "Everywhere",
           "tags": null
@@ -1750,12 +2532,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Nest_Key-Mossy_Vagabond-Fungal_Prophet",
+          "name": "MoreDoors-Mossy_Vagabond-Fungal_Prophet",
           "sceneName": "Fungus3_39",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Nest_Key-Mossy_Vagabond-Fungal_Prophet",
+        "name": "MoreDoors-Mossy_Vagabond-Fungal_Prophet",
         "sceneName": "Fungus3_39",
         "flingType": "Everywhere",
         "tags": null
@@ -1770,32 +2552,47 @@
     "UpperCaseName": "OVERGROWN",
     "UIName": "Overgrown",
     "Door": {
-      "Sprite": "Green",
-      "NoKeyDesc": "A bubbly door decorated with green.",
-      "KeyDesc": "It's okay, you have an excuse this time.<br>Insert the Overgrown Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.GreenThick"
+      },
       "LeftLocation": {
         "SceneName": "Fungus3_01",
         "GateName": "left1",
+        "NoKeyDesc": "A buried door, overgrown with the lush of the canyon.",
+        "KeyDesc": "It's okay, you have an excuse this time.<br>Insert the Overgrown Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 1.1,
-        "Y": 39.6
+        "Y": 39.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus3_24",
         "GateName": "right1",
+        "NoKeyDesc": "A buried door, overgrown with the lush of the canyon.",
+        "KeyDesc": "The pilgrim's way awaits your return.<br>Insert the Overgrown Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 98.9,
-        "Y": 14.6
+        "Y": 14.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Overgrown_Key",
       "UIItemName": "Overgrown Key",
       "ShopDesc": "Strange... this key seems like it's been forgotten more times than anyone can remember.",
-      "InvDesc": "A key caked in a mixture of moss, leaves, and a tingly gelatin.",
+      "InvDesc": "An emerald key smelling of great power.",
       "UsedInvDesc": "There was nothing here but a scream.",
-      "Sprite": "Overgrown",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Overgrown"
+      },
       "Location": {
         "$type": "MoreDoors.IC.ShinyEnemyLocation, MoreDoors",
         "HintShinyScale": 1.0,
@@ -1804,7 +2601,7 @@
         "objectName": "Plant Turret (3)",
         "removeGeo": false,
         "forceShiny": false,
-        "name": "MoreDoors-Overgrown_Key-Gulka-MMC_Corridor",
+        "name": "MoreDoors-Gulka-MMC_Corridor",
         "sceneName": "Fungus1_12",
         "flingType": "Everywhere",
         "tags": null
@@ -1823,28 +2620,88 @@
     "UpperCaseName": "PAIN",
     "UIName": "Pain",
     "Door": {
-      "Sprite": "Pain",
-      "NoKeyDesc": "An ornate door with saw blades instead of gears for a lock mechanism.",
-      "KeyDesc": "The screech of saw blades permeates all.<br>Insert the Pain Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Pain"
+      },
       "LeftLocation": {
-        "SceneName": "White_Palace_06",
-        "GateName": "left1",
+        "SceneName": "White_Palace_18",
+        "GateName": "right1",
+        "NoKeyDesc": "An ornate door with saw blades instead of gears for a lock mechanism.",
+        "KeyDesc": "The screech of saw blades permeates all.<br>Insert the Pain Key?",
+        "Masks": [
+          {
+            "Width": 20.0,
+            "Height": 14.0,
+            "OffsetX": -0.5,
+            "OffsetY": 3.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 14.8,
-        "Y": 5.6
+        "X": 291.5,
+        "Y": 14.5,
+        "Decorators": [
+          {
+            "$type": "MoreDoors.IC.SpikeAttacher, MoreDoors",
+            "OffsetX": -0.3,
+            "OffsetY": -3.9,
+            "Width": 2.15,
+            "Height": 0.6
+          }
+        ]
       },
       "RightLocation": {
         "SceneName": "White_Palace_18",
         "GateName": "right1",
+        "NoKeyDesc": "An ornate door with saw blades instead of gears for a lock mechanism.",
+        "KeyDesc": "The screech of saw blades permeates all.<br>Insert the Pain Key?",
+        "Masks": [
+          {
+            "Width": 20.0,
+            "Height": 14.0,
+            "OffsetX": -0.5,
+            "OffsetY": 3.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 298.9,
-        "Y": 14.6
+        "X": 277.0,
+        "Y": 14.5,
+        "Decorators": [
+          {
+            "$type": "MoreDoors.IC.SpikeAttacher, MoreDoors",
+            "OffsetX": -0.5,
+            "OffsetY": -3.9,
+            "Width": 2.15,
+            "Height": 0.6
+          }
+        ]
       },
+      "Mode": "RightTwin",
       "Deployers": [
         {
           "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
-          "SceneName": "White_Palace_06",
-          "ObjectName": "Breakable Wall Ruin Lift",
+          "SceneName": "White_Palace_18",
+          "ObjectName": "white_vine_01_silhouette (22)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "White_Palace_18",
+          "ObjectName": "white_vine_01_silhouette (25)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "White_Palace_18",
+          "ObjectName": "white_pillar (19)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "White_Palace_18",
+          "ObjectName": "white_pillar (20)",
           "MatchType": "FirstName"
         }
       ]
@@ -1853,9 +2710,12 @@
       "ItemName": "MoreDoors-Pain_Key",
       "UIItemName": "Pain Key",
       "ShopDesc": "This looks like it's been beaten to hell by blades, does it even work?",
-      "InvDesc": "A marble-white key with saw blades for a stem. It buzzes constantly. Also it keeps scratching up the other keys.",
+      "InvDesc": "A constantly buzzing key that is impossible to hold. Also it keeps scratching up the other keys.",
       "UsedInvDesc": "To obtain that stupid Godtuner, one must endure the harshest punishment.",
-      "Sprite": "Pain",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Pain"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1873,7 +2733,7 @@
           "enemyObj": null,
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Pain_Key-Kingsmould-Palace_Entrance_Lever",
+          "name": "MoreDoors-Kingsmould-Palace_Entrance_Lever",
           "sceneName": "White_Palace_02",
           "flingType": "Everywhere",
           "tags": null
@@ -1885,12 +2745,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Pain_Key-Kingsmould-Palace_Entrance_Lever",
+          "name": "MoreDoors-Kingsmould-Palace_Entrance_Lever",
           "sceneName": "White_Palace_02",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Pain_Key-Kingsmould-Palace_Entrance_Lever",
+        "name": "MoreDoors-Kingsmould-Palace_Entrance_Lever",
         "sceneName": "White_Palace_02",
         "flingType": "Everywhere",
         "tags": null
@@ -1911,23 +2771,49 @@
     "UpperCaseName": "SANCTUM",
     "UIName": "Sanctum",
     "Door": {
-      "Sprite": "City",
-      "NoKeyDesc": "A door forged of empty shells and broken glass.",
-      "KeyDesc": "A pure focus awaits.<br>Insert the Sanctum Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Sanctum"
+      },
       "LeftLocation": {
         "SceneName": "Ruins1_09",
         "GateName": "left1",
+        "NoKeyDesc": "A regal door glowing with soul, awaiting a student.",
+        "KeyDesc": "A pure focus awaits.<br>Insert the Sanctum Key?",
+        "Masks": [
+          {
+            "Width": 7.5,
+            "Height": 10.0,
+            "OffsetX": -0.75,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 2.1,
-        "Y": 18.6
+        "X": 5.8,
+        "Y": 18.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Ruins1_05",
         "GateName": "right1",
+        "NoKeyDesc": "A regal door glowing with soul, spent in vain.",
+        "KeyDesc": "It has been too long in the study, after all.<br>Insert the Sanctum Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 12.0,
+            "OffsetX": 0.0,
+            "OffsetY": 2.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 61.9,
-        "Y": 153.6
+        "X": 56.4,
+        "Y": 153.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -1936,7 +2822,10 @@
       "ShopDesc": "It's brimming with soul, too much of it.",
       "InvDesc": "A glowing machination of soul. It whispers the forgotten words of hundreds of experiments.",
       "UsedInvDesc": "So much was sacrificed in vain.",
-      "Sprite": "Sanctum",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Sanctum"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -1953,7 +2842,7 @@
           "objectName": "Ruins Sentry Fat",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Sanctum_Key-Heavy_Sentry-Above_Lemm",
+          "name": "MoreDoors-Heavy_Sentry-Above_Lemm",
           "sceneName": "Ruins1_05c",
           "flingType": "Everywhere",
           "tags": null
@@ -1965,12 +2854,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Sanctum_Key-Heavy_Sentry-Above_Lemm",
+          "name": "MoreDoors-Heavy_Sentry-Above_Lemm",
           "sceneName": "Ruins1_05c",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Sanctum_Key-Heavy_Sentry-Above_Lemm",
+        "name": "MoreDoors-Heavy_Sentry-Above_Lemm",
         "sceneName": "Ruins1_05c",
         "flingType": "Everywhere",
         "tags": null
@@ -1985,32 +2874,61 @@
     "UpperCaseName": "SHADE",
     "UIName": "Shade",
     "Door": {
-      "Sprite": "Abyssal",
-      "NoKeyDesc": "A dark door forged of bones and abandoned souls.",
-      "KeyDesc": "The destiny of darkness awaits.<br>Insert the Shade Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Abyssal"
+      },
       "LeftLocation": {
         "SceneName": "Abyss_16",
         "GateName": "left1",
+        "NoKeyDesc": "A dark door forged of bones and abandoned souls.",
+        "KeyDesc": "The abyss knows no bottom.<br>Insert the Shade Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 8.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 7.6
+        "X": 3.1,
+        "Y": 7.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Abyss_06_Core",
         "GateName": "right2",
+        "NoKeyDesc": "A dark door forged of bones and abandoned souls.",
+        "KeyDesc": "The destiny of darkness awaits.<br>Insert the Shade Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 98.9,
-        "Y": 5.6
+        "X": 95.9,
+        "Y": 5.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
       "ItemName": "MoreDoors-Shade_Key",
       "UIItemName": "Shade Key",
       "ShopDesc": "It smells of darkness, please take it away.",
-      "InvDesc": "It rejects all light, save for two pairs of eyes staring back at you. Were you one of them?",
+      "InvDesc": "It rejects all light, save for three pairs of eyes staring back at you. Were you one of them?",
       "UsedInvDesc": "They beckon you to the void from whence you came.",
-      "Sprite": "Shade",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Shade"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -2027,7 +2945,7 @@
           "objectName": "Mawlek Turret (3)",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Shade_Key-Mawlurk-Broken_Vessel_Ascent",
+          "name": "MoreDoors-Mawlurk-Broken_Vessel_Ascent",
           "sceneName": "Abyss_20",
           "flingType": "Everywhere",
           "tags": null
@@ -2039,12 +2957,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Shade_Key-Mawlurk-Broken_Vessel_Ascent",
+          "name": "MoreDoors-Mawlurk-Broken_Vessel_Ascent",
           "sceneName": "Abyss_20",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Shade_Key-Mawlurk-Broken_Vessel_Ascent",
+        "name": "MoreDoors-Mawlurk-Broken_Vessel_Ascent",
         "sceneName": "Abyss_20",
         "flingType": "Everywhere",
         "tags": null
@@ -2059,32 +2977,67 @@
     "UpperCaseName": "TRAITOR",
     "UIName": "Traitor",
     "Door": {
-      "Sprite": "Green",
-      "NoKeyDesc": "An ornate metal door embellished with thorns.",
-      "KeyDesc": "The path of the warrior ends here.<br>Insert the Traitor's Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Traitor"
+      },
       "LeftLocation": {
         "SceneName": "Fungus3_04",
         "GateName": "left1",
+        "NoKeyDesc": "The door of a rival, a betrayor, guarding her keep.",
+        "KeyDesc": "The path of the warrior ends here.<br>Insert the Traitor's Key?",
+        "Masks": [
+          {
+            "Width": 10.0,
+            "Height": 10.0,
+            "OffsetX": 0.0,
+            "OffsetY": 0.0
+          }
+        ],
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
-        "X": 1.1,
-        "Y": 85.6
+        "X": 4.9,
+        "Y": 85.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Fungus3_21",
         "GateName": "right1",
+        "NoKeyDesc": "The door of a rival, a betrayor, guarding her keep.",
+        "KeyDesc": "Perhaps betrayal was never the way.<br>Insert the Traitor's Key?",
+        "Masks": null,
+        "FadeOutOnOpen": true,
         "RequiresLantern": false,
-        "X": 73.9,
-        "Y": 8.6
+        "X": 73.4,
+        "Y": 8.5,
+        "Decorators": null
       },
-      "Deployers": null
+      "Mode": "Normal",
+      "Deployers": [
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_04",
+          "ObjectName": "fungd_plant_28 (3)",
+          "MatchType": "FirstName"
+        },
+        {
+          "$type": "ItemChanger.Deployers.ObjectDestroyer, ItemChanger",
+          "SceneName": "Fungus3_21",
+          "ObjectName": "fung_bush8 (7)",
+          "MatchType": "FirstName"
+        }
+      ]
     },
     "Key": {
       "ItemName": "MoreDoors-Traitor's_Key",
       "UIItemName": "Traitor's Key",
       "ShopDesc": "I found this on some lady drilling in the wastes, doesn't seem too important.",
-      "InvDesc": "An overgrown key with two sharp pincers for a stem. Someone doesn't want you there.",
+      "InvDesc": "An overgrown key with a sharp pincer for a stem. Someone doesn't want you there.",
       "UsedInvDesc": "She believes you can do it. Can you?",
-      "Sprite": "Traitor",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Traitor"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -2112,7 +3065,7 @@
           "objectName": "Mantis Heavy",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Traitor's_Key-Mantis_Traitor-Love_Key",
+          "name": "MoreDoors-Mantis_Traitor-Love_Key",
           "sceneName": "Fungus3_39",
           "flingType": "Everywhere",
           "tags": null
@@ -2124,12 +3077,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Traitor's_Key-Mantis_Traitor-Love_Key",
+          "name": "MoreDoors-Mantis_Traitor-Love_Key",
           "sceneName": "Fungus3_39",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Traitor's_Key-Mantis_Traitor-Love_Key",
+        "name": "MoreDoors-Mantis_Traitor-Love_Key",
         "sceneName": "Fungus3_39",
         "flingType": "Everywhere",
         "tags": null
@@ -2144,23 +3097,35 @@
     "UpperCaseName": "VILLAGE",
     "UIName": "Village",
     "Door": {
-      "Sprite": "Deepnest",
-      "NoKeyDesc": "A solid door reinforced with silk weaves.",
-      "KeyDesc": "Even the King's influence does not reach here.<br>Insert the Village Key?",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Doors.Deepnest"
+      },
       "LeftLocation": {
         "SceneName": "Deepnest_41",
         "GateName": "left1",
+        "NoKeyDesc": "A solid door reinforced with silk weaves. The beast watches you.",
+        "KeyDesc": "Even the King's influence does not reach here.<br>Insert the Village Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": true,
         "X": 1.1,
-        "Y": 91.6
+        "Y": 91.6,
+        "Decorators": null
       },
       "RightLocation": {
         "SceneName": "Deepnest_10",
         "GateName": "right2",
+        "NoKeyDesc": "A solid door reinforced with silk weaves.",
+        "KeyDesc": "Are you sure this is the right way?<br>Insert the Village Key?",
+        "Masks": null,
+        "FadeOutOnOpen": false,
         "RequiresLantern": false,
         "X": 73.9,
-        "Y": 89.6
+        "Y": 89.6,
+        "Decorators": null
       },
+      "Mode": "Normal",
       "Deployers": null
     },
     "Key": {
@@ -2169,7 +3134,10 @@
       "ShopDesc": "I think this is technically an heirloom? I should probably charge more for it.",
       "InvDesc": "A thorny key emblazoned with the sigil of the beast. You were not supposed to find this.",
       "UsedInvDesc": "It was inevitable. She forgives you.",
-      "Sprite": "Village",
+      "Sprite": {
+        "$type": "MoreDoors.IC.EmbeddedSprite, MoreDoors",
+        "key": "Keys.Village"
+      },
       "Location": {
         "$type": "ItemChanger.Locations.DualLocation, ItemChanger",
         "Test": {
@@ -2186,7 +3154,7 @@
           "objectName": "Slash Spider",
           "removeGeo": false,
           "forceShiny": false,
-          "name": "MoreDoors-Village_Key-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
+          "name": "MoreDoors-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
           "sceneName": "Deepnest_39",
           "flingType": "Everywhere",
           "tags": null
@@ -2198,12 +3166,12 @@
           "elevation": 0.0,
           "managed": false,
           "forceShiny": false,
-          "name": "MoreDoors-Village_Key-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
+          "name": "MoreDoors-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
           "sceneName": "Deepnest_39",
           "flingType": "Everywhere",
           "tags": null
         },
-        "name": "MoreDoors-Village_Key-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
+        "name": "MoreDoors-Stalking_Devout-Dark_Deepnest_Rancid_Egg",
         "sceneName": "Deepnest_39",
         "flingType": "Everywhere",
         "tags": null

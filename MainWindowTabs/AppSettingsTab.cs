@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,7 @@ namespace HK_Rando_4_Log_Display
             AddButtonsToGrid(HelperLocationOutOfLogicOrderingOptions, HelperLocationOutOfLogicOrderOptions);
             AddButtonsToGrid(HelperTransitionGroupingOptions, HelperTransitionGroupOptions);
             AddButtonsToGrid(HelperTransitionOrderingOptions, HelperTransitionOrderOptions);
+            AddButtonsToGrid(HelperTransitionOutOfLogicOrderingOptions, HelperTransitionOutOfLogicOrderOptions);
 
             AddButtonsToGrid(TrackerItemGroupingOptions, TrackerItemGroupOptions);
             AddButtonsToGrid(TrackerItemOrderingOptions, TrackerItemOrderOptions);
@@ -28,10 +30,13 @@ namespace HK_Rando_4_Log_Display
             AddButtonsToGrid(SpoilerObtainedDisplayOptions, SpoilerObtainedDisplaySettingsOptions);
             AddButtonsToGrid(SpoilerTransitionGroupingOptions, SpoilerTransitionGroupOptions);
             AddButtonsToGrid(SpoilerTransitionOrderingOptions, SpoilerTransitionOrderOptions);
+            AddButtonsToGrid(SpoilerTraversedDisplayOptions, SpoilerTraversedDisplaySettingsOptions);
         }
 
         private void AddButtonsToGrid(string[] options, Grid buttonGrid)
         {
+            var gridPositions = GetGridPositions(buttonGrid, options.Length);
+
             for (var i = 0; i < options.Length; i++)
             {
                 var button = new Button
@@ -47,37 +52,89 @@ namespace HK_Rando_4_Log_Display
                 };
                 button.Click += AppSettingsButton_Click;
 
-                if (options.Length == 4)
-                {
-                    Grid.SetColumn(button, i % 2);
-                    Grid.SetRow(button, i / 2);
-                    buttonGrid.Children.Add(button);
+                Grid.SetColumn(button, gridPositions[i].Column);
+                Grid.SetRow(button, gridPositions[i].Row);
+                Grid.SetColumnSpan(button, gridPositions[i].ColumnSpan);
 
-                    if (i / 2 == 0)
-                    {
-                        buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    }
-                    if (i % 2 == 0)
-                    {
-                        buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    }
-                }
-                else
-                {
-                    Grid.SetColumn(button, i % 3);
-                    Grid.SetRow(button, i / 3);
-                    buttonGrid.Children.Add(button);
-
-                    if (i / 3 == 0)
-                    {
-                        buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    }
-                    if (i % 3 == 0)
-                    {
-                        buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
-                    }
-                }
+                buttonGrid.Children.Add(button);
             }
+        }
+
+        public class GridPosition
+        {
+            public int Column { get; set; }
+            public int Row { get; set; }
+            public int ColumnSpan { get; set; }
+        }
+
+        private static List<GridPosition> GetGridPositions(Grid buttonGrid, int cellCount)
+        {
+            if (cellCount <= 3)
+            {
+                buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                return [.. Enumerable.Range(0, cellCount).Select(x => {
+                    buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    return new GridPosition { Column = x, Row = 0, ColumnSpan = 1 };
+                })];
+            }
+
+            if (cellCount == 4)
+            {
+                buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+                buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+                return [
+                    .. new[] { (0, 0, 1), (1, 0, 1), (0, 1, 1), (1, 1, 1) }
+                        .Select(x => new GridPosition { Column = x.Item1, Row = x.Item2, ColumnSpan = x.Item3 }),
+                ];
+            }
+
+            var extraCells = cellCount % 3;
+            var extraRows = extraCells > 0 ? 1 : 0;
+
+            var rowCount = cellCount / 3 + extraRows;
+            var colCount = extraCells > 0 ? 6 : 3;
+
+            for (var i = 0; i < rowCount; i++)
+            {
+                buttonGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) });
+            }
+            for (var i = 0; i < colCount; i++)
+            {
+                buttonGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            }
+
+            return extraCells == 0
+                ? [
+                    .. Enumerable.Range(0, cellCount)
+                        .Select(x => new GridPosition
+                        {
+                            Column = x % 3,
+                            Row = x / 3,
+                            ColumnSpan = 1
+                        }),
+                ]
+                : [
+                    .. Enumerable.Range(0, cellCount)
+                        .Select(x =>
+                        {
+                            var diff = cellCount - x - 1;
+
+                            // 2x2 final 4 if %3 == 1
+                            // 1x2 final 2 if %3 == 2
+                            return ((extraCells == 1 && diff < 4) || (extraCells == 2 && diff < 2))
+                                ? new GridPosition {
+                                    Column = (diff + 1) % 2 * 3,
+                                    Row = rowCount - 1 - (diff / 2),
+                                    ColumnSpan = 3 }
+                                : new GridPosition {
+                                    Column = x * 2 % 6,
+                                    Row = x / 3,
+                                    ColumnSpan = 2 };
+                        }),
+                ];
         }
 
         private void AppSettingsButton_Click(object sender, RoutedEventArgs _)
@@ -106,6 +163,10 @@ namespace HK_Rando_4_Log_Display
                 case nameof(HelperTransitionOrderOptions):
                     _appSettings.SelectedHelperTransitionOrder = Array.FindIndex(HelperTransitionOrderingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(HelperTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOrder));
+                    break;
+                case nameof(HelperTransitionOutOfLogicOrderOptions):
+                    _appSettings.SelectedHelperTransitionOutOfLogicOrder = Array.FindIndex(HelperTransitionOutOfLogicOrderingOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(HelperTransitionOutOfLogicOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOutOfLogicOrder));
                     break;
 
                 case nameof(TrackerItemGroupOptions):
@@ -145,6 +206,10 @@ namespace HK_Rando_4_Log_Display
                     _appSettings.SelectedSpoilerTransitionOrder = Array.FindIndex(SpoilerTransitionOrderingOptions, x => x == buttonText);
                     UpdateUX(() => SetActiveButton(SpoilerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionOrder));
                     break;
+                case nameof(SpoilerTraversedDisplaySettingsOptions):
+                    _appSettings.SelectedSpoilerTraversedDisplay = Array.FindIndex(SpoilerTraversedDisplayOptions, x => x == buttonText);
+                    UpdateUX(() => SetActiveButton(SpoilerTraversedDisplaySettingsOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTraversedDisplay));
+                    break;
             }
         }
 
@@ -155,6 +220,7 @@ namespace HK_Rando_4_Log_Display
             UpdateUX(() => SetActiveButton(HelperLocationOutOfLogicOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperLocationOutOfLogicOrder));
             UpdateUX(() => SetActiveButton(HelperTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionGrouping));
             UpdateUX(() => SetActiveButton(HelperTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOrder));
+            UpdateUX(() => SetActiveButton(HelperTransitionOutOfLogicOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedHelperTransitionOutOfLogicOrder));
             UpdateUX(() => SetActiveButton(TrackerItemGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerItemGrouping));
             UpdateUX(() => SetActiveButton(TrackerItemOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerItemOrder));
             UpdateUX(() => SetActiveButton(TrackerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedTrackerTransitionGrouping));
@@ -164,6 +230,7 @@ namespace HK_Rando_4_Log_Display
             UpdateUX(() => SetActiveButton(SpoilerObtainedDisplaySettingsOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerObtainedDisplay));
             UpdateUX(() => SetActiveButton(SpoilerTransitionGroupOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionGrouping));
             UpdateUX(() => SetActiveButton(SpoilerTransitionOrderOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTransitionOrder));
+            UpdateUX(() => SetActiveButton(SpoilerTraversedDisplaySettingsOptions.Children.OfType<Button>().ToArray(), _appSettings.SelectedSpoilerTraversedDisplay));
         }
 
         private static void SetActiveButton(Button[] buttons, int activeIndex)

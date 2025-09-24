@@ -573,10 +573,18 @@ namespace HK_Rando_4_Log_Display.FileReader
 
         public List<ItemWithLocation> GetItems() => _trackerLogItems.Values.ToList();
 
+        private readonly string[] EssencePools = 
+            [
+                "Root",
+                "DreamWarrior",
+                "DreamBoss",
+                "Dream Orb",
+            ];
+
         public int? GetEssenceFromPools()
         {
-            var essenceSources = _trackerLogItems.Values.Where(x => x.Item.MWPlayerName == null).Where(x => x.Item.Pool == "Root" || x.Item.Pool == "DreamWarrior" || x.Item.Pool == "DreamBoss").Select(x => x.Item.Name).ToList();
-            return essenceSources.Any() ? essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0) : null;
+            var essenceSources = _trackerLogItems.Values.Where(x => x.Item.MWPlayerName == null).Where(x => EssencePools.Any(y => y == x.Item.Pool)).Select(x => x.Item.Name).ToList();
+            return essenceSources.Count > 0 ? essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0) : null;
         }
 
         private readonly Dictionary<string, int> EssenceDictionary = new Dictionary<string, int>
@@ -608,6 +616,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             { "Boss_Essence-Lost_Kin", 400 },
             { "Boss_Essence-White_Defender", 300 },
             { "Boss_Essence-Grey_Prince_Zote", 300 },
+            { "Essence_Orb", 1 },
         };
 
         private void LoadTransitions(List<string> trackerLogData)

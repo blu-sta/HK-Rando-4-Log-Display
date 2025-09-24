@@ -69,9 +69,9 @@ namespace HK_Rando_4_Log_Display
             var spoilerItemsWithTracking = GetSpoilerItemsWithTracking(orderedItems, trackedItems);
             var itemCount = spoilerItemsWithTracking.Count;
             var obtainedCount = spoilerItemsWithTracking.Count(x => x.IsObtained);
-            var itemsWithLocationGrid = GetSpoiledItemKvps(spoilerItemsWithTracking);
+            var itemsWithLocationGrid = GetSpoiledItemsGrid(spoilerItemsWithTracking);
             SpoilerItemsList.Items.Add(itemsWithLocationGrid);
-            if ((SpoilerObtainedDisplay)_appSettings.SelectedSpoilerObtainedDisplay == SpoilerObtainedDisplay.Hide
+            if ((SpoilerObtainedOrTraversedDisplay)_appSettings.SelectedSpoilerObtainedDisplay == SpoilerObtainedOrTraversedDisplay.Hide
                 && obtainedCount > 0
                 && obtainedCount != itemCount)
             {
@@ -93,7 +93,7 @@ namespace HK_Rando_4_Log_Display
             var spoilerItemsWithTracking = GetSpoilerItemsWithTracking(orderedItems, trackedItems);
             var itemCount = spoilerItemsWithTracking.Count;
             var obtainedCount = spoilerItemsWithTracking.Count(x => x.IsObtained);
-            var itemsWithLocationGrid = GetSpoiledItemKvps(spoilerItemsWithTracking);
+            var itemsWithLocationGrid = GetSpoiledItemsGrid(spoilerItemsWithTracking);
             return GenerateExpanderWithContent(poolName, itemsWithLocationGrid, expandedHashset, $"[Obtained: {obtainedCount}/{itemCount}]");
         }
 
@@ -116,12 +116,12 @@ namespace HK_Rando_4_Log_Display
         private List<SpoilerItemWithLocation> GetSpoilerItemsWithTracking(List<SpoilerItemWithLocation> spoilerItems, List<ItemWithLocation> trackedItems) =>
             [
                 .. spoilerItems
-                    .Select(x => IsTracked(x.Item, x.Location, trackedItems)
+                    .Select(x => IsTrackedItem(x.Item, x.Location, trackedItems)
                         ? new SpoilerItemWithLocation (x) { IsObtained = true }
                         : x),
             ];
 
-        private static bool IsTracked(Item item, Location location, List<ItemWithLocation> trackedItems)
+        private static bool IsTrackedItem(Item item, Location location, List<ItemWithLocation> trackedItems)
         {
             var trackedLocations = trackedItems.Where(x => x.Location.Name == location.Name && x.Location.MWPlayerName == location.MWPlayerName).ToList();
             if (trackedLocations.Count == 0)
@@ -139,12 +139,12 @@ namespace HK_Rando_4_Log_Display
             return trackedItemWithLocation != null;
         }
 
-        private Grid GetSpoiledItemKvps(List<SpoilerItemWithLocation> items)
+        private Grid GetSpoiledItemsGrid(List<SpoilerItemWithLocation> items)
         {
-            var obtainedDisplayMode = (SpoilerObtainedDisplay)_appSettings.SelectedSpoilerObtainedDisplay;
-            var itemKvps = items.Where(x => obtainedDisplayMode != SpoilerObtainedDisplay.Hide || !x.IsObtained).Select(x =>
+            var obtainedDisplayMode = (SpoilerObtainedOrTraversedDisplay)_appSettings.SelectedSpoilerObtainedDisplay;
+            var itemKvps = items.Where(x => obtainedDisplayMode != SpoilerObtainedOrTraversedDisplay.Hide || !x.IsObtained).Select(x =>
                 {
-                    var isStrikethrough = obtainedDisplayMode == SpoilerObtainedDisplay.Mark && x.IsObtained;
+                    var isStrikethrough = obtainedDisplayMode == SpoilerObtainedOrTraversedDisplay.Mark && x.IsObtained;
                     return new KeyValuePair<string, string>(
                             $"{(isStrikethrough ? "<s>" : "")}{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}",
                             $"{(isStrikethrough ? "<s>" : "")}found at {(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
@@ -167,10 +167,10 @@ namespace HK_Rando_4_Log_Display
 
         private Grid GetSpoiledLocationKvps(List<SpoilerItemWithLocation> locations)
         {
-            var obtainedDisplayMode = (SpoilerObtainedDisplay)_appSettings.SelectedSpoilerObtainedDisplay;
-            var locationKvps = locations.Where(x => obtainedDisplayMode != SpoilerObtainedDisplay.Hide || !x.IsObtained).Select(x =>
+            var obtainedDisplayMode = (SpoilerObtainedOrTraversedDisplay)_appSettings.SelectedSpoilerObtainedDisplay;
+            var locationKvps = locations.Where(x => obtainedDisplayMode != SpoilerObtainedOrTraversedDisplay.Hide || !x.IsObtained).Select(x =>
                 {
-                    var isStrikethrough = obtainedDisplayMode == SpoilerObtainedDisplay.Mark && x.IsObtained;
+                    var isStrikethrough = obtainedDisplayMode == SpoilerObtainedOrTraversedDisplay.Mark && x.IsObtained;
                     return new KeyValuePair<string, string>(
                             $"{(isStrikethrough ? "<s>" : "")}{(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                                 ((ShowLocationRoom)_showSpoilerRoomState switch
