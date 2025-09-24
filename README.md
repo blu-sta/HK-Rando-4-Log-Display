@@ -1,4 +1,4 @@
-# HK Rando 4 Log Display v2.1.0.3
+# HK Rando 4 Log Display v2.1.0.4
 
 ## Requirements
 
@@ -27,6 +27,7 @@ I have also been working on something that I hope will allow for wider use of th
     - The Spoiler transition tab can now hide traversed transitions, to make it easier to find where Room_shop[left1] was located
 - Obtained item counters on Spoiler item tab
 - Traversed transition counters on Spoiler transition tab
+- Displays `*` for items obtained and transitions traversed while out of logic on Tracker and Spoiler tabs
 
 ## Compatibility
 

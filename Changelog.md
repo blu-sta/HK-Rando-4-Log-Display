@@ -2,6 +2,9 @@
 
 ## v2.1.0.x
 
+### v2.1.0.4
+- Added `*` for items obtained and transitions traversed while out of logic on Tracker & Spoiler tabs
+
 ### v2.1.0.3
 - Added Rando support
   - CombatRando (Notch fragments)

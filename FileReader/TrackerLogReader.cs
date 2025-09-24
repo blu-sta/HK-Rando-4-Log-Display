@@ -89,6 +89,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         {
             public string ItemName;
             public string LocationName;
+            public bool IsOutOfLogic;
         }
 
         private void LoadItems(List<string> trackerLogData, string[] multiWorldPlayerNames)
@@ -104,6 +105,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                             {
                                 ItemName = matches.Groups[1].Value,
                                 LocationName = matches.Groups[2].Value,
+                                IsOutOfLogic = x.StartsWith("ITEM OBTAINED*"),
                             }
                         );
                 })
@@ -121,6 +123,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .ForEach(id =>
                 {
                     var trackedItem = items[id];
+                    var isOutOfLogic = trackedItem.IsOutOfLogic;
                     var cleanedItemName = trackedItem.ItemName.Replace("100_Geo-", "");
 
                     var mwPlayerItem = multiWorldPlayerNames.FirstOrDefault(mwPlayerName => cleanedItemName.StartsWith($"{mwPlayerName}'s_"));
@@ -170,6 +173,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                                 SceneName = locationDetails.SceneName,
                                 SceneDescription = locationDetails.SceneDescription,
                                 TimeAdded = _referenceTime,
+                                IsOutOfLogic = isOutOfLogic,
                             }
                         });
                 });
@@ -587,7 +591,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             return essenceSources.Count > 0 ? essenceSources.Sum(x => EssenceDictionary.TryGetValue(x, out var essence) ? essence : 0) : null;
         }
 
-        private readonly Dictionary<string, int> EssenceDictionary = new Dictionary<string, int>
+        private readonly Dictionary<string, int> EssenceDictionary = new()
         {
             { "Whispering_Root-Crossroads", 29 },
             { "Whispering_Root-Greenpath", 44 },
@@ -619,6 +623,13 @@ namespace HK_Rando_4_Log_Display.FileReader
             { "Essence_Orb", 1 },
         };
 
+        private class TransitionData
+        {
+            public string SourceName;
+            public string TargetName;
+            public bool IsOutOfLogic;
+        }
+
         private void LoadTransitions(List<string> trackerLogData)
         {
             var transitions = trackerLogData
@@ -626,7 +637,10 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .Select(x =>
                 {
                     var matches = Regex.Match(x, "{(\\S+)}.*{(\\S+)}");
-                    return new KeyValuePair<string, string>(matches.Groups[1].Value, matches.Groups[2].Value);
+                    var source = matches.Groups[1].Value;
+                    var target = matches.Groups[2].Value;
+                    var isOutOfLogic = x.StartsWith("TRANSITION*");
+                    return new KeyValuePair<string, TransitionData>($"{source}---{target}", new TransitionData { SourceName = source, TargetName = target, IsOutOfLogic = isOutOfLogic });
                 })
                 .Distinct()
                 .ToDictionary(x => x.Key, x => x.Value);
@@ -634,9 +648,12 @@ namespace HK_Rando_4_Log_Display.FileReader
             _trackerLogTransitions.Keys.Except(transitions.Keys).ToList()
                 .ForEach(x => _trackerLogTransitions.Remove(x));
             transitions.Keys.Except(_trackerLogTransitions.Keys).ToList()
-                .ForEach(sourceName =>
+                .ForEach(transitionId =>
                 {
-                    var destinationName = transitions[sourceName];
+                    var transition = transitions[transitionId];
+                    var sourceName = transition.SourceName;
+                    var destinationName = transition.TargetName;
+                    var isOutOfLogic = transition.IsOutOfLogic;
 
                     var sourceDetails = _resourceLoader.ReferenceTransitions.FirstOrDefault(y => y.Name == sourceName)
                         ?? new ReferenceTransition
@@ -658,28 +675,31 @@ namespace HK_Rando_4_Log_Display.FileReader
                         };
 
                     _trackerLogTransitions.Add(
-                    sourceName,
-                    new TransitionWithDestination
-                    {
-                        Source = new Transition
+                        transitionId,
+                        new TransitionWithDestination
                         {
-                            SceneName = sourceDetails.SceneName,
-                            SceneDescription = sourceDetails.SceneDescription,
-                            DoorName = sourceDetails.DoorName,
-                            MapArea = sourceDetails.MapArea,
-                            TitledArea = sourceDetails.TitledArea,
-                            TimeAdded = _referenceTime
-                        },
-                        Destination = new Transition
-                        {
-                            SceneName = destinationDetails.SceneName,
-                            SceneDescription = destinationDetails.SceneDescription,
-                            DoorName = destinationDetails.DoorName,
-                            MapArea = destinationDetails.MapArea,
-                            TitledArea = destinationDetails.TitledArea,
-                            TimeAdded = _referenceTime
-                        },
-                    });
+                            Source = new Transition
+                            {
+                                SceneName = sourceDetails.SceneName,
+                                SceneDescription = sourceDetails.SceneDescription,
+                                DoorName = sourceDetails.DoorName,
+                                MapArea = sourceDetails.MapArea,
+                                TitledArea = sourceDetails.TitledArea,
+                                TimeAdded = _referenceTime,
+                                IsOutOfLogic = isOutOfLogic,
+                            },
+                            Destination = new Transition
+                            {
+                                SceneName = destinationDetails.SceneName,
+                                SceneDescription = destinationDetails.SceneDescription,
+                                DoorName = destinationDetails.DoorName,
+                                MapArea = destinationDetails.MapArea,
+                                TitledArea = destinationDetails.TitledArea,
+                                TimeAdded = _referenceTime,
+                                IsOutOfLogic = isOutOfLogic,
+                            },
+                        }
+                    );
                 });
         }
 

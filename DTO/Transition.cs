@@ -10,10 +10,12 @@ namespace HK_Rando_4_Log_Display.DTO
         public Transition Destination { get; set; }
         public bool IsTraversed { get; set; }
 
-        public TransitionWithDestination(TransitionWithDestination other)
+        public TransitionWithDestination(TransitionWithDestination other, bool isOutOfLogic)
         {
             Source = other.Source;
+            Source.IsOutOfLogic = isOutOfLogic;
             Destination = other.Destination;
+            Destination.IsOutOfLogic = isOutOfLogic;
             IsTraversed = other.IsTraversed;
         }
     }

@@ -120,16 +120,28 @@ namespace HK_Rando_4_Log_Display
             return GenerateExpanderWithContent(zoneName, transitionsGrid, expandedHashset, $"[Traversed: {traversedCount}/{transitionCount}]");
         }
 
+        private enum TrackedTransition
+        {
+            Untraversed = 0,
+            Traversed = 1,
+            TraversedOutOfLogic = 2,
+        }
+
         private List<TransitionWithDestination> GetSpoilerTransitionsWithTracking(List<TransitionWithDestination> spoilerTransitions, List<TransitionWithDestination> trackedTransitions) =>
             [
                 .. spoilerTransitions
-                    .Select(x => IsTrackedTransition(x.Source.Name, x.Destination.Name, trackedTransitions)
-                        ? new TransitionWithDestination (x) { IsTraversed = true }
-                        : x),
+                    .Select(x => IsTrackedTransition(x.Source.Name, x.Destination.Name, trackedTransitions) switch {
+                        TrackedTransition.TraversedOutOfLogic => new TransitionWithDestination (x, true) { IsTraversed = true },
+                        TrackedTransition.Traversed => new TransitionWithDestination (x, false) { IsTraversed = true },
+                        _ => x,
+                    }),
             ];
 
-        private static bool IsTrackedTransition(string sourceName, string destinationName, List<TransitionWithDestination> trackedTransitions) =>
-            trackedTransitions.Any(y => y.Source.Name == sourceName && y.Destination.Name == destinationName);
+        private static TrackedTransition IsTrackedTransition(string sourceName, string destinationName, List<TransitionWithDestination> trackedTransitions)
+        {
+            var traversedTransition = trackedTransitions.SingleOrDefault(y => y.Source.Name == sourceName && y.Destination.Name == destinationName);
+            return traversedTransition == null ? TrackedTransition.Untraversed : traversedTransition.Source.IsOutOfLogic ? TrackedTransition.TraversedOutOfLogic : TrackedTransition.Traversed;
+        }
 
         private Grid GetSpoilerTransitionsGrid(List<TransitionWithDestination> transitions)
         {
@@ -137,8 +149,9 @@ namespace HK_Rando_4_Log_Display
             var transitionKvps = transitions.Where(x => traversedDisplayMode != SpoilerObtainedOrTraversedDisplay.Hide || !x.IsTraversed).Select(x =>
             {
                 var isStrikethrough = traversedDisplayMode == SpoilerObtainedOrTraversedDisplay.Mark && x.IsTraversed;
+                var isOutOfLogic = isStrikethrough && x.Source.IsOutOfLogic;
                 return new KeyValuePair<string, string>(
-                    $"{(isStrikethrough ? "<s>" : "")}{SpoilerTransitionStringBuilder(x)}",
+                    $"{(isStrikethrough ? "<s>" : "")}{(isOutOfLogic ? "*" : "")}{SpoilerTransitionStringBuilder(x)}",
                     $""
                 );
             }).ToList();

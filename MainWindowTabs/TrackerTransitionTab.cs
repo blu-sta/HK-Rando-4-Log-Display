@@ -105,7 +105,7 @@ namespace HK_Rando_4_Log_Display
         private Grid GetTransitionsGrid(List<TransitionWithDestination> transitions)
         {
             var transitionKvps = transitions.ToDictionary(
-                x => TransitionStringBuilder(x),
+                x => $"{(x.Source.IsOutOfLogic ? "*" : "")}{TransitionStringBuilder(x)}",
                 x => _showTrackerTransitionsTime ? GetAgeInMinutes(_referenceTime, _useTrackerTransitionsDestination ? x.Destination.TimeAdded : x.Source.TimeAdded) : ""
                 ).ToList();
             return GenerateAutoStarGrid(transitionKvps);

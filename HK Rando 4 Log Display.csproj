@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>2.1.0.3</Version>
+    <Version>2.1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>

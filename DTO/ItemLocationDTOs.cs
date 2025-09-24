@@ -16,10 +16,11 @@ namespace HK_Rando_4_Log_Display.DTO
         public string Cost { get; set; }
         public bool IsObtained { get; set; }
 
-        public SpoilerItemWithLocation(SpoilerItemWithLocation other)
+        public SpoilerItemWithLocation(SpoilerItemWithLocation other, bool isOutOfLogic)
         {
             Item = other.Item;
             Location = other.Location;
+            Location.IsOutOfLogic = isOutOfLogic;
             Cost = other.Cost;
             IsObtained = other.IsObtained;
         }

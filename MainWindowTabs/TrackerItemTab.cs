@@ -105,7 +105,7 @@ namespace HK_Rando_4_Log_Display
         {
             var itemKvps = items.Select(x =>
                 new KeyValuePair<string, string>(
-                    $"{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}",
+                    $"{(x.Location.IsOutOfLogic ? "*" : "")}{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.Name.WithoutUnderscores()}",
                     $"found at {(string.IsNullOrEmpty(x.Location.MWPlayerName) ? "" : $"{x.Location.MWPlayerName}'s ")}{x.Location.Name.WithoutUnderscores()}" +
                     ((ShowLocationRoom)_showTrackerRoomState switch
                     {
