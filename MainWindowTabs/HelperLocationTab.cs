@@ -380,6 +380,8 @@ namespace HK_Rando_4_Log_Display
                         var startNumbers = Regex.Match(x.Item.PreviewName, "^(\\d+)").Groups[1].Value;
                         return string.IsNullOrEmpty(startNumbers) ? x.Item.PreviewName : startNumbers;
                     }, new SemiNumericComparer())
+                    .ThenBy(x => x.PrimaryCost)
+                    .ThenBy(x => x.SecondaryCost)
                     .Select(x => new KeyValuePair<string, string>(
                         $"{(string.IsNullOrEmpty(x.Item.MWPlayerName) ? "" : $"{x.Item.MWPlayerName}'s ")}{x.Item.PreviewName}",
                         $"at {x.Location.Name}{(!string.IsNullOrWhiteSpace(x.CostString) ? $" ({x.CostString})" : "")}"))

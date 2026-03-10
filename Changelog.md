@@ -2,6 +2,13 @@
 
 ## v2.1.0.x
 
+### v2.1.0.5
+- Fixed an issue where tracking breaks when duplicate IDs show up
+  - Duplicates are now ignored silently, as all reported duplicates thus far have been identical between location and item
+- Added essence cost for individual Ghost Essence tracking
+- Updated ordering to Helper Location tab
+- Various preview fixes
+
 ### v2.1.0.4
 - Added `*` for items obtained and transitions traversed while out of logic on Tracker & Spoiler tabs
 

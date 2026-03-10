@@ -178,32 +178,6 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Not_Swim", PreviewName = "Not Swim", Pool = SkillPool },
 
                 new () { Name = "Ghost_Essence", PreviewName = "Ghost_Essence", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Gravedigger", PreviewName = "Ghost_Essence-Gravedigger", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Vespa", PreviewName = "Ghost_Essence-Vespa", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Joni", PreviewName = "Ghost_Essence-Joni", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Marissa", PreviewName = "Ghost_Essence-Marissa", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Poggy_Thorax", PreviewName = "Ghost_Essence-Poggy_Thorax", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Caelif_Fera_Orthop", PreviewName = "Ghost_Essence-Caelif_Fera_Orthop", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Cloth", PreviewName = "Ghost_Essence-Cloth", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Revek", PreviewName = "Ghost_Essence-Revek", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Millybug", PreviewName = "Ghost_Essence-Millybug", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Caspian", PreviewName = "Ghost_Essence-Caspian", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Atra", PreviewName = "Ghost_Essence-Atra", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Dr_Chagax", PreviewName = "Ghost_Essence-Dr_Chagax", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Garro", PreviewName = "Ghost_Essence-Garro", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Kcin", PreviewName = "Ghost_Essence-Kcin", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Karina", PreviewName = "Ghost_Essence-Karina", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Hundred_Nail_Warrior", PreviewName = "Ghost_Essence-Hundred_Nail_Warrior", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Grohac", PreviewName = "Ghost_Essence-Grohac", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Perpetos_Noo", PreviewName = "Ghost_Essence-Perpetos_Noo", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Molten", PreviewName = "Ghost_Essence-Molten", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Magnus_Strong", PreviewName = "Ghost_Essence-Magnus_Strong", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Waldie", PreviewName = "Ghost_Essence-Waldie", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Wayner", PreviewName = "Ghost_Essence-Wayner", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Wyatt", PreviewName = "Ghost_Essence-Wyatt", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Hex", PreviewName = "Ghost_Essence-Hex", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Thistlewind", PreviewName = "Ghost_Essence-Thistlewind", Pool = GhostPool },
-                new () { Name = "Ghost_Essence-Boss", PreviewName = "Ghost_Essence-Boss", Pool = GhostPool },
             ];
 
         private static List<ReferenceItem> SkillUpgradeItemImport() =>
@@ -717,10 +691,10 @@ namespace HK_Rando_4_Log_Display.FileReader
             // https://github.com/TheMathGeek314/VendorRando
             [
                 new () { Name = "Vr_Sly_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
-                new () { Name = "Vr_Salubra_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
-                new () { Name = "Vr_Iselda_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
-                new () { Name = "Vr_Leggy_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
-                new () { Name = "Vr_Lemm_Access", PreviewName = "VR Sly Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Salubra_Access", PreviewName = "VR Salubra Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Iselda_Access", PreviewName = "VR Iselda Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Leggy_Access", PreviewName = "VR Leggy Access", Pool = VendorRandoPool },
+                new () { Name = "Vr_Lemm_Access", PreviewName = "VR Lemm Access", Pool = VendorRandoPool },
             ];
 
         private static List<ReferenceItem> YARCItemImport() =>

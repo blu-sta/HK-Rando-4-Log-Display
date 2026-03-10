@@ -109,7 +109,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                             }
                         );
                 })
-                .ToDictionary(x => x.Key, x => x.Value);
+                .GroupBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.First().Value);
 
             if (_settingsReader.IsFileFound && (_settingsReader.GetGenerationCode() != _loadedSeed))
             {
@@ -620,6 +621,7 @@ namespace HK_Rando_4_Log_Display.FileReader
             { "Boss_Essence-Lost_Kin", 400 },
             { "Boss_Essence-White_Defender", 300 },
             { "Boss_Essence-Grey_Prince_Zote", 300 },
+            { "Ghost_Essence", 1 },
             { "Essence_Orb", 1 },
         };
 
@@ -642,8 +644,8 @@ namespace HK_Rando_4_Log_Display.FileReader
                     var isOutOfLogic = x.StartsWith("TRANSITION*");
                     return new KeyValuePair<string, TransitionData>($"{source}---{target}", new TransitionData { SourceName = source, TargetName = target, IsOutOfLogic = isOutOfLogic });
                 })
-                .Distinct()
-                .ToDictionary(x => x.Key, x => x.Value);
+                .GroupBy(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.First().Value);
 
             _trackerLogTransitions.Keys.Except(transitions.Keys).ToList()
                 .ForEach(x => _trackerLogTransitions.Remove(x));
