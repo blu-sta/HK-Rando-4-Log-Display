@@ -173,6 +173,7 @@ namespace HK_Rando_4_Log_Display
             {
                 itemKvps.Add(new KeyValuePair<string, string>("All obtained", ""));
             }
+            // TODO: Show a count for "and xx more" when hiding items (but not all obtained)
 
             return GenerateAutoStarGrid(itemKvps);
         }
@@ -200,6 +201,7 @@ namespace HK_Rando_4_Log_Display
             {
                 locationKvps.Add(new KeyValuePair<string, string>("All obtained", ""));
             }
+            // TODO: Show a count for "and xx more" when hiding locations (but not all obtained)
 
             return GenerateAutoStarGrid(locationKvps);
         }

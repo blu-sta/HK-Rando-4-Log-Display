@@ -78,7 +78,7 @@ namespace HK_Rando_4_Log_Display
                 {
                     roomStacker.Children.Add(GetSpoilerZoneWithTransitionsExpander(roomWithTransitions, ExpandedSpoilerTrackedRoomsWithTransitions, []));
                 });
-                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions, $"[Traversed: {traversedCount}/{transitionCount}]"); // TODO: Add traversed counter
+                var areaExpander = GenerateExpanderWithContent(areaName, roomStacker, ExpandedSpoilerTrackedZonesWithTransitions, $"[Traversed: {traversedCount}/{transitionCount}]");
                 SpoilerTransitionsList.Items.Add(areaExpander);
             }
         }

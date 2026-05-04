@@ -2,6 +2,10 @@
 
 ## v2.1.0.x
 
+### v2.1.0.6
+- Added support for NotBackgroundObjectRando
+- Fixed Dream Ghost essence counting
+
 ### v2.1.0.5
 - Fixed an issue where tracking breaks when duplicate IDs show up
   - Duplicates are now ignored silently, as all reported duplicates thus far have been identical between location and item

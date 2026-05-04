@@ -12,22 +12,9 @@ If this is the case, please reach out to let me know, and I'll restore support f
 I have also been working on something that I hope will allow for wider use of the Log Display on more operating systems.
 
 ## What's New?
-- This section, to summarise the changes for those who don't want to read the change logs
 - Recently added rando support:
-    - CombatRando (Notch fragments)
-    - GrassRandoV2 (New grass location names)
-    - LoreRando (Shrine of Believers)
-    - Scattered and Lost (Bretta Hearts)
-    - VendorRando 
-    - YetAnotherRandoConnection
-- New buttons
-    - The Helper item tab can now separate and hide Out of Logic checks
-    - The Helper transition tab can now separate and hide Out of Logic transitions
-    - The Spoiler item tab can now hide obtained items, to make it easier to find where Right_Mothwing_Cloak was located
-    - The Spoiler transition tab can now hide traversed transitions, to make it easier to find where Room_shop[left1] was located
-- Obtained item counters on Spoiler item tab
-- Traversed transition counters on Spoiler transition tab
-- Displays `*` for items obtained and transitions traversed while out of logic on Tracker and Spoiler tabs
+    - NotBackgroundObjectRando (untested, but should work)
+- Dream Ghosts are properly counted as essence drops
 
 ## Compatibility
 
@@ -50,6 +37,7 @@ In addition to the default Randomiser, the following mods are also supported:
 - [MoreDoors](https://github.com/dplochcoder/HollowKnight.MoreDoors)
 - [MoreLocations](https://github.com/BadMagic100/MoreLocations)
 - [MultiWorld](https://github.com/Shadudev/HollowKnight.MultiWorld)
+- [NotBackgroundObjectRando](https://github.com/TheMathGeek314/NotBackgroundObjectRando)
 - [RainbowEggs](https://github.com/dpinela/RainbowEggs)
 - [RandomizableLevers](https://github.com/flibber-hk/HollowKnight.RandomizableLevers)
 - [RandoPlus](https://github.com/flibber-hk/HollowKnight.RandoPlus)

@@ -46,34 +46,47 @@ namespace HK_Rando_4_Log_Display.FileReader
         public List<TransitionImport> DeadTransitions { get; private set; } = new();
         public List<string> ScenesWithoutDescriptions { get; private set; } = new();
 
-        private const string ShopPool = "Shop";
-        private const string MrMushroomPool = "Mr Mushroom";
-        private const string SkillUpgradePool = "Skill Upgrade";
-        private const string LeverPool = "Lever";
-        private const string TranscendencePool = "Charm - Transcendence";
-        private const string EggPool = "Egg";
+        // Default Pools
+        private const string CharmPool = "Charm";
+        private const string JournalEntryPool = "Journal_Entry";
+        private const string KeyPool = "Key";
+        private const string NotchPool = "Notch";
         private const string SkillPool = "Skill";
+        private const string SoulPool = "Soul";
+        private const string UselessPool = "Useless";
+        
+        private const string ShopPool = "Shop";
+
+        private const string AccessKeyPool = "Key - Access";
+        private const string BackgroundPool = "BackgroundObjects";
         private const string BenchPool = "Bench";
-        private const string MoreDoorsPool = "Key - MoreDoors";
-        private const string LostArtifactPool = "Lost Artifact";
-        private const string LoreMasterPool = "Lore Master";
-        private const string LoreRandoPool = "Lore Rando";
         private const string BreakablePool = "Breakable Walls and Floors";
         private const string BreakableWFCPPool = "Breakable WFCPs";
-        private const string GrassPool = "Grass";
-        private const string JournalEntryPool = "Journal_Entry";
-        private const string HuntersNotesPool = "Hunter's_Notes";
-        private const string MoreLocationsPool = "MoreLocations";
+        private const string BrettaHeartsPool = "Bretta Hearts";
+        private const string ColoPool = "Colo";
+        private const string EggPool = "Egg";
+        private const string FishingPool = "Fishing";
+        private const string FlowerPool = "Flower Quest";
         private const string GhostPool = "DreamGhost";
-        private const string StatueMarkPool = "Statue Mark";
+        private const string GrassPool = "Grass";
+        private const string HotSpringPool = "Hot Spring";
+        private const string HuntersNotesPool = "Hunter's_Notes";
+        private const string LeverPool = "Lever";
+        private const string LoreMasterPool = "Lore Master";
+        private const string LoreRandoPool = "Lore Rando";
+        private const string LostArtifactPool = "Lost Artifact";
+        private const string MMNotchPool = "MMNotch";
         private const string MilliGolfPool = "MilliGolf";
-        private const string AccessKeyPool = "Key - Access";
+        private const string MoreDoorsPool = "Key - MoreDoors";
+        private const string MoreLocationsPool = "MoreLocations";
+        private const string MrMushroomPool = "Mr Mushroom";
+        private const string SkillUpgradePool = "Skill Upgrade";
+        private const string StatueMarkPool = "Statue Mark";
+        private const string TranscendencePool = "Charm - Transcendence";
         private const string VendorRandoPool = "Vendor";
         private const string YARCBomb = "YARC Bomb";
-        private const string YARCPlatform = "YARC Platform";
         private const string YARCDreamOrbPool = "Dream Orb";
-        private const string BrettaHeartsPool = "Bretta Hearts";
-
+        private const string YARCPlatform = "YARC Platform";
 
         public ResourceLoader()
         {
@@ -142,6 +155,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .. MilliGolfItemImport(),
                 .. VendorRandoItemImport(),
                 .. YARCItemImport(),
+                .. NotBackgroundObjectItemImport(),
 
                 // unidentified items
                 .. UnidentifiedItems(),
@@ -163,9 +177,9 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static List<ItemImport> GetItemImportsFromFile() =>
             [
                 .. LoadDictionaryFileValues<ItemImport>(ReferenceItemsFilePath),
-                new () { Name = "White_Fragment", Pool = "Charm" },
-                new () { Name = "Kingsoul", Pool = "Charm" },
-                new () { Name = "Grimmchild", Pool = "Charm" },
+                new () { Name = "White_Fragment", Pool = CharmPool },
+                new () { Name = "Kingsoul", Pool = CharmPool },
+                new () { Name = "Grimmchild", Pool = CharmPool },
             ];
 
         private static List<ReferenceItem> RandoPlusItemImport() =>
@@ -198,7 +212,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static List<ReferenceItem> FungalCityGateKeyItemImport() =>
             // https://github.com/flibber-hk/HollowKnight.ReopenCityDoor
             [
-                new() { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key", Pool = "Key" },
+                new() { Name = "Fungal_City_Gate_Key", PreviewName = "Fungal City Gate Key", Pool = KeyPool },
             ];
 
         private class LeverItem
@@ -259,7 +273,7 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static List<ReferenceItem> Colo3ItemImport() =>
             // https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer
             [
-                new() { Name = "The_Glory_of_Being_a_Fool", PreviewName = "The Glory of Being a Fool", Pool = "Useless" },
+                new() { Name = "The_Glory_of_Being_a_Fool", PreviewName = "The Glory of Being a Fool", Pool = UselessPool },
             ];
 
         private class BenchItem
@@ -515,22 +529,22 @@ namespace HK_Rando_4_Log_Display.FileReader
                 new () { Name = "Progressive_Right_Cloak", PreviewName = "Progressive Right Cloak", Pool = SkillPool },
 
                 // Bardoons Butt
-                new () { Name = "Bardoon_Butt_Smack", PreviewName = "Bardoon Butt Smack", Pool = "Useless" },
+                new () { Name = "Bardoon_Butt_Smack", PreviewName = "Bardoon Butt Smack", Pool = UselessPool },
 
                 // Hot Springs
-                new () { Name = "Hot_Spring_Water", PreviewName = "Hot Spring Water", Pool = "Hot Spring" },
+                new () { Name = "Hot_Spring_Water", PreviewName = "Hot Spring Water", Pool = HotSpringPool },
 
                 // Colo Access
-                new () { Name = "Colo_Ticket-Bronze", PreviewName = "Colo Ticket - Bronze", Pool = "Colo" },
-                new () { Name = "Colo_Ticket-Silver", PreviewName = "Colo Ticket - Silver", Pool = "Colo" },
-                new () { Name = "Colo_Ticket-Gold", PreviewName = "Colo Ticket - Gold", Pool = "Colo" },
+                new () { Name = "Colo_Ticket-Bronze", PreviewName = "Colo Ticket - Bronze", Pool = ColoPool },
+                new () { Name = "Colo_Ticket-Silver", PreviewName = "Colo Ticket - Silver", Pool = ColoPool },
+                new () { Name = "Colo_Ticket-Gold", PreviewName = "Colo Ticket - Gold", Pool = ColoPool },
             ];
 
         private static List<ReferenceItem> DarknessItemImport() =>
             // https://github.com/dplochcoder/HollowKnight.DarknessRandomizer
             [
-                new () { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)", Pool = "Key" },
-                new () { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard", Pool = "Key" },
+                new () { Name = "Lantern_Shard", PreviewName = "Lantern Shard (#0)", Pool = KeyPool },
+                new () { Name = "Final_Lantern_Shard", PreviewName = "Final Lantern Shard", Pool = KeyPool },
             ];
 
         private class BreakableWall
@@ -615,7 +629,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 {
                     Name = "Notch_Fragment",
                     PreviewName = "Notch Fragment",
-                    Pool = "Notch",
+                    Pool = NotchPool,
                 },
             ];
 
@@ -709,16 +723,38 @@ namespace HK_Rando_4_Log_Display.FileReader
                     }),
                 new () { Name = "Chain-Storerooms", PreviewName = "Chain-Storerooms", Pool = YARCPlatform },
                 new () { Name = "Essence_Orb", PreviewName = "Essence Orb", Pool = YARCDreamOrbPool },
-                new () { Name = "Soul_Jar", PreviewName = "Soul Jar", Pool = "Soul" },
+                new () { Name = "Soul_Jar", PreviewName = "Soul Jar", Pool = SoulPool },
                 new () { Name = "Jelly_Egg_Bomb", PreviewName = "Jelly Egg Bomb", Pool = YARCBomb },
-                new () { Name = "Lurien's_Telescope", PreviewName = "Lurien's Telescope", Pool = "Useless" },
-                new () { Name = "Scarecrow", PreviewName = "Scarecrow", Pool = "Useless" },
+                new () { Name = "Lurien's_Telescope", PreviewName = "Lurien's Telescope", Pool = UselessPool },
+                new () { Name = "Scarecrow", PreviewName = "Scarecrow", Pool = UselessPool },
+            ];
+
+        private class NBOLocation
+        {
+            public string Name;
+            public string Scene;
+            public double X;
+            public double Y;
+        }
+        private static List<ReferenceItem> NotBackgroundObjectItemImport() =>
+            // https://github.com/TheMathGeek314/NotBackgroundObjectRando
+            [
+                .. LoadListFile<NBOLocation>(NotBackgroundObjectRandoFilePath)
+                    .Select(x => {
+                        var previewName = $"{x.Scene}_{x.Name.Replace(" ","_").Replace("(","[").Replace(")","]")}";
+                        return new ReferenceItem
+                        {
+                            Name = $"BgObj-{previewName}_{x.X}_{x.Y}",
+                            PreviewName = previewName,
+                            Pool = BackgroundPool,
+                        };
+                    }),
             ];
 
 
         private static List<ReferenceItem> UnidentifiedItems() =>
             [
-                new() { Name = "Chandelier-Watcher_Knights", PreviewName = "Chandelier-Watcher Knights", Pool = "Useless" },
+                new() { Name = "Chandelier-Watcher_Knights", PreviewName = "Chandelier-Watcher Knights", Pool = UselessPool },
             ];
 
         private void LoadReferenceLocations()
@@ -906,6 +942,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 .. MilliGolfLocationImport(),
                 .. VendorRandoLocationImport(),
                 .. YARCLocationImport(),
+                .. NotBackgroundObjectLocationImport(),
 
                 // IronLucario2012
                 .. MaskMakerNotchLocationImport(),
@@ -961,23 +998,23 @@ namespace HK_Rando_4_Log_Display.FileReader
         private static List<ReferenceLocation> Colo3LocationImport() =>
             // https://github.com/dpinela/TheGloryOfBeingAFoolRandomizer
             [
-                new() { Name = "The_Glory_of_Being_a_Fool-Colosseum", SceneName = "Room_Colosseum_01", Pool = "Colo" },
+                new() { Name = "The_Glory_of_Being_a_Fool-Colosseum", SceneName = "Room_Colosseum_01", Pool = ColoPool },
             ];
 
         private static List<ReferenceLocation> FishingLocationImport() =>
             // https://github.com/dpinela/Fishing
             [
-                new () { Name = "Fishing_Spot-Lake_of_Unn", SceneName = "Fungus1_26", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Distant_Village", SceneName = "Deepnest_10", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-West_Lake_Shore", SceneName = "Crossroads_50", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-East_Lake_Shore", SceneName = "Crossroads_50", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Waterways_Central_Pool", SceneName = "Waterways_04", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Waterways_Mask_Shard_Pool", SceneName = "Waterways_04b", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Waterways_Long_Acid_Pool", SceneName = "Waterways_14", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Abyss_Lighthouse", SceneName = "Abyss_09", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Godhome_Atrium", SceneName = "GG_Atrium", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Junk_Pit", SceneName = "GG_Waterways", Pool = "Fishing" },
-                new () { Name = "Fishing_Spot-Pale_Lurker", SceneName = "GG_Lurker", Pool = "Fishing" },
+                new () { Name = "Fishing_Spot-Lake_of_Unn", SceneName = "Fungus1_26", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Distant_Village", SceneName = "Deepnest_10", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-West_Lake_Shore", SceneName = "Crossroads_50", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-East_Lake_Shore", SceneName = "Crossroads_50", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Waterways_Central_Pool", SceneName = "Waterways_04", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Waterways_Mask_Shard_Pool", SceneName = "Waterways_04b", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Waterways_Long_Acid_Pool", SceneName = "Waterways_14", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Abyss_Lighthouse", SceneName = "Abyss_09", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Godhome_Atrium", SceneName = "GG_Atrium", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Junk_Pit", SceneName = "GG_Waterways", Pool = FishingPool },
+                new () { Name = "Fishing_Spot-Pale_Lurker", SceneName = "GG_Lurker", Pool = FishingPool },
             ];
 
         private class BenchLocation : BasicLocation { }
@@ -1010,7 +1047,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                             Pool = HuntersNotesPool,
                         },
                     }),
-                new () { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = "Journal_Entry" },
+                new () { Name = "Hunter's_Mark", SceneName = "Fungus1_08", Pool = JournalEntryPool },
             ];
 
         private static List<ReferenceLocation> MoreLocationsLocationImport() =>
@@ -1217,15 +1254,15 @@ namespace HK_Rando_4_Log_Display.FileReader
             // https://github.com/Korzer420/ExtraRando
             [
                 // Bardoons Butt
-                new () { Name = "Bardoon_Butt", SceneName = "Deepnest_East_04", Pool = "Useless" },
+                new () { Name = "Bardoon_Butt", SceneName = "Deepnest_East_04", Pool = UselessPool },
                 
                 // Hotsprings
-                new () { Name = "Bathhouse-Hot_Spring", SceneName = "Ruins_Bathhouse", Pool = "Hot Spring" },
-                new () { Name = "Colosseum-Hot_Spring", SceneName = "Room_Colosseum_02", Pool = "Hot Spring" },
-                new () { Name = "Deepnest-Hot_Spring", SceneName = "Deepnest_30", Pool = "Hot Spring" },
-                new () { Name = "Lower_Godhome-Hot_Spring", SceneName = "GG_Atrium", Pool = "Hot Spring" },
-                new () { Name = "Upper_Godhome-Hot_Spring", SceneName = "GG_Atrium_Roof", Pool = "Hot Spring" },
-                new () { Name = "Crossroads-Hot_Spring", SceneName = "Crossroads_30", Pool = "Hot Spring" },
+                new () { Name = "Bathhouse-Hot_Spring", SceneName = "Ruins_Bathhouse", Pool = HotSpringPool },
+                new () { Name = "Colosseum-Hot_Spring", SceneName = "Room_Colosseum_02", Pool = HotSpringPool },
+                new () { Name = "Deepnest-Hot_Spring", SceneName = "Deepnest_30", Pool = HotSpringPool },
+                new () { Name = "Lower_Godhome-Hot_Spring", SceneName = "GG_Atrium", Pool = HotSpringPool },
+                new () { Name = "Upper_Godhome-Hot_Spring", SceneName = "GG_Atrium_Roof", Pool = HotSpringPool },
+                new () { Name = "Crossroads-Hot_Spring", SceneName = "Crossroads_30", Pool = HotSpringPool },
             ];
 
         private static List<ReferenceLocation> BreakableWallsLocationImport() =>
@@ -1271,21 +1308,21 @@ namespace HK_Rando_4_Log_Display.FileReader
             // https://github.com/nerthul11/FlowerRandomizer
             [
                 // Vanilla NPCs
-                new () { Name = "Flower_Quest-Elderbug", SceneName = "Town", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Oro", SceneName = "Room_nailmaster_03", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Godseeker", SceneName = "GG_Waterways", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Emilitia", SceneName = "Ruins_House_03", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-White_Lady", SceneName = "Room_Queen", Pool = "Flower Quest"},
+                new () { Name = "Flower_Quest-Elderbug", SceneName = "Town", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Oro", SceneName = "Room_nailmaster_03", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Godseeker", SceneName = "GG_Waterways", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Emilitia", SceneName = "Ruins_House_03", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-White_Lady", SceneName = "Room_Queen", Pool = FlowerPool},
 
                 // Custom NPCs
-                new () { Name = "Flower_Quest-Mato", SceneName = "Room_nailmaster", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Sheo", SceneName = "Room_nailmaster_02", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Marissa", SceneName = "Ruins_Bathhouse", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Midwife", SceneName = "Deepnest_41", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Isma", SceneName = "Waterways_13", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Radiance", SceneName = "Mines_34", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Pale_King", SceneName = "White_Palace_09", Pool = "Flower Quest"},
-                new () { Name = "Flower_Quest-Pain", SceneName = "White_Palace_20", Pool = "Flower Quest"},
+                new () { Name = "Flower_Quest-Mato", SceneName = "Room_nailmaster", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Sheo", SceneName = "Room_nailmaster_02", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Marissa", SceneName = "Ruins_Bathhouse", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Midwife", SceneName = "Deepnest_41", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Isma", SceneName = "Waterways_13", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Radiance", SceneName = "Mines_34", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Pale_King", SceneName = "White_Palace_09", Pool = FlowerPool},
+                new () { Name = "Flower_Quest-Pain", SceneName = "White_Palace_20", Pool = FlowerPool},
             ];
 
         private static List<ReferenceLocation> AccessRandoLocationImport() =>
@@ -1413,7 +1450,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                     {
                         Name = x.Placement,
                         SceneName = x.Scene,
-                        Pool = "Soul",
+                        Pool = SoulPool,
                     }),
                 .. new Dictionary<string, List<YARCLocation>>() {
                     {YARCBomb, LoadListFile<YARCLocation>(YARCEggBombFilePath)}, 
@@ -1423,20 +1460,32 @@ namespace HK_Rando_4_Log_Display.FileReader
                     .SelectMany(x => x),
 
                 new() { Name = "Chain-Storerooms", SceneName = "Ruins1_28", Pool = YARCPlatform },
-                new() { Name = "Lurien's_Telescope", SceneName = "Ruins2_Watcher_Room", Pool = "Useless" },
-                new() { Name = "Scarecrow", SceneName = "Deepnest_East_16", Pool = "Useless" },
+                new() { Name = "Lurien's_Telescope", SceneName = "Ruins2_Watcher_Room", Pool = UselessPool },
+                new() { Name = "Scarecrow", SceneName = "Deepnest_East_16", Pool = UselessPool },
+            ];
+
+        private static List<ReferenceLocation> NotBackgroundObjectLocationImport() =>
+            // https://github.com/TheMathGeek314/NotBackgroundObjectRando
+            [
+                .. LoadListFile<NBOLocation>(NotBackgroundObjectRandoFilePath)
+                    .Select(x => new ReferenceLocation
+                    {
+                        Name = $"BgObj-{x.Scene}_{x.Name.Replace(" ","_").Replace("(","[").Replace(")","]")}_{x.X}_{x.Y}",
+                        SceneName = x.Scene,
+                        Pool = BackgroundPool,
+                    }),
             ];
 
         private static List<ReferenceLocation> MaskMakerNotchLocationImport() =>
             // https://github.com/IronLucario2012/MaskMakerNotchesMod
             [
-                .. Enumerable.Range(0, 6).Select(x => new ReferenceLocation { Name = $"MMNotchLoc{x}", SceneName = "Room_Mask_Maker", Pool = "MMNotch" }),
+                .. Enumerable.Range(0, 6).Select(x => new ReferenceLocation { Name = $"MMNotchLoc{x}", SceneName = "Room_Mask_Maker", Pool = MMNotchPool }),
             ];
 
         private static List<ReferenceLocation> UnidentifiedLocationImport() =>
             [
-                new () { Name = "Chandelier-Watcher_Knights", SceneName = "Ruins2_03", Pool = "Useless" },
-                new () { Name = "chandelierLocation", SceneName = "Ruins2_03", Pool = "Useless" },
+                new () { Name = "Chandelier-Watcher_Knights", SceneName = "Ruins2_03", Pool = UselessPool },
+                new () { Name = "chandelierLocation", SceneName = "Ruins2_03", Pool = UselessPool },
             ];
 
         private void LoadReferenceTransitions()

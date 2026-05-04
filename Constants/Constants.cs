@@ -7,7 +7,7 @@ namespace HK_Rando_4_Log_Display.Constants
 {
     public static class Constants
     {
-        public static readonly string AppVersion = "v2.1.0.5";
+        public static readonly string AppVersion = "v2.1.0.6";
 
         public enum RoomGrouping
         {
@@ -225,6 +225,8 @@ namespace HK_Rando_4_Log_Display.Constants
             GetReferenceFilepath(@"YARC\JarCoords.json");
         public static string YARCEggBombFilePath =>
             GetReferenceFilepath(@"YARC\EggBombCoords.json");
+        public static string NotBackgroundObjectRandoFilePath =>
+            GetReferenceFilepath(@"NotBackgroundObjectRando\BackgroundData.json");
 
         #endregion
 

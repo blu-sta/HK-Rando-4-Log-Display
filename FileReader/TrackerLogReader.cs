@@ -583,6 +583,7 @@ namespace HK_Rando_4_Log_Display.FileReader
                 "Root",
                 "DreamWarrior",
                 "DreamBoss",
+                "DreamGhost",
                 "Dream Orb",
             ];
 

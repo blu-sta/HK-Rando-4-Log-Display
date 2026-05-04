@@ -6,7 +6,7 @@
     <RootNamespace>HK_Rando_4_Log_Display</RootNamespace>
     <UseWPF>true</UseWPF>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>2.1.0.5</Version>
+    <Version>2.1.0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,6 +71,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\MoreDoors\doors.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\NotBackgroundObjectRando\BackgroundData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Reference\RandomizableLevers\languagedata.json">
